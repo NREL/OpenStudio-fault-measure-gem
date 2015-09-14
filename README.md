@@ -2,9 +2,11 @@
 
 This repository contains the measures that are used to run the fault models and example cases in the
 public report [Development of Fault Models for Hybrid Fault Detection and Diagnostics Algorithm]
-(http:// "Link to be added later").
+(http:// "Link to be added later"):
 
-**TO DO: Add citation for report here**
+> Cheung, H., Braun, J. E. (2015). *Development of Fault Models for Hybrid Fault Detection and
+> Diagnostics Algorithm.* NREL/SR-5500-65030. Golden, CO: National Renewable Energy Laboratory.
+> To be published.
 
 This codebase is a fork of the [OpenStudio Analysis Spreadsheet] project, with modifications. The
 structure of the repository is as follows:
