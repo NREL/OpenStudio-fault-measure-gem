@@ -1,0 +1,106 @@
+{
+  "classname": "ChillerExcessOil",
+  "name": "chiller_excess_oil",
+  "display_name": "Chiller Excess Oil",
+  "measure_type": "EnergyPlusMeasure",
+  "arguments": [
+    {
+      "local_variable": "chiller_choice",
+      "variable_type": "String",
+      "name": "chiller_choice",
+      "display_name": "Enter the name of the faulted Chiller:Electric:EIR object",
+      "units": null,
+      "description": null,
+      "default_value": ""
+    },
+    {
+      "local_variable": "sch_choice",
+      "variable_type": "String",
+      "name": "sch_choice",
+      "display_name": "Enter the name of the schedule of the fault levelIf you do not have a schedule, leave this blank",
+      "units": null,
+      "description": null,
+      "default_value": ""
+    },
+    {
+      "local_variable": "fault_level",
+      "variable_type": "Double",
+      "name": "fault_level",
+      "display_name": "Excessive oil level of the Chiller:Electric:EIR objectThis model only simulates overcharged condition so the number should be between 0 and 1",
+      "units": null,
+      "description": null,
+      "default_value": 0.5
+    },
+    {
+      "local_variable": "max_fl",
+      "variable_type": "Double",
+      "name": "max_fl",
+      "display_name": "Maximum value of fault level",
+      "units": null,
+      "description": null,
+      "default_value": 0.73
+    },
+    {
+      "local_variable": "min_evap_tmp_fault",
+      "variable_type": "Double",
+      "name": "min_evap_tmp_fault",
+      "display_name": "Minimum value of evaporator water outlet temperature for the excessive oil model",
+      "units": "C",
+      "description": null,
+      "default_value": 4.2
+    },
+    {
+      "local_variable": "max_evap_tmp_fault",
+      "variable_type": "Double",
+      "name": "max_evap_tmp_fault",
+      "display_name": "Maximum value of evaporator water outlet temperature for the excessive oil model",
+      "units": "C",
+      "description": null,
+      "default_value": 10.6
+    },
+    {
+      "local_variable": "min_cond_tmp_fault",
+      "variable_type": "Double",
+      "name": "min_cond_tmp_fault",
+      "display_name": "Minimum value of condenser inlet temperature for the excessive oil model",
+      "units": "C",
+      "description": null,
+      "default_value": 17.2
+    },
+    {
+      "local_variable": "max_cond_tmp_fault",
+      "variable_type": "Double",
+      "name": "max_cond_tmp_fault",
+      "display_name": "Maximum value of condenser inlet temperature for the excessive oil model",
+      "units": "C",
+      "description": null,
+      "default_value": 30.0
+    },
+    {
+      "local_variable": "min_cap_fault",
+      "variable_type": "Double",
+      "name": "min_cap_fault",
+      "display_name": "Minimum ratio of evaporator heat transfer rate to the reference capacity for the excessive oil model",
+      "units": "kW",
+      "description": null,
+      "default_value": 0.27
+    },
+    {
+      "local_variable": "max_cap_fault",
+      "variable_type": "Double",
+      "name": "max_cap_fault",
+      "display_name": "Maximum value of reference capacity for the excessive oil model",
+      "units": "kW",
+      "description": null,
+      "default_value": 1.0
+    }
+  ],
+  "name_xml": "chiller_excess_oil",
+  "uid": "fed3918a-8a43-4837-a601-7794f9318597",
+  "version_id": "2ad67c4d-2a30-463c-bd5f-fd505b6b4c82",
+  "modeler_description": "To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the relative difference of the mass of oil in the chiller to the oil level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur.",
+  "description": "This Measure simulates the effect of excessive oil of water-cooled chillers with shell-and-tube condensers and evaporators to the building performance.",
+  "tags": [
+    "HVAC.Cooling"
+  ]
+}

@@ -1,0 +1,115 @@
+{
+  "classname": "ExportTimeSeriesData",
+  "name": "export_time_series_data",
+  "display_name": "Export Time Series Data",
+  "measure_type": "ReportingMeasure",
+  "arguments": [
+    {
+      "local_variable": "days_to_report",
+      "variable_type": "Integer",
+      "name": "days_to_report",
+      "display_name": "Days to Report",
+      "units": null,
+      "description": null,
+      "default_value": 366
+    },
+    {
+      "local_variable": "export_json",
+      "variable_type": "Bool",
+      "name": "export_json",
+      "display_name": "Export JSON",
+      "units": null,
+      "description": null,
+      "default_value": false
+    },
+    {
+      "local_variable": "export_csv",
+      "variable_type": "Bool",
+      "name": "export_csv",
+      "display_name": "Export CSV",
+      "units": null,
+      "description": null,
+      "default_value": false
+    },
+    {
+      "local_variable": "export_zinc",
+      "variable_type": "Bool",
+      "name": "export_zinc",
+      "display_name": "Export ZINC",
+      "units": null,
+      "description": null,
+      "default_value": false
+    },
+    {
+      "local_variable": "enable_haystack_units",
+      "variable_type": "Bool",
+      "name": "enable_haystack_units",
+      "display_name": "Format Units to be Project Haystack Complient",
+      "units": null,
+      "description": null,
+      "default_value": false
+    },
+    {
+      "local_variable": "# export_rDataFrame",
+      "variable_type": "Bool",
+      "name": "export_rDataFrame",
+      "display_name": "Export R DataFrame",
+      "units": null,
+      "description": null,
+      "default_value": false
+    },
+    {
+      "local_variable": "datetime_standard",
+      "variable_type": "Choice",
+      "name": "datetime_standard",
+      "display_name": "DateTime Standard",
+      "units": null,
+      "description": null,
+      "default_value": "tz_database",
+      "choices": [
+        "tz_database",
+        "utc_epoc",
+        "iso8601"
+      ]
+    },
+    {
+      "local_variable": "tz_area",
+      "variable_type": "Choice",
+      "name": "tz_area",
+      "display_name": "TZ Area Standard",
+      "units": null,
+      "description": null,
+      "default_value": "GMT",
+      "choices": [
+        "Africa",
+        "America",
+        "Antarctica",
+        "Arctic",
+        "Asia",
+        "Atlantic",
+        "Australia",
+        "Europe",
+        "Indian",
+        "Pacific",
+        "GMT"
+      ]
+    },
+    {
+      "local_variable": "tz_city",
+      "variable_type": "String",
+      "name": "tz_city",
+      "display_name": "TZ City Standard",
+      "units": null,
+      "description": null,
+      "default_value": "N-A"
+    }
+  ],
+  "name_xml": "Export Time Series Data",
+  "uid": "cd77b121-682d-4609-8a6b-0095aea7f1aa",
+  "version_id": "3ae3f30e-de19-46ad-b845-8804f38f9f42",
+  "modeler_description": "Change me",
+  "description": "Change me",
+  "tags": [
+    "Reporting.QAQC"
+  ]
+}

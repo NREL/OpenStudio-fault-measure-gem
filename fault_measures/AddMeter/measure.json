@@ -1,0 +1,41 @@
+{
+  "classname": "AddMeter",
+  "name": "add_meter",
+  "display_name": "Add Meter",
+  "measure_type": "RubyMeasure",
+  "arguments": [
+    {
+      "local_variable": "meter_name",
+      "variable_type": "String",
+      "name": "meter_name",
+      "display_name": "Enter Meter Name",
+      "units": null,
+      "description": null,
+      "default_value": "Electricity:Facility"
+    },
+    {
+      "local_variable": "reporting_frequency",
+      "variable_type": "Choice",
+      "name": "reporting_frequency",
+      "display_name": "Reporting Frequency",
+      "units": null,
+      "description": null,
+      "default_value": "hourly",
+      "choices": [
+        "detailed",
+        "timestep",
+        "hourly",
+        "daily",
+        "monthly"
+      ]
+    }
+  ],
+  "name_xml": "add_meter",
+  "uid": "ad4015f2-6d1d-4bb2-84b1-db47bc67a5b2",
+  "version_id": "bb9ebef5-b104-40bf-b2f0-2e9fc93bc977",
+  "modeler_description": "The measure just passes in the string and does not validate that it is a proper meter name. It is up to the user to know this or to look at the .mdd file from a previous simulation run.",
+  "description": "This measure adds an meter at the requested reporting frequency.",
+  "tags": [
+    "Reporting.QAQC"
+  ]
+}

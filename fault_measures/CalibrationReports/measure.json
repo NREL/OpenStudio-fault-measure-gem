@@ -1,0 +1,52 @@
+{
+  "classname": "CalibrationReports",
+  "name": "calibration_reports",
+  "display_name": "Calibration Reports",
+  "measure_type": "ReportingMeasure",
+  "arguments": [
+    {
+      "local_variable": "electric_nmbe_limit",
+      "variable_type": "Double",
+      "name": "electric_nmbe_limit",
+      "display_name": "Electric NMBE limit",
+      "units": "%",
+      "description": null,
+      "default_value": 5.0
+    },
+    {
+      "local_variable": "electric_cvrmse_limit",
+      "variable_type": "Double",
+      "name": "electric_cvrmse_limit",
+      "display_name": "Electric CVRMSE limit",
+      "units": "%",
+      "description": null,
+      "default_value": 15.0
+    },
+    {
+      "local_variable": "gas_nmbe_limit",
+      "variable_type": "Double",
+      "name": "gas_nmbe_limit",
+      "display_name": "Gas NMBE limit",
+      "units": "%",
+      "description": null,
+      "default_value": 5.0
+    },
+    {
+      "local_variable": "gas_cvrmse_limit",
+      "variable_type": "Double",
+      "name": "gas_cvrmse_limit",
+      "display_name": "Gas CVRMSE limit",
+      "units": "%",
+      "description": null,
+      "default_value": 15.0
+    }
+  ],
+  "name_xml": "calibration_reports",
+  "uid": "4985a48f-f441-44be-a838-f5d1c0d0e9e4",
+  "version_id": "f347f34c-e991-45be-80cd-44eabd4001aa",
+  "modeler_description": "Change me",
+  "description": "Change me",
+  "tags": [
+    "Reporting.QAQC"
+  ]
+}

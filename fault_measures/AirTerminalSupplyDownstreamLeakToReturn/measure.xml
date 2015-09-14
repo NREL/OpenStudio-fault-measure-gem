@@ -1,0 +1,68 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>air_terminal_supply_downstream_leak_to_return</name>
+  <uid>8d568a70-080d-4f27-97f5-5210ff639652</uid>
+  <version_id>7881deaf-7466-48af-9318-00ef86d30b23</version_id>
+  <xml_checksum>FAAEB4D1</xml_checksum>
+  <class_name>AirTerminalSupplyDownstreamLeakToReturn</class_name>
+  <display_name>Air Leakage from Supply to Return</display_name>
+  <description>This Measure simulates the effect of air leakages from the supply to return air without going into the zone.</description>
+  <modeler_description>To use this Measure, choose the Coil:Cooling:DX:SingleSpeed object to be faulted and a fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur.</modeler_description>
+  <arguments>
+    <argument>
+      <name>airterminal_choice</name>
+      <display_name>Enter the name of the faulted AirTerminal object</display_name>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>leak_ratio</name>
+      <display_name>Ratio of leak airflow between 0 and 0.3.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+  </arguments>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Ventilation</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>B39B9F2A</checksum>
+    </file>
+  </files>
+</measure>

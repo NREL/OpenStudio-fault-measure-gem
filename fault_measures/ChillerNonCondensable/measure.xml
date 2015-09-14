@@ -1,0 +1,202 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>chiller_non_condensable</name>
+  <uid>66d80f45-935c-4289-9668-857c9d58afd0</uid>
+  <version_id>b5468a88-ded8-4a13-bb70-3551a67cc19d</version_id>
+  <xml_checksum>CBC45526</xml_checksum>
+  <class_name>ChillerNonCondensable</class_name>
+  <display_name>Water-cooled chiller operating with non-condensable and refrigerant mixture</display_name>
+  <description>This Measure simulates the effect of non-condensable circulating in water-cooled chillers with shell-and-tube condensers and evaporators to the building performance.</description>
+  <modeler_description>To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the volume inside the refrigerant circuit occupied by the non-condensable to the total volume of the refrigerant circuit when the system in not operating at standard condition. If the fault level is outside the range of zero and one, an error will occur.</modeler_description>
+  <arguments>
+    <argument>
+      <name>chiller_choice</name>
+      <display_name>Enter the name of the faulted Chiller:Electric:EIR object</display_name>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>sch_choice</name>
+      <display_name>Enter the name of the schedule of the fault level. If you do not have a schedule, leave this blank.</display_name>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>fault_level</name>
+      <display_name>Non-condensable level of the Chiller:Electric:EIR object. This model only simulates overcharged condition so the number should be between 0 and 1.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.03</default_value>
+    </argument>
+    <argument>
+      <name>max_fl</name>
+      <display_name>Maximum value of fault level</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.05</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta1</name>
+      <display_name>Parameter a1 for the power_fault model for the non-condensable model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6.857380961</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta2</name>
+      <display_name>Parameter a2 for the power_fault model for the non-condensable model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-0.038358561</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta3</name>
+      <display_name>Parameter a3 for the power_fault model for the non-condensable model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.015675754</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta4</name>
+      <display_name>Parameter a4 for the power_fault model for the non-condensable model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3.285341992</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta5</name>
+      <display_name>Parameter a5 for the power_fault model for the non-condensable model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-2.374185964</default_value>
+    </argument>
+    <argument>
+      <name>min_evap_tmp_fault</name>
+      <display_name>Minimum value of evaporator water outlet temperature for the non-condensable model (C)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>4.4</default_value>
+    </argument>
+    <argument>
+      <name>max_evap_tmp_fault</name>
+      <display_name>Maximum value of evaporator water outlet temperature for the non-condensable model (C)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>10.3</default_value>
+    </argument>
+    <argument>
+      <name>min_cond_tmp_fault</name>
+      <display_name>Minimum value of condenser inlet temperature for the non-condensable model (C)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>17.4</default_value>
+    </argument>
+    <argument>
+      <name>max_cond_tmp_fault</name>
+      <display_name>Maximum value of condenser inlet temperature for the non-condensable model (C)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>29.9</default_value>
+    </argument>
+    <argument>
+      <name>min_cap_fault</name>
+      <display_name>Minimum ratio of evaporator heat transfer rate to the reference capacity for the non-condensable model (kW)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.27</default_value>
+    </argument>
+    <argument>
+      <name>max_cap_fault</name>
+      <display_name>Maximum value of reference capacity for the non-condensable model (kW)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+  </arguments>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Cooling</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>TransferCurveParameters.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>3B8239ED</checksum>
+    </file>
+    <file>
+      <filename>ScheduleSearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>65DA606F</checksum>
+    </file>
+    <file>
+      <filename>EnterCoefficients.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>92E3DF14</checksum>
+    </file>
+    <file>
+      <filename>NCFaultCalculationChillerElectricEIR.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>D4FE09A2</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>96A0A793</checksum>
+    </file>
+    <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>8B8B9AEF</checksum>
+    </file>
+  </files>
+</measure>

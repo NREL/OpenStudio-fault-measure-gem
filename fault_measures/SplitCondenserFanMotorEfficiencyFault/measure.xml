@@ -1,0 +1,114 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>split_condenser_fan_motor_efficiency_fault</name>
+  <uid>a9601914-3a2d-444c-996b-435a0fbda284</uid>
+  <version_id>453f31a8-c1bf-4b29-9351-ab822ca1ad3d</version_id>
+  <xml_checksum>CBC45526</xml_checksum>
+  <class_name>SplitCondenserFanMotorEfficiencyFault</class_name>
+  <display_name>Split System Condenser Fan Motor Efficiency Fault</display_name>
+  <description>This Measure simulates the effect of fan motor efficiency fault at condenser of a split system or DX unit to the building performance.</description>
+  <modeler_description>To use this Measure, choose the Coil:Cooling:DX:SingleSpeed object to be faulted and a schedule of fault level. Define the fault level as the degradation level of fan motor efficiency. If the fault level is outside the range of zero and one, an error will occur. The model is only applicable for systems with rated capacity between 5kW to 70kW.</modeler_description>
+  <arguments>
+    <argument>
+      <name>coil_choice</name>
+      <display_name>Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object</display_name>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>sch_choice</name>
+      <display_name>Enter the name of the schedule of the fault level. If you do not have a schedule, leave this blank.</display_name>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>degrd_lvl</name>
+      <display_name>Fan motor efficiency degradation level of the Cooling:Coil:DX:SingleSpeed object.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.2</default_value>
+    </argument>
+    <argument>
+      <name>fan_power_ratio</name>
+      <display_name>Ratio of condenser fan motor power consumption to combined power consumption of condenser fan and compressor at rated condition.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.052671882</default_value>
+    </argument>
+  </arguments>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Cooling</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>TransferCurveParameters.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>3B8239ED</checksum>
+    </file>
+    <file>
+      <filename>ScheduleSearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>65DA606F</checksum>
+    </file>
+    <file>
+      <filename>EnterCoefficients.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>92E3DF14</checksum>
+    </file>
+    <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>4D7B3AB6</checksum>
+    </file>
+    <file>
+      <filename>FaultCalculationCoilCoolingDXSingleSpeed.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>1D8EBA49</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>001332AC</checksum>
+    </file>
+  </files>
+</measure>

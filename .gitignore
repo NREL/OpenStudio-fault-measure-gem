@@ -1,0 +1,13 @@
+.DS_Store
+.idea
+.ruby-version
+.bundle
+~$*
+*.pem
+/*.json
+aws.log
+Gemfile.lock
+faraday.log
+/analysis
+Cofee-measures
+.Rproj.user

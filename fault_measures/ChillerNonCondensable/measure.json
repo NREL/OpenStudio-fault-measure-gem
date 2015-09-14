@@ -1,0 +1,106 @@
+{
+  "classname": "ChillerNonCondensable",
+  "name": "chiller_non_condensable",
+  "display_name": "Chiller Non Condensable",
+  "measure_type": "EnergyPlusMeasure",
+  "arguments": [
+    {
+      "local_variable": "chiller_choice",
+      "variable_type": "String",
+      "name": "chiller_choice",
+      "display_name": "Enter the name of the faulted Chiller:Electric:EIR object",
+      "units": null,
+      "description": null,
+      "default_value": ""
+    },
+    {
+      "local_variable": "sch_choice",
+      "variable_type": "String",
+      "name": "sch_choice",
+      "display_name": "Enter the name of the schedule of the fault levelIf you do not have a schedule, leave this blank",
+      "units": null,
+      "description": null,
+      "default_value": ""
+    },
+    {
+      "local_variable": "fault_level",
+      "variable_type": "Double",
+      "name": "fault_level",
+      "display_name": "Non-condensable level of the Chiller:Electric:EIR objectThis model only simulates overcharged condition so the number should be between 0 and 1",
+      "units": null,
+      "description": null,
+      "default_value": 0.03
+    },
+    {
+      "local_variable": "max_fl",
+      "variable_type": "Double",
+      "name": "max_fl",
+      "display_name": "Maximum value of fault level",
+      "units": null,
+      "description": null,
+      "default_value": 0.05
+    },
+    {
+      "local_variable": "min_evap_tmp_fault",
+      "variable_type": "Double",
+      "name": "min_evap_tmp_fault",
+      "display_name": "Minimum value of evaporator water outlet temperature for the non-condensable model",
+      "units": "C",
+      "description": null,
+      "default_value": 4.4
+    },
+    {
+      "local_variable": "max_evap_tmp_fault",
+      "variable_type": "Double",
+      "name": "max_evap_tmp_fault",
+      "display_name": "Maximum value of evaporator water outlet temperature for the non-condensable model",
+      "units": "C",
+      "description": null,
+      "default_value": 10.3
+    },
+    {
+      "local_variable": "min_cond_tmp_fault",
+      "variable_type": "Double",
+      "name": "min_cond_tmp_fault",
+      "display_name": "Minimum value of condenser inlet temperature for the non-condensable model",
+      "units": "C",
+      "description": null,
+      "default_value": 17.4
+    },
+    {
+      "local_variable": "max_cond_tmp_fault",
+      "variable_type": "Double",
+      "name": "max_cond_tmp_fault",
+      "display_name": "Maximum value of condenser inlet temperature for the non-condensable model",
+      "units": "C",
+      "description": null,
+      "default_value": 29.9
+    },
+    {
+      "local_variable": "min_cap_fault",
+      "variable_type": "Double",
+      "name": "min_cap_fault",
+      "display_name": "Minimum ratio of evaporator heat transfer rate to the reference capacity for the non-condensable model",
+      "units": "kW",
+      "description": null,
+      "default_value": 0.27
+    },
+    {
+      "local_variable": "max_cap_fault",
+      "variable_type": "Double",
+      "name": "max_cap_fault",
+      "display_name": "Maximum value of reference capacity for the non-condensable model",
+      "units": "kW",
+      "description": null,
+      "default_value": 1.0
+    }
+  ],
+  "name_xml": "chiller_non_condensable",
+  "uid": "66d80f45-935c-4289-9668-857c9d58afd0",
+  "version_id": "d5704bb1-a5a9-424e-90b1-bb638e212eb3",
+  "modeler_description": "To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the volume inside the refrigerant circuit occupied by the non-condensable to the total volume of the refrigerant circuit when the system in not operating at standard condition. If the fault level is outside the range of zero and one, an error will occur.",
+  "description": "This Measure simulates the effect of non-condensable circulating in water-cooled chillers with shell-and-tube condensers and evaporators to the building performance.",
+  "tags": [
+    "HVAC.Cooling"
+  ]
+}

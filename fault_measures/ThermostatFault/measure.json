@@ -1,0 +1,34 @@
+{
+  "classname": "ThermostatFault",
+  "name": "thermostat_fault",
+  "display_name": "Thermostat Fault",
+  "measure_type": "RubyMeasure",
+  "arguments": [
+    {
+      "local_variable": "run_me",
+      "variable_type": "Bool",
+      "name": "run_me",
+      "display_name": "Run Measure ThermostatFault",
+      "units": null,
+      "description": null,
+      "default_value": false
+    },
+    {
+      "local_variable": "selected_thermalzone",
+      "variable_type": "Bool",
+      "name": "thermalzone.name.to_s",
+      "display_name": "thermalzoneameo_ssub",
+      "units": "Thermal Zone: ,",
+      "description": null,
+      "default_value": false
+    }
+  ],
+  "name_xml": "thermostat_fault",
+  "uid": "09d0a423-d5ba-4d2a-a41b-6813d96254a3",
+  "version_id": "e34fefbe-169d-4ed7-9ba9-a19de84b9847",
+  "modeler_description": "This measure loops through applicable thermal zones and replaces their thermostats with new thermostats that have different schedules. The faulted schedules are different from the original schedules in that they change the thermostat setpoints for every Sunday, as well as everyday from Nov 6 until Nov 20.",
+  "description": "This measure faults the thermostat of selected thermal zones. For heating and cooling, it faults the thermostat setpoints for all Sundays throughout the year, as well as everyday from Nov 6 until Nov 20.",
+  "tags": [
+    "HVAC.HVAC Controls"
+  ]
+}

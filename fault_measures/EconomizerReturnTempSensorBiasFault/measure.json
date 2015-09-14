@@ -1,0 +1,52 @@
+{
+  "classname": "EconomizerReturnTempSensorBiasFault",
+  "name": "economizer_return_temp_sensor_bias_fault",
+  "display_name": "Economizer Return Temp Sensor Bias Fault",
+  "measure_type": "EnergyPlusMeasure",
+  "arguments": [
+    {
+      "local_variable": "econ_choice",
+      "variable_type": "String",
+      "name": "econ_choice",
+      "display_name": "Enter the name of the faulted Controller:OutdoorAir object",
+      "units": null,
+      "description": null,
+      "default_value": "asintakef4058507-81d6-4711-96a3-ca67f519872c controller"
+    },
+    {
+      "local_variable": "ret_tmp_sch",
+      "variable_type": "String",
+      "name": "ret_tmp_sch",
+      "display_name": "Enter the name of the schedule of the fault presence at the return air temperature sensor0 means no fault and 1 means faultedIf you do not have a schedule, leave this blank",
+      "units": null,
+      "description": null,
+      "default_value": ""
+    },
+    {
+      "local_variable": "ret_tmp_bias",
+      "variable_type": "Double",
+      "name": "ret_tmp_bias",
+      "display_name": "Enter the bias level of the return air temperature sensorA positive number means that the sensor is reading a temperature higher than the true temperature",
+      "units": "K",
+      "description": null,
+      "default_value": -2.0
+    },
+    {
+      "local_variable": "ret_bias_sch",
+      "variable_type": "String",
+      "name": "ret_bias_sch",
+      "display_name": "Enter the name of the schedule for the multiplier of bias if you want to simulate a change of return air temperature sensor bias  during simulation period0 means no fault and 2 means that the bias at that time is doubledIf you do not need this function, leave this blank",
+      "units": null,
+      "description": null,
+      "default_value": ""
+    }
+  ],
+  "name_xml": "economizer_return_temp_sensor_bias_fault",
+  "uid": "bbb7856d-ab58-4b57-a1e8-17214749166c",
+  "version_id": "8f25239e-0366-4100-b1ee-a0036735387b",
+  "modeler_description": "To use this Measure, activate the Measure by the first boolean. Choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias in degree Celcius that you want at the return air duct for the economizer during the simulation period. For example, setting 2 means the sensor is reading 28C when the actual temperature is 26C. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period.",
+  "description": "This Measure simulates the effect of economizer sensor fault of any RTU to the building performance.",
+  "tags": [
+    "HVAC.HVAC Controls"
+  ]
+}

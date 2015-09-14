@@ -1,0 +1,52 @@
+{
+  "classname": "SplitCondenserFanMotorEfficiencyFault",
+  "name": "split_condenser_fan_motor_efficiency_fault",
+  "display_name": "Split Condenser Fan Motor Efficiency Fault",
+  "measure_type": "EnergyPlusMeasure",
+  "arguments": [
+    {
+      "local_variable": "coil_choice",
+      "variable_type": "String",
+      "name": "coil_choice",
+      "display_name": "Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object",
+      "units": null,
+      "description": null,
+      "default_value": ""
+    },
+    {
+      "local_variable": "sch_choice",
+      "variable_type": "String",
+      "name": "sch_choice",
+      "display_name": "Enter the name of the schedule of the fault levelIf you do not have a schedule, leave this blank",
+      "units": null,
+      "description": null,
+      "default_value": ""
+    },
+    {
+      "local_variable": "degrd_lvl",
+      "variable_type": "Double",
+      "name": "degrd_lvl",
+      "display_name": "Fan motor efficiency degradation level of the Cooling:Coil:DX:SingleSpeed object",
+      "units": null,
+      "description": null,
+      "default_value": 0.2
+    },
+    {
+      "local_variable": "fan_power_ratio",
+      "variable_type": "Double",
+      "name": "fan_power_ratio",
+      "display_name": "Ratio of condenser fan motor power consumption to combined power consumption of condenser fan and compressor at rated condition",
+      "units": null,
+      "description": null,
+      "default_value": 0.052671882
+    }
+  ],
+  "name_xml": "split_condenser_fan_motor_efficiency_fault",
+  "uid": "a9601914-3a2d-444c-996b-435a0fbda284",
+  "version_id": "19438327-8e26-4e31-a52a-c3c04dfcea79",
+  "modeler_description": "To use this Measure, choose the Coil:Cooling:DX:SingleSpeed object to be faulted and a schedule of fault level. Define the fault level as the degradation level of fan motor efficiency. If the fault level is outside the range of zero and one, an error will occur.",
+  "description": "This Measure simulates the effect of fan motor efficiency fault at condenser of a split system or DX unit to the building performance.",
+  "tags": [
+    "HVAC.Cooling"
+  ]
+}
