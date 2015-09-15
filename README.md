@@ -178,7 +178,7 @@ Software                         | Version               | Download Link
 VirtualBox                       | 4.3.8 (64-bit)        | Download [here](https://www.virtualbox.org/wiki/Download_Old_Builds_4_3)
 Vagrant                          | 1.7.2 (64-bit)        | Download [here](http://www.vagrantup.com/downloads.html)
 Ruby                             | 2.0.0-p353 (32-bit)   | Download [this exact installer](http://dl.bintray.com/oneclick/rubyinstaller/#rubyinstaller-2.0.0-p353.exe)
-OpenStudio Server                | ???                   | Clone [this repository](https://github.com/NREL/OpenStudio-server)
+OpenStudio Server                | 1.12.5                | Clone [this repository](https://github.com/NREL/OpenStudio-server)
 OpenStudio Analysis Spreadsheet  | 0.4.4                 | Clone [this repository](https://github.com/NREL/OpenStudio-analysis-spreadsheet)
 ChefDK                           | 0.5.0                 | Download [here](https://downloads.chef.io/chef-dk)
 
