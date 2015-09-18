@@ -135,7 +135,8 @@ class AirLoopSupplyTempSensorBias < OpenStudio::Ruleset::WorkspaceUserScript
             return false
           end
             
-          if node_name.to_s.eql?(node_name_airloophvac)
+          # if node_name.to_s.eql?(node_name_airloophvac)
+          if true # one node may be listed under a NodeList
             ems_added = true #manager found
             setpoint_choice = manager.getString(0).to_s
             
@@ -169,8 +170,8 @@ class AirLoopSupplyTempSensorBias < OpenStudio::Ruleset::WorkspaceUserScript
             nodelists = workspace.getObjectsByType("NodeList".to_IddObjectType)
             nodelists.each do |nodelist|
               if nodelist.getString(0).to_s.eql?(node_name)
-                runner.registerError("Nodelist is found instead of node. Exiting......")
-                return false
+                runner.registerError("Nodelist is found instead of node. Maybe the result of error......")
+                # return false
               end
             end
             
