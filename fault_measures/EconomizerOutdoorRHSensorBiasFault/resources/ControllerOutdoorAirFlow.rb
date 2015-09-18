@@ -272,7 +272,7 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
                 num_field2 = branch.numFields
                 for ii in 0..num_field2-1
                   if branch.getString(ii).to_s.eql?(oas_name)
-                    airsystem_name = branch.getString(0).to_s.gsub(" Supply Branch","")
+                    airsystem_name = branch.getString(0).to_s.gsub(" Supply Branch","").gsub(" Main Branch","")
                     main_body = main_body+"
                       SET LOCKOUT_POS = "+name_cut(airsystem_name)+"_Htg, !- <none>
                       IF LOCKOUT_POS > 0, !- <none>
@@ -824,7 +824,7 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
           num_field2 = branch.numFields
           for ii in 0..num_field2-1
             if branch.getString(ii).to_s.eql?(oas_name)
-              airsystem_name = branch.getString(0).to_s.gsub(" Supply Branch","")
+              airsystem_name = branch.getString(0).to_s.gsub(" Supply Branch","").gsub(" Main Branch","")
               #check the sizing option
               sizingsystems = workspace.getObjectsByType("Sizing:System".to_IddObjectType)
               sizingsystems.each do |sizingsystem|
