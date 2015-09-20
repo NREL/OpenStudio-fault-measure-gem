@@ -92,6 +92,16 @@ class AirLoopSupplyTempSensorBias < OpenStudio::Ruleset::WorkspaceUserScript
       airloophvacs.each do |airloophvac|
         if airloophvac.getString(0).to_s.eql?(airloophvac_choice)
           node_name_airloophvac = airloophvac.getString(9).to_s
+          # if it is not a simple node, find the correct node name
+          if node_name_airloophvac.include?(' Supply Outlet Nodes') | node_name_airloophvac.include?(' Demand Inlet Nodes')
+            nodelists = workspace.getObjectsByType("NodeList".to_IddObjectType)
+            nodelists.each do |nodelist|
+              if nodelist.getString(0).to_s.eql?(node_name_airloophvac)
+                node_name_airloophvac = nodelist.getString(1).to_s
+                break
+              end
+            end
+          end
           findairloophvac = true
         end
         if findairloophvac
@@ -100,7 +110,7 @@ class AirLoopSupplyTempSensorBias < OpenStudio::Ruleset::WorkspaceUserScript
       end
       if not findairloophvac
         runner.registerError("Cannot find "+airloophvac_choice+". Exiting......")
-        return false        
+        return false
       end
       
       #find the setpoint manager
@@ -135,8 +145,7 @@ class AirLoopSupplyTempSensorBias < OpenStudio::Ruleset::WorkspaceUserScript
             return false
           end
             
-          # if node_name.to_s.eql?(node_name_airloophvac)
-          if true # one node may be listed under a NodeList
+          if node_name.to_s.eql?(node_name_airloophvac)
             ems_added = true #manager found
             setpoint_choice = manager.getString(0).to_s
             
