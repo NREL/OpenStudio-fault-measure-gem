@@ -16,6 +16,7 @@ require "#{File.dirname(__FILE__)}/resources/FaultDefinitions"
 #define number of parameters in the model
 $q_para_num = 5
 $eir_para_num = 5
+$all_coil_selection = '* ALL Coil Selected *'
 
 # start the measure
 class SplitCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
@@ -41,8 +42,8 @@ class SplitCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUser
     
     #make choice arguments for Coil:Cooling:DX:SingleSpeed
     coil_choice = OpenStudio::Ruleset::OSArgument::makeStringArgument("coil_choice", true)
-    coil_choice.setDisplayName("Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object")
-    coil_choice.setDefaultValue("")
+    coil_choice.setDisplayName("Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select #{$all_coil_selection}")
+    coil_choice.setDefaultValue($all_coil_selection)
     args << coil_choice
     
     #choice of schedules for the presence of fault. 0 for no fault and other numbers means fault level
@@ -81,7 +82,7 @@ class SplitCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUser
     end
     
     #obtain values
-    coil_choice = runner.getStringArgumentValue('coil_choice',user_arguments)
+    coil_choice_all = runner.getStringArgumentValue('coil_choice',user_arguments)
     sch_choice = runner.getStringArgumentValue('sch_choice',user_arguments)
     degrd_lvl = runner.getDoubleArgumentValue('degrd_lvl',user_arguments)
     fan_power_ratio = runner.getDoubleArgumentValue('fan_power_ratio',user_arguments)
@@ -92,14 +93,9 @@ class SplitCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUser
       schedule_exist = false
     end
     
-    sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-    if sh_coil_choice.eql?(nil)
-      sh_coil_choice = coil_choice
-    end
-    
     if (schedule_exist || degrd_lvl != 0) # only continue if the user is running the module
     
-      runner.registerInitialCondition("Imposing performance degradation on "+coil_choice+".")
+      runner.registerInitialCondition("Imposing performance degradation on "+coil_choice_all+".")
       
       #read data for scheduletypelimits
       scheduletypelimits = workspace.getObjectsByType("ScheduleTypeLimits".to_IddObjectType)
@@ -130,7 +126,7 @@ class SplitCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUser
       
         #if there is no user-defined schedule, check if the fouling level is positive
         if degrd_lvl < 0.0 || degrd_lvl > 0.99
-          runner.registerError("Fault level #{degrd_lvl} for "+coil_choice+" is oustide the range from 0 to 0.99. Exiting......")
+          runner.registerError("Fault level #{degrd_lvl} for "+coil_choice_all+" is oustide the range from 0 to 0.99. Exiting......")
           return false
         end
         
@@ -141,8 +137,15 @@ class SplitCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUser
       existing_coils = []
       coilcoolingdxsinglespeeds = workspace.getObjectsByType("Coil:Cooling:DX:SingleSpeed".to_IddObjectType)
       coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
-        if coilcoolingdxsinglespeed.getString(0).to_s.eql?(coil_choice)
+        if coilcoolingdxsinglespeed.getString(0).to_s.eql?(coil_choice_all) | coil_choice_all.eql?($all_coil_selection)
+
+          coil_choice = coilcoolingdxsinglespeed.getString(0).to_s
           no_SPLIT_changed = false
+    
+          sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
+          if sh_coil_choice.eql?(nil)
+            sh_coil_choice = coil_choice
+          end
           
           #check the type of unit. Raise an error if it is not air-cooled
           if not coilcoolingdxsinglespeed.getString(19).to_s.eql?("AirCooled")
@@ -332,7 +335,7 @@ class SplitCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUser
       
       #give an error for the name if no SPLIT is changed
       if no_SPLIT_changed
-        runner.registerError("Measure SplitCondenserFanMotorEfficiencyFault cannot find "+coil_choice+". Exiting......")
+        runner.registerError("Measure SplitCondenserFanMotorEfficiencyFault cannot find "+coil_choice_all+". Exiting......")
         coils_msg = "Only coils "
         existing_coils.each do |existing_coil|
           coils_msg = coils_msg+existing_coil+", "
@@ -343,9 +346,9 @@ class SplitCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUser
       end
 
       # report final condition of workspace
-      runner.registerFinalCondition("Imposed performance degradation on "+coil_choice+".")
+      runner.registerFinalCondition("Imposed performance degradation on "+coil_choice_all+".")
     else
-      runner.registerAsNotApplicable("SplitCondenserFanMotorEfficiencyFault is not running for "+coil_choice+". Skipping......")
+      runner.registerAsNotApplicable("SplitCondenserFanMotorEfficiencyFault is not running for "+coil_choice_all+". Skipping......")
     end
 
     return true
