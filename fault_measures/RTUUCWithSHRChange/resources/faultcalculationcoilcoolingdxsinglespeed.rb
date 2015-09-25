@@ -338,7 +338,7 @@ def general_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed,
     end
   end
 
-  if write_global_ch_fl
+  if write_global_ch_fr
     str_added = "
       EnergyManagementSystem:GlobalVariable,
         #{fir_name};                !- Name
@@ -459,7 +459,7 @@ def ca_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mode
       string_objects << str_added
     end
   end
-  if write_global_ca_fl
+  if write_global_ch_fr
     str_added = '
       EnergyManagementSystem:GlobalVariable,
         CA_FAULT_ADJ_RATIO;                !- Name
@@ -538,7 +538,7 @@ def caf_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mod
       string_objects << str_added
     end
   end
-  if write_global_ca_fl
+  if write_global_ch_fr
     str_added = '
       EnergyManagementSystem:GlobalVariable,
         CAF_FAULT_ADJ_RATIO;                !- Name
@@ -657,7 +657,7 @@ def ch_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mode
     end
   end
 
-  if write_global_ch_fl
+  if write_global_ch_fr
     str_added = '
       EnergyManagementSystem:GlobalVariable,
         CH_FAULT_ADJ_RATIO;                !- Name
@@ -777,7 +777,7 @@ def ll_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mode
     end
   end
 
-  if write_global_ch_fl
+  if write_global_ch_fr
     str_added = '
       EnergyManagementSystem:GlobalVariable,
         LL_FAULT_ADJ_RATIO;                !- Name
@@ -897,7 +897,7 @@ def nc_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mode
     end
   end
 
-  if write_global_ch_fl
+  if write_global_ch_fr
     str_added = '
       EnergyManagementSystem:GlobalVariable,
         NC_FAULT_ADJ_RATIO;                !- Name

@@ -197,8 +197,8 @@ def dummy_fault_sub_add(workspace, string_objects, fault_choice="CA", coil_choic
     write_global_fr = true
     ems_globalvars = workspace.getObjectsByType("EnergyManagementSystem:GlobalVariable".to_IddObjectType)
     ems_globalvars.each do |ems_globalvar|
-      if ems_globalvar.getString(0).eql?(fault_choice+"_FAULT_ADJ_RATIO")
-        write_global_ch_fr = false
+      if ems_globalvar.getString(0).to_s.eql?(fault_choice+"_FAULT_ADJ_RATIO")
+        write_global_fr = false
       end
     end
     
@@ -231,7 +231,7 @@ def fault_level_sensor_sch_insert(workspace, string_objects, fault_choice="CA", 
   
   ems_sensors = workspace.getObjectsByType("EnergyManagementSystem:Sensor".to_IddObjectType)
   ems_sensors.each do |ems_sensor|
-    if ems_sensor.getString(0).eql?(sch_obj_name)
+    if ems_sensor.getString(0).to_s.eql?(sch_obj_name)
       removed_sensors = ems_sensor.remove()
       break
     end
@@ -349,10 +349,10 @@ def ca_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mode
   write_global_ca_fr = true
   ems_globalvars = workspace.getObjectsByType("EnergyManagementSystem:GlobalVariable".to_IddObjectType)
   ems_globalvars.each do |ems_globalvar|
-    if ems_globalvar.getString(0).eql?("CAFaultLevel")
+    if ems_globalvar.getString(0).to_s.eql?("CAFaultLevel")
       write_global_ca_fl = false
     end
-    if ems_globalvar.getString(0).eql?("CA_FAULT_ADJ_RATIO")
+    if ems_globalvar.getString(0).to_s.eql?("CA_FAULT_ADJ_RATIO")
       write_global_ca_fr = false
     end
   end
@@ -366,7 +366,7 @@ def ca_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mode
       string_objects << str_added
     end
   end
-  if write_global_ca_fl
+  if write_global_ca_fr
     str_added = "
       EnergyManagementSystem:GlobalVariable,
         CA_FAULT_ADJ_RATIO;                !- Name
@@ -432,10 +432,10 @@ def caf_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mod
   write_global_ca_fr = true
   ems_globalvars = workspace.getObjectsByType("EnergyManagementSystem:GlobalVariable".to_IddObjectType)
   ems_globalvars.each do |ems_globalvar|
-    if ems_globalvar.getString(0).eql?("CAFFaultLevel")
+    if ems_globalvar.getString(0).to_s.eql?("CAFFaultLevel")
       write_global_ca_fl = false
     end
-    if ems_globalvar.getString(0).eql?("CAF_FAULT_ADJ_RATIO")
+    if ems_globalvar.getString(0).to_s.eql?("CAF_FAULT_ADJ_RATIO")
       write_global_ca_fr = false
     end
   end
@@ -449,7 +449,7 @@ def caf_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mod
       string_objects << str_added
     end
   end
-  if write_global_ca_fl
+  if write_global_ca_fr
     str_added = "
       EnergyManagementSystem:GlobalVariable,
         CAF_FAULT_ADJ_RATIO;                !- Name
@@ -548,10 +548,10 @@ def ch_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mode
   write_global_ch_fr = true
   ems_globalvars = workspace.getObjectsByType("EnergyManagementSystem:GlobalVariable".to_IddObjectType)
   ems_globalvars.each do |ems_globalvar|
-    if ems_globalvar.getString(0).eql?("CHFaultLevel")
+    if ems_globalvar.getString(0).to_s.eql?("CHFaultLevel")
       write_global_ch_fl = false
     end
-    if ems_globalvar.getString(0).eql?("CH_FAULT_ADJ_RATIO")
+    if ems_globalvar.getString(0).to_s.eql?("CH_FAULT_ADJ_RATIO")
       write_global_ch_fr = false
     end
   end
