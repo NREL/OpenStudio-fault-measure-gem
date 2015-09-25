@@ -82,22 +82,28 @@ class OpenStudio::Model::Model
         if File.exist?(epw_path.get.to_s)
           epw_path = epw_path.get
         else
-          # If this is an always-run Measure, need to check a different path
-          alt_weath_path = File.expand_path(File.join(File.dirname(__FILE__), "../../../resources"))
-          alt_epw_path = File.expand_path(File.join(alt_weath_path, epw_path.get.to_s))
+          alt_epw_path = File.expand_path(File.join(File.dirname(__FILE__), '../../../', epw_path.get.to_s))
+          OpenStudio::logFree(OpenStudio::Error, "openstudio.model.Model", "Checking #{alt_epw_path}")
           if File.exist?(alt_epw_path)
             epw_path = OpenStudio::Path.new(alt_epw_path)
           else
-            # check one more different path
-            # it may be running in OS spreadsheet analysis server. Try looking for the epw file in another way
-            alt_weath_path = File.expand_path(File.join(Dir.pwd, "../../../weather"))
-            # there should only be one epw file on the server
-            epw_paths = Dir["#{Dir.pwd}/../../../weather/*.epw"]
-            if epw_paths.length == 0
-              OpenStudio::logFree(OpenStudio::Error, "openstudio.model.Model", "Model has been assigned a weather file, but the file is not in the specified location of '#{epw_path.get}'.")
-              return false
+            # If this is an always-run Measure, need to check a different path
+            alt_weath_path = File.expand_path(File.join(File.dirname(__FILE__), "../../../resources"))
+            alt_epw_path = File.expand_path(File.join(alt_weath_path, epw_path.get.to_s))
+            if File.exist?(alt_epw_path)
+              epw_path = OpenStudio::Path.new(alt_epw_path)
             else
-              epw_path = File.expand_path(epw_paths[0])
+              # check one more different path
+              # it may be running in OS spreadsheet analysis server. Try looking for the epw file in another way
+              alt_weath_path = File.expand_path(File.join(Dir.pwd, "../../../weather"))
+              # there should only be one epw file on the server
+              epw_paths = Dir["#{Dir.pwd}/../../../weather/*.epw"]
+              if epw_paths.length == 0
+                OpenStudio::logFree(OpenStudio::Error, "openstudio.model.Model", "Model has been assigned a weather file, but the file is not in the specified location of '#{epw_path.get}'.")
+                return false
+              else
+                epw_path = File.expand_path(epw_paths[0])
+              end
             end
           end
         end
