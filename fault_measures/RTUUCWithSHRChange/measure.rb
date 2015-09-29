@@ -19,6 +19,7 @@ $q_para_num = 6
 $eir_para_num = 6
 $faultnow = 'CH'
 $err_check = false
+$all_coil_selection = '* ALL Coil Selected *'
 
 # start the measure
 class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
@@ -49,8 +50,8 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
     # make choice arguments for Coil:Cooling:DX:SingleSpeed
     coil_choice = OpenStudio::Ruleset::OSArgument.makeStringArgument('coil_choice', true)
-    coil_choice.setDisplayName('Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object')
-    coil_choice.setDefaultValue('Coil Cooling DX Single Speed 1')
+    coil_choice.setDisplayName("Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select #{$all_coil_selection}")
+    coil_choice.setDefaultValue("#{$all_coil_selection}")
     args << coil_choice
 
     # make a double argument for the fault level
@@ -147,12 +148,12 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
     coilcoolingdxsinglespeeds = get_workspace_objects(workspace, 'Coil:Cooling:DX:SingleSpeed')
     coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
       existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
-      next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice)
-      rtu_changed = _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcoolingdxsinglespeed)
+      next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed)
       unless rtu_changed
         return false
       end
-      break
+      # break
     end
 
     # give an error for the name if no RTU is changed
