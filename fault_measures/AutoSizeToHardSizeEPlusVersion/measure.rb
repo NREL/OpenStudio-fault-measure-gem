@@ -67,10 +67,15 @@ class AutoSizeToHardSizeEPlusVersion < OpenStudio::Ruleset::ModelUserScript
     
     # Hard-size all HVAC equipment in modeler_description
     if not model.applySizingValues
-      runner.registerError("Cannot find the previous sql file with the sizing information.")
+      runner.registerError('Cannot find the previous sql file with the sizing information.')
+      _logging(msg_log, runner)  # only log when there are errors
       return false
     end
+ 
+    return true
+  end
 
+  def _logging(msg_log, runner)
     # Get all the log messages and put into output
     # for users to see.
     msg_log.logMessages.each do |msg|
@@ -87,11 +92,7 @@ class AutoSizeToHardSizeEPlusVersion < OpenStudio::Ruleset::ModelUserScript
         end
       end
     end
- 
-    return true
-
   end
-  
 end
 
 # register the measure to be used by the application
