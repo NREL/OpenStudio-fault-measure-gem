@@ -17,6 +17,11 @@ class OpenStudio::Model::AirTerminalSingleDuctVAVHeatAndCoolReheat
     if rated_flow_rate.is_initialized and self.isMaximumAirFlowRateAutosized
       self.setMaximumAirFlowRate(rated_flow_rate.get) 
     end
+       
+    maximum_hot_water_steam_flow = self.autosizedMaximumHotWaterorSteamFlowRate
+    if maximum_hot_water_steam_flow.is_initialized and self.isMaximumHotWaterorSteamFlowRateAutosized
+      self.setMaximumHotWaterorSteamFlowRate(maximum_hot_water_steam_flow.get) 
+    end
         
   end
 
@@ -24,6 +29,12 @@ class OpenStudio::Model::AirTerminalSingleDuctVAVHeatAndCoolReheat
   def autosizedMaximumAirFlowRate
 
     return self.model.getAutosizedValue(self, 'Design Size Maximum Air Flow Rate', 'm3/s')
+    
+  end
+
+  def autosizedMaximumHotWaterorSteamFlowRate
+
+    return self.model.getAutosizedValue(self, 'Design Size Hot Water or Steam Flow Rate', 'm3/s')
     
   end
   

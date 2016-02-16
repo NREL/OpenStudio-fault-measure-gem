@@ -214,8 +214,8 @@ class OpenStudio::Model::Model
     # self.getAirTerminalSingleDuctConstantVolumeFourPipeInductions.sort.each {|obj| obj.applySizingValues} OS spreadsheet project shows NoMethod Error for this function
     self.getAirTerminalSingleDuctConstantVolumeReheats.sort.each {|obj| obj.applySizingValues}
     self.getAirTerminalSingleDuctSeriesPIUReheats.sort.each {|obj| obj.applySizingValues}
-    # self.getAirTerminalSingleDuctVAVHeatAndCoolNoReheats.sort.each {|obj| obj.applySizingValues} OS spreadsheet project shows NoMethod Error for this function
-    # self.getAirTerminalSingleDuctVAVHeatAndCoolReheats.sort.each {|obj| obj.applySizingValues} OS spreadsheet project shows NoMethod Error for this function
+    self.getAirTerminalSingleDuctVAVHeatAndCoolNoReheats.sort.each {|obj| obj.applySizingValues}
+    self.getAirTerminalSingleDuctVAVHeatAndCoolReheats.sort.each {|obj| obj.applySizingValues}
     self.getBoilerSteams.sort.each {|obj| obj.applySizingValues}
     # self.getCoilCoolingDXMultiSpeeds.sort.each {|obj| obj.applySizingValues} OS spreadsheet project shows NoMethod Error for this function
     self.getCoilCoolingDXVariableRefrigerantFlows.sort.each {|obj| obj.applySizingValues}
