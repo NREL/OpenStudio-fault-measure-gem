@@ -37,6 +37,9 @@ of the Measures, please check the documentation inside *measure.rb* and
 
 * **AirLoopSupplyTempSensorBias**: Model supply air temperature sensor bias, if it exists.
 * **AirTerminalSupplyDownstreamLeakToReturn**: Add the EnergyPlus Duct Leakage model to the building model. Only applicable to models having a plenum model.
+* **AteCheungChillerCondenserFouling**: Model the impact of condenser fouling in a water-cooled chiller according to Cheung and Braun (2016)
+* **AteCheungChillerExcessOil**: Model the impact of excess oil in a water-cooled chiller according to Cheung and Braun (2016)
+* **AteCheungChillerNonCondensable**: Model the impact of noncondensable gas in a water-cooled chiller according to Cheung and Braun (2016)
 * **AteCheungChillerOvercharge**: Model the impact of too much refrigerant in a water-cooled chiller according to Cheung and Braun (2016)
 * **ChillerCondenserFouling**: Model condenser fouling in water-cooled chiller
 * **ChillerExcessOil**: Model excessive oil impact to water-cooled chiller
