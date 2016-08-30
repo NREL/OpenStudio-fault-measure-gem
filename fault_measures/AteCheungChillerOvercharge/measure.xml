@@ -1,8 +1,8 @@
 <measure>
   <schema_version>3.0</schema_version>
   <name>ate_cheung_chiller_overcharge</name>
-  <uid>4847bc7a-3809-49fe-9f41-c304b2215b0d</uid>
-  <version_id>ab9a0f6b-efdf-412f-92bd-9bba547a98e7</version_id>
+  <uid>292efd1d-9f8a-4f72-aaa1-888baecda61d</uid>
+  <version_id>d1c461d7-a9bb-4159-90e7-c77578e2a030</version_id>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>AteCheungChillerOvercharge</class_name>
   <display_name>Water-cooled chiller overcharged (Cheung and Braun 2016)</display_name>
@@ -240,7 +240,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>66BEE891</checksum>
+      <checksum>68AF13C3</checksum>
     </file>
   </files>
 </measure>

@@ -201,8 +201,11 @@ class AteCheungChillerOvercharge < OpenStudio::Ruleset::WorkspaceUserScript
       end
     else
       # if there is no user-defined schedule, check if the fouling level is positive
-      if fault_level < 1.0
-        runner.registerError("Fault level #{fault_level} in AteCheungChillerOvercharge is lower than 1.0. Exiting......")
+      if fault_level < 1.0 and $fault_type == 'CH'
+        runner.registerError("Fault level #{fault_level} in AteCheungChillerNonCondensable is lower than 1.0. Exiting......")
+        return scheduletypelimits, true
+      elsif fault_level < 0.0
+        runner.registerError("Fault level #{fault_level} in AteCheungChillerNonCondensable is negative. Exiting......")
         return scheduletypelimits, true
       end
     end
