@@ -2,7 +2,7 @@
   <schema_version>3.0</schema_version>
   <name>ate_cheung_chiller_non_condensable</name>
   <uid>a802ff90-ede0-47e5-be0a-93b6bf41d6e2</uid>
-  <version_id>b1f1d6eb-877b-4468-a44b-203a22946c6b</version_id>
+  <version_id>e8058885-1c3e-4a62-b3ef-9225d44dc47a</version_id>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>AteCheungChillerNonCondensable</class_name>
   <display_name>Water-cooled chiller with noncondensable fault (Cheung and Braun 2016)</display_name>
@@ -223,13 +223,13 @@
       <filename>FaultCalculationChillerElectricEIR.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>BB443692</checksum>
+      <checksum>505FB56A</checksum>
     </file>
     <file>
       <filename>faultcalculationchillerelectriceir.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>BB443692</checksum>
+      <checksum>505FB56A</checksum>
     </file>
     <file>
       <version>
@@ -240,7 +240,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>CFD3CE72</checksum>
+      <checksum>A3572C78</checksum>
     </file>
   </files>
 </measure>

@@ -115,7 +115,7 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
     # create schedule_exist
     schedule_exist = check_schedule_exist(sch_choice)
 
-    if schedule_exist || fault_level != 1 # only continue if the user is running the module
+    if schedule_exist || (fault_level != 1 && $fault_type == 'CH') || (fault_level != 0 && $fault_type != 'CH') # only continue if the user is running the module
       # start add ems program
       return impose_fault(workspace, runner, user_arguments, chiller_choice, sch_choice, fault_level, schedule_exist)
     end
@@ -352,7 +352,7 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
     curve_name = pass_string(chillerelectriceir, curve_index)
     curvebiquadratics = workspace.getObjectsByType('Curve:Biquadratic'.to_IddObjectType)
     curve_name, para, no_curve = para_biquadratic_limit(curvebiquadratics, curve_name)
-    string_objects = main_program_entry(workspace, string_objects, chiller_choice, curve_name, para, model_name)
+    string_objects = main_program_entry(workspace, string_objects, chiller_choice, curve_name, para, model_name, $fault_type)
     return string_objects
   end
 
@@ -471,7 +471,7 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
 
   def add_cond_db_in_sensor(workspace, string_objects, chillerelectriceir, sh_chiller_choice)
     # add a sensor of condenser inlet dry-bulb temperature to ems program
-    sensor_name = "CondInlet#{sh_chiller_choice}"
+    sensor_name = "CondInlet#{sh_chiller_choice}_#{$fault_type}"
     ems_sensors = workspace.getObjectsByType('EnergyManagementSystem:GlobalVariable'.to_IddObjectType)
     unless check_name_in_list(sensor_name, ems_sensors)
       outnode_fl = pass_string(chillerelectriceir, 16)
@@ -494,7 +494,7 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
 
   def add_evap_db_out_sensor(workspace, string_objects, chillerelectriceir, sh_chiller_choice)
     # add a sensor of condenser inlet dry-bulb temperature to ems program
-    sensor_name = "EvapOutlet#{sh_chiller_choice}"
+    sensor_name = "EvapOutlet#{sh_chiller_choice}_#{$fault_type}"
     ems_sensors = workspace.getObjectsByType('EnergyManagementSystem:GlobalVariable'.to_IddObjectType)
     unless check_name_in_list(sensor_name, ems_sensors)
       string_objects << "
@@ -509,7 +509,7 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
 
   def add_evap_db_in_sensor(workspace, string_objects, chillerelectriceir, sh_chiller_choice)
     # add a sensor of condenser inlet dry-bulb temperature to ems program
-    sensor_name = "EvapInlet#{sh_chiller_choice}Tmp"
+    sensor_name = "EvapInlet#{sh_chiller_choice}Tmp_#{$fault_type}"
     ems_sensors = workspace.getObjectsByType('EnergyManagementSystem:GlobalVariable'.to_IddObjectType)
     unless check_name_in_list(sensor_name, ems_sensors)
       string_objects << "
@@ -524,7 +524,7 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
 
   def add_evap_mdot_sensor(workspace, string_objects, chillerelectriceir, sh_chiller_choice)
     # add a sensor of condenser inlet dry-bulb temperature to ems program
-    sensor_name = "Evap#{sh_chiller_choice}Mdot"
+    sensor_name = "Evap#{sh_chiller_choice}Mdot_#{$fault_type}"
     ems_sensors = workspace.getObjectsByType('EnergyManagementSystem:GlobalVariable'.to_IddObjectType)
     unless check_name_in_list(sensor_name, ems_sensors)
       string_objects << "
@@ -539,7 +539,7 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
 
   def add_evap_q_sensor(workspace, string_objects, chillerelectriceir, chiller_choice, sh_chiller_choice)
     # add a sensor of condenser inlet dry-bulb temperature to ems program
-    sensor_name = "EvapQ#{sh_chiller_choice}"
+    sensor_name = "EvapQ#{sh_chiller_choice}_#{$fault_type}"
     ems_sensors = workspace.getObjectsByType('EnergyManagementSystem:GlobalVariable'.to_IddObjectType)
     unless check_name_in_list(sensor_name, ems_sensors)
       plantloop_name = findplantloopname(workspace, chiller_choice)

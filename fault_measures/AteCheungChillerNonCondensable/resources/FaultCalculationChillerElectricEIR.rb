@@ -55,7 +55,7 @@ def val_check(name)
   return '0'
 end
 
-def main_program_entry(workspace, string_objects, chiller_choice, curve_name, para, model_name)
+def main_program_entry(workspace, string_objects, chiller_choice, curve_name, para, model_name, fault_type)
   # define function to write EMS main program to alter the temperature curve
   #
   # This function writes an E+ object that embed the temperature modulation
@@ -85,8 +85,8 @@ def main_program_entry(workspace, string_objects, chiller_choice, curve_name, pa
     string_objects << "
       EnergyManagementSystem:Program,
         ChillerElectricEIRATEDegrade#{sh_chiller_choice}#{model_name}, !- Name
-        SET CoTmp = CondInlet#{sh_chiller_choice}, !- Program Line 1
-        SET EvTmp = EvapOutlet#{sh_chiller_choice},   !- Program Line 2
+        SET CoTmp = CondInlet#{sh_chiller_choice}_#{fault_type}, !- Program Line 1
+        SET EvTmp = EvapOutlet#{sh_chiller_choice}_#{fault_type},   !- Program Line 2
         SET IVOne = EvTmp,       !- <none>
         SET IVTwo = CoTmp,         !- <none>
         SET C1 = #{para[0]},  !- <none>
@@ -212,12 +212,12 @@ def fault_adjust_function(workspace, string_objects, fault_type, chillerelectric
   string_objects << "
     EnergyManagementSystem:Program,
       #{fault_type}_ADJUST_#{sh_chiller_choice}_#{model_name}, !- Name
-      SET Qevap = EvapQ#{sh_chiller_choice},  !- Check if calculation is needed
+      SET Qevap = EvapQ#{sh_chiller_choice}_#{fault_type},  !- Check if calculation is needed
       IF Qevap > 0.001,
-      SET CoTmp = CondInlet#{sh_chiller_choice}, !- Program Line 1
-      SET EvTmp = EvapOutlet#{sh_chiller_choice},   !- Program Line 2
+      SET CoTmp = CondInlet#{sh_chiller_choice}_#{fault_type}, !- Program Line 1
+      SET EvTmp = EvapOutlet#{sh_chiller_choice}_#{fault_type},   !- Program Line 2
       SET Qadj = #{sh_chiller_choice}q, !- Program Line 3 that starts the capacity calculation
-      SET EvInTmp = EvapInlet#{sh_chiller_choice},
+      SET EvInTmp = EvapInlet#{sh_chiller_choice}_#{fault_type},
       SET Qavail = Qadj*#{pass_string(chillerelectriceir, 1)}, !- Program Line 4 to get the maximum heat transfer rate at steady
       IF Qavail < Qevap,
       SET Qevap = Qavail,  !- Check if the availble chiller capacity is lower than the required load

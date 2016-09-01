@@ -2,7 +2,7 @@
   <schema_version>3.0</schema_version>
   <name>ate_cheung_chiller_excess_oil</name>
   <uid>4847bc7a-3809-49fe-9f41-c304b2215b0d</uid>
-  <version_id>86e780d0-895d-49a1-9a46-866d181ddf25</version_id>
+  <version_id>61711556-4837-4114-af46-607b9cc37205</version_id>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>AteCheungChillerExcessOil</class_name>
   <display_name>Water-cooled chiller with excess oil (Cheung and Braun 2016)</display_name>
@@ -223,13 +223,13 @@
       <filename>FaultCalculationChillerElectricEIR.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>BB443692</checksum>
+      <checksum>505FB56A</checksum>
     </file>
     <file>
       <filename>faultcalculationchillerelectriceir.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>BB443692</checksum>
+      <checksum>505FB56A</checksum>
     </file>
     <file>
       <version>
@@ -240,7 +240,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>BA464B23</checksum>
+      <checksum>0F636475</checksum>
     </file>
   </files>
 </measure>
