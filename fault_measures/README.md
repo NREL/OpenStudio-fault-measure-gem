@@ -37,6 +37,10 @@ of the Measures, please check the documentation inside *measure.rb* and
 
 * **AirLoopSupplyTempSensorBias**: Model supply air temperature sensor bias, if it exists.
 * **AirTerminalSupplyDownstreamLeakToReturn**: Add the EnergyPlus Duct Leakage model to the building model. Only applicable to models having a plenum model.
+* **AteCheungChillerCondenserFouling**: Model the impact of condenser fouling in a water-cooled chiller according to Cheung and Braun (2016)
+* **AteCheungChillerExcessOil**: Model the impact of excess oil in a water-cooled chiller according to Cheung and Braun (2016)
+* **AteCheungChillerNonCondensable**: Model the impact of noncondensable gas in a water-cooled chiller according to Cheung and Braun (2016)
+* **AteCheungChillerOvercharge**: Model the impact of too much refrigerant in a water-cooled chiller according to Cheung and Braun (2016)
 * **ChillerCondenserFouling**: Model condenser fouling in water-cooled chiller
 * **ChillerExcessOil**: Model excessive oil impact to water-cooled chiller
 * **ChillerNonCondensable**: Model the impact of non-condensable to water-cooled chiller
@@ -77,6 +81,8 @@ The following list files that document extra information about the measures.
 * **Measure\_script\_info.csv**: Information about the fault model incompatibility issues with each other.
 * **local_fdd_measures.csv**: Templates for fault model inputs in the OpenStudio Analysis Spreadsheet project files.
 
-## Reference
+## References
 
 Barsarkar et al. 2009: at [12th Conference of International Building Performance Simulation Association](http://www.ibpsa.org/proceedings/BS2011/P_1925.pdf "Modeling and Simulation og HVAC Faults in EnergyPlus")
+
+Cheung, H. and Braun, J. E. 2016: in [Applied Thermal Engineering, 99, 756–764](http://doi.org/10.1016/j.applthermaleng.2016.01.119 "Empirical modeling of the impacts of faults on water-cooled chiller power consumption for use in building simulation programs")
