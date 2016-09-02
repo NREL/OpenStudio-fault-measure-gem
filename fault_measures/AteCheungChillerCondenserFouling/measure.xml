@@ -2,7 +2,7 @@
   <schema_version>3.0</schema_version>
   <name>ate_cheung_chiller_condenser_fouling</name>
   <uid>55fb73d6-80a9-4f37-8128-6c63c135e768</uid>
-  <version_id>a4e234b1-c581-43aa-8afa-80616b7b7b56</version_id>
+  <version_id>43c4e65e-d1cb-4d9c-989d-eba3bc3c691f</version_id>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>AteCheungChillerCondenserFouling</class_name>
   <display_name>Water-cooled chiller with condenser fouling (Cheung and Braun 2016)</display_name>
@@ -240,7 +240,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>72A522BB</checksum>
+      <checksum>85FA266A</checksum>
     </file>
   </files>
 </measure>

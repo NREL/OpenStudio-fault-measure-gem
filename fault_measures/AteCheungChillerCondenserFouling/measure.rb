@@ -443,20 +443,18 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
 
   def write_ems_program_caller(workspace, string_objects, sh_chiller_choice)
     # This function writes an ems program caller to call the programs
-    unless check_ems_program_caller_exist(workspace, sh_chiller_choice)
-      final_line = "
-        EnergyManagementSystem:ProgramCallingManager,
-          EMSCallChillerElectricEIRATEDegrade#{sh_chiller_choice}power, !- Name
-          AfterPredictorBeforeHVACManagers, !- EnergyPlus Model Calling Point
-          ChillerElectricEIRATEDegrade#{sh_chiller_choice}q, !- Program Name 1
-          ChillerElectricEIRATEDegrade#{sh_chiller_choice}eir, !- Program Name 2
-      "
-      $other_faults.each do |other_fault|
-        final_line += "#{other_fault}_ADJUST_#{sh_chiller_choice}_power,"
-      end
-      final_line += "FINAL_ADJUST_#{sh_chiller_choice}_power;"
-      string_objects << final_line
+    final_line = "
+      EnergyManagementSystem:ProgramCallingManager,
+        EMSCallChillerElectricEIRATEDegrade#{sh_chiller_choice}power, !- Name
+        AfterPredictorBeforeHVACManagers, !- EnergyPlus Model Calling Point
+        ChillerElectricEIRATEDegrade#{sh_chiller_choice}q, !- Program Name 1
+        ChillerElectricEIRATEDegrade#{sh_chiller_choice}eir, !- Program Name 2
+    "
+    $other_faults.each do |other_fault|
+      final_line += "#{other_fault}_ADJUST_#{sh_chiller_choice}_power,"
     end
+    final_line += "FINAL_ADJUST_#{sh_chiller_choice}_power;"
+    string_objects << final_line
     return string_objects
   end
 
@@ -592,7 +590,7 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
   end
 
   def clear_redundant_program(workspace, string_objects, sh_chiller_choice)
-    # This function does a clearup for redundant dummy programs before the end of the Measure script.
+    # This function does a cleanup for redundant dummy programs before the end of the Measure script.
     # It does insertion as well
     programs = workspace.getObjectsByType('EnergyManagementSystem:Program'.to_IddObjectType)
     program_remove_bool = false
@@ -603,11 +601,22 @@ class AteCheungChillerCondenserFouling < OpenStudio::Ruleset::WorkspaceUserScrip
       program_remove_bool = true
       break
     end
+    # remove before insertion
+    # return unless program_remove_bool
+    if program_remove_bool
+      program_remove.remove
+      # remove the associated caller as well
+      program_callers = workspace.getObjectsByType('EnergyManagementSystem:ProgramCallingManager'.to_IddObjectType)
+      program_callers.each do |program_caller|
+        if pass_string(program_caller, 0).eql?("EMSCallChillerElectricEIRATEDegrade#{sh_chiller_choice}power")
+          program_call_remove = program_caller
+          program_call_remove.remove
+          break
+        end
+      end
+    end
     # insert program first before exiting
-    string_objects = insert_objects(workspace, string_objects)
-    # only remove after insertion
-    return unless program_remove_bool
-    program_remove.remove
+    return insert_objects(workspace, string_objects)
   end
 
   def error_msg_for_not_rtu(runner, chiller_choice, existing_coils)
