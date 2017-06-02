@@ -2,7 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>air_loop_supply_temp_sensor_bias</name>
   <uid>eae71e9d-d323-42eb-b335-398abac844f6</uid>
-  <version_id>95f8f4d7-16bf-4b0d-9783-aaccad79f091</version_id>
+  <version_id>d4b45a57-3405-4782-b8e3-360066e4c1a4</version_id>
+  <version_modified>20170602T144308Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>AirLoopSupplyTempSensorBias</class_name>
   <display_name>Air Loop Supply Temperature Sensor Bias</display_name>
@@ -11,10 +12,11 @@
   <arguments>
     <argument>
       <name>airloophvac_choice</name>
-      <display_name>Enter the name of the faulted AirLoopHVAC object with a SetpointManager at its supply air.</display_name>
+      <display_name>Enter the name of the faulted AirLoopHVAC object with a SetpointManager at its supply air. For all AirLoopHVAC objects, enter * All AirLoops *</display_name>
       <type>String</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
+      <default_value>* All AirLoops *</default_value>
     </argument>
     <argument>
       <name>bias_level</name>
@@ -25,6 +27,7 @@
       <default_value>2</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.HVAC Controls</tag>
@@ -91,7 +94,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>1243A4B3</checksum>
+      <checksum>BB2D7CB4</checksum>
     </file>
   </files>
 </measure>

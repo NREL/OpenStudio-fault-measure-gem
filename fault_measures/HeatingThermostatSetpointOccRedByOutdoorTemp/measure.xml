@@ -2,7 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>heating_thermostat_setpoint_occ_red_by_outdoor_temp</name>
   <uid>22300b2a-003f-4740-b5ec-4b2300f67183</uid>
-  <version_id>d9cb93ed-ca3e-4cb1-a794-25d115d26e9e</version_id>
+  <version_id>85da8009-0553-4785-81ea-1e8f4e011ecf</version_id>
+  <version_modified>20170602T144310Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>HeatingThermostatSetpointOccRedByOutdoorTemp</class_name>
   <display_name>Thermostat heating setpoint manual change by outdoor temperature</display_name>
@@ -11,11 +12,11 @@
   <arguments>
     <argument>
       <name>zone_choice</name>
-      <display_name>Enter the name of the zone.</display_name>
+      <display_name>Enter the name of the zone. Choose * All Zones * if you want to impose the fault in all zones</display_name>
       <type>String</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
+      <default_value>* All Zones *</default_value>
     </argument>
     <argument>
       <name>min_oa_tmp</name>
@@ -34,6 +35,7 @@
       <default_value>2</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.HVAC Controls</tag>
@@ -76,7 +78,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>279C16E3</checksum>
+      <checksum>4DE5C4D5</checksum>
     </file>
   </files>
 </measure>

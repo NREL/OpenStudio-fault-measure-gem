@@ -2,7 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>chiller_condenser_fouling</name>
   <uid>b8852a7c-0802-49b0-9a7b-eb02a58cc4c2</uid>
-  <version_id>912b94fd-8191-4845-b0de-e1ee6a61cb0b</version_id>
+  <version_id>55ce6d18-5fea-4933-b48d-20760ee5e86c</version_id>
+  <version_modified>20170602T144308Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>ChillerCondenserFouling</class_name>
   <display_name>Water-cooled chiller with fouled condenser</display_name>
@@ -130,6 +131,7 @@
       <default_value>1</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.Cooling</tag>
@@ -215,7 +217,7 @@
       <filename>nosqfaultcalculationchillerelectriceir.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>4874A721</checksum>
+      <checksum>C298E804</checksum>
     </file>
     <file>
       <version>
@@ -226,7 +228,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>BD216617</checksum>
+      <checksum>C9F9933B</checksum>
     </file>
   </files>
 </measure>

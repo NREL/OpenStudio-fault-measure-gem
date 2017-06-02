@@ -1,8 +1,9 @@
 <measure>
   <schema_version>3.0</schema_version>
   <name>pump_motor_efficiency_fault</name>
-  <uid>9814a5e9-37b7-472a-bae5-e9e2e794c024</uid>
-  <version_id>a33df683-c9c9-4a5b-90dd-30c00521620e</version_id>
+  <uid>58c6f83b-c567-45a4-addf-542b622980f7</uid>
+  <version_id>1afab5f0-e156-4b0e-8ec4-35e506a73a49</version_id>
+  <version_modified>20170602T144311Z</version_modified>
   <xml_checksum>56434E32</xml_checksum>
   <class_name>PumpMotorEfficiencyFault</class_name>
   <display_name>Pump Motor Efficiency Fault</display_name>
@@ -34,6 +35,7 @@
       <default_value></default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.Distribution</tag>
@@ -88,7 +90,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>109CF0CA</checksum>
+      <checksum>9027DCCA</checksum>
     </file>
   </files>
 </measure>

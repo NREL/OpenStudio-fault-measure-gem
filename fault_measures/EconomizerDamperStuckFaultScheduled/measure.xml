@@ -1,10 +1,11 @@
 <measure>
   <schema_version>3.0</schema_version>
-  <name>all_economizer_damper_stuck_fault_scheduled</name>
+  <name>economizer_damper_stuck_fault_scheduled</name>
   <uid>2a4a6312-c5d6-40e6-a8a0-cbd552a5949b</uid>
-  <version_id>8a6cada4-cc73-44ce-a542-8f811a3310ae</version_id>
+  <version_id>ed1fce11-8f52-4dc6-8937-bf22ebd6104e</version_id>
+  <version_modified>20170602T144309Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
-  <class_name>AllEconomizerDamperStuckFaultScheduled</class_name>
+  <class_name>EconomizerDamperStuckFaultScheduled</class_name>
   <display_name>All faulted damper in an economizer</display_name>
   <description>This Measure simulates the effect of a damper in an economizer getting stuck at a fixed position during certain period in the year to the performance of the building.</description>
   <modeler_description>The user of this Measure should choose the economizer getting faulted, the period that it is faulted and the damper position when the damper is stuck. If a schedule of fault prevalence is not given, the model will apply the fault to the entire simulation. The fixed damper position is described by a ratio of the outdoor airflow rate to the supply air duct.</modeler_description>
@@ -57,6 +58,7 @@
       <default_value>0.5</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.HVAC Controls</tag>
@@ -95,7 +97,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>16B33543</checksum>
+      <checksum>6188BA2C</checksum>
     </file>
   </files>
 </measure>

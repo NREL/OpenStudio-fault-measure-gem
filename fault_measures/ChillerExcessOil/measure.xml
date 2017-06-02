@@ -2,7 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>chiller_excess_oil</name>
   <uid>fed3918a-8a43-4837-a601-7794f9318597</uid>
-  <version_id>9b16f100-c2e5-486f-91b0-b15201a6fd40</version_id>
+  <version_id>d124ff13-85cf-4fb4-b6af-4b03db424c8f</version_id>
+  <version_modified>20170602T144308Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>ChillerExcessOil</class_name>
   <display_name>Water-cooled chiller getting too much oil</display_name>
@@ -130,6 +131,7 @@
       <default_value>1</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.Cooling</tag>
@@ -182,6 +184,12 @@
       <checksum>5C42415C</checksum>
     </file>
     <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>8B8B9AEF</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -190,13 +198,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>CFDE89C6</checksum>
-    </file>
-    <file>
-      <filename>FaultDefinitions.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>8B8B9AEF</checksum>
+      <checksum>B4C112B0</checksum>
     </file>
   </files>
 </measure>

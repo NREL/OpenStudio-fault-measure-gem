@@ -1,8 +1,9 @@
 <measure>
   <schema_version>3.0</schema_version>
-  <name>r_tU_condenser_fan_motor_efficiency_fault</name>
+  <name>rtu_condenser_fan_motor_efficiency_fault</name>
   <uid>78fd31ab-ff52-4260-b680-c2c75dfd31dc</uid>
-  <version_id>a4e9046e-d1e3-4ef2-8532-1efaffd40e40</version_id>
+  <version_id>49882cd7-0253-4e90-9023-4b447c7f5a99</version_id>
+  <version_modified>20170602T144310Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>RTUCondenserFanMotorEfficiencyFault</class_name>
   <display_name>RTU Condenser Fan Motor Efficiency Fault</display_name>
@@ -11,11 +12,11 @@
   <arguments>
     <argument>
       <name>coil_choice</name>
-      <display_name>Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object</display_name>
+      <display_name>Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select * ALL Coil Selected *</display_name>
       <type>String</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
+      <default_value>* ALL Coil Selected *</default_value>
     </argument>
     <argument>
       <name>sch_choice</name>
@@ -42,6 +43,7 @@
       <default_value>0.091747081</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.Cooling</tag>
@@ -97,7 +99,7 @@
       <filename>FaultCalculationCoilCoolingDXSingleSpeed.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>1D8EBA49</checksum>
+      <checksum>D43D04AC</checksum>
     </file>
     <file>
       <version>
@@ -108,7 +110,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>FCC1F9BE</checksum>
+      <checksum>4BA467E8</checksum>
     </file>
   </files>
 </measure>

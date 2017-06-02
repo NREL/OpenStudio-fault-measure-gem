@@ -1,10 +1,11 @@
 <measure>
   <schema_version>3.0</schema_version>
-  <name>all_duct_fouling</name>
+  <name>duct_fouling</name>
   <uid>20a9d083-d915-4653-8893-d94a6dbc72d8</uid>
-  <version_id>59d7e3b3-b676-4775-984e-673a4aa8a8ed</version_id>
+  <version_id>2a5c0c63-8c25-46a2-9cb2-e57e1726920b</version_id>
+  <version_modified>20170602T144309Z</version_modified>
   <xml_checksum>266557E5</xml_checksum>
-  <class_name>AllDuctFouling</class_name>
+  <class_name>DuctFouling</class_name>
   <display_name>All Duct fouling</display_name>
   <description>This Measure models the fouling problem in AHUs, RTUs or other HVAC equipment described by an AirLoopHVAC object with a Fan:ConstantVolume or Fan:VariableVolume object. If any Fan objects are autosized, the Measure Auto Size to Hard Size must be executed before this Measure.</description>
   <modeler_description>This measure script will adjust the maximum volumetric flow rate and pressure difference at the rated condition based on the increase of pressure drop in the duct caused by fouling. If the fan object contains empirical formula for part load calculation, they will be adjusted accordingly to reflect the fouling effect.</modeler_description>
@@ -40,6 +41,7 @@
       <default_value>1.4048</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.Ventilation</tag>
@@ -88,7 +90,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>7550CC33</checksum>
+      <checksum>5000001A</checksum>
     </file>
   </files>
 </measure>

@@ -2,7 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>chiller_non_condensable</name>
   <uid>66d80f45-935c-4289-9668-857c9d58afd0</uid>
-  <version_id>b5468a88-ded8-4a13-bb70-3551a67cc19d</version_id>
+  <version_id>e10641b3-e214-4d6e-b564-2f4cc87d97ac</version_id>
+  <version_modified>20170602T144308Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>ChillerNonCondensable</class_name>
   <display_name>Water-cooled chiller operating with non-condensable and refrigerant mixture</display_name>
@@ -130,6 +131,7 @@
       <default_value>1</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.Cooling</tag>
@@ -182,6 +184,12 @@
       <checksum>D4FE09A2</checksum>
     </file>
     <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>8B8B9AEF</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -190,13 +198,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>96A0A793</checksum>
-    </file>
-    <file>
-      <filename>FaultDefinitions.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>8B8B9AEF</checksum>
+      <checksum>DE5017BB</checksum>
     </file>
   </files>
 </measure>

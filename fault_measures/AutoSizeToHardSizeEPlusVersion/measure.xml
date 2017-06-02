@@ -1,8 +1,9 @@
 <measure>
   <schema_version>3.0</schema_version>
-  <name>auto_size_to_hard_size_ePlus_version</name>
+  <name>auto_size_to_hard_size_e_plus_version</name>
   <uid>c2d2ca51-8546-40cf-8393-b00f7f30bdee</uid>
-  <version_id>01ae2339-4e79-48c3-aa07-c8f19cf1bb06</version_id>
+  <version_id>1cd893eb-3627-4a57-a790-12bfcde73805</version_id>
+  <version_modified>20170602T144308Z</version_modified>
   <xml_checksum>C49A7DAB</xml_checksum>
   <class_name>AutoSizeToHardSizeEPlusVersion</class_name>
   <display_name>Auto Size To Hard Size with EnergyPlus Version as Input</display_name>
@@ -18,6 +19,7 @@
       <default_value>8.2</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.Whole System</tag>
@@ -400,12 +402,6 @@
       <checksum>12A3A21C</checksum>
     </file>
     <file>
-      <filename>HVACSizing.AirTerminalSingleDuctVAVHeatAndCoolReheat.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>2E3DBA65</checksum>
-    </file>
-    <file>
       <filename>HVACSizing.AirTerminalSingleDuctVAVHeatAndCoolNoReheat.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -448,10 +444,16 @@
       <checksum>027C9B94</checksum>
     </file>
     <file>
+      <filename>HVACSizing.AirTerminalSingleDuctVAVHeatAndCoolReheat.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>C40C1E71</checksum>
+    </file>
+    <file>
       <filename>HVACSizing.Model.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>4F261DE5</checksum>
+      <checksum>32959B84</checksum>
     </file>
     <file>
       <version>
@@ -462,7 +464,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>84294651</checksum>
+      <checksum>40E711B7</checksum>
     </file>
   </files>
 </measure>

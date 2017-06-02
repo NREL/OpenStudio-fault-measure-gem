@@ -1,9 +1,9 @@
 <measure>
   <schema_version>3.0</schema_version>
-  <error>cannot load such file -- C:/FDD/FDD-OpenStudio/fdd_measures/ChillerOvercharge/resources/misc_func</error>
   <name>chiller_overcharge</name>
   <uid>4847bc7a-3809-49fe-9f41-c304b2215b0d</uid>
-  <version_id>6403f6ce-648d-48cf-9ccd-c7528eaf548c</version_id>
+  <version_id>57f1644e-b665-4e77-94aa-61d024148bd4</version_id>
+  <version_modified>20170602T144309Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>ChillerOvercharge</class_name>
   <display_name>Water-cooled chiller overcharged</display_name>
@@ -16,7 +16,7 @@
       <type>String</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value>Chiller Electric EIR</default_value>
+      <default_value></default_value>
     </argument>
     <argument>
       <name>sch_choice</name>
@@ -32,7 +32,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>1.4</default_value>
+      <default_value>1.1</default_value>
     </argument>
     <argument>
       <name>max_fl</name>
@@ -131,6 +131,7 @@
       <default_value>1</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.Cooling</tag>
@@ -210,13 +211,13 @@
       <filename>FaultCalculationChillerElectricEIR.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>3D871243</checksum>
+      <checksum>7C5E89EC</checksum>
     </file>
     <file>
       <filename>faultcalculationchillerelectriceir.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>3D871243</checksum>
+      <checksum>7C5E89EC</checksum>
     </file>
     <file>
       <version>
@@ -227,7 +228,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>5829FAE7</checksum>
+      <checksum>46B37258</checksum>
     </file>
   </files>
 </measure>

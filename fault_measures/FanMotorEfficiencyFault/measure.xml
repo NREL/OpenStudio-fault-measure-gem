@@ -1,10 +1,11 @@
 <measure>
   <schema_version>3.0</schema_version>
-  <name>all_fan_motor_efficiency_fault</name>
+  <name>fan_motor_efficiency_fault</name>
   <uid>9814a5e9-37b7-472a-bae5-e9e2e794c024</uid>
-  <version_id>e20607dc-7ae5-4088-8fa8-adeb5de4bad3</version_id>
+  <version_id>776ff043-d2d8-406d-a1c1-dfdc60059a85</version_id>
+  <version_modified>20170602T144309Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
-  <class_name>AllFanMotorEfficiencyFault</class_name>
+  <class_name>FanMotorEfficiencyFault</class_name>
   <display_name>All Fan Motor Efficiency Fault</display_name>
   <description>This Measure simulates the effect of fan motor efficiency degradation due to stator winding fault or motor bearing fault in air ducts to the building performance.</description>
   <modeler_description>To use this Measure, enter the Fan object (Fan:OnOff, Fan:ConstantVolume and Fan:VariableVolume) to be faulted and a fault level as a degradation factor of fan efficiency. It doesn't work with any fan objects housed by other ZoneHVAC objects.</modeler_description>
@@ -34,6 +35,7 @@
       <default_value></default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.Ventilation</tag>
@@ -82,7 +84,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>990E31C8</checksum>
+      <checksum>FBFD268B</checksum>
     </file>
   </files>
 </measure>
