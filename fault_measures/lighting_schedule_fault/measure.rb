@@ -4,6 +4,9 @@
 # start the measure
 class LightingScheduleFault < OpenStudio::Ruleset::ModelUserScript
 
+  # provides access to resrouce file with methods to operate on schedules
+  require "#{File.dirname(__FILE__)}/resources/os_lib_schedules"
+
   # human readable name
   def name
     return "Lighting Schedule Fault"
@@ -102,7 +105,20 @@ class LightingScheduleFault < OpenStudio::Ruleset::ModelUserScript
         light.setSchedule(new_sch)
 
 
-        # todo - alter schedule as needed
+        # todo - alter schedule as needed (use adjust_hours_of_operation_for_schedule_ruleset in os)
+        # todo - replace hard coded options (this example results in no change in end of day but 2 hour early start in morning)
+        options = {
+            'base_start_hoo' => 8.0, # todo - this should be inferred from schedule or exposed as user argument
+            'base_finish_hoo' => 18.0, # todo - this should be inferred from schedule or exposed as user argument
+            'delta_length_hoo' => 2.0, # todo - this should be user argument
+            'shift_hoo' => -1.0 # todo - this should be user argument
+            # there are additional options for specific days of the week and design days
+        }
+        OsLib_Schedules.adjust_hours_of_operation_for_schedule_ruleset(runner, model, new_sch, options)
+
+        # todo - if fault_fractional_value is non 1.0 then could do weighted average for profiles. For example if 0.75 then use 0.75 of blended with 0.25 or original schedule to come up with final schedule
+        # weightedMergeScheduleRulesets in helper method could be expanded to work on this. It should be expanded to work on all rules, but could also fail if the two schedules passed in don't have maching rule configurations.
+        # Will take some thought. Maybe there should be a method that takes in specific scheduleDay vs. a ScheduleRuleset
 
       end
 

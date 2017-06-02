@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>lighting_schedule_fault</name>
   <uid>32ad79b5-90cc-41f6-bd7a-79e2db051060</uid>
-  <version_id>20456dea-e5ae-4d1b-b983-70428a7efa09</version_id>
-  <version_modified>20170602T193005Z</version_modified>
+  <version_id>280a8d84-5870-4e8d-a067-5b89fcacda29</version_id>
+  <version_modified>20170602T195904Z</version_modified>
   <xml_checksum>81C5D8E7</xml_checksum>
   <class_name>LightingScheduleFault</class_name>
   <display_name>Lighting Schedule Fault</display_name>
@@ -61,6 +61,12 @@
       <checksum>A4560256</checksum>
     </file>
     <file>
+      <filename>lighting_schedule_fault_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>357B51E3</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>2.1.0</identifier>
@@ -69,13 +75,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>E060B499</checksum>
+      <checksum>A49061AA</checksum>
     </file>
     <file>
-      <filename>lighting_schedule_fault_test.rb</filename>
+      <filename>os_lib_schedules.rb</filename>
       <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>357B51E3</checksum>
+      <usage_type>resource</usage_type>
+      <checksum>C4185CAA</checksum>
     </file>
   </files>
 </measure>
