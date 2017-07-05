@@ -26,34 +26,51 @@ def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runn
   # This function applies the NoOvernightSetback fault to the thermostat
   # setpoint schedules
 
+  # adding flag to skip zone if problems are found
+  skip_zone = false
+
   # get thermostat schedules
   dualsetpoint, dualsetpointexist = obtainthermostatschedule(thermalzone, runner)
   return true unless dualsetpointexist
 
   # get and modify heating schedule
-  heatingrulesetschedule = \
-    getschedulerulesetfromsetpointschedule(dualsetpoint.heatingSetpointTemperatureSchedule)
+  heatingrulesetschedule, rulesetscheduleexist = \
+    getschedulerulesetfromsetpointschedule(dualsetpoint.heatingSetpointTemperatureSchedule,thermalzone,runner)
+  return true unless rulesetscheduleexist
   addnewscheduleruleset(heatingrulesetschedule, start_month, end_month, dayofweek)
 
   # get and modify cooling schedule
-  coolingrulesetschedule = \
-    getschedulerulesetfromsetpointschedule(dualsetpoint.coolingSetpointTemperatureSchedule)
+  coolingrulesetschedule , rulesetscheduleexist = \
+    getschedulerulesetfromsetpointschedule(dualsetpoint.coolingSetpointTemperatureSchedule,thermalzone,runner)
+  return true unless rulesetscheduleexist
   addnewscheduleruleset(coolingrulesetschedule, start_month, end_month, dayofweek)
 
   # assign the heating and cooling temperature schedule with faults to the thermostat
-  addnewsetpointschedules(dualsetpoint, heatingrulesetschedule, coolingrulesetschedule)
+  if not skip_zone
+    addnewsetpointschedules(dualsetpoint, heatingrulesetschedule, coolingrulesetschedule)
 
-  # assign the thermostat to the zone
-  thermalzone.setThermostatSetpointDualSetpoint(dualsetpoint)
+    # assign the thermostat to the zone
+    thermalzone.setThermostatSetpointDualSetpoint(dualsetpoint)
+  else
+    runner.registerWarning("Skipping #{thermalzone.name} because it is either missing heating or cooling setpoint schedule, or those schedules are not ScheduleRulesets.")
+  end
+
 end
 
-def getschedulerulesetfromsetpointschedule(schedule)
+def getschedulerulesetfromsetpointschedule(schedule,thermalzone,runner)
   # This function returns a deep copy of the ScheduleRuleset object within
   # the Schedule object made to reduce the ABC of function applyfaulttothermalzone
 
   # create a new object because the old one may be used by other thermal zones
   # and we want to keep that intact
-  return schedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
+
+  if schedule.is_initialized and schedule.get.to_Schedule.is_initialized and schedule.get.to_Schedule.get.to_ScheduleRuleset.is_initialized
+    return schedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get, true
+  else
+    runner.registerWarning("Skipping #{thermalzone.name} because it is either missing heating or cooling setpoint schedule, or those schedules are not ScheduleRulesets.")
+    return '', false
+  end
+
 end
 
 def obtainthermostatschedule(thermalzone, runner)

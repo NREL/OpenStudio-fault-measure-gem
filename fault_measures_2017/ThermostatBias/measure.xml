@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>thermostat_bias</name>
   <uid>e359373a-ea8b-459d-a4c0-e2e8ae78b840</uid>
-  <version_id>0868934b-dcc3-4397-bd97-18fd18054386</version_id>
-  <version_modified>20170705T163431Z</version_modified>
+  <version_id>c93946bd-1316-42ed-82b1-ba9cfc2bfbfa</version_id>
+  <version_modified>20170705T195107Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ThermostatBias</class_name>
   <display_name>ThermostatBias</display_name>
@@ -170,7 +170,7 @@
       <filename>ThermostatBias_Test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>6361F994</checksum>
+      <checksum>AE1C503D</checksum>
     </file>
     <file>
       <version>
@@ -181,13 +181,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>1661AEC4</checksum>
+      <checksum>70E7B807</checksum>
     </file>
     <file>
       <filename>temp_2004_lg_hotel_chicago.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
-      <checksum>A4560256</checksum>
+      <checksum>A0AEFB36</checksum>
     </file>
   </files>
 </measure>
