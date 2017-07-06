@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>no_overnight_setback_week</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>29882682-6f24-4553-bf86-e56f53121eea</version_id>
-  <version_modified>20170705T213415Z</version_modified>
+  <version_id>9146af88-afd0-4695-a4e2-cbeb65b7d3e0</version_id>
+  <version_modified>20170706T161754Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>NoOvernightSetbackWeek</class_name>
   <display_name>NoOvernightSetbackWeek</display_name>
@@ -213,12 +213,6 @@
   </attributes>
   <files>
     <file>
-      <filename>misc_arguments.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>A4F501FC</checksum>
-    </file>
-    <file>
       <filename>global_const.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -242,16 +236,22 @@
       <checksum>A0AEFB36</checksum>
     </file>
     <file>
-      <filename>misc_run_dayofweek.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>01F36352</checksum>
-    </file>
-    <file>
       <filename>NoOvernightSetbackWeek_Test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
       <checksum>D1498785</checksum>
+    </file>
+    <file>
+      <filename>misc_arguments.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>96F2F1BB</checksum>
+    </file>
+    <file>
+      <filename>misc_run_dayofweek.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>18FC9024</checksum>
     </file>
   </files>
 </measure>

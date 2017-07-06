@@ -8,7 +8,9 @@
 # http://openstudio.nrel.gov/sites/openstudio.nrel.gov/files/nv_data/cpp_documentation_it/model/html/namespaces.html
 
 require 'date'
-require "#{File.dirname(__FILE__)}/resources/util"
+require_relative 'resources/global_const'
+require_relative 'resources/misc_arguments'
+require_relative 'resources/util'
 
 #start the measure
 class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
@@ -23,22 +25,13 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
   def arguments(model)
     args = OpenStudio::Ruleset::OSArgumentVector.new
 
-    #make a choice argument for model objects
-    zone_handles = OpenStudio::StringVector.new
-    zone_display_names = OpenStudio::StringVector.new
-
-    #putting model object and names into hash
-    zone_args = model.getThermalZones
-    zone_args_hash = {}
-    zone_args.each do |zone_arg|
-      zone_args_hash[zone_arg.name.to_s] = zone_arg
-    end
-
-    #looping through sorted hash of model objects
-    zone_args_hash.sort.map do |key,value|
-      zone_handles << value.handle.to_s
-      zone_display_names << key
-    end
+    # make choice argument for thermal zone
+    zone_handles, zone_display_names = pass_zone(model, $allzonechoices)
+    zone = OpenStudio::Ruleset::OSArgument.makeChoiceArgument(
+        'zone', zone_display_names, zone_display_names, true
+    )
+    zone.setDisplayName("Zone. Choose #{$allzonechoices} if you want to impose the fault in all zones")
+    args << zone
 
     #make choice argument for thermal zone
     # todo - may need to update this to handle *Entire Building* as an option, or can run this multiple times on same model across different zones
@@ -120,139 +113,145 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
 
       # todo - add in initial and final condition
 
-      thermalzone = runner.getStringArgumentValue("zone",user_arguments)
-      model.getThermalZones.each do |zone|
-        if thermalzone.to_s == zone.name.to_s
-          thermalzone = zone
-          break
+      # loop through selected thermal zones (array of 1 or all zones)
+      thermalzones = obtainzone('zone', model, runner, user_arguments)
+      thermalzones.each do |thermalzone|
+
+        thermostatsetpointdualsetpoint = thermalzone.thermostatSetpointDualSetpoint
+        if thermostatsetpointdualsetpoint.empty?
+          runner.registerWarning("Cannot find existing thermostat for thermal zone '#{thermalzone.name}'. No changes made ot this zone.")
+          next
         end
-      end
+        thermostatsetpointdualsetpoint = thermostatsetpointdualsetpoint.get.clone.to_ThermostatSetpointDualSetpoint.get
 
-      # todo - if updated to handle multiple zones then could update thermalzone to be an array that gets looped through, or could put all code in model.getThermalZones.each do loop used above.
+        # Heating
+        schedule = thermostatsetpointdualsetpoint.heatingSetpointTemperatureSchedule
+        if schedule.is_initialized and schedule.get.to_Schedule.is_initialized and schedule.get.to_Schedule.get.to_ScheduleRuleset.is_initialized
+          heatingrulesetschedule = schedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
+        else
+          runner.registerWarning("Skipping #{thermalzone.name} because it is either missing heating setpoint schedule or the schedule is not ScheduleRulesets.")
+          next
+        end
 
-      thermostatsetpointdualsetpoint = thermalzone.thermostatSetpointDualSetpoint
-      if thermostatsetpointdualsetpoint.empty?
-        # todo - should registerError and then return false
-        runner.registerWarning("Cannot find existing thermostat for thermal zone '#{thermalzone.name}', skipping. No changes made.")
-      end
-      thermostatsetpointdualsetpoint = thermostatsetpointdualsetpoint.get.clone.to_ThermostatSetpointDualSetpoint.get
+        h_rules = heatingrulesetschedule.scheduleRules
 
-      # Heating
-      # todo - validate if setpoint schedule exists, may have thermostat but no setpoints, or setpoints might not be ruleset schedule
-      heatingrulesetschedule = thermostatsetpointdualsetpoint.heatingSetpointTemperatureSchedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
+        h_rules.each_with_index do |h_rule,i|
 
-      h_rules = heatingrulesetschedule.scheduleRules
+          rule_name = h_rule.name
+          dayschedule_name = h_rule.daySchedule.name
+          h_rule_clone = h_rule.clone
+          h_rule_clone = h_rule_clone.to_ScheduleRule.get
+          h_rule_clone.setName("#{rule_name} with new start/end dates")
+          h_rule_clone.setStartDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month),1))
+          h_rule_clone.setEndDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month),e_day))
+          h_ruleday_clone = h_rule_clone.daySchedule
+          h_ruleday_clone.setName("#{dayschedule_name} with offset")
+          times = h_ruleday_clone.times
+          values = h_ruleday_clone.values
+          h_ruleday_clone.clearValues
+          for i in 0..(times.size - 1)
+            h_ruleday_clone.addValue(times[i], values[i] - biasLevel)
+          end
 
-      h_rules.each_with_index do |h_rule,i|
+          # todo - better to edit existing rules
+          heatingrulesetschedule.setScheduleRuleIndex(h_rule_clone, [0, h_rule.ruleIndex-1].max)
 
-        rule_name = h_rule.name
-        dayschedule_name = h_rule.daySchedule.name
-        h_rule_clone = h_rule.clone
-        h_rule_clone = h_rule_clone.to_ScheduleRule.get
-        h_rule_clone.setName("#{rule_name} with new start/end dates")
-        h_rule_clone.setStartDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month),1))
-        h_rule_clone.setEndDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month),e_day))
-        h_ruleday_clone = h_rule_clone.daySchedule
-        h_ruleday_clone.setName("#{dayschedule_name} with offset")
-        times = h_ruleday_clone.times
-        values = h_ruleday_clone.values
-        h_ruleday_clone.clearValues
+        end
+
+        # todo - seems better to replace default day vs. building up a rule to replace it
+        defaultday_name = heatingrulesetschedule.defaultDaySchedule.name
+        h_defaultday_clone = heatingrulesetschedule.defaultDaySchedule.clone
+        h_defaultday_clone = h_defaultday_clone.to_ScheduleDay.get
+        times = h_defaultday_clone.times
+        values = h_defaultday_clone.values
+        defaultday_rule = OpenStudio::Model::ScheduleRule.new(heatingrulesetschedule)
+        defaultday_rule.setName("#{defaultday_name} with new start/end dates")
+        defaultday_rule.setApplySunday(true)
+        defaultday_rule.setApplyMonday(true)
+        defaultday_rule.setApplyTuesday(true)
+        defaultday_rule.setApplyWednesday(true)
+        defaultday_rule.setApplyThursday(true)
+        defaultday_rule.setApplyFriday(true)
+        defaultday_rule.setApplySaturday(true)
+        defaultday_rule.setStartDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month),1))
+        defaultday_rule.setEndDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month),e_day))
+        default_day = defaultday_rule.daySchedule
+        default_day.setName("#{defaultday_name} with offset")
+        default_day.clearValues
         for i in 0..(times.size - 1)
-          h_ruleday_clone.addValue(times[i], values[i] - biasLevel)
+          default_day.addValue(times[i], values[i] - biasLevel)
         end
 
-        # todo - better to edit existing rules
-        heatingrulesetschedule.setScheduleRuleIndex(h_rule_clone, [0, h_rule.ruleIndex-1].max)
+        heatingrulesetschedule.setScheduleRuleIndex(defaultday_rule,h_rules.length*2)
 
-      end
+        # Cooling
+        # todo - similar comments to heating
+        schedule = thermostatsetpointdualsetpoint.coolingSetpointTemperatureSchedule
+        if schedule.is_initialized and schedule.get.to_Schedule.is_initialized and schedule.get.to_Schedule.get.to_ScheduleRuleset.is_initialized
+          coolingrulesetschedule = schedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
+        else
+          runner.registerWarning("Skipping #{thermalzone.name} because it is either missing cooling setpoint schedule or the schedule is not ScheduleRulesets.")
+          next
+        end
 
-      # todo - seems better to replace default day vs. building up a rule to replace it
-      defaultday_name = heatingrulesetschedule.defaultDaySchedule.name
-      h_defaultday_clone = heatingrulesetschedule.defaultDaySchedule.clone
-      h_defaultday_clone = h_defaultday_clone.to_ScheduleDay.get
-      times = h_defaultday_clone.times
-      values = h_defaultday_clone.values
-      defaultday_rule = OpenStudio::Model::ScheduleRule.new(heatingrulesetschedule)
-      defaultday_rule.setName("#{defaultday_name} with new start/end dates")
-      defaultday_rule.setApplySunday(true)
-      defaultday_rule.setApplyMonday(true)
-      defaultday_rule.setApplyTuesday(true)
-      defaultday_rule.setApplyWednesday(true)
-      defaultday_rule.setApplyThursday(true)
-      defaultday_rule.setApplyFriday(true)
-      defaultday_rule.setApplySaturday(true)
-      defaultday_rule.setStartDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month),1))
-      defaultday_rule.setEndDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month),e_day))
-      default_day = defaultday_rule.daySchedule
-      default_day.setName("#{defaultday_name} with offset")
-      default_day.clearValues
-      for i in 0..(times.size - 1)
-        default_day.addValue(times[i], values[i] - biasLevel)
-      end
+        c_rules = coolingrulesetschedule.scheduleRules
 
-      heatingrulesetschedule.setScheduleRuleIndex(defaultday_rule,h_rules.length*2)
+        c_rules.each_with_index do |c_rule,i|
 
-      # Cooling
-      # todo - similar comments to heating
-      coolingrulesetschedule = thermostatsetpointdualsetpoint.coolingSetpointTemperatureSchedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
+          rule_name = c_rule.name
+          dayschedule_name = c_rule.daySchedule.name
+          c_rule_clone = c_rule.clone
+          c_rule_clone = c_rule_clone.to_ScheduleRule.get
+          c_rule_clone.setName("#{rule_name} with new start/end dates")
+          c_rule_clone.setStartDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month),1))
+          c_rule_clone.setEndDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month),e_day))
+          c_ruleday_clone = c_rule_clone.daySchedule
+          c_ruleday_clone.setName("#{dayschedule_name} with offset")
+          times = c_ruleday_clone.times
+          values = c_ruleday_clone.values
+          c_ruleday_clone.clearValues
+          for i in 0..(times.size - 1)
+            c_ruleday_clone.addValue(times[i], values[i] - biasLevel)
+          end
 
-      c_rules = coolingrulesetschedule.scheduleRules
+          coolingrulesetschedule.setScheduleRuleIndex(c_rule_clone, [0, c_rule.ruleIndex-1].max)
 
-      c_rules.each_with_index do |c_rule,i|
+        end
 
-        rule_name = c_rule.name
-        dayschedule_name = c_rule.daySchedule.name
-        c_rule_clone = c_rule.clone
-        c_rule_clone = c_rule_clone.to_ScheduleRule.get
-        c_rule_clone.setName("#{rule_name} with new start/end dates")
-        c_rule_clone.setStartDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month),1))
-        c_rule_clone.setEndDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month),e_day))
-        c_ruleday_clone = c_rule_clone.daySchedule
-        c_ruleday_clone.setName("#{dayschedule_name} with offset")
-        times = c_ruleday_clone.times
-        values = c_ruleday_clone.values
-        c_ruleday_clone.clearValues
+        defaultday_name = coolingrulesetschedule.defaultDaySchedule.name
+        c_defaultday_clone = coolingrulesetschedule.defaultDaySchedule.clone
+        c_defaultday_clone = c_defaultday_clone.to_ScheduleDay.get
+        times = c_defaultday_clone.times
+        values = c_defaultday_clone.values
+        defaultday_rule = OpenStudio::Model::ScheduleRule.new(coolingrulesetschedule)
+        defaultday_rule.setName("#{defaultday_name} with new start/end dates")
+        defaultday_rule.setApplySunday(true)
+        defaultday_rule.setApplyMonday(true)
+        defaultday_rule.setApplyTuesday(true)
+        defaultday_rule.setApplyWednesday(true)
+        defaultday_rule.setApplyThursday(true)
+        defaultday_rule.setApplyFriday(true)
+        defaultday_rule.setApplySaturday(true)
+        defaultday_rule.setStartDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month),1))
+        defaultday_rule.setEndDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month),e_day))
+        default_day = defaultday_rule.daySchedule
+        default_day.setName("#{defaultday_name} with offset")
+        default_day.clearValues
         for i in 0..(times.size - 1)
-          c_ruleday_clone.addValue(times[i], values[i] - biasLevel)
+          default_day.addValue(times[i], values[i] - biasLevel)
         end
 
-        coolingrulesetschedule.setScheduleRuleIndex(c_rule_clone, [0, c_rule.ruleIndex-1].max)
+        coolingrulesetschedule.setScheduleRuleIndex(defaultday_rule,c_rules.length*2)
 
+        #assign the heating temperature schedule with faults to the thermostat
+        thermostatsetpointdualsetpoint.setHeatingSetpointTemperatureSchedule(heatingrulesetschedule)
+
+        #assign the cooling temperature schedule with faults to the thermostat
+        thermostatsetpointdualsetpoint.setCoolingSetpointTemperatureSchedule(coolingrulesetschedule)
+
+        #assign the thermostat to the zone
+        thermalzone.setThermostatSetpointDualSetpoint(thermostatsetpointdualsetpoint)
       end
-
-      defaultday_name = coolingrulesetschedule.defaultDaySchedule.name
-      c_defaultday_clone = coolingrulesetschedule.defaultDaySchedule.clone
-      c_defaultday_clone = c_defaultday_clone.to_ScheduleDay.get
-      times = c_defaultday_clone.times
-      values = c_defaultday_clone.values
-      defaultday_rule = OpenStudio::Model::ScheduleRule.new(coolingrulesetschedule)
-      defaultday_rule.setName("#{defaultday_name} with new start/end dates")
-      defaultday_rule.setApplySunday(true)
-      defaultday_rule.setApplyMonday(true)
-      defaultday_rule.setApplyTuesday(true)
-      defaultday_rule.setApplyWednesday(true)
-      defaultday_rule.setApplyThursday(true)
-      defaultday_rule.setApplyFriday(true)
-      defaultday_rule.setApplySaturday(true)
-      defaultday_rule.setStartDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(start_month),1))
-      defaultday_rule.setEndDate(OpenStudio::Date.new(OpenStudio::MonthOfYear.new(end_month),e_day))
-      default_day = defaultday_rule.daySchedule
-      default_day.setName("#{defaultday_name} with offset")
-      default_day.clearValues
-      for i in 0..(times.size - 1)
-        default_day.addValue(times[i], values[i] - biasLevel)
-      end
-
-      coolingrulesetschedule.setScheduleRuleIndex(defaultday_rule,c_rules.length*2)
-
-      #assign the heating temperature schedule with faults to the thermostat
-      thermostatsetpointdualsetpoint.setHeatingSetpointTemperatureSchedule(heatingrulesetschedule)
-
-      #assign the cooling temperature schedule with faults to the thermostat
-      thermostatsetpointdualsetpoint.setCoolingSetpointTemperatureSchedule(coolingrulesetschedule)
-
-      #assign the thermostat to the zone
-      thermalzone.setThermostatSetpointDualSetpoint(thermostatsetpointdualsetpoint)
 
     end
 

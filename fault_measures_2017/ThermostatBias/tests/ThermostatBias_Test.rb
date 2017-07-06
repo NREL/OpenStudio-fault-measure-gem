@@ -7,6 +7,7 @@ require 'fileutils'
 class ThermostatBias_Test < MiniTest::Unit::TestCase
 
   # method to apply arguments, run measure, and assert results (only populate args hash with non-default argument values)
+  # todo  -update to run in temp directory so faulted_timestep.csv doesn't get written outside of tests/output dir.
   def apply_measure_to_model(test_name, args, model_name = nil, result_value = 'Success', warnings_count = 0, info_count = nil)
 
     # create an instance of the measure
@@ -72,7 +73,7 @@ class ThermostatBias_Test < MiniTest::Unit::TestCase
     apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
   end
 
-  def test_partial_year
+  def test_partial_year_neg_delta
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
     args["bias_level"] = -0.5
@@ -82,21 +83,27 @@ class ThermostatBias_Test < MiniTest::Unit::TestCase
     apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
   end
 
-  # todo - update measure so this test does not fail. Currently fails because measure tries to alter thermostat that doesn't exist
-=begin
+  def test_delta_0
+    args = {}
+    args["zone"] = 'Cafe_Flr_1 ZN'
+    args["bias_level"] = 0.0
+
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
+  end
+
   def test_unconditioned_zone
     args = {}
     args["zone"] = 'Basement ZN'
     args["bias_level"] = 2.0
 
-    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm',"Success",1)
   end
-=end
 
-  # todo - add test for thermostat that is missing heating or cooling setpoint
+  def test_all_zones
+    args = {}
+    args["zone"] = '* All Zones *'
+    args["bias_level"] = 2.0
 
-  # todo - add test for thermostat that doesn't use ruleset schedule
-
-  # todo - add test for *Entire Building* as zone if updated to support this
-
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm',"Success",1)
+  end
 end

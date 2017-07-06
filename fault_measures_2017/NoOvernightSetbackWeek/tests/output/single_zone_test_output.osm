@@ -10107,7 +10107,7 @@ OS:ThermalZone,
   ,                                       !- Fraction of Zone Controlled by Secondary Daylighting Control
   ,                                       !- Illuminance Map Name
   ,                                       !- Group Rendering Name
-  {2d018b28-9f99-40f9-b1ee-29586611b1ba}, !- Thermostat Name
+  {1f946928-376a-489a-be40-7ee3cd0f71d4}, !- Thermostat Name
   No;                                     !- Use Ideal Air Loads
 
 OS:Node,
@@ -24779,21 +24779,21 @@ OS:Connection,
   14;                                     !- Inlet Port
 
 OS:ThermostatSetpoint:DualSetpoint,
-  {2d018b28-9f99-40f9-b1ee-29586611b1ba}, !- Handle
+  {1f946928-376a-489a-be40-7ee3cd0f71d4}, !- Handle
   LargeHotel Cafe Thermostat 2,           !- Name
-  {569bd602-2e33-49ff-9f64-b1d077de06a4}, !- Heating Setpoint Temperature Schedule Name
-  {9c4d1ae0-fbfa-4ccc-8e1f-e21a9ab15564}; !- Cooling Setpoint Temperature Schedule Name
+  {7a482791-0616-4779-af94-44c2edcefcff}, !- Heating Setpoint Temperature Schedule Name
+  {665e55e5-6cfe-4b2d-a088-246fa4072a7a}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:Schedule:Ruleset,
-  {569bd602-2e33-49ff-9f64-b1d077de06a4}, !- Handle
+  {7a482791-0616-4779-af94-44c2edcefcff}, !- Handle
   HotelLarge HTGSETP_SCH 1,               !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
-  {110efb78-f814-4806-9526-07090dea261a}, !- Default Day Schedule Name
-  {9ac2d67b-54ed-42ea-9f59-c24e605dbc86}, !- Summer Design Day Schedule Name
-  {e53b1cbd-792a-4ccf-b019-38539b1c0894}; !- Winter Design Day Schedule Name
+  {ab463adc-146f-41d6-8a58-e737d3b8fce6}, !- Default Day Schedule Name
+  {3b2de821-9aad-43c6-ac63-1dade92c03ab}, !- Summer Design Day Schedule Name
+  {0f107804-cba1-47d2-8e3f-d56c13d1fcb7}; !- Winter Design Day Schedule Name
 
 OS:Schedule:Day,
-  {110efb78-f814-4806-9526-07090dea261a}, !- Handle
+  {ab463adc-146f-41d6-8a58-e737d3b8fce6}, !- Handle
   HotelLarge HTGSETP_SCH Default 1,       !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -24802,7 +24802,7 @@ OS:Schedule:Day,
   21;                                     !- Value Until Time 1
 
 OS:Schedule:Day,
-  {9ac2d67b-54ed-42ea-9f59-c24e605dbc86}, !- Handle
+  {3b2de821-9aad-43c6-ac63-1dade92c03ab}, !- Handle
   HotelLarge HTGSETP_SCH Summer Design Day 1, !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -24811,7 +24811,7 @@ OS:Schedule:Day,
   21;                                     !- Value Until Time 1
 
 OS:Schedule:Day,
-  {e53b1cbd-792a-4ccf-b019-38539b1c0894}, !- Handle
+  {0f107804-cba1-47d2-8e3f-d56c13d1fcb7}, !- Handle
   HotelLarge HTGSETP_SCH Winter Design Day 1, !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -24820,11 +24820,11 @@ OS:Schedule:Day,
   21;                                     !- Value Until Time 1
 
 OS:Schedule:Rule,
-  {41b1ae60-9937-4305-b14e-1485762a493e}, !- Handle
+  {545318d2-217e-4ca6-89df-4f5626acab0b}, !- Handle
   HotelLarge HTGSETP_SCH Default 1 with new start/end dates, !- Name
-  {569bd602-2e33-49ff-9f64-b1d077de06a4}, !- Schedule Ruleset Name
+  {7a482791-0616-4779-af94-44c2edcefcff}, !- Schedule Ruleset Name
   1,                                      !- Rule Order
-  {a0016bb9-cb8b-4655-ad62-5ca077aecd41}, !- Day Schedule Name
+  {307eb844-1a5e-44ad-973b-ddd025daf318}, !- Day Schedule Name
   Yes,                                    !- Apply Sunday
   Yes,                                    !- Apply Monday
   Yes,                                    !- Apply Tuesday
@@ -24840,7 +24840,7 @@ OS:Schedule:Rule,
   31;                                     !- End Day
 
 OS:Schedule:Day,
-  {a0016bb9-cb8b-4655-ad62-5ca077aecd41}, !- Handle
+  {307eb844-1a5e-44ad-973b-ddd025daf318}, !- Handle
   Schedule Day 118 with NoOvernightSetback, !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -24849,11 +24849,11 @@ OS:Schedule:Day,
   21;                                     !- Value Until Time 1
 
 OS:Schedule:Rule,
-  {61dcbfff-eff3-4437-ac2d-cf4fe1d8d41b}, !- Handle
+  {0c7da96e-93a6-4551-af8e-7211d21927ef}, !- Handle
   HotelLarge HTGSETP_SCH Default 1 with new start/end dates with new start/end dates, !- Name
-  {569bd602-2e33-49ff-9f64-b1d077de06a4}, !- Schedule Ruleset Name
+  {7a482791-0616-4779-af94-44c2edcefcff}, !- Schedule Ruleset Name
   0,                                      !- Rule Order
-  {ba7e2efb-214b-4e55-bf19-e8c82dd4ad43}, !- Day Schedule Name
+  {38507d33-3e5e-4706-9d62-4deb6d914fe1}, !- Day Schedule Name
   Yes,                                    !- Apply Sunday
   Yes,                                    !- Apply Monday
   Yes,                                    !- Apply Tuesday
@@ -24869,7 +24869,7 @@ OS:Schedule:Rule,
   31;                                     !- End Day
 
 OS:Schedule:Day,
-  {ba7e2efb-214b-4e55-bf19-e8c82dd4ad43}, !- Handle
+  {38507d33-3e5e-4706-9d62-4deb6d914fe1}, !- Handle
   Schedule Day 118 with NoOvernightSetback 1, !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -24878,15 +24878,15 @@ OS:Schedule:Day,
   21;                                     !- Value Until Time 1
 
 OS:Schedule:Ruleset,
-  {9c4d1ae0-fbfa-4ccc-8e1f-e21a9ab15564}, !- Handle
+  {665e55e5-6cfe-4b2d-a088-246fa4072a7a}, !- Handle
   HotelLarge CLGSETP_SCH 1,               !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
-  {2a7b42bb-93d4-47dd-a9eb-ce3e6ebe33b1}, !- Default Day Schedule Name
-  {fc8135ad-0f2c-4866-9d08-047b2c43dff4}, !- Summer Design Day Schedule Name
-  {b9a037c5-29cc-45b1-bf51-73d2c1621348}; !- Winter Design Day Schedule Name
+  {bf44aa37-4ec0-44d0-bde8-a6e442cefb02}, !- Default Day Schedule Name
+  {911eac12-919f-4472-99fd-c16c5e6d2b8f}, !- Summer Design Day Schedule Name
+  {bcc05ffc-3a88-44b5-973b-4353e7870af0}; !- Winter Design Day Schedule Name
 
 OS:Schedule:Day,
-  {2a7b42bb-93d4-47dd-a9eb-ce3e6ebe33b1}, !- Handle
+  {bf44aa37-4ec0-44d0-bde8-a6e442cefb02}, !- Handle
   HotelLarge CLGSETP_SCH Default 1,       !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -24895,7 +24895,7 @@ OS:Schedule:Day,
   24;                                     !- Value Until Time 1
 
 OS:Schedule:Day,
-  {fc8135ad-0f2c-4866-9d08-047b2c43dff4}, !- Handle
+  {911eac12-919f-4472-99fd-c16c5e6d2b8f}, !- Handle
   HotelLarge CLGSETP_SCH Summer Design Day 1, !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -24904,7 +24904,7 @@ OS:Schedule:Day,
   24;                                     !- Value Until Time 1
 
 OS:Schedule:Day,
-  {b9a037c5-29cc-45b1-bf51-73d2c1621348}, !- Handle
+  {bcc05ffc-3a88-44b5-973b-4353e7870af0}, !- Handle
   HotelLarge CLGSETP_SCH Winter Design Day 1, !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -24913,11 +24913,11 @@ OS:Schedule:Day,
   24;                                     !- Value Until Time 1
 
 OS:Schedule:Rule,
-  {12fd799e-bd25-4b98-a824-2539d32e9943}, !- Handle
+  {95c59345-4cc6-469b-8976-0054532d7ace}, !- Handle
   HotelLarge CLGSETP_SCH Default 1 with new start/end dates, !- Name
-  {9c4d1ae0-fbfa-4ccc-8e1f-e21a9ab15564}, !- Schedule Ruleset Name
+  {665e55e5-6cfe-4b2d-a088-246fa4072a7a}, !- Schedule Ruleset Name
   1,                                      !- Rule Order
-  {460f8921-322d-4da9-a9d1-947b5773d0a1}, !- Day Schedule Name
+  {57b21765-d4b2-441e-9f5b-9e802a0fb7b6}, !- Day Schedule Name
   Yes,                                    !- Apply Sunday
   Yes,                                    !- Apply Monday
   Yes,                                    !- Apply Tuesday
@@ -24933,7 +24933,7 @@ OS:Schedule:Rule,
   31;                                     !- End Day
 
 OS:Schedule:Day,
-  {460f8921-322d-4da9-a9d1-947b5773d0a1}, !- Handle
+  {57b21765-d4b2-441e-9f5b-9e802a0fb7b6}, !- Handle
   Schedule Day 118 with NoOvernightSetback 2, !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
@@ -24942,11 +24942,11 @@ OS:Schedule:Day,
   24;                                     !- Value Until Time 1
 
 OS:Schedule:Rule,
-  {95c5efb8-8497-4df8-a668-af16e27e4a1d}, !- Handle
+  {e3565167-a92a-405f-b370-41b0afcd803a}, !- Handle
   HotelLarge CLGSETP_SCH Default 1 with new start/end dates with new start/end dates, !- Name
-  {9c4d1ae0-fbfa-4ccc-8e1f-e21a9ab15564}, !- Schedule Ruleset Name
+  {665e55e5-6cfe-4b2d-a088-246fa4072a7a}, !- Schedule Ruleset Name
   0,                                      !- Rule Order
-  {4dc4bd99-3fe1-4a18-b76b-50126091a17b}, !- Day Schedule Name
+  {9916466a-7219-4dea-8c3d-ad9174e9893f}, !- Day Schedule Name
   Yes,                                    !- Apply Sunday
   Yes,                                    !- Apply Monday
   Yes,                                    !- Apply Tuesday
@@ -24962,7 +24962,7 @@ OS:Schedule:Rule,
   31;                                     !- End Day
 
 OS:Schedule:Day,
-  {4dc4bd99-3fe1-4a18-b76b-50126091a17b}, !- Handle
+  {9916466a-7219-4dea-8c3d-ad9174e9893f}, !- Handle
   Schedule Day 118 with NoOvernightSetback 3, !- Name
   {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
