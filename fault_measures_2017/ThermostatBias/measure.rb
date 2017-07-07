@@ -11,6 +11,7 @@ require 'date'
 require_relative 'resources/global_const'
 require_relative 'resources/misc_arguments'
 require_relative 'resources/util'
+require 'openstudio-standards' # this is used to get min/max values from thermostat schedules for reporting purposes
 
 #start the measure
 class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
@@ -34,7 +35,6 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
     args << zone
 
     #make choice argument for thermal zone
-    # todo - may need to update this to handle *Entire Building* as an option, or can run this multiple times on same model across different zones
     zone = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("zone", zone_display_names, zone_display_names, true)
     zone.setDisplayName("Zone")
     args << zone
@@ -111,12 +111,29 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
       # get the heating and cooling season setpoint offsets
       biasLevel = runner.getDoubleArgumentValue("bias_level",user_arguments)
 
-      # todo - add in initial and final condition
+      # add in initial and final condition
+      setpoint_values = {}
+      setpoint_values[:init_htg_min] = []
+      setpoint_values[:init_htg_max] = []
+      setpoint_values[:init_clg_min] = []
+      setpoint_values[:init_clg_max] = []
+      setpoint_values[:final_htg_min] = []
+      setpoint_values[:final_htg_max] = []
+      setpoint_values[:final_clg_min] = []
+      setpoint_values[:final_clg_max] = []
+
+      # num_hours_in_year constant
+      if model.yearDescription.is_initialized and model.yearDescription.get.isLeapYear
+        num_hours_in_year = 8784.0
+      else
+        num_hours_in_year = 8760.0 # if no yearDescripiton then assumed year 2009 is not leap year
+      end
 
       # loop through selected thermal zones (array of 1 or all zones)
       thermalzones = obtainzone('zone', model, runner, user_arguments)
       thermalzones.each do |thermalzone|
 
+        # get thermostat
         thermostatsetpointdualsetpoint = thermalzone.thermostatSetpointDualSetpoint
         if thermostatsetpointdualsetpoint.empty?
           runner.registerWarning("Cannot find existing thermostat for thermal zone '#{thermalzone.name}'. No changes made ot this zone.")
@@ -124,17 +141,37 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
         end
         thermostatsetpointdualsetpoint = thermostatsetpointdualsetpoint.get.clone.to_ThermostatSetpointDualSetpoint.get
 
-        # Heating
-        schedule = thermostatsetpointdualsetpoint.heatingSetpointTemperatureSchedule
-        if schedule.is_initialized and schedule.get.to_Schedule.is_initialized and schedule.get.to_Schedule.get.to_ScheduleRuleset.is_initialized
-          heatingrulesetschedule = schedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
+        # get heating and cooling schedules (moving here so changes and reporting only happen if both exist)
+        heatingrulesetschedule = thermostatsetpointdualsetpoint.heatingSetpointTemperatureSchedule
+        if heatingrulesetschedule.is_initialized and heatingrulesetschedule.get.to_Schedule.is_initialized and heatingrulesetschedule.get.to_Schedule.get.to_ScheduleRuleset.is_initialized
+          heatingrulesetschedule = heatingrulesetschedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
         else
           runner.registerWarning("Skipping #{thermalzone.name} because it is either missing heating setpoint schedule or the schedule is not ScheduleRulesets.")
           next
         end
+        coolingrulesetschedule = thermostatsetpointdualsetpoint.coolingSetpointTemperatureSchedule
+        if coolingrulesetschedule.is_initialized and coolingrulesetschedule.get.to_Schedule.is_initialized and coolingrulesetschedule.get.to_Schedule.get.to_ScheduleRuleset.is_initialized
+          coolingrulesetschedule = coolingrulesetschedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
+        else
+          runner.registerWarning("Skipping #{thermalzone.name} because it is either missing cooling setpoint schedule or the schedule is not ScheduleRulesets.")
+          next
+        end
 
+        # gather initial thermostat range and average temp
+        avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+        min_max = heatingrulesetschedule.annual_min_max_value
+        runner.registerInfo("Initial annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+        setpoint_values[:init_htg_min] << min_max['min']
+        setpoint_values[:init_htg_max] << min_max['max']
+
+        avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+        min_max = coolingrulesetschedule.annual_min_max_value
+        runner.registerInfo("Initial annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+        setpoint_values[:init_clg_min] << min_max['min']
+        setpoint_values[:init_clg_max] << min_max['max']
+
+        # Alter Heating
         h_rules = heatingrulesetschedule.scheduleRules
-
         h_rules.each_with_index do |h_rule,i|
 
           rule_name = h_rule.name
@@ -184,18 +221,9 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
 
         heatingrulesetschedule.setScheduleRuleIndex(defaultday_rule,h_rules.length*2)
 
-        # Cooling
+        # Alter Cooling
         # todo - similar comments to heating
-        schedule = thermostatsetpointdualsetpoint.coolingSetpointTemperatureSchedule
-        if schedule.is_initialized and schedule.get.to_Schedule.is_initialized and schedule.get.to_Schedule.get.to_ScheduleRuleset.is_initialized
-          coolingrulesetschedule = schedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
-        else
-          runner.registerWarning("Skipping #{thermalzone.name} because it is either missing cooling setpoint schedule or the schedule is not ScheduleRulesets.")
-          next
-        end
-
         c_rules = coolingrulesetschedule.scheduleRules
-
         c_rules.each_with_index do |c_rule,i|
 
           rule_name = c_rule.name
@@ -251,8 +279,32 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
 
         #assign the thermostat to the zone
         thermalzone.setThermostatSetpointDualSetpoint(thermostatsetpointdualsetpoint)
+
+        # gather final thermostat range and average temp
+        avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+        min_max = heatingrulesetschedule.annual_min_max_value
+        runner.registerInfo("Final annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+        setpoint_values[:final_htg_min] << min_max['min']
+        setpoint_values[:final_htg_max] << min_max['max']
+
+        avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+        min_max = coolingrulesetschedule.annual_min_max_value
+        runner.registerInfo("Final annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+        setpoint_values[:final_clg_min] << min_max['min']
+        setpoint_values[:final_clg_max] << min_max['max']
+
       end
 
+      # register initial and final condition
+      if setpoint_values[:init_htg_min].size > 0
+        runner.registerInitialCondition("Initial heating setpoints in affected zones range from #{setpoint_values[:init_htg_min].min.round(1)} C to #{setpoint_values[:init_htg_max].max.round(1)} C. Initial cooling setpoints in affected zones range from #{setpoint_values[:init_clg_min].min.round(1)} C to #{setpoint_values[:init_clg_max].max.round(1)} C.")
+        runner.registerFinalCondition("Final heating setpoints in affected zones range from #{setpoint_values[:final_htg_min].min.round(1)} C to #{setpoint_values[:final_htg_max].max.round(1)} C. Final cooling setpoints in affected zones range from #{setpoint_values[:final_clg_min].min.round(1)} C to #{setpoint_values[:final_clg_max].max.round(1)} C.")
+      else
+        runner.registerAsNotApplicable("No changes made, selected zones may not have had setpoint schedules, or they schedules may not have been ScheduleRulesets.")
+      end
+
+    else
+      runner.registerAsNotApplicable("No changes made thermostat bias of 0.0 requested.")
     end
 
     return true

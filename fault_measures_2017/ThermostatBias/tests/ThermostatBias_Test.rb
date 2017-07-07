@@ -88,7 +88,7 @@ class ThermostatBias_Test < MiniTest::Unit::TestCase
     args["zone"] = 'Cafe_Flr_1 ZN'
     args["bias_level"] = 0.0
 
-    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm',"NA")
   end
 
   def test_unconditioned_zone
@@ -96,7 +96,7 @@ class ThermostatBias_Test < MiniTest::Unit::TestCase
     args["zone"] = 'Basement ZN'
     args["bias_level"] = 2.0
 
-    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm',"Success",1)
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm',"NA",1)
   end
 
   def test_all_zones

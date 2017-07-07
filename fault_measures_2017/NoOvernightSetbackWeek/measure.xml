@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>no_overnight_setback_week</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>9146af88-afd0-4695-a4e2-cbeb65b7d3e0</version_id>
-  <version_modified>20170706T161754Z</version_modified>
+  <version_id>6d2d65fe-dec8-4d05-997d-f4dd24cb1d6f</version_id>
+  <version_modified>20170707T205733Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>NoOvernightSetbackWeek</class_name>
   <display_name>NoOvernightSetbackWeek</display_name>
@@ -219,17 +219,6 @@
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>1.4.0</identifier>
-        <min_compatible>1.4.0</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>4B22FB83</checksum>
-    </file>
-    <file>
       <filename>temp_2004_lg_hotel_chicago.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
@@ -248,10 +237,21 @@
       <checksum>96F2F1BB</checksum>
     </file>
     <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.4.0</identifier>
+        <min_compatible>1.4.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>69B0F931</checksum>
+    </file>
+    <file>
       <filename>misc_run_dayofweek.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>18FC9024</checksum>
+      <checksum>706F0FFA</checksum>
     </file>
   </files>
 </measure>

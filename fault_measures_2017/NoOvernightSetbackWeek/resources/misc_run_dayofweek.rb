@@ -6,38 +6,61 @@ require_relative 'global_const'
 
 # obtainzone moved to misc_arguemnts.rb which is used by other measures
 
-def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runner)
+def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runner, num_hours_in_year, setpoint_values)
   # This function applies the NoOvernightSetback fault to the thermostat
   # setpoint schedules
 
-  # adding flag to skip zone if problems are found
-  skip_zone = false
-
   # get thermostat schedules
   dualsetpoint, dualsetpointexist = obtainthermostatschedule(thermalzone, runner)
-  return true unless dualsetpointexist
+  return false unless dualsetpointexist
 
   # get and modify heating schedule
   heatingrulesetschedule, rulesetscheduleexist = \
     getschedulerulesetfromsetpointschedule(dualsetpoint.heatingSetpointTemperatureSchedule,thermalzone,runner)
-  return true unless rulesetscheduleexist
-  addnewscheduleruleset(heatingrulesetschedule, start_month, end_month, dayofweek)
+  return false unless rulesetscheduleexist
 
   # get and modify cooling schedule
   coolingrulesetschedule , rulesetscheduleexist = \
     getschedulerulesetfromsetpointschedule(dualsetpoint.coolingSetpointTemperatureSchedule,thermalzone,runner)
-  return true unless rulesetscheduleexist
+  return false unless rulesetscheduleexist
+
+  # gather initial thermostat range and average temp
+  avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+  min_max = heatingrulesetschedule.annual_min_max_value
+  runner.registerInfo("Initial annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+  setpoint_values[:init_htg_min] << min_max['min']
+  setpoint_values[:init_htg_max] << min_max['max']
+
+  avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+  min_max = coolingrulesetschedule.annual_min_max_value
+  runner.registerInfo("Initial annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+  setpoint_values[:init_clg_min] << min_max['min']
+  setpoint_values[:init_clg_max] << min_max['max']
+
+  # alter schedules
+  addnewscheduleruleset(heatingrulesetschedule, start_month, end_month, dayofweek)
   addnewscheduleruleset(coolingrulesetschedule, start_month, end_month, dayofweek)
 
-  # assign the heating and cooling temperature schedule with faults to the thermostat
-  if not skip_zone
-    addnewsetpointschedules(dualsetpoint, heatingrulesetschedule, coolingrulesetschedule)
+  # gather final thermostat range and average temp
+  avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+  min_max = heatingrulesetschedule.annual_min_max_value
+  runner.registerInfo("Final annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+  setpoint_values[:final_htg_min] << min_max['min']
+  setpoint_values[:final_htg_max] << min_max['max']
 
-    # assign the thermostat to the zone
-    thermalzone.setThermostatSetpointDualSetpoint(dualsetpoint)
-  else
-    runner.registerWarning("Skipping #{thermalzone.name} because it is either missing heating or cooling setpoint schedule, or those schedules are not ScheduleRulesets.")
-  end
+  avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+  min_max = coolingrulesetschedule.annual_min_max_value
+  runner.registerInfo("Final annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+  setpoint_values[:final_clg_min] << min_max['min']
+  setpoint_values[:final_clg_max] << min_max['max']
+
+  # assign the heating and cooling temperature schedule with faults to the thermostat
+  addnewsetpointschedules(dualsetpoint, heatingrulesetschedule, coolingrulesetschedule)
+
+  # assign the thermostat to the zone
+  thermalzone.setThermostatSetpointDualSetpoint(dualsetpoint)
+
+  return setpoint_values
 
 end
 
