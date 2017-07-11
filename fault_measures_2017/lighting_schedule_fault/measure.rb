@@ -14,12 +14,18 @@ class LightingScheduleFault < OpenStudio::Ruleset::ModelUserScript
 
   # human readable description
   def description
-    return "This fault characterizes additional lighting energy use due to either improper lighting schedules or failure of occupants to turn off lights when vacating a building."
+    return 'This measure characterizes additional lighting energy use ' \
+      'due to either improper lighting schedules or failure of occupants ' \
+      'to turn off lights when vacating a building.'
   end
 
   # human readable description of modeling approach
   def modeler_description
-    return "Excessive lighting energy use is simulated by defining the elapsed time of delayed onset and early termination in hours. Additional option for not having setback control is also included. The fault intensity is defined as the percentage of increased lighting operation time compared to the non-faulted operation."
+    return 'Excessive lighting energy use is simulated by defining ' \
+      'the addtional time of delayed onset and/or early termination in hours. ' \
+      'Additional option for not having setback control is also included. ' \
+      'The fault intensity is defined as the percentage of increased ' \
+      'lighting operation time compared to the non-faulted operation.'
   end
 
   # define the arguments that the user will input
@@ -106,11 +112,12 @@ class LightingScheduleFault < OpenStudio::Ruleset::ModelUserScript
 
 
         # todo - alter schedule as needed (use adjust_hours_of_operation_for_schedule_ruleset in os)
-        # todo - replace hard coded options (this example results in no change in end of day but 2 hour early start in morning)
+        # todo - replace hard coded options 
         options = {
             'base_start_hoo' => 8.0, # todo - this should be inferred from schedule or exposed as user argument
             'base_finish_hoo' => 18.0, # todo - this should be inferred from schedule or exposed as user argument
-            'delta_length_hoo' => 2.0, # todo - this should be user argument
+            'delta_delayedonset_hoo' => 2.0, # todo - this should be user argument
+            'delta_earlytermination_hoo' => 2.0, # todo - this should be user argument
             'shift_hoo' => -1.0 # todo - this should be user argument
             # there are additional options for specific days of the week and design days
         }
