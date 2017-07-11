@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>no_overnight_setback_week</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>66e5c402-a80a-43ba-b12a-4047d574d9c8</version_id>
-  <version_modified>20170711T161003Z</version_modified>
+  <version_id>921bb478-87c3-4d43-9b0b-dd6b0602b665</version_id>
+  <version_modified>20170711T170210Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>NoOvernightSetbackWeek</class_name>
   <display_name>NoOvernightSetbackWeek</display_name>
@@ -245,13 +245,13 @@
       <filename>misc_run_dayofweek.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>9DB6A716</checksum>
+      <checksum>204E0590</checksum>
     </file>
     <file>
       <filename>NoOvernightSetbackWeek_Test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>90AFCFD9</checksum>
+      <checksum>99D56216</checksum>
     </file>
   </files>
 </measure>

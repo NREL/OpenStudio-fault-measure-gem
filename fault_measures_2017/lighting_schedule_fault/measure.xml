@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>lighting_schedule_fault</name>
   <uid>32ad79b5-90cc-41f6-bd7a-79e2db051060</uid>
-  <version_id>280a8d84-5870-4e8d-a067-5b89fcacda29</version_id>
-  <version_modified>20170602T195904Z</version_modified>
+  <version_id>b25fe22c-20b3-40c0-a109-697ebae1965c</version_id>
+  <version_modified>20170711T170210Z</version_modified>
   <xml_checksum>81C5D8E7</xml_checksum>
   <class_name>LightingScheduleFault</class_name>
   <display_name>Lighting Schedule Fault</display_name>
@@ -55,12 +55,6 @@
       <checksum>53D14E69</checksum>
     </file>
     <file>
-      <filename>temp_2004_lg_hotel_chicago.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>A4560256</checksum>
-    </file>
-    <file>
       <filename>lighting_schedule_fault_test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
@@ -82,6 +76,12 @@
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>C4185CAA</checksum>
+    </file>
+    <file>
+      <filename>temp_2004_lg_hotel_chicago.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>BA085459</checksum>
     </file>
   </files>
 </measure>
