@@ -10176,8 +10176,8 @@ OS:ZoneHVAC:EquipmentList,
 OS:ThermostatSetpoint:DualSetpoint,
   {447ad1c4-2c99-4f75-ade7-43f97ffb3f71}, !- Handle
   LargeHotel Cafe Thermostat 1,           !- Name
-  {1842072e-97db-4492-a205-1199716ed806}, !- Heating Setpoint Temperature Schedule Name
-  {a5c4404f-98db-4414-9da8-6526bdcedcdb}; !- Cooling Setpoint Temperature Schedule Name
+  {e99917a6-b882-4e08-964a-17c18267ed3b}, !- Heating Setpoint Temperature Schedule Name
+  {66ec9c34-df8a-45ea-ad7f-ebd08371a044}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:ThermalZone,
   {c503141c-0084-4ca3-8805-4dac4355d7a6}, !- Handle
@@ -24783,4 +24783,86 @@ OS:Connection,
   3,                                      !- Outlet Port
   {0395798a-10ff-48e6-b51c-d03bae9d915a}, !- Target Object
   14;                                     !- Inlet Port
+
+OS:Schedule:Ruleset,
+  {66ec9c34-df8a-45ea-ad7f-ebd08371a044}, !- Handle
+  HotelLarge CLGSETP_SCH with setback,    !- Name
+  {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
+  {c280c830-ef29-4e1c-a9fa-5124d4ea9059}, !- Default Day Schedule Name
+  {ca57cae8-b820-4045-a45d-406eb43c80d6}, !- Summer Design Day Schedule Name
+  {53cdb35a-ca54-4094-9419-bab0fd85a542}; !- Winter Design Day Schedule Name
+
+OS:Schedule:Day,
+  {c280c830-ef29-4e1c-a9fa-5124d4ea9059}, !- Handle
+  HotelLarge CLGSETP_SCH Default 1,       !- Name
+  {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  6,                                      !- Hour 1
+  0,                                      !- Minute 1
+  27.3333316379124,                       !- Value Until Time 1
+  18,                                     !- Hour 2
+  0,                                      !- Minute 2
+  23.999998304579,                        !- Value Until Time 2
+  24,                                     !- Hour 3
+  0,                                      !- Minute 3
+  27.3333316379124;                       !- Value Until Time 3
+
+OS:Schedule:Day,
+  {ca57cae8-b820-4045-a45d-406eb43c80d6}, !- Handle
+  HotelLarge CLGSETP_SCH Summer Design Day 1, !- Name
+  {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  24;                                     !- Value Until Time 1
+
+OS:Schedule:Day,
+  {53cdb35a-ca54-4094-9419-bab0fd85a542}, !- Handle
+  HotelLarge CLGSETP_SCH Winter Design Day 1, !- Name
+  {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  24;                                     !- Value Until Time 1
+
+OS:Schedule:Ruleset,
+  {e99917a6-b882-4e08-964a-17c18267ed3b}, !- Handle
+  HotelLarge HTGSETP_SCH with setback,    !- Name
+  {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
+  {6b930622-9942-4ece-b96e-c70c13cc3b7e}, !- Default Day Schedule Name
+  {0398cbdb-4320-4831-a3ae-9da2507c7667}, !- Summer Design Day Schedule Name
+  {e5ddc12c-5865-4b6c-badf-fe598bced1bf}; !- Winter Design Day Schedule Name
+
+OS:Schedule:Day,
+  {6b930622-9942-4ece-b96e-c70c13cc3b7e}, !- Handle
+  HotelLarge HTGSETP_SCH Default 1,       !- Name
+  {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  6,                                      !- Hour 1
+  0,                                      !- Minute 1
+  17.6666662428115,                       !- Value Until Time 1
+  19,                                     !- Hour 2
+  0,                                      !- Minute 2
+  21.000001695421,                        !- Value Until Time 2
+  24,                                     !- Hour 3
+  0,                                      !- Minute 3
+  17.6666662428115;                       !- Value Until Time 3
+
+OS:Schedule:Day,
+  {0398cbdb-4320-4831-a3ae-9da2507c7667}, !- Handle
+  HotelLarge HTGSETP_SCH Summer Design Day 1, !- Name
+  {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  21;                                     !- Value Until Time 1
+
+OS:Schedule:Day,
+  {e5ddc12c-5865-4b6c-badf-fe598bced1bf}, !- Handle
+  HotelLarge HTGSETP_SCH Winter Design Day 1, !- Name
+  {b935bf96-35f2-46f9-9604-c3ca0c5ffbc3}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  21;                                     !- Value Until Time 1
 

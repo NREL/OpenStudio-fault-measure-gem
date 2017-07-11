@@ -90,22 +90,22 @@ class NoOvernightSetbackWeek_Test < MiniTest::Unit::TestCase
   def test_monday
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
-    args["osdaysofweeks"] = 'Monday'
+    args["dayofweek"] = 'Monday'
     apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
   end
 
   def test_weekdays
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
-    args["osdaysofweeks"] = 'Weekdays'
+    args["dayofweek"] = 'Weekdays only'
     apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
   end
 
   def test_not_faulted
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
-    args["osdaysofweeks"] = 'Not faulted'
-    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
+    args["dayofweek"] = 'Not faulted'
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm',"NA")
   end
 
 end

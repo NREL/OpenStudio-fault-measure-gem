@@ -27,13 +27,13 @@ def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runn
   # gather initial thermostat range and average temp
   avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
   min_max = heatingrulesetschedule.annual_min_max_value
-  runner.registerInfo("Initial annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+  runner.registerInfo("Initial annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
   setpoint_values[:init_htg_min] << min_max['min']
   setpoint_values[:init_htg_max] << min_max['max']
 
   avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
   min_max = coolingrulesetschedule.annual_min_max_value
-  runner.registerInfo("Initial annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+  runner.registerInfo("Initial annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
   setpoint_values[:init_clg_min] << min_max['min']
   setpoint_values[:init_clg_max] << min_max['max']
 
@@ -44,13 +44,13 @@ def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runn
   # gather final thermostat range and average temp
   avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
   min_max = heatingrulesetschedule.annual_min_max_value
-  runner.registerInfo("Final annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+  runner.registerInfo("Final annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
   setpoint_values[:final_htg_min] << min_max['min']
   setpoint_values[:final_htg_max] << min_max['max']
 
   avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
   min_max = coolingrulesetschedule.annual_min_max_value
-  runner.registerInfo("Final annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min']} C to #{min_max['max']} C.")
+  runner.registerInfo("Final annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
   setpoint_values[:final_clg_min] << min_max['min']
   setpoint_values[:final_clg_max] << min_max['max']
 
@@ -110,6 +110,7 @@ def addnewsetpointschedules(dualsetpoint, heatingrulesetschedule,
   dualsetpoint.setCoolingSetpointTemperatureSchedule(coolingrulesetschedule)
 end
 
+# todo - this results in unused default profile and extra rules, would be nice to clean up how this works.
 def addnewscheduleruleset(heatorcoolscheduleruleset, start_month,
                           end_month, dayofweek)
   # This function accepts schedules rulesets of heating or cooling, analyzes the

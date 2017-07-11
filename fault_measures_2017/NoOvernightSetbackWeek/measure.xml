@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>no_overnight_setback_week</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>6d2d65fe-dec8-4d05-997d-f4dd24cb1d6f</version_id>
-  <version_modified>20170707T205733Z</version_modified>
+  <version_id>66e5c402-a80a-43ba-b12a-4047d574d9c8</version_id>
+  <version_modified>20170711T161003Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>NoOvernightSetbackWeek</class_name>
   <display_name>NoOvernightSetbackWeek</display_name>
@@ -219,18 +219,6 @@
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <filename>temp_2004_lg_hotel_chicago.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>A0AEFB36</checksum>
-    </file>
-    <file>
-      <filename>NoOvernightSetbackWeek_Test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>D1498785</checksum>
-    </file>
-    <file>
       <filename>misc_arguments.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -248,10 +236,22 @@
       <checksum>69B0F931</checksum>
     </file>
     <file>
+      <filename>temp_2004_lg_hotel_chicago.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>BA085459</checksum>
+    </file>
+    <file>
       <filename>misc_run_dayofweek.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>706F0FFA</checksum>
+      <checksum>9DB6A716</checksum>
+    </file>
+    <file>
+      <filename>NoOvernightSetbackWeek_Test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>90AFCFD9</checksum>
     </file>
   </files>
 </measure>
