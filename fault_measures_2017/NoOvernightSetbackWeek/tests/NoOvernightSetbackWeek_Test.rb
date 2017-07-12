@@ -62,16 +62,37 @@ class NoOvernightSetbackWeek_Test < MiniTest::Unit::TestCase
     # save the model to test output directory
     output_file_path = OpenStudio::Path.new(File.dirname(__FILE__) + "/output/#{test_name}_test_output.osm")
     model.save(output_file_path,true)
+
+    return result
   end
 
   def test_single_zone
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
 
-    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
+    result = apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
+
+    # the following strings should be found in info.logMessage text
+    expected_string_01 = 'Final annual average heating setpoint for Cafe_Flr_1 ZN 21.0 C'
+    expected_string_02 = 'Final annual average cooling setpoint for Cafe_Flr_1 ZN 24.0 C'
+    found_expected_string_01 = []
+    found_expected_string_02 = []
+
+    # loop through info messages
+    result.info.each do |info|
+      if info.logMessage.include?(expected_string_01)
+        found_expected_string_01 << info.logMessage
+      elsif info.logMessage.include?(expected_string_02)
+        found_expected_string_02 << info.logMessage
+      end
+    end
+
+    # assert that each message found exactly once
+    assert(found_expected_string_01.size == 1)
+    assert(found_expected_string_02.size == 1)
+
   end
 
-  # todo - this test model has had thermostat setpoints removed from basement, but it still has thermostatSetpointDualSetpoint object, so it doesn't test that section of code
   def test_all_zones
     args = {}
     args["zone"] = '* All Zones *'

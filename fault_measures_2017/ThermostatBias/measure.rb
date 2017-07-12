@@ -160,7 +160,6 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
         # gather initial thermostat range and average temp
         avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
         min_max = heatingrulesetschedule.annual_min_max_value
-        # todo - round the min ans max
         runner.registerInfo("Initial annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
         setpoint_values[:init_htg_min] << min_max['min']
         setpoint_values[:init_htg_max] << min_max['max']
