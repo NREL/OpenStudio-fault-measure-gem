@@ -89,7 +89,7 @@ class ExtendEveningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
     ext_hr.setDisplayName(
       'Number of operating hours extended to the evening.'
     )
-    ext_hr.setDefaultValue(1)  # default leakage level to be 1 hour
+    ext_hr.setDefaultValue(1)
     args << ext_hr
 
     return args
@@ -114,7 +114,7 @@ class ExtendEveningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
         getinputs(model, runner, user_arguments)
 
       # apply fault
-      thermalzones.each do |thermalzone|
+        thermalzones.each do |thermalzone|
         applyfaulttothermalzone(
           thermalzone, ext_hr, start_month, end_month, dayofweek, runner
         )
