@@ -1,6 +1,8 @@
 # The file contains functions to pass arguments from OpenStudio inputs to the
 # measure script. They are used to avoid the function arguments to be too long.
 
+require_relative 'global_const'
+
 def pass_zone(model, allchoices)
   # This function returns the zone handle and zone display name in
   # the OpenStudio model so that they can be used as part of the
@@ -26,4 +28,22 @@ def pass_zone(model, allchoices)
   zone_display_names << allchoices
 
   return zone_handles, zone_display_names
+end
+
+def obtainzone(strname, model, runner, user_arguments)
+  # This function helps to obtain the zone information from user arguments.
+  # It returns the ThermalZone OpenStudio object of the chosen zone
+
+  thermalzone = runner.getStringArgumentValue(strname, user_arguments)
+  if thermalzone.eql?($allzonechoices)
+    return model.getThermalZones
+  else
+    thermalzones = []
+    model.getThermalZones.each do |zone|
+      next unless thermalzone.to_s == zone.name.to_s
+      thermalzones << zone
+      break
+    end
+    return thermalzones
+  end
 end

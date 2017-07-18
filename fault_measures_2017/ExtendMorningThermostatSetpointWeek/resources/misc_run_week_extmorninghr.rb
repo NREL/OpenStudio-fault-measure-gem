@@ -17,23 +17,7 @@ def getinputs(model, runner, user_arguments)
   return start_month, end_month, thermalzones, dayofweek
 end
 
-def obtainzone(strname, model, runner, user_arguments)
-  # This function helps to obtain the zone information from user arguments.
-  # It returns the ThermalZone OpenStudio object of the chosen zone
-
-  thermalzone = runner.getStringArgumentValue(strname, user_arguments)
-  if thermalzone.eql?($allzonechoices)
-    return model.getThermalZones
-  else
-    thermalzones = []
-    model.getThermalZones.each do |zone|
-      next unless thermalzone.to_s == zone.name.to_s
-      thermalzones << zone
-      break
-    end
-    return thermalzones
-  end
-end
+# obtainzone moved to misc_arguemnts.rb which is used by other measures
 
 def applyfaulttothermalzone(thermalzone, ext_hr, start_month, end_month, dayofweek, runner, num_hours_in_year, setpoint_values)
   # This function applies the ExtendMorningThermostatSetpointWeek fault to the thermostat
