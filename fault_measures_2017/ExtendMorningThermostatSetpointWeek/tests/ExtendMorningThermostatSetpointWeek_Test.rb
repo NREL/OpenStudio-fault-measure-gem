@@ -4,13 +4,13 @@ require 'minitest/autorun'
 require_relative '../measure.rb'
 require 'fileutils'
 
-class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
+class ExtendMorningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
 
   # method to apply arguments, run measure, and assert results (only populate args hash with non-default argument values)
   def apply_measure_to_model(test_name, args, model_name = nil, result_value = 'Success', warnings_count = 0, info_count = nil)
 
     # create an instance of the measure
-    measure = ExtendEveningThermostatSetpointWeek.new
+    measure = ExtendMorningThermostatSetpointWeek.new
 
     # create an instance of a runner
     runner = OpenStudio::Ruleset::OSRunner.new
@@ -72,6 +72,15 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
     args["ext_hr"] = 5.0
 
     result = apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
+
+
+    # todo - why is there a 0.5 degree delta for heating in ExtendEvening and a 0.8 delta in ExtendMorning
+    # todo - why is there a 0.7 degree delta for cooling in ExtendEvening and a 0.9 delta in ExtendMorning
+    # todo - looks like flaw in how delta is applied in this measure, in test clg setback is mood from 6am to midnight, instead of 1am. This doesn't happen on ExtendEvening, it extends delta by 5 hours
+    # if set delta to 4, it properly shifts from 6am to 2am
+    # but when I set delta to 5, it shifts from 6am to midnight, so this issue just happens for specific conditions (maye specific delta, or more likley deltas that end up within an hour of midnight?)
+
+    # note: 4.99 instead of 5.0 fixing cooling delta,
 
     # the following strings should be found in info.logMessage text
     expected_string_01 = 'Final annual average heating setpoint for Cafe_Flr_1 ZN 20.0 C'

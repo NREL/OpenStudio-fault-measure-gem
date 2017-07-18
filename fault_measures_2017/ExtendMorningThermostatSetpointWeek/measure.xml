@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>extend_morning_thermostat_setpoint_week</name>
   <uid>d6a0f476-5b23-4273-ae00-93e55fa5f917</uid>
-  <version_id>7b6de91c-2fb4-49a3-97ff-4bab00997e1a</version_id>
-  <version_modified>20170602T144309Z</version_modified>
+  <version_id>e082775c-0371-4af6-8c8b-80a4a7cce8f5</version_id>
+  <version_modified>20170718T200652Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ExtendMorningThermostatSetpointWeek</class_name>
   <display_name>ExtendMorningThermostatSetpointWeek</display_name>
@@ -233,7 +233,7 @@
       <filename>misc_run_week_extmorninghr.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>36534759</checksum>
+      <checksum>CEE444F0</checksum>
     </file>
     <file>
       <version>
@@ -244,7 +244,19 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>38A6433C</checksum>
+      <checksum>75039393</checksum>
+    </file>
+    <file>
+      <filename>ExtendMorningThermostatSetpointWeek_Test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>8C8FD853</checksum>
+    </file>
+    <file>
+      <filename>temp_2004_lg_hotel_chicago.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>BA085459</checksum>
     </file>
   </files>
 </measure>

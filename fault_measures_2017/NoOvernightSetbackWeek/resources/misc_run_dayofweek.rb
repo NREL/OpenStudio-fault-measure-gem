@@ -14,12 +14,12 @@ def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runn
   dualsetpoint, dualsetpointexist = obtainthermostatschedule(thermalzone, runner)
   return false unless dualsetpointexist
 
-  # get and modify heating schedule
+  # get heating schedule
   heatingrulesetschedule, rulesetscheduleexist = \
     getschedulerulesetfromsetpointschedule(dualsetpoint.heatingSetpointTemperatureSchedule,thermalzone,runner)
   return false unless rulesetscheduleexist
 
-  # get and modify cooling schedule
+  # get cooling schedule
   coolingrulesetschedule , rulesetscheduleexist = \
     getschedulerulesetfromsetpointschedule(dualsetpoint.coolingSetpointTemperatureSchedule,thermalzone,runner)
   return false unless rulesetscheduleexist

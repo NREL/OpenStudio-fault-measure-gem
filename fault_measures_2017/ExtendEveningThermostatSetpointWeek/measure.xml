@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>extend_evening_thermostat_setpoint_week</name>
   <uid>fa0f7ae0-8ff7-4484-8a91-842a42656284</uid>
-  <version_id>d18602b2-cc39-4b27-80a0-ccac372ab338</version_id>
-  <version_modified>20170714T210128Z</version_modified>
+  <version_id>0a0c2d49-3939-4605-afc0-796c5a5c445d</version_id>
+  <version_modified>20170718T200652Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ExtendEveningThermostatSetpointWeek</class_name>
   <display_name>ExtendEveningThermostatSetpointWeek</display_name>
@@ -218,28 +218,28 @@
   </attributes>
   <files>
     <file>
-      <filename>misc_arguments.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>A4F501FC</checksum>
-    </file>
-    <file>
       <filename>global_const.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <filename>misc_run_week_exteveninghr.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>87A95924</checksum>
-    </file>
-    <file>
       <filename>temp_2004_lg_hotel_chicago.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
       <checksum>BA085459</checksum>
+    </file>
+    <file>
+      <filename>misc_arguments.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>96F2F1BB</checksum>
+    </file>
+    <file>
+      <filename>misc_run_week_exteveninghr.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>ACC04CB4</checksum>
     </file>
     <file>
       <version>
@@ -250,13 +250,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>EE550345</checksum>
+      <checksum>1433190C</checksum>
     </file>
     <file>
       <filename>ExtendEveningThermostatSetpointWeek_Test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>6CCAF8C5</checksum>
+      <checksum>E9E3195A</checksum>
     </file>
   </files>
 </measure>

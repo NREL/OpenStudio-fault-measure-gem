@@ -35,7 +35,7 @@ def obtainzone(strname, model, runner, user_arguments)
   end
 end
 
-def applyfaulttothermalzone(thermalzone, ext_hr, start_month, end_month, dayofweek, runner)
+def applyfaulttothermalzone(thermalzone, ext_hr, start_month, end_month, dayofweek, runner, num_hours_in_year, setpoint_values)
   # This function applies the ExtendMorningThermostatSetpointWeek fault to the thermostat
   # setpoint schedules
 
@@ -43,15 +43,45 @@ def applyfaulttothermalzone(thermalzone, ext_hr, start_month, end_month, dayofwe
   dualsetpoint, dualsetpointexist = obtainthermostatschedule(thermalzone, runner)
   return true unless dualsetpointexist
 
-  # get and modify heating schedule
-  heatingrulesetschedule = \
-    getschedulerulesetfromsetpointschedule(dualsetpoint.heatingSetpointTemperatureSchedule)
-  addnewscheduleruleset(heatingrulesetschedule, ext_hr, start_month, end_month, dayofweek)
+  # get heating schedule
+  heatingrulesetschedule, rulesetscheduleexist = \
+    getschedulerulesetfromsetpointschedule(dualsetpoint.heatingSetpointTemperatureSchedule,thermalzone,runner)
+  return false unless rulesetscheduleexist
 
-  # get and modify cooling schedule
-  coolingrulesetschedule = \
-    getschedulerulesetfromsetpointschedule(dualsetpoint.coolingSetpointTemperatureSchedule)
+  # get cooling schedule
+  coolingrulesetschedule , rulesetscheduleexist = \
+    getschedulerulesetfromsetpointschedule(dualsetpoint.coolingSetpointTemperatureSchedule,thermalzone,runner)
+  return false unless rulesetscheduleexist
+
+  # gather initial thermostat range and average temp
+  avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+  min_max = heatingrulesetschedule.annual_min_max_value
+  runner.registerInfo("Initial annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+  setpoint_values[:init_htg_min] << min_max['min']
+  setpoint_values[:init_htg_max] << min_max['max']
+
+  avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+  min_max = coolingrulesetschedule.annual_min_max_value
+  runner.registerInfo("Initial annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+  setpoint_values[:init_clg_min] << min_max['min']
+  setpoint_values[:init_clg_max] << min_max['max']
+
+  # alter schedules
+  addnewscheduleruleset(heatingrulesetschedule, ext_hr, start_month, end_month, dayofweek)
   addnewscheduleruleset(coolingrulesetschedule, ext_hr, start_month, end_month, dayofweek)
+
+  # gather final thermostat range and average temp
+  avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+  min_max = heatingrulesetschedule.annual_min_max_value
+  runner.registerInfo("Final annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+  setpoint_values[:final_htg_min] << min_max['min']
+  setpoint_values[:final_htg_max] << min_max['max']
+
+  avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
+  min_max = coolingrulesetschedule.annual_min_max_value
+  runner.registerInfo("Final annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+  setpoint_values[:final_clg_min] << min_max['min']
+  setpoint_values[:final_clg_max] << min_max['max']
 
   # assign the heating and cooling temperature schedule with faults to the thermostat
   addnewsetpointschedules(dualsetpoint, heatingrulesetschedule, coolingrulesetschedule)
@@ -60,13 +90,20 @@ def applyfaulttothermalzone(thermalzone, ext_hr, start_month, end_month, dayofwe
   thermalzone.setThermostatSetpointDualSetpoint(dualsetpoint)
 end
 
-def getschedulerulesetfromsetpointschedule(schedule)
+def getschedulerulesetfromsetpointschedule(schedule,thermalzone,runner)
   # This function returns a deep copy of the ScheduleRuleset object within
   # the Schedule object made to reduce the ABC of function applyfaulttothermalzone
 
   # create a new object because the old one may be used by other thermal zones
   # and we want to keep that intact
-  return schedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get
+
+  if schedule.is_initialized and schedule.get.to_Schedule.is_initialized and schedule.get.to_Schedule.get.to_ScheduleRuleset.is_initialized
+    return schedule.get.to_Schedule.get.clone.to_ScheduleRuleset.get, true
+  else
+    runner.registerWarning("Skipping #{thermalzone.name} because it is either missing heating or cooling setpoint schedule, or those schedules are not ScheduleRulesets.")
+    return '', false
+  end
+
 end
 
 def obtainthermostatschedule(thermalzone, runner)

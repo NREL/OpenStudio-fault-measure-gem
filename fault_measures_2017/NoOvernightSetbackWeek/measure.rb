@@ -108,6 +108,7 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
       end_month = runner.getStringArgumentValue('end_month', user_arguments)
       thermalzones = obtainzone('zone', model, runner, user_arguments)
 
+      # todo - put this in helper method?
       # add in initial and final condition
       setpoint_values = {}
       setpoint_values[:init_htg_min] = []
@@ -119,6 +120,7 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
       setpoint_values[:final_clg_min] = []
       setpoint_values[:final_clg_max] = []
 
+      # todo - put this in helper method?
       # num_hours_in_year constant
       if model.yearDescription.is_initialized and model.yearDescription.get.isLeapYear
         num_hours_in_year = 8784.0
