@@ -8,10 +8,13 @@
 # http://openstudio.nrel.gov/sites/openstudio.nrel.gov/files/nv_data/cpp_documentation_it/model/html/namespaces.html
 
 require 'date'
-require_relative 'resources/global_const'
-require_relative 'resources/misc_arguments'
-require_relative 'resources/misc_run_dayofweek'
 require 'openstudio-standards' # this is used to get min/max values from thermostat schedules for reporting purposes
+
+# require all .rb files in resources folder
+Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
+
+# resource file modules
+include OsLib_FDD
 
 # start the measure
 class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript

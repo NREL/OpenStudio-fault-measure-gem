@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>extend_evening_thermostat_setpoint_week</name>
   <uid>fa0f7ae0-8ff7-4484-8a91-842a42656284</uid>
-  <version_id>0a0c2d49-3939-4605-afc0-796c5a5c445d</version_id>
-  <version_modified>20170718T200652Z</version_modified>
+  <version_id>8facb8eb-ef2b-403d-a46c-df9fd86665bb</version_id>
+  <version_modified>20170719T141012Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ExtendEveningThermostatSetpointWeek</class_name>
   <display_name>ExtendEveningThermostatSetpointWeek</display_name>
@@ -236,10 +236,16 @@
       <checksum>96F2F1BB</checksum>
     </file>
     <file>
+      <filename>ExtendEveningThermostatSetpointWeek_Test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E9E3195A</checksum>
+    </file>
+    <file>
       <filename>misc_run_week_exteveninghr.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>ACC04CB4</checksum>
+      <checksum>A290DEF0</checksum>
     </file>
     <file>
       <version>
@@ -250,13 +256,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>1433190C</checksum>
+      <checksum>2E67789C</checksum>
     </file>
     <file>
-      <filename>ExtendEveningThermostatSetpointWeek_Test.rb</filename>
+      <filename>fdd_thermostat.rb</filename>
       <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>E9E3195A</checksum>
+      <usage_type>resource</usage_type>
+      <checksum>B06D7D5E</checksum>
     </file>
   </files>
 </measure>

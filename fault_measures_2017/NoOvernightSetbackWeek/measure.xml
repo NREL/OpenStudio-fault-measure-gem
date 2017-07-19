@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>no_overnight_setback_week</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>fe963807-d3b8-44e4-96f1-43e8647fbbf1</version_id>
-  <version_modified>20170718T200652Z</version_modified>
+  <version_id>78f24991-5958-45df-95f0-7219e2403a7e</version_id>
+  <version_modified>20170719T141013Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>NoOvernightSetbackWeek</class_name>
   <display_name>NoOvernightSetbackWeek</display_name>
@@ -245,13 +245,19 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>9F51BFEC</checksum>
+      <checksum>72D31AF9</checksum>
     </file>
     <file>
       <filename>misc_run_dayofweek.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>5F52D2EE</checksum>
+      <checksum>34F396B5</checksum>
+    </file>
+    <file>
+      <filename>fdd_thermostat.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>B06D7D5E</checksum>
     </file>
   </files>
 </measure>

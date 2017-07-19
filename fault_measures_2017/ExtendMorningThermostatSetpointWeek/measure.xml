@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>extend_morning_thermostat_setpoint_week</name>
   <uid>d6a0f476-5b23-4273-ae00-93e55fa5f917</uid>
-  <version_id>e082775c-0371-4af6-8c8b-80a4a7cce8f5</version_id>
-  <version_modified>20170718T200652Z</version_modified>
+  <version_id>93d8c247-3c9b-414a-9ae9-8c687d48de7a</version_id>
+  <version_modified>20170719T164438Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ExtendMorningThermostatSetpointWeek</class_name>
   <display_name>ExtendMorningThermostatSetpointWeek</display_name>
@@ -218,22 +218,22 @@
   </attributes>
   <files>
     <file>
-      <filename>misc_arguments.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>A4F501FC</checksum>
-    </file>
-    <file>
       <filename>global_const.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <filename>misc_run_week_extmorninghr.rb</filename>
+      <filename>temp_2004_lg_hotel_chicago.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>BA085459</checksum>
+    </file>
+    <file>
+      <filename>misc_arguments.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>CEE444F0</checksum>
+      <checksum>96F2F1BB</checksum>
     </file>
     <file>
       <version>
@@ -244,19 +244,25 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>75039393</checksum>
+      <checksum>E52D131D</checksum>
     </file>
     <file>
       <filename>ExtendMorningThermostatSetpointWeek_Test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>8C8FD853</checksum>
+      <checksum>0D0C812E</checksum>
     </file>
     <file>
-      <filename>temp_2004_lg_hotel_chicago.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>BA085459</checksum>
+      <filename>fdd_thermostat.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>B06D7D5E</checksum>
+    </file>
+    <file>
+      <filename>misc_run_week_extmorninghr.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>A11874DC</checksum>
     </file>
   </files>
 </measure>

@@ -80,7 +80,8 @@ class ExtendMorningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
     # if set delta to 4, it properly shifts from 6am to 2am
     # but when I set delta to 5, it shifts from 6am to midnight, so this issue just happens for specific conditions (maye specific delta, or more likley deltas that end up within an hour of midnight?)
 
-    # note: 4.99 instead of 5.0 fixing cooling delta,
+    # note: 4.99 instead of 5.0 fixing cooling delta
+    # midnightadjust method seems suspicious
 
     # the following strings should be found in info.logMessage text
     expected_string_01 = 'Final annual average heating setpoint for Cafe_Flr_1 ZN 20.0 C'
