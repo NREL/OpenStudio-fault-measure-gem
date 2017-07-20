@@ -386,10 +386,10 @@ module OsLib_FDD
 
     # add in initial and final condition
     setpoint_values = {}
-    setpoint_values[:init_htg_min] = []
-    setpoint_values[:init_htg_max] = []
-    setpoint_values[:init_clg_min] = []
-    setpoint_values[:init_clg_max] = []
+    setpoint_values[:initial_htg_min] = []
+    setpoint_values[:initial_htg_max] = []
+    setpoint_values[:initial_clg_min] = []
+    setpoint_values[:initial_clg_max] = []
     setpoint_values[:final_htg_min] = []
     setpoint_values[:final_htg_max] = []
     setpoint_values[:final_clg_min] = []
@@ -422,6 +422,148 @@ module OsLib_FDD
     thermalzones = obtainzone('zone', model, runner, user_arguments)
     dayofweek = runner.getStringArgumentValue('dayofweek', user_arguments)
     return start_month, end_month, thermalzones, dayofweek
+  end
+
+# todo - this method is has ext_hr arg not fouund in uses of this method in other measures
+  def addnewscheduleruleset_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
+                            end_month, dayofweek)
+    # This function accepts schedules rulesets of heating or cooling, analyzes the
+    # priority and default rules in the schedule and add new schedules with the
+    # evening offsets back to the model. start_month is the string for the starting
+    # month when the ExtendEveningThermostatSetpointWeek fault starts, and end_month is the string for
+    # the ending month that the fault ends.
+
+    # This function accepts schedules rulesets of heating or cooling, analyzes the
+    # priority and default rules in the schedule and add new schedules with the
+    # evening offsets back to the model. start_month is the string for the starting
+    # month when the ExtendMorningThermostatSetpointWeek fault starts, and end_month is the string for
+    # the ending month that the fault ends.
+
+    # get ending date
+    e_day = $e_days[end_month]
+
+    # create new priority rule for default day schedule
+    defaultday_clone = \
+    heatorcoolscheduleruleset.defaultDaySchedule.to_ScheduleDay.get
+    oritimes = defaultday_clone.times
+    orivalues = defaultday_clone.values
+    createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr,
+                                  oritimes, orivalues, start_month,
+                                  end_month, e_day, dayofweek)
+
+    # change the schedule rules of the priority rules first
+    createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr,
+                           start_month, end_month, e_day, dayofweek)
+  end
+
+# todo - this method is has ext_hr arg not found in uses of this method in other measures
+  def createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
+                             end_month, e_day, dayofweek)
+    # This function creates new priority rules to impose ExtendEveningThermostatSetpointWeek fault
+    # to the schedules of thermostat setpoint
+
+    # This function creates new priority rules to impose ExtendMorningThermostatSetpointWeek fault
+    # to the schedules of thermostat setpoint
+
+    # iterate rules with the lowest priority first and skip the highest priority rule
+    # that was just created with the default rule
+    rules = heatorcoolscheduleruleset.scheduleRules
+    (1..(rules.length - 1)).each do |i|
+      rule = rules[-i]
+      if checkscheduleruledayofweek(rule, dayofweek)
+        # create new rules with the highest priority among existing ones if it hasn't been just created
+        # and the rule is applicable to the related dayofweek
+        rule_clone = createnewruleandcopy(heatorcoolscheduleruleset, rule.daySchedule,
+                                          start_month, end_month, e_day)
+        compareandchangedayofweek(rule_clone, rule, dayofweek)
+        propagateeveningchangeovervalue_ext_hr(rule_clone, ext_hr)
+      end
+    end
+  end
+
+# todo - this method is has ext_hr arg not found in uses of this method in other measures
+  def createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr, oritimes, orivalues,
+                                    start_month, end_month, e_day, dayofweek)
+    # This function create a priority rule based on default day rule that is applied
+    # to dayofweek only
+
+    new_defaultday_rule = createnewruleandcopy(
+        heatorcoolscheduleruleset, heatorcoolscheduleruleset.defaultDaySchedule,
+        start_month, end_month, e_day
+    )
+    changedayofweek(new_defaultday_rule, dayofweek)
+    propagateeveningchangeovervaluewithextrainfo_ext_hr(new_defaultday_rule, ext_hr,
+                                                 oritimes, orivalues)
+  end
+
+# todo - this method is has ext_hr arg not found in uses of this method in other measures
+  def propagateeveningchangeovervalue_ext_hr(scheduleRule, ext_hr)
+    # This function analyzes the OpenStudio::mode::ScheduleRule object at the
+    # inputs to find the temperature setpoint before the building closure in
+    # the evening. It returns a value indicating the setpoint. It then
+    # propagates the changeover value according to the assumed startup and
+    # shutdown time of the zone.
+
+    scheduleday = scheduleRule.daySchedule
+    scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
+    times = scheduleday.times
+    values = scheduleday.values
+    changetime = findchangetime(times, values)
+    newtimesandvaluestosceduleday(times, values, ext_hr, changetime, scheduleday)
+  end
+
+# todo - this method is has ext_hr arg not found in uses of this method in other measures
+  def propagateeveningchangeovervaluewithextrainfo_ext_hr(scheduleRule, ext_hr, times, values)
+    # This function obtains the times and values vector from the user
+    # to find the temperature setpoint before the building closure in
+    # the evening. It returns a value indicating the setpoint. It then
+    # propagates the changeover value according to the assumed startup and
+    # shutdown time of the zone. It passes all the new information to the user
+    # defined scheduleRule
+
+    scheduleday = scheduleRule.daySchedule
+    scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
+    changetime = findchangetime(times, values)
+    newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday)
+  end
+
+# todo - this method is has ext_hr arg not found in uses of this method in other measures
+  def newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday)
+    # This function is used to replace times and values in scheduleday
+    # with user-specified values. If the times are outside the
+    # hours of building daytime operation, it extends the operation schedule
+    # by extended hour
+
+    scheduleday.clearValues
+    # force the first setpoint of the day and any setpoint in the evening
+    # to be the same as the daytime setpoint
+    newtime = shifttimevector(times, values, ext_hr, changetime)
+    times.zip(values).each do |time, value|
+      if time == changetime
+        scheduleday.addValue(newtime, value)
+      else
+        scheduleday.addValue(time, value)
+      end
+    end
+  end
+
+  def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, string)
+
+    # gather initial thermostat range and average temp
+    avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
+    min_max = heatingrulesetschedule.annual_min_max_value
+    runner.registerInfo("#{string.capitalize} annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+    setpoint_values["#{string}_htg_min".to_sym] << min_max['min']
+    setpoint_values["#{string}_htg_max".to_sym] << min_max['max']
+
+    avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
+    min_max = coolingrulesetschedule.annual_min_max_value
+    runner.registerInfo("#{string.capitalize} annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+    setpoint_values["#{string}_clg_min".to_sym] << min_max['min']
+    setpoint_values["#{string}_clg_max".to_sym] << min_max['max']
+
+    return setpoint_values
+
   end
 
 end

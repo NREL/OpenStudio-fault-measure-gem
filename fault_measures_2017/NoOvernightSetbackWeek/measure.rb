@@ -114,12 +114,9 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
       # create empty has to poulate when loop through zones
       setpoint_values = create_initial_final_setpoint_values_hash
 
-      # get number of hours in year
-      num_hours_in_year = num_hours_in_year(model)
-
       # apply fault
       thermalzones.each do |thermalzone|
-        results = applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runner, num_hours_in_year, setpoint_values)
+        results = applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runner, setpoint_values, model)
 
         # populate hash for min max values across zones
         if not results == false
@@ -128,8 +125,8 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
       end
 
       # register initial and final condition
-      if setpoint_values[:init_htg_min].size > 0
-        runner.registerInitialCondition("Initial heating setpoints in affected zones range from #{setpoint_values[:init_htg_min].min.round(1)} C to #{setpoint_values[:init_htg_max].max.round(1)} C. Initial cooling setpoints in affected zones range from #{setpoint_values[:init_clg_min].min.round(1)} C to #{setpoint_values[:init_clg_max].max.round(1)} C.")
+      if setpoint_values[:initial_htg_min].size > 0
+        runner.registerInitialCondition("Initial heating setpoints in affected zones range from #{setpoint_values[:initial_htg_min].min.round(1)} C to #{setpoint_values[:initial_htg_max].max.round(1)} C. Initial cooling setpoints in affected zones range from #{setpoint_values[:initial_clg_min].min.round(1)} C to #{setpoint_values[:initial_clg_max].max.round(1)} C.")
         runner.registerFinalCondition("Final heating setpoints in affected zones range from #{setpoint_values[:final_htg_min].min.round(1)} C to #{setpoint_values[:final_htg_max].max.round(1)} C. Final cooling setpoints in affected zones range from #{setpoint_values[:final_clg_min].min.round(1)} C to #{setpoint_values[:final_clg_max].max.round(1)} C.")
       else
         runner.registerAsNotApplicable("No changes made, selected zones may not have had setpoint schedules, or they schedules may not have been ScheduleRulesets.")

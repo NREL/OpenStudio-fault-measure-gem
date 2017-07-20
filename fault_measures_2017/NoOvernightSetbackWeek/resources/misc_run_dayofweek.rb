@@ -3,7 +3,7 @@
 
 # obtainzone moved to misc_arguemnts.rb which is used by other measures
 
-def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runner, num_hours_in_year, setpoint_values)
+def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runner, setpoint_values, model)
   # This function applies the NoOvernightSetback fault to the thermostat
   # setpoint schedules
 
@@ -21,35 +21,13 @@ def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runn
     getschedulerulesetfromsetpointschedule(dualsetpoint.coolingSetpointTemperatureSchedule,thermalzone,runner)
   return false unless rulesetscheduleexist
 
-  # gather initial thermostat range and average temp
-  avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
-  min_max = heatingrulesetschedule.annual_min_max_value
-  runner.registerInfo("Initial annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
-  setpoint_values[:init_htg_min] << min_max['min']
-  setpoint_values[:init_htg_max] << min_max['max']
-
-  avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
-  min_max = coolingrulesetschedule.annual_min_max_value
-  runner.registerInfo("Initial annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
-  setpoint_values[:init_clg_min] << min_max['min']
-  setpoint_values[:init_clg_max] << min_max['max']
+  setpoint_values = gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, 'initial')
 
   # alter schedules
   addnewscheduleruleset(heatingrulesetschedule, start_month, end_month, dayofweek)
   addnewscheduleruleset(coolingrulesetschedule, start_month, end_month, dayofweek)
 
-  # gather final thermostat range and average temp
-  avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
-  min_max = heatingrulesetschedule.annual_min_max_value
-  runner.registerInfo("Final annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
-  setpoint_values[:final_htg_min] << min_max['min']
-  setpoint_values[:final_htg_max] << min_max['max']
-
-  avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
-  min_max = coolingrulesetschedule.annual_min_max_value
-  runner.registerInfo("Final annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
-  setpoint_values[:final_clg_min] << min_max['min']
-  setpoint_values[:final_clg_max] << min_max['max']
+  setpoint_values = gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, 'final')
 
   # assign the heating and cooling temperature schedule with faults to the thermostat
   addnewsetpointschedules(dualsetpoint, heatingrulesetschedule, coolingrulesetschedule)

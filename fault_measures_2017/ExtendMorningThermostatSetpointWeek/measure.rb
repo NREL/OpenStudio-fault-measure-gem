@@ -117,37 +117,20 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
       start_month, end_month, thermalzones, dayofweek = \
         get_thermostat_inputs(model, runner, user_arguments)
 
-      # todo - put this in helper method?
-      # add in initial and final condition
-      setpoint_values = {}
-      setpoint_values[:init_htg_min] = []
-      setpoint_values[:init_htg_max] = []
-      setpoint_values[:init_clg_min] = []
-      setpoint_values[:init_clg_max] = []
-      setpoint_values[:final_htg_min] = []
-      setpoint_values[:final_htg_max] = []
-      setpoint_values[:final_clg_min] = []
-      setpoint_values[:final_clg_max] = []
-
-      # todo - put this in helper method?
-      # num_hours_in_year constant
-      if model.yearDescription.is_initialized and model.yearDescription.get.isLeapYear
-        num_hours_in_year = 8784.0
-      else
-        num_hours_in_year = 8760.0 # if no yearDescripiton then assumed year 2009 is not leap year
-      end
+      # create empty has to hold setpoint values across zones
+      setpoint_values = create_initial_final_setpoint_values_hash
 
       # apply fault
       thermalzones.each do |thermalzone|
         applyfaulttothermalzone(
-            thermalzone, ext_hr, start_month, end_month, dayofweek, runner, num_hours_in_year, setpoint_values
+            thermalzone, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model
         )
       end
 
       # todo - this isn't useful here, since range isn't change, maybe I should calculate weighted building average thermostat based on floor area or zone volume.
       # register initial and final condition
-      if setpoint_values[:init_htg_min].size > 0
-        runner.registerInitialCondition("Initial heating setpoints in affected zones range from #{setpoint_values[:init_htg_min].min.round(1)} C to #{setpoint_values[:init_htg_max].max.round(1)} C. Initial cooling setpoints in affected zones range from #{setpoint_values[:init_clg_min].min.round(1)} C to #{setpoint_values[:init_clg_max].max.round(1)} C.")
+      if setpoint_values[:initial_htg_min].size > 0
+        runner.registerInitialCondition("Initial heating setpoints in affected zones range from #{setpoint_values[:initial_htg_min].min.round(1)} C to #{setpoint_values[:initial_htg_max].max.round(1)} C. Initial cooling setpoints in affected zones range from #{setpoint_values[:initial_clg_min].min.round(1)} C to #{setpoint_values[:initial_clg_max].max.round(1)} C.")
         runner.registerFinalCondition("Final heating setpoints in affected zones range from #{setpoint_values[:final_htg_min].min.round(1)} C to #{setpoint_values[:final_htg_max].max.round(1)} C. Final cooling setpoints in affected zones range from #{setpoint_values[:final_clg_min].min.round(1)} C to #{setpoint_values[:final_clg_max].max.round(1)} C.")
       else
         runner.registerAsNotApplicable("No changes made, selected zones may not have had setpoint schedules, or they schedules may not have been ScheduleRulesets.")
