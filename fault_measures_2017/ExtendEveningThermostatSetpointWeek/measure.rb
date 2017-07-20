@@ -115,27 +115,13 @@ class ExtendEveningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
     ext_hr = runner.getDoubleArgumentValue('ext_hr', user_arguments)
     if ext_hr != 0
       start_month, end_month, thermalzones, dayofweek = \
-        getinputs(model, runner, user_arguments)
+        get_thermostat_inputs(model, runner, user_arguments)
 
-      # todo - put this in helper method?
-      # add in initial and final condition
-      setpoint_values = {}
-      setpoint_values[:init_htg_min] = []
-      setpoint_values[:init_htg_max] = []
-      setpoint_values[:init_clg_min] = []
-      setpoint_values[:init_clg_max] = []
-      setpoint_values[:final_htg_min] = []
-      setpoint_values[:final_htg_max] = []
-      setpoint_values[:final_clg_min] = []
-      setpoint_values[:final_clg_max] = []
+      # create empty has to poulate when loop through zones
+      setpoint_values = create_initial_final_setpoint_values_hash
 
-      # todo - put this in helper method?
-      # num_hours_in_year constant
-      if model.yearDescription.is_initialized and model.yearDescription.get.isLeapYear
-        num_hours_in_year = 8784.0
-      else
-        num_hours_in_year = 8760.0 # if no yearDescripiton then assumed year 2009 is not leap year
-      end
+      # get number of hours in year
+      num_hours_in_year = num_hours_in_year(model)
 
       # apply fault
         thermalzones.each do |thermalzone|

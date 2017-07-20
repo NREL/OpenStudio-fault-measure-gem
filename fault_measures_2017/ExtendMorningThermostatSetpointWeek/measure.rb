@@ -50,7 +50,7 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
     # make choice argument for thermal zone
     zone_handles, zone_display_names = pass_zone(model, $allzonechoices)
     zone = OpenStudio::Ruleset::OSArgument.makeChoiceArgument(
-      'zone', zone_display_names, zone_display_names, true
+        'zone', zone_display_names, zone_display_names, true
     )
     zone.setDefaultValue(zone_display_names[0])
     zone.setDisplayName("Zone. Choose #{$allzonechoices} if you want to impose the fault in all zones")
@@ -62,14 +62,14 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
     end
 
     start_month = OpenStudio::Ruleset::OSArgument.makeChoiceArgument(
-      'start_month', osmonths, true
+        'start_month', osmonths, true
     )
     start_month.setDisplayName('Fault active start month')
     start_month.setDefaultValue($months[0])
     args << start_month
 
     end_month = OpenStudio::Ruleset::OSArgument.makeChoiceArgument(
-      'end_month', osmonths, true
+        'end_month', osmonths, true
     )
     end_month.setDisplayName('Fault active end month')
     end_month.setDefaultValue($months[11])
@@ -83,7 +83,7 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
     osdaysofweeks << $weekdaysonly
     osdaysofweeks << $weekendonly
     dayofweek = OpenStudio::Ruleset::OSArgument.makeChoiceArgument(
-      'dayofweek', osdaysofweeks, true
+        'dayofweek', osdaysofweeks, true
     )
     dayofweek.setDisplayName('Day of the week')
     dayofweek.setDefaultValue($all_days)
@@ -91,7 +91,7 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
 
     ext_hr = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('ext_hr', true)
     ext_hr.setDisplayName(
-      'Number of operating hours extended to the morning.'
+        'Number of operating hours extended to the morning.'
     )
     ext_hr.setDefaultValue(1)  # default leakage level to be 1 hour
     args << ext_hr
@@ -115,7 +115,7 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
     ext_hr = runner.getDoubleArgumentValue('ext_hr', user_arguments)
     if ext_hr != 0
       start_month, end_month, thermalzones, dayofweek = \
-        getinputs(model, runner, user_arguments)
+        get_thermostat_inputs(model, runner, user_arguments)
 
       # todo - put this in helper method?
       # add in initial and final condition
@@ -140,7 +140,7 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
       # apply fault
       thermalzones.each do |thermalzone|
         applyfaulttothermalzone(
-          thermalzone, ext_hr, start_month, end_month, dayofweek, runner, num_hours_in_year, setpoint_values
+            thermalzone, ext_hr, start_month, end_month, dayofweek, runner, num_hours_in_year, setpoint_values
         )
       end
 

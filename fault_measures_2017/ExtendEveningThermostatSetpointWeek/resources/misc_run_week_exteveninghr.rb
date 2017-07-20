@@ -1,21 +1,6 @@
 # The file contains functions to pass arguments from OpenStudio inputs to the
 # measure script. They are used to avoid the function run to be too long.
 
-def getinputs(model, runner, user_arguments)
-  # This function passes the inputs in user_arguments, other than the ones
-  # to check if the function should run, to the run function. For
-  # ExtendMorningThermostatSetpoint, it is start_month, end_month and
-  # thermalzone
-
-  start_month = runner.getStringArgumentValue('start_month', user_arguments)
-  end_month = runner.getStringArgumentValue('end_month', user_arguments)
-  thermalzones = obtainzone('zone', model, runner, user_arguments)
-  dayofweek = runner.getStringArgumentValue('dayofweek', user_arguments)
-  return start_month, end_month, thermalzones, dayofweek
-end
-
-# obtainzone moved to misc_arguemnts.rb which is used by other measures
-
 def applyfaulttothermalzone(thermalzone, ext_hr, start_month, end_month, dayofweek, runner, num_hours_in_year, setpoint_values)
   # This function applies the ExtendEveningThermostatSetpointWeek fault to the thermostat
   # setpoint schedules
@@ -119,17 +104,6 @@ def createnewpriroityrules(heatorcoolscheduleruleset, ext_hr, start_month,
   end
 end
 
-def createnewruleandcopy(scheduleruleset, olddayschedule, start_month, end_month, e_day)
-  # return a new rule with dayschedule the same as the olddayschedule for a user-defined
-  # starting month and ending month. Afterwards, it is imposed to the ScheduleRuleset scheduleruleset.
-  # day of week is also specified according to user preference
-  rule_clone = OpenStudio::Model::ScheduleRule.new(scheduleruleset)
-  copydayscheduletimesandvalues(olddayschedule, rule_clone.daySchedule)
-  setcommoninformation(rule_clone, olddayschedule.name, start_month,
-                       end_month, e_day)
-  return rule_clone
-end
-
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
 def createnewdefaultdayofweekrule(heatorcoolscheduleruleset, ext_hr, oritimes, orivalues,
                                   start_month, end_month, e_day, dayofweek)
@@ -194,4 +168,32 @@ def newtimesandvaluestosceduleday(times, values, ext_hr, changetime, scheduleday
       scheduleday.addValue(time, value)
     end
   end
+end
+
+# todo - different code for morning and evening fault
+def findchangetime(times, values)
+  # This function finds the closing time of the building for extension
+  # according to the thermostat schedule
+
+  if times.length > 1
+    return times[-2]
+  else
+    return times[0]
+  end
+end
+
+# todo - different code for morning and evening fault
+def newhrandmin(times, values, ind, ext_hr)
+  # This function returns the hours and minutes for substitution
+  # in the vector times from the time object indicated by index ind. The
+  # new time object will consist of the time shifted according to ext_hr.
+  # It also removes the last entry in times and values vector when needed
+
+  hr = ext_hr.floor
+  newhours = roundtointeger(times[ind].hours) + hr
+  # do not correct upwards
+  newminutes = roundtointeger(times[ind].minutes) + ((ext_hr - hr) * 60).floor
+  newhours, newminutes = midnightadjust(newhours, newminutes,
+                                        times, values, ind)
+  return newhours, newminutes
 end

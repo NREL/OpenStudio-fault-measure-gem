@@ -336,17 +336,6 @@ module OsLib_FDD
     return rule_clone
   end
 
-  def findchangetime(times, values)
-    # This function finds the closing time of the building for extension
-    # according to the thermostat schedule
-
-    if times.length > 1
-      return times[-2]
-    else
-      return times[0]
-    end
-  end
-
   def shifttimevector(times, values, ext_hr, changetime)
     # This function shifts the time vector according to the extension
     # in ext_hr. If the extension passes midnight, it terminates the
@@ -361,21 +350,6 @@ module OsLib_FDD
       newtime = OpenStudio::Time.new(times[ind].days, newhours, newminutes, 0)
     end
     return newtime
-  end
-
-  def newhrandmin(times, values, ind, ext_hr)
-    # This function returns the hours and minutes for substitution
-    # in the vector times from the time object indicated by index ind. The
-    # new time object will consist of the time shifted according to ext_hr.
-    # It also removes the last entry in times and values vector when needed
-
-    hr = ext_hr.floor
-    newhours = roundtointeger(times[ind].hours) + hr
-    # do not correct upwards
-    newminutes = roundtointeger(times[ind].minutes) + ((ext_hr - hr) * 60).floor
-    newhours, newminutes = midnightadjust(newhours, newminutes,
-                                          times, values, ind)
-    return newhours, newminutes
   end
 
   def roundtointeger(floatnum)
@@ -406,6 +380,48 @@ module OsLib_FDD
       newminutes = 59
     end
     return newhours, newminutes
+  end
+
+  def create_initial_final_setpoint_values_hash()
+
+    # add in initial and final condition
+    setpoint_values = {}
+    setpoint_values[:init_htg_min] = []
+    setpoint_values[:init_htg_max] = []
+    setpoint_values[:init_clg_min] = []
+    setpoint_values[:init_clg_max] = []
+    setpoint_values[:final_htg_min] = []
+    setpoint_values[:final_htg_max] = []
+    setpoint_values[:final_clg_min] = []
+    setpoint_values[:final_clg_max] = []
+
+    return setpoint_values
+
+  end
+
+  def num_hours_in_year(model)
+
+    if model.yearDescription.is_initialized and model.yearDescription.get.isLeapYear
+      num_hours_in_year = 8784.0
+    else
+      num_hours_in_year = 8760.0 # if no yearDescripiton then assumed year 2009 is not leap year
+    end
+
+    return num_hours_in_year
+
+  end
+
+  def get_thermostat_inputs(model, runner, user_arguments)
+    # This function passes the inputs in user_arguments, other than the ones
+    # to check if the function should run, to the run function. For
+    # ExtendMorningThermostatSetpoint, it is start_month, end_month and
+    # thermalzone
+
+    start_month = runner.getStringArgumentValue('start_month', user_arguments)
+    end_month = runner.getStringArgumentValue('end_month', user_arguments)
+    thermalzones = obtainzone('zone', model, runner, user_arguments)
+    dayofweek = runner.getStringArgumentValue('dayofweek', user_arguments)
+    return start_month, end_month, thermalzones, dayofweek
   end
 
 end

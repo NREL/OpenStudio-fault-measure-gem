@@ -73,15 +73,8 @@ class ExtendMorningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
 
     result = apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
 
-
     # todo - why is there a 0.5 degree delta for heating in ExtendEvening and a 0.8 delta in ExtendMorning
-    # todo - why is there a 0.7 degree delta for cooling in ExtendEvening and a 0.9 delta in ExtendMorning
-    # todo - looks like flaw in how delta is applied in this measure, in test clg setback is mood from 6am to midnight, instead of 1am. This doesn't happen on ExtendEvening, it extends delta by 5 hours
-    # if set delta to 4, it properly shifts from 6am to 2am
-    # but when I set delta to 5, it shifts from 6am to midnight, so this issue just happens for specific conditions (maye specific delta, or more likley deltas that end up within an hour of midnight?)
-
-    # note: 4.99 instead of 5.0 fixing cooling delta
-    # midnightadjust method seems suspicious
+    # todo - shift looks good in schedule, maybe this is more of an issue with average temp calculation
 
     # the following strings should be found in info.logMessage text
     expected_string_01 = 'Final annual average heating setpoint for Cafe_Flr_1 ZN 20.0 C'

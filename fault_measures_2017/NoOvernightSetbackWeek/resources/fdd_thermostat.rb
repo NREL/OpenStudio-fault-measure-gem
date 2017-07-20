@@ -336,17 +336,6 @@ module OsLib_FDD
     return rule_clone
   end
 
-  def findchangetime(times, values)
-    # This function finds the closing time of the building for extension
-    # according to the thermostat schedule
-
-    if times.length > 1
-      return times[-2]
-    else
-      return times[0]
-    end
-  end
-
   def shifttimevector(times, values, ext_hr, changetime)
     # This function shifts the time vector according to the extension
     # in ext_hr. If the extension passes midnight, it terminates the
@@ -406,6 +395,48 @@ module OsLib_FDD
       newminutes = 59
     end
     return newhours, newminutes
+  end
+
+  def create_initial_final_setpoint_values_hash()
+
+    # add in initial and final condition
+    setpoint_values = {}
+    setpoint_values[:init_htg_min] = []
+    setpoint_values[:init_htg_max] = []
+    setpoint_values[:init_clg_min] = []
+    setpoint_values[:init_clg_max] = []
+    setpoint_values[:final_htg_min] = []
+    setpoint_values[:final_htg_max] = []
+    setpoint_values[:final_clg_min] = []
+    setpoint_values[:final_clg_max] = []
+
+    return setpoint_values
+
+  end
+
+  def num_hours_in_year(model)
+
+    if model.yearDescription.is_initialized and model.yearDescription.get.isLeapYear
+      num_hours_in_year = 8784.0
+    else
+      num_hours_in_year = 8760.0 # if no yearDescripiton then assumed year 2009 is not leap year
+    end
+
+    return num_hours_in_year
+
+  end
+
+  def get_thermostat_inputs(model, runner, user_arguments)
+    # This function passes the inputs in user_arguments, other than the ones
+    # to check if the function should run, to the run function. For
+    # ExtendMorningThermostatSetpoint, it is start_month, end_month and
+    # thermalzone
+
+    start_month = runner.getStringArgumentValue('start_month', user_arguments)
+    end_month = runner.getStringArgumentValue('end_month', user_arguments)
+    thermalzones = obtainzone('zone', model, runner, user_arguments)
+    dayofweek = runner.getStringArgumentValue('dayofweek', user_arguments)
+    return start_month, end_month, thermalzones, dayofweek
   end
 
 end

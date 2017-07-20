@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>no_overnight_setback_week</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>78f24991-5958-45df-95f0-7219e2403a7e</version_id>
-  <version_modified>20170719T141013Z</version_modified>
+  <version_id>cc8e95ce-52a9-4e79-b410-4c82be5005d1</version_id>
+  <version_modified>20170720T170214Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>NoOvernightSetbackWeek</class_name>
   <display_name>NoOvernightSetbackWeek</display_name>
@@ -219,12 +219,6 @@
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <filename>misc_arguments.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>96F2F1BB</checksum>
-    </file>
-    <file>
       <filename>temp_2004_lg_hotel_chicago.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
@@ -237,6 +231,18 @@
       <checksum>8797033B</checksum>
     </file>
     <file>
+      <filename>misc_run_dayofweek.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>34F396B5</checksum>
+    </file>
+    <file>
+      <filename>misc_arguments.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>25825DAD</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
@@ -245,19 +251,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>72D31AF9</checksum>
-    </file>
-    <file>
-      <filename>misc_run_dayofweek.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>34F396B5</checksum>
+      <checksum>3509E0B3</checksum>
     </file>
     <file>
       <filename>fdd_thermostat.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>B06D7D5E</checksum>
+      <checksum>015AFD96</checksum>
     </file>
   </files>
 </measure>
