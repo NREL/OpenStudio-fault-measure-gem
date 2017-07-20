@@ -94,6 +94,8 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
 
   end
 
+  # todo - add a test that results in setback start after midnight
+
   def test_all_zones
     args = {}
     args["zone"] = '* All Zones *'

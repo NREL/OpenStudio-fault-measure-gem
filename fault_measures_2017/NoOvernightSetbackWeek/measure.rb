@@ -116,7 +116,7 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
 
       # apply fault
       thermalzones.each do |thermalzone|
-        results = applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runner, setpoint_values, model)
+        results = applyfaulttothermalzone_no_setback(thermalzone, start_month, end_month, dayofweek, runner, setpoint_values, model)
 
         # populate hash for min max values across zones
         if not results == false

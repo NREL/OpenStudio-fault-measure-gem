@@ -322,8 +322,8 @@ module OsLib_FDD
     end
   end
 
-  # methods above are in NoOvernightThermostatSetback
-  # methods below are only in ExtendEveningThermostatSetpoint and ExtendMorningThermostatSetpoint
+# methods above are in NoOvernightThermostatSetback
+# methods below are only in ExtendEveningThermostatSetpoint and ExtendMorningThermostatSetpoint
 
   def createnewruleandcopy(scheduleruleset, olddayschedule, start_month, end_month, e_day)
     # return a new rule with dayschedule the same as the olddayschedule for a user-defined
@@ -336,7 +336,7 @@ module OsLib_FDD
     return rule_clone
   end
 
-  def shifttimevector(times, values, ext_hr, changetime)
+  def shifttimevector(times, values, ext_hr, changetime, moring_evening_string)
     # This function shifts the time vector according to the extension
     # in ext_hr. If the extension passes midnight, it terminates the
     # extension at midnight, and dispose the midnight value in the
@@ -346,7 +346,7 @@ module OsLib_FDD
     newtime = times[0]
     if times.length > 1  # no extension if the setpoint is a constant
       ind = times.index(changetime)
-      newhours, newminutes = newhrandmin(times, values, ind, ext_hr)
+      newhours, newminutes = newhrandmin(times, values, ind, ext_hr, moring_evening_string)
       newtime = OpenStudio::Time.new(times[ind].days, newhours, newminutes, 0)
     end
     return newtime
@@ -426,7 +426,7 @@ module OsLib_FDD
 
 # todo - this method is has ext_hr arg not fouund in uses of this method in other measures
   def addnewscheduleruleset_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
-                            end_month, dayofweek)
+                                   end_month, dayofweek,moring_evening_string)
     # This function accepts schedules rulesets of heating or cooling, analyzes the
     # priority and default rules in the schedule and add new schedules with the
     # evening offsets back to the model. start_month is the string for the starting
@@ -448,17 +448,17 @@ module OsLib_FDD
     oritimes = defaultday_clone.times
     orivalues = defaultday_clone.values
     createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr,
-                                  oritimes, orivalues, start_month,
-                                  end_month, e_day, dayofweek)
+                                         oritimes, orivalues, start_month,
+                                         end_month, e_day, dayofweek, moring_evening_string)
 
     # change the schedule rules of the priority rules first
     createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr,
-                           start_month, end_month, e_day, dayofweek)
+                                  start_month, end_month, e_day, dayofweek, moring_evening_string)
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
   def createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
-                             end_month, e_day, dayofweek)
+                                    end_month, e_day, dayofweek, moring_evening_string)
     # This function creates new priority rules to impose ExtendEveningThermostatSetpointWeek fault
     # to the schedules of thermostat setpoint
 
@@ -476,14 +476,14 @@ module OsLib_FDD
         rule_clone = createnewruleandcopy(heatorcoolscheduleruleset, rule.daySchedule,
                                           start_month, end_month, e_day)
         compareandchangedayofweek(rule_clone, rule, dayofweek)
-        propagateeveningchangeovervalue_ext_hr(rule_clone, ext_hr)
+        propagateeveningchangeovervalue_ext_hr(rule_clone, ext_hr, moring_evening_string)
       end
     end
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
   def createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr, oritimes, orivalues,
-                                    start_month, end_month, e_day, dayofweek)
+                                           start_month, end_month, e_day, dayofweek, moring_evening_string)
     # This function create a priority rule based on default day rule that is applied
     # to dayofweek only
 
@@ -493,11 +493,11 @@ module OsLib_FDD
     )
     changedayofweek(new_defaultday_rule, dayofweek)
     propagateeveningchangeovervaluewithextrainfo_ext_hr(new_defaultday_rule, ext_hr,
-                                                 oritimes, orivalues)
+                                                        oritimes, orivalues, moring_evening_string)
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def propagateeveningchangeovervalue_ext_hr(scheduleRule, ext_hr)
+  def propagateeveningchangeovervalue_ext_hr(scheduleRule, ext_hr, moring_evening_string)
     # This function analyzes the OpenStudio::mode::ScheduleRule object at the
     # inputs to find the temperature setpoint before the building closure in
     # the evening. It returns a value indicating the setpoint. It then
@@ -508,12 +508,12 @@ module OsLib_FDD
     scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
     times = scheduleday.times
     values = scheduleday.values
-    changetime = findchangetime(times, values)
+    changetime = findchangetime(times, values, moring_evening_string)
     newtimesandvaluestosceduleday(times, values, ext_hr, changetime, scheduleday)
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def propagateeveningchangeovervaluewithextrainfo_ext_hr(scheduleRule, ext_hr, times, values)
+  def propagateeveningchangeovervaluewithextrainfo_ext_hr(scheduleRule, ext_hr, times, values, moring_evening_string)
     # This function obtains the times and values vector from the user
     # to find the temperature setpoint before the building closure in
     # the evening. It returns a value indicating the setpoint. It then
@@ -523,12 +523,12 @@ module OsLib_FDD
 
     scheduleday = scheduleRule.daySchedule
     scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
-    changetime = findchangetime(times, values)
-    newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday)
+    changetime = findchangetime(times, values, moring_evening_string)
+    newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday, moring_evening_string)
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday)
+  def newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday, moring_evening_string)
     # This function is used to replace times and values in scheduleday
     # with user-specified values. If the times are outside the
     # hours of building daytime operation, it extends the operation schedule
@@ -537,7 +537,7 @@ module OsLib_FDD
     scheduleday.clearValues
     # force the first setpoint of the day and any setpoint in the evening
     # to be the same as the daytime setpoint
-    newtime = shifttimevector(times, values, ext_hr, changetime)
+    newtime = shifttimevector(times, values, ext_hr, changetime, moring_evening_string)
     times.zip(values).each do |time, value|
       if time == changetime
         scheduleday.addValue(newtime, value)
@@ -547,23 +547,59 @@ module OsLib_FDD
     end
   end
 
-  def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, string)
+  def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
     # gather initial thermostat range and average temp
     avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
     min_max = heatingrulesetschedule.annual_min_max_value
-    runner.registerInfo("#{string.capitalize} annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
-    setpoint_values["#{string}_htg_min".to_sym] << min_max['min']
-    setpoint_values["#{string}_htg_max".to_sym] << min_max['max']
+    runner.registerInfo("#{initial_final_string.capitalize} annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+    setpoint_values["#{initial_final_string}_htg_min".to_sym] << min_max['min']
+    setpoint_values["#{initial_final_string}_htg_max".to_sym] << min_max['max']
 
     avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
     min_max = coolingrulesetschedule.annual_min_max_value
-    runner.registerInfo("#{string.capitalize} annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
-    setpoint_values["#{string}_clg_min".to_sym] << min_max['min']
-    setpoint_values["#{string}_clg_max".to_sym] << min_max['max']
+    runner.registerInfo("#{initial_final_string.capitalize} annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+    setpoint_values["#{initial_final_string}_clg_min".to_sym] << min_max['min']
+    setpoint_values["#{initial_final_string}_clg_max".to_sym] << min_max['max']
 
     return setpoint_values
 
+  end
+
+# method has different code for morning and evening
+  def findchangetime(times, values, moring_evening_string)
+    # This function finds the closing time of the building for extension
+    # according to the thermostat schedule
+
+    if moring_evening_string == "morning"
+      return times[0]
+    elsif times.length > 1
+      return times[-2]
+    else
+      return times[0]
+    end
+
+  end
+
+# method has different code for morning and evening
+  def newhrandmin(times, values, ind, ext_hr, moring_evening_string)
+    # This function returns the hours and minutes for substitution
+    # in the vector times from the time object indicated by index ind. The
+    # new time object will consist of the time shifted according to ext_hr.
+    # It also removes the last entry in times and values vector when needed
+
+    hr = ext_hr.floor
+    newhours = roundtointeger(times[ind].hours) + hr
+    # do not correct upwards
+
+    if moring_evening_string == "morning"
+      newminutes = roundtointeger(times[ind].minutes) + ((ext_hr - hr) * 60).floor
+    else
+      newminutes = roundtointeger(times[ind].minutes) + ((ext_hr - hr) * 60).floor
+    end
+    newhours, newminutes = midnightadjust(newhours, newminutes,
+                                          times, values, ind)
+    return newhours, newminutes
   end
 
 end

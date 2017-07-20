@@ -122,7 +122,7 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
 
       # apply fault
       thermalzones.each do |thermalzone|
-        applyfaulttothermalzone(
+        applyfaulttothermalzone_morning_setback(
             thermalzone, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model
         )
       end

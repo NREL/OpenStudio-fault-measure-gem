@@ -1,9 +1,7 @@
 # The file contains functions to pass arguments from OpenStudio inputs to the
 # measure script. They are used to avoid the function run to be too long.
 
-# obtainzone moved to misc_arguemnts.rb which is used by other measures
-
-def applyfaulttothermalzone(thermalzone, start_month, end_month, dayofweek, runner, setpoint_values, model)
+def applyfaulttothermalzone_no_setback(thermalzone, start_month, end_month, dayofweek, runner, setpoint_values, model)
   # This function applies the NoOvernightSetback fault to the thermostat
   # setpoint schedules
 

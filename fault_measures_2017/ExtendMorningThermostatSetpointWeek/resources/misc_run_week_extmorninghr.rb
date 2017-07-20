@@ -1,7 +1,7 @@
 # The file contains functions to pass arguments from OpenStudio inputs to the
 # measure script. They are used to avoid the function run to be too long.
 
-def applyfaulttothermalzone(thermalzone, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
+def applyfaulttothermalzone_morning_setback(thermalzone, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
   # This function applies the ExtendMorningThermostatSetpointWeek fault to the thermostat
   # setpoint schedules
 
@@ -22,8 +22,8 @@ def applyfaulttothermalzone(thermalzone, ext_hr, start_month, end_month, dayofwe
   setpoint_values = gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, 'initial')
 
   # alter schedules
-  addnewscheduleruleset_ext_hr(heatingrulesetschedule, ext_hr, start_month, end_month, dayofweek)
-  addnewscheduleruleset_ext_hr(coolingrulesetschedule, ext_hr, start_month, end_month, dayofweek)
+  addnewscheduleruleset_ext_hr(heatingrulesetschedule, ext_hr, start_month, end_month, dayofweek, 'morning')
+  addnewscheduleruleset_ext_hr(coolingrulesetschedule, ext_hr, start_month, end_month, dayofweek, 'morning')
 
   setpoint_values = gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, 'final')
 
@@ -32,29 +32,4 @@ def applyfaulttothermalzone(thermalzone, ext_hr, start_month, end_month, dayofwe
 
   # assign the thermostat to the zone
   thermalzone.setThermostatSetpointDualSetpoint(dualsetpoint)
-end
-
-# todo - different code for morning and evening fault
-def findchangetime(times, values)
-  # This function finds the closing time of the building for extension
-  # according to the thermostat schedule
-
-  # should be the first one for the morning extension
-  return times[0]
-end
-
-# todo - different code for morning and evening fault
-def newhrandmin(times, values, ind, ext_hr)
-  # This function returns the hours and minutes for substitution
-  # in the vector times from the time object indicated by index ind. The
-  # new time object will consist of the time shifted according to ext_hr.
-  # It also removes the last entry in times and values vector when needed
-
-  hr = ext_hr.floor
-  newhours = roundtointeger(times[ind].hours) - hr
-  # do not correct upwards
-  newminutes = roundtointeger(times[ind].minutes) + ((hr - ext_hr) * 60).floor
-  newhours, newminutes = midnightadjust(newhours, newminutes,
-                                        times, values, ind)
-  return newhours, newminutes
 end
