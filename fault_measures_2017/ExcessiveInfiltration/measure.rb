@@ -51,6 +51,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     space_type.setDefaultValue("*Entire Building*") #if no space type is chosen this will run on the entire building
     args << space_type
 
+    #TO DO : MODIFY FOR "EXCESSIVE" INFILTRATION
     #make an argument for reduction percentage
     space_infiltration_reduction_percent = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("space_infiltration_reduction_percent",true)
     space_infiltration_reduction_percent.setDisplayName("Space Infiltration Power Reduction (%).")
