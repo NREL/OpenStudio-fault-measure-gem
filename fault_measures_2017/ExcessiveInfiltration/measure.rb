@@ -8,12 +8,12 @@
 # http://openstudio.nrel.gov/sites/openstudio.nrel.gov/files/nv_data/cpp_documentation_it/model/html/namespaces.html
 
 #start the measure
-class ReduceSpaceInfiltrationByPercentage < OpenStudio::Ruleset::ModelUserScript
+class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
   
   #define the name that a user will see, this method may be deprecated as
   #the display name in PAT comes from the name field in measure.xml
   def name
-    return "ReduceSpaceInfiltrationByPercentage"
+    return "ExcessiveInfiltration"
   end
 
   #define the arguments that the user will input
@@ -274,4 +274,4 @@ class ReduceSpaceInfiltrationByPercentage < OpenStudio::Ruleset::ModelUserScript
 end #end the measure
 
 #this allows the measure to be use by the application
-ReduceSpaceInfiltrationByPercentage.new.registerWithApplication
+ExcessiveInfiltration.new.registerWithApplication
