@@ -15,6 +15,29 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
   def name
     return "ExcessiveInfiltration"
   end
+  
+  # human readable description
+  def description
+    return 'Excessive infiltration around the building envelope occurs by the ' \
+      'unintentional introduction of outside air into a building, typically through ' \
+      'cracks in the building envelope and through use of windows and doors. ' \
+      'Infiltration is driven by pressure differences between indoors and outdoors ' \
+      'of the building caused by wind and by air buoyancy forces known commonly as ' \
+      'the stack effect (ASHRAE Handbook Fundamentals, 2005). Excessive infiltration ' \
+      'can affect thermal comfort, indoor air quality, heating and cooling demand, and ' \
+      'moisture damage of building envelope components (Emmerich et al., 2005). The fault ' \
+      'intensity is defined as the percentage of excessive infiltration around the ' \
+      'building envelope compared to the non-faulted condition'
+  end
+  
+  # human readable description of modeling approach
+  def modeler_description
+    return 'Excessive lighting energy use is simulated by defining ' \
+      'the addtional time of delayed onset and/or early termination in hours. ' \
+      'Additional option for not having setback control is also included. ' \
+      'The fault intensity is defined as the percentage of increased ' \
+      'lighting operation time compared to the non-faulted operation.'
+  end
 
   #define the arguments that the user will input
   def arguments(model)
@@ -51,12 +74,11 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     space_type.setDefaultValue("*Entire Building*") #if no space type is chosen this will run on the entire building
     args << space_type
 
-    #TO DO : MODIFY FOR "EXCESSIVE" INFILTRATION
-    #make an argument for reduction percentage
-    space_infiltration_reduction_percent = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("space_infiltration_reduction_percent",true)
-    space_infiltration_reduction_percent.setDisplayName("Space Infiltration Power Reduction (%).")
-    space_infiltration_reduction_percent.setDefaultValue(30.0)
-    args << space_infiltration_reduction_percent
+    #make an argument for excessive infiltration percentage
+    space_infiltration_increase_percent = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("space_infiltration_increase_percent",true)
+    space_infiltration_increase_percent.setDisplayName("Space Infiltration Increase (%).")
+    space_infiltration_increase_percent.setDefaultValue(20.0)
+    args << space_infiltration_increase_percent
 
     #make an argument for material and installation cost
     material_and_installation_cost = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("material_and_installation_cost",true)
@@ -90,7 +112,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 
     #assign the user inputs to variables
     object = runner.getOptionalWorkspaceObjectChoiceValue("space_type",user_arguments,model)
-    space_infiltration_reduction_percent = runner.getDoubleArgumentValue("space_infiltration_reduction_percent",user_arguments)
+    space_infiltration_increase_percent = runner.getDoubleArgumentValue("space_infiltration_increase_percent",user_arguments)
     material_and_installation_cost = runner.getDoubleArgumentValue("material_and_installation_cost",user_arguments)
     om_cost = runner.getDoubleArgumentValue("om_cost",user_arguments)
     om_frequency = runner.getIntegerArgumentValue("om_frequency",user_arguments)
@@ -117,18 +139,18 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       end
     end
 
-    #check the space_infiltration_reduction_percent and for reasonableness
-    if space_infiltration_reduction_percent > 100
-      runner.registerError("Please enter a value less than or equal to 100 for the Space Infiltration reduction percentage.")
+    #check the space_infiltration_increase_percent and for reasonableness
+    if space_infiltration_increase_percent > 100
+      runner.registerError("Please enter a value less than or equal to 100 for the space infiltration increase percentage.")
       return false
-    elsif space_infiltration_reduction_percent == 0
-      runner.registerInfo("No Space Infiltration adjustment requested, but some life cycle costs may still be affected.")
-    elsif space_infiltration_reduction_percent < 1 and space_infiltration_reduction_percent > -1
-      runner.registerWarning("A Space Infiltration reduction percentage of #{space_infiltration_reduction_percent} percent is abnormally low.")
-    elsif space_infiltration_reduction_percent > 90
-      runner.registerWarning("A Space Infiltration reduction percentage of #{space_infiltration_reduction_percent} percent is abnormally high.")
-    elsif space_infiltration_reduction_percent < 0
-      runner.registerInfo("The requested value for Space Infiltration reduction percentage was negative. This will result in an increase in Space Infiltration.")
+    elsif space_infiltration_increase_percent == 0
+      runner.registerInfo("No space infiltration adjustment requested, but some life cycle costs may still be affected.")
+    elsif space_infiltration_increase_percent < 1 and space_infiltration_increase_percent > -1
+      runner.registerWarning("A space infiltration increase percentage of #{space_infiltration_increase_percent} percent is abnormally low.")
+    elsif space_infiltration_increase_percent > 90
+      runner.registerWarning("A space infiltration increase percentage of #{space_infiltration_increase_percent} percent is abnormally high.")
+    elsif space_infiltration_increase_percent < 0
+      runner.registerInfo("The requested value for space infiltration increase percentage was negative. This will result in a reduction in space infiltration.")
     end
 
     #check lifecycle cost arguments for reasonableness
@@ -185,20 +207,20 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     end
 
     #def to alter performance and life cycle costs of objects
-    def alter_performance(object, space_infiltration_reduction_percent, runner)
+    def alter_performance(object, space_infiltration_increase_percent, runner)
 
-      #edit instance based on percentage reduction
+      #edit instance based on percentage increase
       instance = object
       if not instance.designFlowRate.empty?
-        new_infiltration_design_flow_rate = instance.setDesignFlowRate(instance.designFlowRate.get - instance.designFlowRate.get*space_infiltration_reduction_percent*0.01)
+        new_infiltration_design_flow_rate = instance.setDesignFlowRate(instance.designFlowRate.get + instance.designFlowRate.get*space_infiltration_increase_percent*0.01)
       elsif not instance.flowperSpaceFloorArea.empty?
-        new_infiltration_flow_floor_area = instance.setFlowperSpaceFloorArea(instance.flowperSpaceFloorArea.get - instance.flowperSpaceFloorArea.get*space_infiltration_reduction_percent*0.01)
+        new_infiltration_flow_floor_area = instance.setFlowperSpaceFloorArea(instance.flowperSpaceFloorArea.get + instance.flowperSpaceFloorArea.get*space_infiltration_increase_percent*0.01)
       elsif not instance.flowperExteriorSurfaceArea.empty?
-        new_infiltration_flow_ext_area = instance.setFlowperExteriorSurfaceArea(instance.flowperExteriorSurfaceArea.get - instance.flowperExteriorSurfaceArea.get*space_infiltration_reduction_percent*0.01)
+        new_infiltration_flow_ext_area = instance.setFlowperExteriorSurfaceArea(instance.flowperExteriorSurfaceArea.get + instance.flowperExteriorSurfaceArea.get*space_infiltration_increase_percent*0.01)
       elsif not instance.flowperExteriorWallArea.empty?
-        new_infiltration_flow_ext_area = instance.setFlowperExteriorWallArea(instance.flowperExteriorWallArea.get - instance.flowperExteriorWallArea.get*space_infiltration_reduction_percent*0.01)
+        new_infiltration_flow_ext_area = instance.setFlowperExteriorWallArea(instance.flowperExteriorWallArea.get + instance.flowperExteriorWallArea.get*space_infiltration_increase_percent*0.01)
       elsif not instance.airChangesperHour.empty?
-        new_infiltration_ach = instance.setAirChangesperHour(instance.airChangesperHour.get - instance.airChangesperHour.get*space_infiltration_reduction_percent*0.01)
+        new_infiltration_ach = instance.setAirChangesperHour(instance.airChangesperHour.get + instance.airChangesperHour.get*space_infiltration_increase_percent*0.01)
       else
         runner.registerWarning("'#{instance.name}' is used by one or more instances and has no load values.")
       end
@@ -212,10 +234,10 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       space_type_infiltration_objects.each do |space_type_infiltration_object|
 
         #call def to alter performance and life cycle costs
-        alter_performance(space_type_infiltration_object, space_infiltration_reduction_percent, runner)
+        alter_performance(space_type_infiltration_object, space_infiltration_increase_percent, runner)
 
         #rename
-        updated_instance_name = space_type_infiltration_object.setName("#{space_type_infiltration_object.name} #{space_infiltration_reduction_percent} percent reduction")
+        updated_instance_name = space_type_infiltration_object.setName("#{space_type_infiltration_object.name} #{space_infiltration_increase_percent} percent increase")
         altered_instances += 1
 
       end #end space_type_infiltration_objects.each do
@@ -239,10 +261,10 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       space_infiltration_objects.each do |space_infiltration_object|
 
         #call def to alter performance and life cycle costs
-        alter_performance(space_infiltration_object, space_infiltration_reduction_percent, runner)
+        alter_performance(space_infiltration_object, space_infiltration_increase_percent, runner)
 
         #rename
-        updated_instance_name = space_infiltration_object.setName("#{space_infiltration_object.name} #{space_infiltration_reduction_percent} percent reduction")
+        updated_instance_name = space_infiltration_object.setName("#{space_infiltration_object.name} #{space_infiltration_increase_percent} percent increase")
         altered_instances += 1
 
       end #end space_infiltration_object.each do
