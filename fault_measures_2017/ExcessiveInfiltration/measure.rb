@@ -32,11 +32,9 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
   
   # human readable description of modeling approach
   def modeler_description
-    return 'Excessive lighting energy use is simulated by defining ' \
-      'the addtional time of delayed onset and/or early termination in hours. ' \
-      'Additional option for not having setback control is also included. ' \
-      'The fault intensity is defined as the percentage of increased ' \
-      'lighting operation time compared to the non-faulted operation.'
+    return 'The user input of the percentage of excessive infiltration is multiplied ' \
+      'to one of either four variables depending on the user’s choice of infiltration ' \
+      'implementation method to impose fault over the original (non-faulted) configuration.'
   end
 
   #define the arguments that the user will input
