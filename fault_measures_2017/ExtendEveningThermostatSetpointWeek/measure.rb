@@ -26,9 +26,15 @@ class ExtendEveningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
 
   # simple human readable description
   def description
-    return 'This Measure simulates the effect of having a daytime ' \
-      'thermostat schedule extended to the evening because of '\
-      'programming mistake.'
+    return 'Thermostat schedules are employed to raise setpoints for ' \
+      'cooling and lower setpoints for heating at night, to switch fan ' \
+      'operation from being continuously on during occupied times to being ' \
+      'coupled to cooling or heating demands at other times, and to closing ' \
+      'ventilation dampers during unoccupied periods. Faults can occur due ' \
+      'to malfunctioning, un-programmed, or incorrectly programmed or scheduled ' \
+      'thermostats, leading to increased energy consumption and/or  ' \
+      'compromised comfort and air quality. This measure simulates the  ' \
+      'effect of overnight HVAC setback being terminated earlier during occupied hours. ' \
   end
 
   # detailed human readable description about how to use the measure
