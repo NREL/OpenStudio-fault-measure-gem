@@ -16,12 +16,22 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
 
   # human readable description
   def description
-    return 'This Measure simulates the effect of air leakages from the supply to return air without going into the zone.'
+    return 'Duct leakage can be caused by torn or missing external duct ' \
+      'wrap, poor workmanship around duct take-offs and fittings, ' \
+      'disconnected ducts, improperly installed duct mastic, and ' \
+      'temperature and pressure cycling (Roth et al., 2004). Conditioned ' \
+      'air leaking to an unconditioned space in buildings increases the ' \
+      'equipment heating or cooling demand and can increase fan power ' \
+      'for variable air volume (VAV) systems. This measure simulates ' \
+      'supply air leakage to return air that affects HVAC system’s ' \
+      'energy consumption.'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, choose the AirTerminal object to be faulted and a ratio of leakage flow rate to the airflow directed to the zone upstream to the leak.'
+    return 'To use this Measure, choose the AirTerminal object to  ' \
+      'be faulted and a ratio of leakage flow rate to the airflow ' \
+      'directed to the zone upstream to the leak.'
   end
 
   # define the arguments that the user will input
