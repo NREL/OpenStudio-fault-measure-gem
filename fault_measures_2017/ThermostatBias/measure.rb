@@ -25,6 +25,24 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
     return "ThermostatBias"
   end
   
+  # human readable description
+  def description
+    return 'Drift of the thermostat temperature sensor over time can lead to ' \
+      'increased energy use and/or reduced occupant comfort. The fault ' \
+      'intensity is the difference between the sensor readings and the true ' \
+      'properties the sensors should read. This measure simulates the biased ' \
+      'thermostat which will affect the heating and cooling system’s energy consumption.'
+  end
+  
+  # human readable description of modeling approach
+  def modeler_description
+    return 'Four user inputs (zone where the fault occurs, temperature bias ' \
+      'level in oC, starting month of faulted operation and ending month of ' \
+      'faulted operation) are required and based on user inputs, the ' \
+      'original (non-faulted) heating and cooling setpoint schedules in '\
+      'the building model will be replaced with biased temperature setpoint.'
+  end
+
   #define the arguments that the user will input
   def arguments(model)
     args = OpenStudio::Ruleset::OSArgumentVector.new
@@ -190,7 +208,7 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
           values = h_ruleday_clone.values
           h_ruleday_clone.clearValues
           for i in 0..(times.size - 1)
-            h_ruleday_clone.addValue(times[i], values[i] - biasLevel)
+            h_ruleday_clone.addValue(times[i], values[i] + biasLevel)
           end
 
           # todo - better to edit existing rules
@@ -219,7 +237,7 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
         default_day.setName("#{defaultday_name} with offset")
         default_day.clearValues
         for i in 0..(times.size - 1)
-          default_day.addValue(times[i], values[i] - biasLevel)
+          default_day.addValue(times[i], values[i] + biasLevel)
         end
 
         heatingrulesetschedule.setScheduleRuleIndex(defaultday_rule,h_rules.length*2)
@@ -242,7 +260,7 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
           values = c_ruleday_clone.values
           c_ruleday_clone.clearValues
           for i in 0..(times.size - 1)
-            c_ruleday_clone.addValue(times[i], values[i] - biasLevel)
+            c_ruleday_clone.addValue(times[i], values[i] + biasLevel)
           end
 
           coolingrulesetschedule.setScheduleRuleIndex(c_rule_clone, [0, c_rule.ruleIndex-1].max)
@@ -269,7 +287,7 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
         default_day.setName("#{defaultday_name} with offset")
         default_day.clearValues
         for i in 0..(times.size - 1)
-          default_day.addValue(times[i], values[i] - biasLevel)
+          default_day.addValue(times[i], values[i] + biasLevel)
         end
 
         coolingrulesetschedule.setScheduleRuleIndex(defaultday_rule,c_rules.length*2)
