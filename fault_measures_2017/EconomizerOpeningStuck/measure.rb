@@ -22,11 +22,22 @@ class EconomizerDamperStuckFaultScheduled < OpenStudio::Ruleset::ModelUserScript
   end
   
   def description
-    return 'This Measure simulates the effect of a damper in an economizer getting stuck at a fixed position during certain period in the year to the performance of the building.'
+    return 'Stuck dampers associated with economizers can be caused by seized ' \
+	'actuators, broken linkages, economizer control system failures,  ' \
+	'or the failure of sensors that are used to determine damper  ' \
+	'position (Roth et al., 2004). In extreme cases, dampers stuck at  ' \
+	'either 100% open or closed can cause a serious impact in terms of  ' \
+	'system energy consumption or occupant comfort in the space. The fault  ' \
+	'intensity is defined as the percentage of economizer opening at the stuck position.'
   end
   
   def modeler_description
-    return 'The user of this Measure should choose the economizer getting faulted, the period that it is faulted and the damper position when the damper is stuck. If a schedule of fault prevalence is not given, the model will apply the fault to the entire simulation. The fixed damper position is described by a ratio of the outdoor airflow rate to the supply air duct.'
+    return 'To use this fault measure, user should choose the economizer getting ' \
+	'faulted, the elapsed time that the damper is being stuck and the ' \
+	'damper stuck position. If a schedule of fault prevalence is not given, ' \
+	'the model will apply the fault to the entire simulation. The fixed ' \
+	'damper position is described by a ratio of the outdoor airflow rate to ' \
+	'the supply air duct.'
   end
   
   #define the arguments that the user will input
