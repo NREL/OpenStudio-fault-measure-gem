@@ -47,11 +47,19 @@ class RTULLWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, choose the Coil:Cooling:DX:SingleSpeed object ' \
-      'to be faulted and a schedule of fault level. Define the fault level as the ' \
-      'percentage reduction of charge level from the recommended ' \
-      'level when the system is exposed to the ambient. If the fault level is outside ' \
-      'the range of zero and one, an error will occur.'
+    return 'Twelve user inputs, ' \
+      '- DX coil where the fault occurs ' \
+      '- Percentage reduction of condenser airflow ' \
+      '- rated cooling capacity ' \
+      '- rated sensible heat ratio ' \
+      '- rated volumetric flow rate ' \
+      '- minimum/maximum evaporator air inlet wet-bulb temperature ' \
+      '- minimum/maximum condenser air inlet temperature ' \
+      '- minimum/maximum rated COP ' \
+      '- percentage change of UA with increase of fault level '\
+      'can be defined or remained with default values. ' \
+      'Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX ' \
+      'cooling coil model is recalculated to reflect the faulted operation'
   end
 
   # define the arguments that the user will input
