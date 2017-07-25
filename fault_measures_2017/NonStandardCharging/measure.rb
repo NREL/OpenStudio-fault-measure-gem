@@ -30,18 +30,32 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'This Measure simulates the effect of undercharging ' \
-      'of any RTU to the building performance, including the sensible heat ' \
-      'ratio effect..'
+    return 'Non-standard charging occurs when refrigerant is undercharged or ' \
+      'overcharged within the refrigerant circuit of an air conditioning, heat ' \
+      'pumping, or refrigeration system. Without sufficient refrigerant running ' \
+      'in the system, the average refrigerant density, the evaporating temperature, ' \
+      'and the refrigerant mass flow rate from the compressor drop, leading to ' \
+      'reduced capacity, increased operating time, and increased energy consumption. ' \
+      'This fault can be due to leakage or improper charging during service. This measure ' \
+      'simulates the non-standard charging by modifying Coil:Cooling:DX:SingleSpeed ' \
+      'object in EnergyPlus assigned to the heating and cooling system.'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, choose the Coil:Cooling:DX:SingleSpeed object ' \
-      'to be faulted and a schedule of fault level. Define the fault level as the ' \
-      'percentage reduction of charge level from the recommended ' \
-      'level when the system is exposed to the ambient. If the fault level is outside ' \
-      'the range of zero and one, an error will occur.'
+    return 'Twelve user inputs, ' \
+      '- DX coil where the fault occurs ' \
+      '- Percentage reduction of condenser airflow ' \
+      '- rated cooling capacity ' \
+      '- rated sensible heat ratio ' \
+      '- rated volumetric flow rate ' \
+      '- minimum/maximum evaporator air inlet wet-bulb temperature ' \
+      '- minimum/maximum condenser air inlet temperature ' \
+      '- minimum/maximum rated COP ' \
+      '- percentage change of UA with increase of fault level '\
+      'can be defined or remained with default values. ' \
+      'Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX ' \
+      'cooling coil model is recalculated to reflect the faulted operation'
   end
 
   # define the arguments that the user will input
