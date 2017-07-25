@@ -30,9 +30,19 @@ class RTULLWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'This Measure simulates the effect of liquid line restriction ' \
-      'of any RTU to the building performance, including the sensible heat ' \
-      'ratio effect..'
+    return 'A liquid-line restriction fault occurs when particles accumulate ' \
+      'within the refrigerant filter located between the condenser and the expansion ' \
+      'valve in the refrigerant circuit of a vapor compression cycle. The accumulation ' \
+      'increases the flow resistance of the refrigerant circuit and the pressure ' \
+      'difference across the compressor. It also reduces the evaporating temperature ' \
+      'and leads to lower cooling capacity, efficiency, and sensible heat ratio. ' \
+      'The lower sensible heat ratio leads to increased latent load to meet a ' \
+      'particular sensible load. The fault intensity is the percentage difference ' \
+      'between the pressure drop from the condenser outlet and evaporator inlet in ' \
+      'the restricted case and the pressure drop across the same location in the ' \
+      'non-faulted case. This measure simulates the liquid-line restriction by ' \
+      'modifying Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the ' \
+      'heating and cooling system.'
   end
 
   # human readable description of workspace approach
