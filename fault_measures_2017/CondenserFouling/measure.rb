@@ -30,18 +30,31 @@ class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'This Measure simulates the effect of condenser fouling ' \
-      'of any RTU to the building performance, including the sensible heat ' \
-      'ratio effect..'
+    return 'Condenser fouling occurs when litter, dirt, or dust accumulates on or ' \
+      'between the fins of a condenser of an air conditioner located in the outdoor ' \
+      'environment. The blockage reduces the airflow across the condenser and increases ' \
+      'the condensing temperature in the refrigerant circuit. The elevated temperature ' \
+      'increases the pressure difference across the compressor and reduces the ' \
+      'equipment efficiency. This measure simulates the condenser fan degradation by ' \
+      'modifying Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the ' \
+      'heating and cooling system.'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, choose the Coil:Cooling:DX:SingleSpeed object ' \
-      'to be faulted and a schedule of fault level. Define the fault level as the ' \
-      'percentage reduction of charge level from the recommended ' \
-      'level when the system is exposed to the ambient. If the fault level is outside ' \
-      'the range of zero and one, an error will occur.'
+    return 'Twelve user inputs, ' \
+      '- DX coil where the fault occurs ' \
+      '- Percentage reduction of condenser airflow ' \
+      '- rated cooling capacity ' \
+      '- rated sensible heat ratio ' \
+      '- rated volumetric flow rate ' \
+      '- minimum/maximum evaporator air inlet wet-bulb temperature ' \
+      '- minimum/maximum condenser air inlet temperature ' \
+      '- minimum/maximum rated COP ' \
+      '- percentage change of UA with increase of fault level '\
+      'can be defined or remained with default values. ' \
+      'Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX ' \
+      'cooling coil model is recalculated to reflect the faulted operation'
   end
 
   # define the arguments that the user will input
