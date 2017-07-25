@@ -28,12 +28,27 @@ class RTUCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserSc
 
   # human readable description
   def description
-    return "This Measure simulates the effect of fan motor efficiency fault at condenser RTU to the building performance."
+    return 'Motor efficiency degrades when a motor suffers from a bearing or a ' \
+	'stator winding fault. This fault causes the motor to draw higher ' \
+	'current from the electricity supply without changing the fluid flow. ' \
+	'In other words, they reduce the motor efficiency for converting ' \
+	'electricity into mechanical energy without affecting the volumetric ' \
+	'flow rate of the fan driven by the motor. Both the bearing fault ' \
+	'and the stator winding fault can be modeled by increasing the power ' \
+	'consumption of the condenser fan without changing the airflow of the ' \
+	'condenser fan. This measure simulates the condenser fan degradation ' \
+	'by modifying Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned ' \
+	'to the heating and cooling system.'
   end
 
   # human readable description of workspace approach
   def modeler_description
-    return "To use this Measure, choose the Coil:Cooling:DX:SingleSpeed object to be faulted and a schedule of fault level. Define the fault level as the degradation level of fan motor efficiency. If the fault level is outside the range of zero and one, an error will occur."
+    return 'Three user inputs (coil where the fault occurs, condenser fan power ' \
+	'ratio and either schedule or constant value of the percentage reduction ' \
+	'of motor efficiency) are required and based on user inputs, the energy ' \
+	'input ratio (EIR) in the DX cooling coil model is recalculated to reflect' \
+	'the faulted operation. If the fault level is outside the range of zero ' \
+	'and one, an error will occur.'
   end
 
   # define the arguments that the user will input
