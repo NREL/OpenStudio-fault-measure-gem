@@ -30,18 +30,32 @@ class RTUNCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'This Measure simulates the effect of non-condensable ' \
-      'of any RTU to the building performance, including the sensible heat ' \
-      'ratio effect..'
+    return 'When an air conditioner, heat pump, or refrigeration unit is not ' \
+      'properly evacuated prior to being charged with refrigerant, the unit runs '\
+      'with a mixture of air and refrigerant. Because it is non-condensable, the ' \
+      'air inside the refrigerant circuit typically is trapped in the high-pressure ' \
+      'vapor downstream of the compressor, and the pressure difference across the ' \
+      'compressor and the compressor power consumption exceeds the normal level. ' \
+      'This measure simulates the presence of non-condensable by modifying ' \
+      'Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating ' \
+      'and cooling system.'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, choose the Coil:Cooling:DX:SingleSpeed object ' \
-      'to be faulted and a schedule of fault level. Define the fault level as the ' \
-      'percentage reduction of charge level from the recommended ' \
-      'level when the system is exposed to the ambient. If the fault level is outside ' \
-      'the range of zero and one, an error will occur.'
+    return 'Twelve user inputs, ' \
+      '- DX coil where the fault occurs ' \
+      '- Percentage reduction of condenser airflow ' \
+      '- rated cooling capacity ' \
+      '- rated sensible heat ratio ' \
+      '- rated volumetric flow rate ' \
+      '- minimum/maximum evaporator air inlet wet-bulb temperature ' \
+      '- minimum/maximum condenser air inlet temperature ' \
+      '- minimum/maximum rated COP ' \
+      '- percentage change of UA with increase of fault level '\
+      'can be defined or remained with default values. ' \
+      'Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX ' \
+      'cooling coil model is recalculated to reflect the faulted operation'
   end
 
   # define the arguments that the user will input
