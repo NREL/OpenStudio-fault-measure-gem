@@ -20,12 +20,22 @@ class FanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'This Measure simulates the effect of fan motor efficiency degradation due to stator winding fault or motor bearing fault in air ducts to the building performance.'
+    return 'Fan motor degradation occurs due to bearing and stator winding faults ' \
+      'which was also described in the condenser fan degradation fault section. ' \
+      'It decreases motor efficiency and eventually resulting in increase of ' \
+      'overall fan power consumption. This measure simulates the air handling unit ' \
+      'fan motor degradation by modifying either Fan:ConstantVolume, ' \
+      'Fan:VariableVolume or Fan:OnOff objects in EnergyPlus assigned to the ' \
+      'ventilation system.'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, enter the Fan object (Fan:OnOff, Fan:ConstantVolume and Fan:VariableVolume) to be faulted and a fault level as a degradation factor of fan efficiency. It does not work with any fan objects housed by other ZoneHVAC objects.'
+    return 'Two user inputs are required, ' \
+      '- Fan object where the fault occurs ' \
+      '- Percentage of fan motor efficiency degradation. ' \
+      'and based on user inputs, the fan efficiency is recalculated to reflect ' \
+      'the faulted operation.'    
   end
 
   # define the arguments that the user will input
