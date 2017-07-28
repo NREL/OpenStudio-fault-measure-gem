@@ -21,12 +21,26 @@ class EconomizerReturnRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScri
 
   # human readable description
   def description
-    return 'This Measure simulates the effect of economizer sensor fault of any RTU to the building performance.'
+    return 'When sensors drift and are not regularly calibrated it causes a bias. ' \
+	'Sensor readings often drift from their calibration with age, causing ' \
+	'equipment control algorithms to produce outputs that deviate from their ' \
+	'intended function. This can lead to increased energy use, reduced comfort, ' \
+	'insufficient ventilation, etc. This measure simulates the biased ' \
+	'economizer sensor (return relative humidity) by modifying ' \
+	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
+	'cooling system. '
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of relative humidity sensor bias between 0 to 1 that you want at the return air duct for the economizer during the simulation period. For example, setting 0.03 means the sensor is reading 25% when the actual relative humidity is 22%. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period.'
+    return 'To use this Measure, choose the Controller:OutdoorAir object to be ' \
+	'faulted. Set the level of relative humidity sensor bias between 0 to 1 ' \
+	'that you want at the return air duct for the economizer during the ' \
+	'simulation period. For example, setting 0.03 means the sensor is reading ' \
+	'25% when the actual relative humidity is 22%. You can also impose a ' \
+	'schedule of the presence of fault during the simulation period. If a ' \
+	'schedule name is not given, the model assumes that the fault is present ' \
+	'during the entire simulation period.'
   end
 
   # define the arguments that the user will input
