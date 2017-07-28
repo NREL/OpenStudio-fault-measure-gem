@@ -23,12 +23,26 @@ class EconomizerReturnTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserSc
 
   # human readable description
   def description
-    return "This Measure simulates the effect of economizer sensor fault of any RTU to the building performance."
+    return 'When sensors drift and are not regularly calibrated it causes a bias. ' \
+	'Sensor readings often drift from their calibration with age, causing ' \
+	'equipment control algorithms to produce outputs that deviate from their ' \
+	'intended function. This can lead to increased energy use, reduced comfort, ' \
+	'insufficient ventilation, etc. This measure simulates the biased ' \
+	'economizer sensor (return temperature) by modifying ' \
+	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
+	'cooling system. '
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return "To use this Measure, activate the Measure by the first boolean. Choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias in degree Celcius that you want at the return air duct for the economizer during the simulation period. For example, setting 2 means the sensor is reading 28C when the actual temperature is 26C. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period."
+    return "To use this Measure, activate the Measure by the first boolean. ' \
+	'Choose the Controller:OutdoorAir object to be faulted. Set the level of '\
+	'temperature sensor bias in degree Celcius that you want at the return air ' \
+	'duct for the economizer during the simulation period. For example, ' \
+	'setting 2 means the sensor is reading 28C when the actual temperature is ' \
+	'26C. You can also impose a schedule of the presence of fault during the ' \
+	'simulation period. If a schedule name is not given, the model assumes that ' \
+	'the fault is present during the entire simulation period.'
   end
 
   # define the arguments that the user will input
