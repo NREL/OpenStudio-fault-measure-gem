@@ -28,7 +28,7 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
 	'equipment control algorithms to produce outputs that deviate from their ' \
 	'intended function. This can lead to increased energy use, reduced comfort, ' \
 	'insufficient ventilation, etc. This measure simulates the biased ' \
-	'economizer sensor (outdoor relative humidity) by modifying ' \
+	'economizer sensor (outdoor temperature) by modifying ' \
 	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
 	'cooling system. '
   end
