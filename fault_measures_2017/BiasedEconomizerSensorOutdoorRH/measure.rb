@@ -33,7 +33,14 @@ class EconomizerOutdoorRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScr
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of relative humidity sensor bias between 0 to 1 that you want at the outdoor air duct for the economizer during the simulation period. For example, setting 0.03 means the sensor is reading 25% when the actual relative humidity is 22%. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period.'
+    return 'To use this measure, choose the Controller:OutdoorAir object to be ' \
+	'faulted. Set the level of relative humidity sensor bias between 0 to 1 ' \
+	'that you want at the outdoor air duct for the economizer during the ' \
+	'simulation period. For example, setting 0.03 means the sensor is reading ' \
+	'25% when the actual relative humidity is 22%. You can also impose a ' \
+	'schedule of the presence of fault during the simulation period. If a ' \
+	'schedule name is not given, the model assumes that the fault is present ' \
+	'during the entire simulation period.'
   end
 
   # define the arguments that the user will input
