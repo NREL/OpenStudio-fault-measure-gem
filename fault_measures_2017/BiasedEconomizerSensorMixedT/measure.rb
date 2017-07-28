@@ -29,7 +29,13 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
 
   # human readable description of workspace approach
   def workspaceer_description
-    return "To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias that you want at the mixed air duct for the economizer during the simulation period. The algorithm checks if a real sensor exists in the mixed air chamber, and set up the bias at the sensor appropriately if it exists. For instance, SetpointManager:MixedAir does not model a real temperature sensor in the mixed air chamber, and will not be affected by this model."
+    return 'To use this Measure, choose the Controller:OutdoorAir object to be ' \
+	'faulted. Set the level of temperature sensor bias that you want at the ' \
+	'mixed air duct for the economizer during the simulation period. The ' \
+	'algorithm checks if a real sensor exists in the mixed air chamber, and ' \
+	'set up the bias at the sensor appropriately if it exists. For instance, ' \
+	'SetpointManager:MixedAir does not model a real temperature sensor in ' \
+	'the mixed air chamber, and will not be affected by this model.'
   end
 
   # define the arguments that the user will input
