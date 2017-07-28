@@ -17,7 +17,14 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
 
   # human readable description
   def description
-    return "This Measure simulates the effect of temperature sensor fault in the mixed air chamber of any RTU to the building performance."
+    return 'When sensors drift and are not regularly calibrated it causes a bias. ' \
+	'Sensor readings often drift from their calibration with age, causing ' \
+	'equipment control algorithms to produce outputs that deviate from their ' \
+	'intended function. This can lead to increased energy use, reduced comfort, ' \
+	'insufficient ventilation, etc. This measure simulates the biased ' \
+	'economizer sensor (mixed temperature) by modifying ' \
+	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
+	'cooling system. '
   end
 
   # human readable description of workspace approach
