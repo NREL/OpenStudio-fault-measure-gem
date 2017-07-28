@@ -35,7 +35,14 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
 
   # human readable description of workspace approach
   def workspaceer_description
-    return "To use this Measure, activate the Measure by the first boolean. Choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias in degree Celcius that you want at the outdoors for the economizer during the simulation period. For example, setting 2 means the sensor is reading 28C when the actual temperature is 26C. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period."
+    return 'To use this Measure, activate the Measure by the first boolean. ' \
+	'Choose the Controller:OutdoorAir object to be faulted. Set the level of ' \
+	'temperature sensor bias in degree Celcius that you want at the outdoors ' \
+	'for the economizer during the simulation period. For example, setting ' \
+	'2 means the sensor is reading 28C when the actual temperature is 26C. ' \
+	'You can also impose a schedule of the presence of fault during the ' \
+	'simulation period. If a schedule name is not given, the model assumes ' \
+	'that the fault is present during the entire simulation period.'
   end
 
   # define the arguments that the user will input
