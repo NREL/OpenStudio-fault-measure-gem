@@ -1,6 +1,9 @@
 # see the URL below for information on how to write OpenStudio measures
 # http://nrel.github.io/OpenStudio-user-documentation/reference/measure_writing_guide/
 
+# require all .rb files in resources folder
+Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
+
 # start the measure
 class OrnlTwoStoryFrpModel < OpenStudio::Ruleset::ModelUserScript
 
@@ -57,6 +60,8 @@ At some point the OSM could become the working model that gets updated and conve
     model.removeObjects(handles)
     # add new file to empty model
     model.addObjects( oModel.get.toIdfFile.objects )
+    runner.registerInfo("#{base_model_path} was imported with #{model.objects.size} objects")
+
 
     # >> assign building stories
 
@@ -105,7 +110,7 @@ At some point the OSM could become the working model that gets updated and conve
     end
 
     # reporting final number of stories
-    runner.registerInfo("The building has #{model.getBuildingStorys.size} stories.")
+    runner.registerInfo("Added #{model.getBuildingStorys.size} stories ot the building.")
 
 
     # todo - fix surface matching until soruce IDF and OSM are updated
@@ -114,20 +119,160 @@ At some point the OSM could become the working model that gets updated and conve
     # todo - fix exterior constructions until soruce IDF and OSM are updated
 
 
-    # todo - add in missing EMS information
-
-
     # todo - convert all schedules to ScheduleRulesets (This will support fault measures that alter schedules)
 
+    # clone ScheduleCompact objects
+    counter = 0
+    puts "hello1"
+    model.getScheduleCompacts.each do |compact|
+      orig_name =  compact.name.get
+      #sch_translator = ScheduleTranslator.new(model, compact)
+      #os_sch = sch_translator.translate
+      counter += 1
 
-    # todo - Add in air loops
+      puts "soruces for #{compact.name}"
+      compact.sources.each do |source|
+
+        puts source
+
+        source.numFields.times.each do |field|
+          puts source.getString(field)
+        end
+
+        source.numFields.times.each do |field|
+          puts source.idfObject.getString(field)
+
+          # todo - find compact handle, and use setString to replace it with new handle
+
+          
+        end
+
+      end
 
 
-    # todo - setup return air plenums
+      # todo - schedules are not all right, specifcialy look at Cooling Schedule and Heating Schedule
+      # todo - create schedules without unused default profile.
+      # todo - replace usages of compact model, model.swap(compact,os_sch) doesn't work
+
+    end
+    runner.registerInfo("Added #{counter} ScheduleRuleset objects to the model.")
+
+    # todo - add HVAC
+
+    # add in air loops
+    air_loop = OpenStudio::Model::AirLoopHVAC.new(model)
+    air_loop.setName('RoofTop')
+
+    # populate air loop with zones
+    model.getThermalZones.each do |zone|
+
+      # clean up zone name so it matches what it was in IDF
+      zone.setName("#{zone.name.get.gsub(' Thermal Zone','')}")
+
+      # add zone to air loop
+      if zone.thermostatSetpointDualSetpoint.is_initialized
+        air_loop.addBranchForZone(zone)
+      end
+    end
+    runner.registerInfo("Added airloop named #{air_loop.name} with #{air_loop.thermalZones.size} thermal zones.")
+
+    # sort stories by nominalZCoordinate
+    nom_z_vals = []
+    model.getBuildingStorys.sort.each do |story|
+      nom_z_vals << story.nominalZCoordinate.get
+    end
+    nom_z_vals = nom_z_vals.sort!
+
+    # identify plenum zones
+    first_story_plenum_zone = nil
+    second_floor_plenum_zone = nil
+    model.getBuildingStorys.sort.each do |story|
+      if story.nominalZCoordinate.get == nom_z_vals[1]
+        first_story_plenum_zone = story.spaces.first.thermalZone.get
+      elsif story.nominalZCoordinate.get == nom_z_vals[3]
+        second_floor_plenum_zone = story.spaces.first.thermalZone.get
+      end
+    end
+
+    # assign plenums to zones
+    model.getBuildingStorys.sort.each do |story|
+      if story.nominalZCoordinate.get == nom_z_vals[0]
+        story.spaces.each do |space|
+          zone = space.thermalZone.get
+            zone.setReturnPlenum(first_story_plenum_zone)
+        end
+      elsif story.nominalZCoordinate.get == nom_z_vals[2]
+        story.spaces.each do |space|
+          zone = space.thermalZone.get
+          zone.setReturnPlenum(second_floor_plenum_zone)
+        end
+      end
+    end
+
+    # report plenums
+    is_plenum = []
+    has_return_plenum = []
+    unconditioned = []
+    model.getThermalZones.each do |zone|
+      if zone.isPlenum
+        is_plenum << zone
+      elsif ! zone.thermostatSetpointDualSetpoint.is_initialized
+        unconditioned << zone
+      end
+    end
+    runner.registerInfo("Added #{is_plenum.size} return air plenums to the model serving ??? zones. #{unconditioned.size} occupied zones don't have thermostats.")
+
+
+    # todo - populate air loop supply side
 
 
     # todo - add in zone equipment
 
+
+    # todo - need to make sure all curves and performance data match source IDF
+
+
+    # todo - fix variables (many point to hvac objects from IDF file that may not have same name now)
+    model.getOutputVariables.each do |output_var|
+      puts output_var.keyValue
+    end
+
+
+    # todo - add in missing EMS information
+
+    # add EMS variable name to OS:EnergyManagementSystem:OutputVariable)
+    model.getEnergyManagementSystemOutputVariables.each do |ems_var|
+
+=begin
+      if ems_var.name.to_s == 'Heating Supply Temperature'
+
+        # create OS:EnergyManagementSystem:Actuator.
+        ems_var_obj = nil
+        ems_actuator = OpenStudio::Model::EnergyManagementSystemActuator.new(ems_var_obj,"System Node Setpoint","Temperature Setpoint")
+        ems_actuator.setName("HeatingSupplyT")
+
+        # assign ems_var
+        ems_var.setEMSVariableName(ems_actuator.handle)
+
+      elsif ems_var.name.to_s == 'Cooling Supply Temperature'
+        # add and assign OS:EnergyManagementSystem:Actuator
+
+        # create OS:EnergyManagementSystem:Actuator
+        ems_var_obj = nil
+        ems_actuator = OpenStudio::Model::EnergyManagementSystemActuator.new(ems_var_obj,"System Node Setpoint","Temperature Setpoint")
+        ems_actuator.setName("CoolingSupplyT")
+
+        # assign ems_var
+        ems_var.setEMSVariableName(ems_actuator.handle)
+
+      else
+        # do nothing (DOAS Schedule Value object didn't loose its EMS Variable name value on import)
+      end
+=end
+
+      puts ems_var
+
+    end
 
     # report final condition of model
     runner.registerFinalCondition("The building finished with #{model.objects.size} objects.")
