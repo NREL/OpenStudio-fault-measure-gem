@@ -119,7 +119,8 @@ At some point the OSM could become the working model that gets updated and conve
     # todo - fix exterior constructions until soruce IDF and OSM are updated
 
 
-    # todo - convert all schedules to ScheduleRulesets (This will support fault measures that alter schedules)
+    # convert all schedules to ScheduleRulesets (This will support fault measures that alter schedules)
+    # todo - create schedules without unused default profile.
     counter = 0
     model.getScheduleCompacts.each do |compact|
       counter += 1
@@ -136,9 +137,6 @@ At some point the OSM could become the working model that gets updated and conve
       end
       compact.remove
       os_sch.setName(orig_name)
-
-      # todo - schedules are not all right, specifically look at Cooling Schedule and Heating Schedule
-      # todo - create schedules without unused default profile.
     end
     runner.registerInfo("Added #{counter} ScheduleRuleset objects to the model.")
 

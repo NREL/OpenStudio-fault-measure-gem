@@ -34,7 +34,7 @@ class ScheduleTranslator
     i_until = -1
     sUntil = ""
     
-    (3..@os_schedule.numFields-2).each do |i|
+    (3..@os_schedule.numFields-1).each do |i|
       val = @os_schedule.getString(i).get
 
       # Trap for interpolated schedules
@@ -42,7 +42,13 @@ class ScheduleTranslator
         puts "[WARNING] Schedule #{@sched_name} is interpolated.  It will not be translated to .osm"
         return false
       end
-      
+
+      # add : if it doesn't already exist
+      val = val.gsub(/Through\s/,"Through: ")
+      val = val.gsub(/For\s/,"For: ")
+      val = val.gsub(/Until\s/,"Until: ")
+      puts val
+
       if val =~ /through:/i
         i_thru += 1
         i_for = -1
@@ -76,22 +82,24 @@ class ScheduleTranslator
         next
       end
 
-      dVal = @os_schedule.getString(i).get.to_f
+      dVal = @os_schedule.getDouble(i).get
       #puts "thru: #{i_thru} for: #{i_for} until #{i_until}"
       @schedule[i_thru][:for][i_for][:until] << {:timestamp => sUntil, :value => dVal}
     end
     
     #DEBUG spit out the schedule for quick check\
-    #puts @schedule.inspect
-    # @schedule.each do |sch|
-     # puts "#{sch[:start_date]} to #{sch[:end_date]}"
-     # sch[:for].each do |fr|
-       # puts fr[:daytype]
-       # fr[:until].each do |ut|
-         # puts "#{ut[:timestamp]} : #{ut[:value]}"
-       # end
-     # end
-    # end
+=begin
+    puts @schedule.inspect
+    @schedule.each do |sch|
+     puts "#{sch[:start_date]} to #{sch[:end_date]}"
+     sch[:for].each do |fr|
+       puts fr[:daytype]
+       fr[:until].each do |ut|
+         puts "#{ut[:timestamp]} : #{ut[:value]}"
+       end
+     end
+    end
+=end
  
     os_schedule_ruleset = OpenStudio::Model::ScheduleRuleset.new(@os)
     os_schedule_ruleset.setName(@sched_name)
@@ -272,6 +280,7 @@ class ScheduleTranslator
       sr.daySchedule.setName("#{@sched_name} Rule #{sched_i} Day Schedule")
     end
     
+    # todo - unused default profiles are still being used
     # If the default profile is never used throughout the year,
     # make the most commonly used rule the default instead.
   
@@ -286,7 +295,7 @@ class ScheduleTranslator
     #puts rules_freq
     most_freq_rule_index = rules_freq.values.max_by(&:size).first
     puts "rule #{most_freq_rule_index} is used most often, on #{rules_freq[most_freq_rule_index].size} days."
-    if not rules_used_each_day.include?(-1)
+    if not rules_used_each_day.include?(-1) # how would -1 get there, should check size or 365 or 366 depending upon year
       puts("#{os_schedule_ruleset.name} does not used the default profile, it will be replaced.")
 
       # Get times/values from the most commonly used rule then remove that rule.
