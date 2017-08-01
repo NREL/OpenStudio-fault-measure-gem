@@ -4,9 +4,6 @@
 # This translator takes the schedule:compact and loads into memory based
 # structure, then translates back out to schedule rule sets
 
-#require 'rubygems'
-#require 'orderedhash'
-
 ForStruct = Struct.new(:daytypes)
 UntilStruct = Struct.new(:timestamp)
 ThroughStruct = Struct.new(:startdate)
@@ -25,11 +22,10 @@ class ScheduleTranslator
   end
   
   def translate()
-    sched_objs = []
-    
+
     @sched_name = @os_schedule.getString(1).get
     @sched_name = "#{@name_prefix} #{@sched_name}" unless @name_prefix.nil?
-    @sched_type = @os_schedule.scheduleTypeLimits.get  # todo - will fail if no limits set
+    @sched_type = @os_schedule.scheduleTypeLimits.get  # todo - will fail if no limits set in source schedule
     
     puts "Translating #{@sched_name}"
 
@@ -38,7 +34,7 @@ class ScheduleTranslator
     i_until = -1
     sUntil = ""
     
-    (3..@os_schedule.numFields-1).each do |i|
+    (3..@os_schedule.numFields-2).each do |i|
       val = @os_schedule.getString(i).get
 
       # Trap for interpolated schedules

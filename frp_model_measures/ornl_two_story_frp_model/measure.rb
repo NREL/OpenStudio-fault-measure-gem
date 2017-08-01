@@ -120,40 +120,25 @@ At some point the OSM could become the working model that gets updated and conve
 
 
     # todo - convert all schedules to ScheduleRulesets (This will support fault measures that alter schedules)
-
-    # clone ScheduleCompact objects
     counter = 0
-    puts "hello1"
     model.getScheduleCompacts.each do |compact|
-      orig_name =  compact.name.get
-      #sch_translator = ScheduleTranslator.new(model, compact)
-      #os_sch = sch_translator.translate
       counter += 1
+      orig_name =  compact.name.get
+      sch_translator = ScheduleTranslator.new(model, compact)
+      os_sch = sch_translator.translate
 
-      puts "soruces for #{compact.name}"
+      # replace uses of schedule, model.swap(compact,os_sch) doesn't work
       compact.sources.each do |source|
-
-        puts source
-
-        source.numFields.times.each do |field|
-          puts source.getString(field)
+        source_index = source.getSourceIndices(compact.handle)
+        source_index.each do |field|
+          source.setPointer(field,os_sch.handle)
         end
-
-        source.numFields.times.each do |field|
-          puts source.idfObject.getString(field)
-
-          # todo - find compact handle, and use setString to replace it with new handle
-
-          
-        end
-
       end
+      compact.remove
+      os_sch.setName(orig_name)
 
-
-      # todo - schedules are not all right, specifcialy look at Cooling Schedule and Heating Schedule
+      # todo - schedules are not all right, specifically look at Cooling Schedule and Heating Schedule
       # todo - create schedules without unused default profile.
-      # todo - replace usages of compact model, model.swap(compact,os_sch) doesn't work
-
     end
     runner.registerInfo("Added #{counter} ScheduleRuleset objects to the model.")
 
@@ -234,7 +219,7 @@ At some point the OSM could become the working model that gets updated and conve
 
     # todo - fix variables (many point to hvac objects from IDF file that may not have same name now)
     model.getOutputVariables.each do |output_var|
-      puts output_var.keyValue
+      #puts output_var.keyValue
     end
 
 
