@@ -2,25 +2,16 @@
   <schema_version>3.0</schema_version>
   <name>ornl_two_story_frp_model</name>
   <uid>67cfe500-ee64-40db-acf7-f04bf999950d</uid>
-  <version_id>998a51ba-441b-4dda-89e9-be5efc1bc3c2</version_id>
-  <version_modified>20170727T201229Z</version_modified>
+  <version_id>94a1639d-2594-4a7c-85bd-d268476c21ac</version_id>
+  <version_modified>20170801T211924Z</version_modified>
   <xml_checksum>55EF43E6</xml_checksum>
   <class_name>OrnlTwoStoryFrpModel</class_name>
   <display_name>Ornl Two Story Frp Model</display_name>
   <description>This measure will make the ORNL Two Story Flexible Research Platrom OpenStudio Model.</description>
-  <modeler_description>This will start with an IDF file in the resoruce directory for a current version of EnergyPlus. Simulation settings, geometry, constructions, and schedules will come in with the IDF. Schedules will need to be converted to Rulset Schedules so they will work with downstream measures. Schedules may need to be overridden from external resource data unique to a specific test configuraiton. EMS will need to be updated, and HVAC systems will need to be rebuilt.
+  <modeler_description>This will start with an OSM file in the resoruce directory. Simulation settings, geometry, constructions, and schedules will come in with the IDF. Schedules will need to be converted to Rulset Schedules so they will work with downstream measures. Schedules may need to be overridden from external resource data unique to a specific test configuraiton. EMS will need to be updated, and HVAC systems will need to be rebuilt.
 
 At some point the OSM could become the working model that gets updated and converted to IDF as needed. In that case this meaure be needed. There will be a mostly complete OSM model that just uses measure to adapt operational characteristics as needed.</modeler_description>
-  <arguments>
-    <argument>
-      <name>space_name</name>
-      <display_name>New space name</display_name>
-      <description>This name will be used as the name of the new space.</description>
-      <type>String</type>
-      <required>true</required>
-      <model_dependent>false</model_dependent>
-    </argument>
-  </arguments>
+  <arguments/>
   <outputs/>
   <provenances/>
   <tags>
@@ -70,6 +61,12 @@ At some point the OSM could become the working model that gets updated and conve
   </attributes>
   <files>
     <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>2.2.0</identifier>
@@ -78,19 +75,49 @@ At some point the OSM could become the working model that gets updated and conve
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>3D537B8B</checksum>
+      <checksum>57B5CB54</checksum>
     </file>
     <file>
       <filename>ornl_two_story_frp_model_test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>7D1CAAA0</checksum>
+      <checksum>1C9F1937</checksum>
     </file>
     <file>
-      <filename>example_model.osm</filename>
+      <filename>FRP2_NREL_transition.audit</filename>
+      <filetype>audit</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>03DC1546</checksum>
+    </file>
+    <file>
+      <filename>FRP2_NREL_Untranslated.idf</filename>
+      <filetype>idf</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>4B70EDDA</checksum>
+    </file>
+    <file>
+      <filename>FRP2_NREL_V840.idf</filename>
+      <filetype>idf</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>BF3B4CA1</checksum>
+    </file>
+    <file>
+      <filename>FRP2_NREL_V870.idf</filename>
+      <filetype>idf</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>EC4C7C3E</checksum>
+    </file>
+    <file>
+      <filename>FRP2_raw_import.osm</filename>
       <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>53D14E69</checksum>
+      <usage_type>resource</usage_type>
+      <checksum>314E9BA3</checksum>
+    </file>
+    <file>
+      <filename>ScheduleTranslator.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>9EDB75CD</checksum>
     </file>
   </files>
 </measure>
