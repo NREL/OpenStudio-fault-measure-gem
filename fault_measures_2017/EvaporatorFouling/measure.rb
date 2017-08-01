@@ -15,12 +15,27 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
 
   # human readable description
   def description
-    return 'This Measure models the fouling problem in AHUs, RTUs or other HVAC equipment described by an AirLoopHVAC object with a Fan:ConstantVolume or Fan:VariableVolume object. If any Fan objects are autosized, the Measure Auto Size to Hard Size must be executed before this Measure.'
+    return 'Evaporator fouling occurs when the filter upstream of a ' \
+      'cooling/evaporator coil is fouled, the duct is improperly designed, ' \
+      'the blower speed is too low (e.g., belt slipping or control problem), ' \
+      'etc. This fault decreases the evaporator saturation temperature, which ' \
+      'decreases overall cooling capacity, sensible heat ratio, and the coefficient ' \
+      'of performance (COP). The lower sensible heat ratio leads to increased latent ' \
+      'load to meet a particular sensible load. This measure simulates the evaporator ' \
+      'fouling by modifying either Fan:ConstantVolume, Fan:VariableVolume, Fan:OnOff' \
+      'or Fan:VariableVolume objects in EnergyPlus assigned to the air system. ' \
+      'If any Fan objects are autosized, the Measure Auto Size to Hard Size must be ' \
+      'executed before this Measure.'
   end
 
   # human readable description of modeling approach
   def modeler_description
-    return 'This measure script will adjust the maximum volumetric flow rate and pressure difference at the rated condition based on the increase of pressure drop in the duct caused by fouling. If the fan object contains empirical formula for part load calculation, they will be adjusted accordingly to reflect the fouling effect.'
+    return 'Two additional user inputs shown (AirLoopHVAC object where the fault ' \
+      'occurs and pressure rise level) can be defined or remained with default ' \
+      'values above inputs shown in Table 20. Based on user inputs, the pressure ' \
+      'rise and maximum flow rate parameters are redefined in fan objects. If the ' \
+      'fan object contains empirical formula for part load calculation, they will ' \
+      'be adjusted accordingly to reflect the fouling effect.'
   end
 
   # define the arguments that the user will input
