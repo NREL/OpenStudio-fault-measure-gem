@@ -16,7 +16,7 @@ class ScheduleTranslator
     @os = os_model
     @sched_name = os_schedule.name.get.to_s
     @sched_type = os_schedule.scheduleTypeLimits.get
-    @base_year = 2009 #not used
+    @base_year = os_model.getYearDescription.assumedYear
     @schedule = []
     @name_prefix = name_prefix
   end
@@ -47,7 +47,6 @@ class ScheduleTranslator
       val = val.gsub(/Through\s/,"Through: ")
       val = val.gsub(/For\s/,"For: ")
       val = val.gsub(/Until\s/,"Until: ")
-      puts val
 
       if val =~ /through:/i
         i_thru += 1
@@ -280,30 +279,27 @@ class ScheduleTranslator
       sr.daySchedule.setName("#{@sched_name} Rule #{sched_i} Day Schedule")
     end
     
-    # todo - unused default profiles are still being used
     # If the default profile is never used throughout the year,
     # make the most commonly used rule the default instead.
   
     # Get an array that shows which rule is used on each day in the date range.
     # A value of -1 means that the default profile is used on that day,
     # so if -1 never appears in the list, it isn't used.
-    year_start_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new("January"),1)
-    year_end_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new("December"),31)
+    year = @base_year
+    year_start_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new("January"),1,year)
+    year_end_date = OpenStudio::Date.new(OpenStudio::MonthOfYear.new("December"),31,year)
     rules_used_each_day = os_schedule_ruleset.getActiveRuleIndices(year_start_date,year_end_date)
-    #puts "The schedule covers #{rules_used_each_day.size} days"
     rules_freq = rules_used_each_day.group_by { |n| n }
-    #puts rules_freq
     most_freq_rule_index = rules_freq.values.max_by(&:size).first
-    puts "rule #{most_freq_rule_index} is used most often, on #{rules_freq[most_freq_rule_index].size} days."
-    if not rules_used_each_day.include?(-1) # how would -1 get there, should check size or 365 or 366 depending upon year
+    if not rules_used_each_day.include?(-1)
       puts("#{os_schedule_ruleset.name} does not used the default profile, it will be replaced.")
 
       # Get times/values from the most commonly used rule then remove that rule.
       rule_vector = os_schedule_ruleset.scheduleRules
-      new_default_day_sch = rule_vector.reverse[most_freq_rule_index].daySchedule
+      new_default_day_sch = rule_vector[most_freq_rule_index].daySchedule
       new_default_day_sch_values = new_default_day_sch.values
       new_default_day_sch_times = new_default_day_sch.times
-      rule_vector.reverse[most_freq_rule_index].remove
+      rule_vector[most_freq_rule_index].remove
       
       # Reset values in default profile
       default_day_sch = os_schedule_ruleset.defaultDaySchedule

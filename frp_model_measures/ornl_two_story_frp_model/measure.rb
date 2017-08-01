@@ -38,7 +38,6 @@ At some point the OSM could become the working model that gets updated and conve
     # report initial condition of model
     runner.registerInitialCondition("The building started with #{model.objects.size} objects.")
 
-
     # >> replace model in with model from resources folder
     base_model_path = "#{File.dirname(__FILE__)}/resources/FRP2_raw_import.osm"
     translator = OpenStudio::OSVersion::VersionTranslator.new
@@ -62,6 +61,9 @@ At some point the OSM could become the working model that gets updated and conve
     model.addObjects( oModel.get.toIdfFile.objects )
     runner.registerInfo("#{base_model_path} was imported with #{model.objects.size} objects")
 
+    # update attributes that didn't import in
+    year_desc = model.getYearDescription
+    year_desc.setCalendarYear(2017)
 
     # >> assign building stories
 
@@ -113,18 +115,16 @@ At some point the OSM could become the working model that gets updated and conve
     runner.registerInfo("Added #{model.getBuildingStorys.size} stories ot the building.")
 
 
-    # todo - fix surface matching until soruce IDF and OSM are updated
+    # todo - fix surface matching until source IDF and OSM are updated
 
 
-    # todo - fix exterior constructions until soruce IDF and OSM are updated
+    # todo - fix exterior constructions until source IDF and OSM are updated
 
 
-    # convert all schedules to ScheduleRulesets (This will support fault measures that alter schedules)
-    # todo - create schedules without unused default profile.
-    counter = 0
+    # >> convert all schedules to ScheduleRulesets (This will support fault measures that alter schedules)
+    new_schedules = []
     model.getScheduleCompacts.each do |compact|
-      counter += 1
-      orig_name =  compact.name.get
+      orig_name = compact.name.get
       sch_translator = ScheduleTranslator.new(model, compact)
       os_sch = sch_translator.translate
 
@@ -137,10 +137,11 @@ At some point the OSM could become the working model that gets updated and conve
       end
       compact.remove
       os_sch.setName(orig_name)
+      new_schedules << os_sch
     end
-    runner.registerInfo("Added #{counter} ScheduleRuleset objects to the model.")
+    runner.registerInfo("Added #{new_schedules.size} ScheduleRuleset objects to the model.")
 
-    # todo - add HVAC
+    # >> add HVAC
 
     # add in air loops
     air_loop = OpenStudio::Model::AirLoopHVAC.new(model)
@@ -215,13 +216,13 @@ At some point the OSM could become the working model that gets updated and conve
     # todo - need to make sure all curves and performance data match source IDF
 
 
-    # todo - fix variables (many point to hvac objects from IDF file that may not have same name now)
+    # todo >> fix variables (many point to hvac objects from IDF file that may not have same name now)
     model.getOutputVariables.each do |output_var|
       #puts output_var.keyValue
     end
 
 
-    # todo - add in missing EMS information
+    # todo >> add in missing EMS information
 
     # add EMS variable name to OS:EnergyManagementSystem:OutputVariable)
     model.getEnergyManagementSystemOutputVariables.each do |ems_var|
