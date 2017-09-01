@@ -26,15 +26,18 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
 
   # simple human readable description
   def description
-    return 'Thermostat schedules are employed to raise setpoints for ' \
-      'cooling and lower setpoints for heating at night, to switch fan ' \
-      'operation from being continuously on during occupied times to being ' \
-      'coupled to cooling or heating demands at other times, and to closing ' \
-      'ventilation dampers during unoccupied periods. Faults can occur due ' \
-      'to malfunctioning, un-programmed, or incorrectly programmed or scheduled ' \
-      'thermostats, leading to increased energy consumption and/or  ' \
-      'compromised comfort and air quality. This measure simulates the  ' \
-      'effect of overnight HVAC setback being delayed until occupied hours. ' \
+    return 'Thermostat schedules are employed to raise set points for cooling ' \
+      'and lower set points for heating at night, to switch fan operation from ' \
+      'being continuously on during occupied times to being coupled to cooling ' \
+      'or heating demands at other times, and to close ventilation dampers ' \
+      'during unoccupied periods. Faults can occur due to malfunctioning, ' \
+      'unprogrammed, or incorrectly programmed or scheduled thermostats, leading ' \
+      'to increased energy consumption and/or compromised comfort and air quality. ' \
+      'This measure simulates the effect of overnight HVAC setback being ' \
+      'terminated earlier during unoccupied hours by modifying the Schedule:Compact ' \
+      'object in EnergyPlus assigned to thermostat set point schedules.' \
+      'The fault intensity (F) for this fault is defined as the early termination ' \
+      'of overnight HVAC setback (in hours), which is specified as one of the inputs.'
   end
 
   # detailed human readable description about how to use the measure
