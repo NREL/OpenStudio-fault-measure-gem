@@ -42,8 +42,13 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
 
   # detailed human readable description about how to use the measure
   def modeler_description
-    return 'To use this Measure, choose the Zone that is faulted, ' \
-      'and the period of time what you want the fault to occur. ' \
+    return 'Five different user inputs are required to simulate the fault. ' \
+      'The measure detects the original (non-faulted) thermostat schedule ' \
+      'applied in EnergyPlus automatically, and adjusts the morning schedule ' \
+      'based on user inputs. Note that this measure only works for buildings ' \
+      'that become unoccupied before midnight. To use this Measure, ' \
+      'choose the Zone that is faulted, ' \
+      'and the period of time when you want the fault to occur. ' \
       'You should also enter the number of hours that the extension ' \
       'sustains. The measure will detect the thermostat schedule of the ' \
       'automatically, and adjust the morning schedule to the daytime ' \
