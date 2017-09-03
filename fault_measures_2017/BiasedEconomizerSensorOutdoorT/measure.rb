@@ -26,10 +26,7 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
     return 'When sensors drift and are not regularly calibrated, it causes a ' \
 	'bias. Sensor readings often drift from their calibration with age, ' \
 	'causing equipment control algorithms to produce outputs that deviate ' \
-	'from their intended function. A positive bias in the economizer outdoor ' \
-        'relative humidity (RH) sensor leads to a higher estimate in the outdoor ' \
-	'air enthalpy, which shifts the economizer switch-off point and could ' \
-	'cause higher cooling or heating energy consumption. This measure ' \
+	'from their intended function. This measure ' \
 	'simulates the biased economizer sensor (outdoor temperature) by modifying ' \
 	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
 	'cooling system. The fault intensity (F) for this fault is defined as the ' \
