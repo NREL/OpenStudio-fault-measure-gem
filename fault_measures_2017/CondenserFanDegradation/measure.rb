@@ -30,25 +30,27 @@ class RTUCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserSc
   def description
     return 'Motor efficiency degrades when a motor suffers from a bearing or a ' \
 	'stator winding fault. This fault causes the motor to draw higher ' \
-	'current from the electricity supply without changing the fluid flow. ' \
-	'In other words, they reduce the motor efficiency for converting ' \
-	'electricity into mechanical energy without affecting the volumetric ' \
-	'flow rate of the fan driven by the motor. Both the bearing fault ' \
-	'and the stator winding fault can be modeled by increasing the power ' \
+	'electrical current without changing the fluid flow. Both a bearing fault ' \
+	'and a stator winding fault can be modeled by increasing the power ' \
 	'consumption of the condenser fan without changing the airflow of the ' \
-	'condenser fan. This measure simulates the condenser fan degradation ' \
-	'by modifying Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned ' \
-	'to the heating and cooling system.'
+	'condenser fan. This measure simulates the condenser fan degradation by ' \
+	'modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned ' \
+	'to the heating and cooling system. The fault intensity (F) for this fault ' \
+	'is defined as the reduction in motor efficiency as a fraction of the ' \
+	'non-faulted motor efficiency.'
   end
 
   # human readable description of workspace approach
   def modeler_description
-    return 'Three user inputs (coil where the fault occurs, condenser fan power ' \
-	'ratio and either schedule or constant value of the percentage reduction ' \
-	'of motor efficiency) are required and based on user inputs, the energy ' \
-	'input ratio (EIR) in the DX cooling coil model is recalculated to reflect' \
-	'the faulted operation. If the fault level is outside the range of zero ' \
-	'and one, an error will occur.'
+    return 'Three user inputs are required and, based on these user inputs, ' \
+	'the EIR in the DX cooling coil model is recalculated to reflect the ' \
+	'faulted operation as shown in the equation below, where EIRF is the ' \
+	'faulted EIR, W ̇_fan is the fan power, W ̇_cool is the DX  coil power, ' \
+	'and F is the fault intensity. ' \
+	'EIR_F/EIR=1+(W ̇_fan/W ̇_cool)*(F/(1-F)) ' \
+	'This fault model also requires the ratio of condenser fan power to ' \
+	'the power consumption of compressor and condenser fan as a user ' \
+	'input parameter.'
   end
 
   # define the arguments that the user will input
