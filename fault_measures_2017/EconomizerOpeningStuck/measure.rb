@@ -23,12 +23,15 @@ class EconomizerDamperStuckFaultScheduled < OpenStudio::Ruleset::ModelUserScript
   
   def description
     return 'Stuck dampers associated with economizers can be caused by seized ' \
-	'actuators, broken linkages, economizer control system failures,  ' \
-	'or the failure of sensors that are used to determine damper  ' \
-	'position (Roth et al., 2004). In extreme cases, dampers stuck at  ' \
-	'either 100% open or closed can cause a serious impact in terms of  ' \
-	'system energy consumption or occupant comfort in the space. The fault  ' \
-	'intensity is defined as the percentage of economizer opening at the stuck position.'
+	'actuators, broken linkages, economizer control system failures, or the ' \
+        'failure of sensors that are used to determine damper position ' \
+	'(Roth et al. 2004, 2005). In extreme cases, dampers stuck at either 100% ' \
+	'open or closed can have a serious impact on system energy consumption ' \
+	'or occupant comfort in the space. This measure simulates a stuck damper ' \
+	'by modifying the Controller:OutdoorAir object in EnergyPlus. ' \
+	'The fault intensity (F) for this fault is defined as the ratio of ' \
+	'economizer damper at the stuck position (0-1 / 0 = fully closed, ' \
+	'1 = fully open)'
   end
   
   def modeler_description
