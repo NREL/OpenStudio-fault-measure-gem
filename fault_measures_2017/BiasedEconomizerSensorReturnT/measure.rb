@@ -23,21 +23,26 @@ class EconomizerReturnTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserSc
 
   # human readable description
   def description
-    return 'When sensors drift and are not regularly calibrated it causes a bias. ' \
-	'Sensor readings often drift from their calibration with age, causing ' \
-	'equipment control algorithms to produce outputs that deviate from their ' \
-	'intended function. This can lead to increased energy use, reduced comfort, ' \
-	'insufficient ventilation, etc. This measure simulates the biased ' \
+    return 'When sensors drift and are not regularly calibrated, it causes a ' \
+	'bias. Sensor readings often drift from their calibration with age, ' \
+	'causing equipment control algorithms to produce outputs that deviate ' \
+	'from their intended function. This measure simulates the biased ' \
 	'economizer sensor (return temperature) by modifying ' \
 	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
-	'cooling system. '
+	'cooling system. The fault intensity (F) for this fault is defined as the ' \
+	'biased temperature level (K), which is also specified as one of the inputs.'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return "To use this Measure, activate the Measure by the first boolean. ' \
-	'Choose the Controller:OutdoorAir object to be faulted. Set the level of '\
-	'temperature sensor bias in degree Celcius that you want at the return air ' \
+    return 'Three user inputs are required and, based on these user inputs, the ' \
+	'return air temperature reading in the economizer will be replaced by the ' \
+	'equation below, where T_(ra,F) is the biased return air temperature ' \
+	'reading, T_ra is the actual return air temperature, and F is the fault ' \
+	'intensity.' \
+	' T_(ra,F) = T_ra + F ' \
+	'To use this measure, choose the Controller:OutdoorAir object to be faulted. ' \
+	'Set the level of temperature sensor bias in K that you want at the return air ' \
 	'duct for the economizer during the simulation period. For example, ' \
 	'setting 2 means the sensor is reading 28C when the actual temperature is ' \
 	'26C. You can also impose a schedule of the presence of fault during the ' \
