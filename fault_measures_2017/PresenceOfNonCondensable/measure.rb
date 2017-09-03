@@ -30,15 +30,19 @@ class RTUNCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'When an air conditioner, heat pump, or refrigeration unit is not ' \
-      'properly evacuated prior to being charged with refrigerant, the unit runs '\
-      'with a mixture of air and refrigerant. Because it is non-condensable, the ' \
-      'air inside the refrigerant circuit typically is trapped in the high-pressure ' \
-      'vapor downstream of the compressor, and the pressure difference across the ' \
-      'compressor and the compressor power consumption exceeds the normal level. ' \
-      'This measure simulates the presence of non-condensable by modifying ' \
-      'Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating ' \
-      'and cooling system.'
+    return 'When an air conditioner, heat pump, or refrigeration unit is ' \
+      'not properly evacuated prior to being charged with refrigerant, ' \
+      'the unit runs with a mixture of air and refrigerant. Because it is ' \
+      'noncondensable, the air inside the refrigerant circuit typically ' \
+      'is trapped in the high-pressure vapor downstream of the compressor, ' \
+      'and the pressure difference across the compressor and the compressor ' \
+      'power consumption increase. This measure simulates the presence of ' \
+      'the noncondensable by modifying the Coil:Cooling:DX:SingleSpeed ' \
+      'object in EnergyPlus assigned to the heating and cooling system. ' \
+      '(12). The fault intensity (F) for this fault is defined as the ' \
+      'ratio of the mass of noncondensable in the refrigerant circuit to ' \
+      'the mass of noncondensable that the refrigerant circuit can hold at ' \
+      'standard atmospheric pressure.'
   end
 
   # human readable description of workspace approach
@@ -71,7 +75,7 @@ class RTUNCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
     # make a double argument for the fault level
     fault_lvl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_lvl', false)
     fault_lvl.setDisplayName('Percentage of non-condensable in the system [%]')
-    fault_lvl.setDefaultValue(10.0)  # defaulted at 10%
+    fault_lvl.setDefaultValue(0.1)  # defaulted at 10%
     args << fault_lvl
 
     # rated cooling capacity
@@ -185,7 +189,7 @@ class RTUNCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
     # function to return inputs stored in user_arguments
     coil_choice = runner.getStringArgumentValue('coil_choice', user_arguments)
-    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)/100.0  # from percentage to dimensionless number
+    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
     fault_lvl_check = _check_fault_lvl(runner, coil_choice, fault_lvl)
     return coil_choice, fault_lvl, fault_lvl_check
   end
