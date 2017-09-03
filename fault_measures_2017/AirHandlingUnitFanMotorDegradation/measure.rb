@@ -20,22 +20,23 @@ class FanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'Fan motor degradation occurs due to bearing and stator winding faults ' \
-      'which was also described in the condenser fan degradation fault section. ' \
-      'It decreases motor efficiency and eventually resulting in increase of ' \
-      'overall fan power consumption. This measure simulates the air handling unit ' \
-      'fan motor degradation by modifying either Fan:ConstantVolume, ' \
-      'Fan:VariableVolume or Fan:OnOff objects in EnergyPlus assigned to the ' \
-      'ventilation system.'
+    return 'Fan motor degradation occurs due to bearing and stator winding faults, ' \
+      'leading to a decrease in motor efficiency and an increase in overall fan ' \
+      'power consumption. This measure simulates the air handling unit fan motor ' \
+      'degradation by modifying either the Fan:ConstantVolume, Fan:VariableVolume, ' \
+      'or the Fan:OnOff objects in EnergyPlus assigned to the ventilation system. ' \
+      'The fault intensity (F) for this fault is defined as the ratio of fan motor ' \
+      'efficiency degradation.'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'Two user inputs are required, ' \
-      '- Fan object where the fault occurs ' \
-      '- Percentage of fan motor efficiency degradation. ' \
-      'and based on user inputs, the fan efficiency is recalculated to reflect ' \
-      'the faulted operation.'    
+    return 'Two user inputs are required and, based on these user inputs, the ' \
+      'fan efficiency is recalculated to reflect the faulted operation as ' \
+      'shown below, where η_(fan,tot,F) is the degraded total efficiency under ' \
+      'faulted condition, η_(fan,tot) is the total efficiency under normal ' \
+      'condition, and F is the fault intensity. ' \
+      ' η_(fan,tot,F) = η_(fan,tot)∙(1-F) '
   end
 
   # define the arguments that the user will input
@@ -51,10 +52,9 @@ class FanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
 
     # make a double argument for the fault level
     # it should range between 0 and 1. 0 means no degradation
-    # and 0.9 means that percentage drop of maximum volume flow rate is 90%
     eff_degrad_fac = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('eff_degrad_fac', false)
     eff_degrad_fac.setDisplayName('Degradation factor of the total efficiency of the fan during the simulation period. If the fan is not faulted, set it to zero.')
-    eff_degrad_fac.setDefaultValue(0.15)  # default fouling level to be 50%
+    eff_degrad_fac.setDefaultValue(0.15)  # default fouling level to be 15%
     args << eff_degrad_fac
 
     # choice of schedules for the presence of fault. 0 for no fault and 1 means total degradation
