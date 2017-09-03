@@ -30,15 +30,19 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'Non-standard charging occurs when refrigerant is undercharged or ' \
-      'overcharged within the refrigerant circuit of an air conditioning, heat ' \
-      'pumping, or refrigeration system. Without sufficient refrigerant running ' \
-      'in the system, the average refrigerant density, the evaporating temperature, ' \
-      'and the refrigerant mass flow rate from the compressor drop, leading to ' \
-      'reduced capacity, increased operating time, and increased energy consumption. ' \
-      'This fault can be due to leakage or improper charging during service. This measure ' \
-      'simulates the non-standard charging by modifying Coil:Cooling:DX:SingleSpeed ' \
-      'object in EnergyPlus assigned to the heating and cooling system.'
+    return 'Nonstandard charging occurs when the refrigerant is undercharged ' \
+      'or overcharged within the refrigerant circuit of an air-conditioning, ' \
+      'heat pump, or refrigeration system. Without sufficient refrigerant ' \
+      'running in the system, the average refrigerant density, the ' \
+      'evaporating temperature, and the refrigerant mass flow rate from the ' \
+      'compressor decrease, leading to reduced capacity, increased ' \
+      'operating time, and increased energy consumption. This fault can be ' \
+      'due to leakage or improper charging during service. This measure ' \
+      'simulates nonstandard charging by modifying the ' \
+      'Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the ' \
+      'heating and cooling system. ' \
+      'The fault intensity (F) for this fault is defined as the ratio of ' \
+      'deviation in refrigerant mass from the nominal value.'
   end
 
   # human readable description of workspace approach
@@ -71,7 +75,7 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
     # make a double argument for the fault level
     fault_lvl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_lvl', false)
     fault_lvl.setDisplayName('Percentage reduction of charge level [%]')
-    fault_lvl.setDefaultValue(10.0)  # defaulted at 10%
+    fault_lvl.setDefaultValue(0.1)  # defaulted at 10%
     args << fault_lvl
 
     # rated cooling capacity
@@ -185,7 +189,7 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
     # function to return inputs stored in user_arguments
     coil_choice = runner.getStringArgumentValue('coil_choice', user_arguments)
-    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)/100.0  # from percentage to dimensionless number
+    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
     fault_lvl_check = _check_fault_lvl(runner, coil_choice, fault_lvl)
     return coil_choice, fault_lvl, fault_lvl_check
   end
