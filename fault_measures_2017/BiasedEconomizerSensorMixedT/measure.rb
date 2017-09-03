@@ -17,19 +17,25 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
 
   # human readable description
   def description
-    return 'When sensors drift and are not regularly calibrated it causes a bias. ' \
-	'Sensor readings often drift from their calibration with age, causing ' \
-	'equipment control algorithms to produce outputs that deviate from their ' \
-	'intended function. This can lead to increased energy use, reduced comfort, ' \
-	'insufficient ventilation, etc. This measure simulates the biased ' \
-	'economizer sensor (mixed temperature) by modifying ' \
-	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
-	'cooling system. '
+    return 'When sensors drift and are not regularly calibrated, it causes a ' \
+	'bias. Sensor readings often drift from their calibration with age, ' \
+	'causing equipment control algorithms to produce outputs that deviate ' \
+	'from their intended function. This measure ' \
+	'simulates the biased economizer sensor (mixed air temperature) ' \
+	'by modifying the Controller:OutdoorAir object in EnergyPlus assigned ' \
+	'to the heating and cooling system. The fault intensity (F) defined as ' \
+	'the biased temperature level (K)'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, choose the Controller:OutdoorAir object to be ' \
+    return 'Two user inputs are required and, based on these user inputs, ' \
+	'the mixed air temperature reading in the economizer will be replaced ' \
+	'by the equation below, where T_(ma,F) is the biased mixed air ' \
+	'temperature reading, T_ma is the actual mixed air temperature, and F ' \
+	'is the fault intensity.' \
+	' T_(ma,F) = T_ma + F ' \	  
+	'To use this Measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of temperature sensor bias that you want at the ' \
 	'mixed air duct for the economizer during the simulation period. The ' \
 	'algorithm checks if a real sensor exists in the mixed air chamber, and ' \
@@ -48,7 +54,7 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
     econ_choice.setDefaultValue("Controller Outdoor Air 1")  #name of economizer for the EC building
     args << econ_choice
 	
-    #make a double argument for the relative humidity sensor bias
+    #make a double argument for the temperature sensor bias
     mix_temp_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("mix_temp_bias", false)
     mix_temp_bias.setDisplayName("Enter the bias level of the mixed air temperature sensor. A positive number means that the sensor is reading a temperature higher than the true temperature. (K)")
     mix_temp_bias.setDefaultValue(2)  # default bias level at 2K
