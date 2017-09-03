@@ -23,26 +23,35 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
 
   # human readable description
   def description
-    return 'When sensors drift and are not regularly calibrated it causes a bias. ' \
-	'Sensor readings often drift from their calibration with age, causing ' \
-	'equipment control algorithms to produce outputs that deviate from their ' \
-	'intended function. This can lead to increased energy use, reduced comfort, ' \
-	'insufficient ventilation, etc. This measure simulates the biased ' \
-	'economizer sensor (outdoor temperature) by modifying ' \
+    return 'When sensors drift and are not regularly calibrated, it causes a ' \
+	'bias. Sensor readings often drift from their calibration with age, ' \
+	'causing equipment control algorithms to produce outputs that deviate ' \
+	'from their intended function. A positive bias in the economizer outdoor ' \
+        'relative humidity (RH) sensor leads to a higher estimate in the outdoor ' \
+	'air enthalpy, which shifts the economizer switch-off point and could ' \
+	'cause higher cooling or heating energy consumption. This measure ' \
+	'simulates the biased economizer sensor (outdoor temperature) by modifying ' \
 	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
-	'cooling system. '
+	'cooling system. The fault intensity (F) for this fault is defined as the ' \
+	'biased temperature level (K), which is also specified as one of the inputs.'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this Measure, activate the Measure by the first boolean. ' \
-	'Choose the Controller:OutdoorAir object to be faulted. Set the level of ' \
-	'temperature sensor bias in degree Celcius that you want at the outdoors ' \
-	'for the economizer during the simulation period. For example, setting ' \
-	'2 means the sensor is reading 28C when the actual temperature is 26C. ' \
-	'You can also impose a schedule of the presence of fault during the ' \
-	'simulation period. If a schedule name is not given, the model assumes ' \
-	'that the fault is present during the entire simulation period.'
+    return 'Three user inputs are required and, based on ' \
+	'these user inputs, the outdoor air temperature reading in the economizer ' \
+	'will be replaced by the equation below, where T_(oa,F) is the biased ' \
+	'outdoor air temperature reading, T_oa is the actual outdoor air ' \
+	'temperature, and F is the fault intensity.' \
+	' T_(oa,F) = T_oa + F ' \	  
+	'To use this measure, choose the Controller:OutdoorAir object to be ' \
+	'faulted. Set the level of temperature sensor bias in K that you want ' \
+	'at the outdoors for the economizer during the simulation period. ' \
+	'For example, setting 2 means the sensor is reading 28C when the actual ' \
+	'temperature is 26C. You can also impose a schedule of the presence of ' \
+	'fault during the simulation period. If a schedule name is not given, ' \
+        'the model assumes that the fault is present during the entire ' \
+	'simulation period.'
   end
 
   # define the arguments that the user will input
@@ -56,9 +65,9 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
     econ_choice.setDefaultValue("")  #name of economizer for the EC building
     args << econ_choice
     
-    #name of schedule for the presence of fault at the return air sensor. 0 for no fault and 1.0 means fault level.
+    #name of schedule for the presence of fault at the outdoor air sensor. 0 for no fault and 1.0 means fault level.
     oa_tmp_sch = OpenStudio::Ruleset::OSArgument::makeStringArgument("oa_tmp_sch", true)
-    oa_tmp_sch.setDisplayName("Enter the name of the schedule of the fault presence at the return air temperature sensor. 0 means no fault and 1 means faulted. If you do not have a schedule, leave this blank.")
+    oa_tmp_sch.setDisplayName("Enter the name of the schedule of the fault presence at the outdoor air temperature sensor. 0 means no fault and 1 means faulted. If you do not have a schedule, leave this blank.")
     oa_tmp_sch.setDefaultValue("")
     args << oa_tmp_sch
 	
@@ -68,9 +77,9 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
     oa_tmp_bias.setDefaultValue(-2)  #default fouling level to be 30%
     args << oa_tmp_bias
     
-    #name of schedule for the multiplier of fault level at the return air sensor.
+    #name of schedule for the multiplier of fault level at the outdoor air sensor.
     oa_bias_sch = OpenStudio::Ruleset::OSArgument::makeStringArgument("oa_bias_sch", true)
-    oa_bias_sch.setDisplayName("Enter the name of the schedule for the multiplier of bias if you want to simulate a change of return air temperature sensor bias during simulation period. 0 means no fault and 2 means that the bias at that time is doubled. If you do not need this function, leave this blank.")
+    oa_bias_sch.setDisplayName("Enter the name of the schedule for the multiplier of bias if you want to simulate a change of outdoor air temperature sensor bias during simulation period. 0 means no fault and 2 means that the bias at that time is doubled. If you do not need this function, leave this blank.")
     oa_bias_sch.setDefaultValue("")
     args << oa_bias_sch
 
@@ -133,7 +142,7 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
           
           #append FaultModel objects to the idf file
           
-          #return air sensor temperature bias
+          #outdoor air sensor temperature bias
           if oa_tmp_bias != 0
             string_objects << "
               FaultModel:TemperatureSensorOffset:OutdoorAir,
