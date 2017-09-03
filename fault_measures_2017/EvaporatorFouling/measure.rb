@@ -15,27 +15,35 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
 
   # human readable description
   def description
-    return 'Evaporator fouling occurs when the filter upstream of a ' \
-      'cooling/evaporator coil is fouled, the duct is improperly designed, ' \
-      'the blower speed is too low (e.g., belt slipping or control problem), ' \
-      'etc. This fault decreases the evaporator saturation temperature, which ' \
-      'decreases overall cooling capacity, sensible heat ratio, and the coefficient ' \
-      'of performance (COP). The lower sensible heat ratio leads to increased latent ' \
-      'load to meet a particular sensible load. This measure simulates the evaporator ' \
-      'fouling by modifying either Fan:ConstantVolume, Fan:VariableVolume, Fan:OnOff' \
-      'or Fan:VariableVolume objects in EnergyPlus assigned to the air system. ' \
-      'If any Fan objects are autosized, the Measure Auto Size to Hard Size must be ' \
-      'executed before this Measure.'
+    return 'Evaporator fouling occurs when the filter upstream of a cooling/evaporator ' \
+      'coil is fouled, the duct is improperly designed, the blower speed is too ' \
+      'low (e.g., belt slipping or control problem), etc. This fault decreases ' \
+      'the evaporator saturation temperature, which decreases overall cooling ' \
+      'capacity, sensible heat ratio (SHR), and coefficient of performance. The ' \
+      'lower SHR leads to an increased latent load to meet a particular sensible ' \
+      'load. This measure simulates evaporator fouling by modifying either ' \
+      'Fan:ConstantVolume, Fan:VariableVolume, Fan:OnOff, or Fan:VariableVolume ' \
+      'objects in EnergyPlus assigned to the air system. ' \
+      'F is the fault intensity defined as the reduction in evaporator coil ' \
+      'airflow at full load condition as a ratio of the design airflow rate.'
   end
 
   # human readable description of modeling approach
   def modeler_description
-    return 'Two additional user inputs shown (AirLoopHVAC object where the fault ' \
-      'occurs and pressure rise level) can be defined or remained with default ' \
-      'values above inputs shown in Table 20. Based on user inputs, the pressure ' \
-      'rise and maximum flow rate parameters are redefined in fan objects. If the ' \
-      'fan object contains empirical formula for part load calculation, they will ' \
-      'be adjusted accordingly to reflect the fouling effect.'
+    return 'Two additional user inputs are required. Based on these user inputs, ' \
+      'the maximum supply airflow rate parameter defined in fan objects is ' \
+      'replaced based on equation (14), where m ̇_(a,max,F) is the maximum ' \
+      'airflow rate of the faulted condition, m ̇_(a,max) is the maximum airflow ' \
+      'rate under normal conditions, and F is the fault intensity defined as ' \
+      'the reduction in evaporator coil airflow at full load condition as a ' \
+      'ratio of the design airflow rate. ' \
+      ' m ̇_(a,max,F) = m_(a,max)∙(1-F) ----- (14) ' \
+      'There is a pressure rise (rpd) parameter that is also required in ' \
+      'fan objects in order to properly reflect evaporator fouling. ' \
+      'Equation (15) shows the relation between F and rpd that is used ' \
+      'to calculate the pressure rise based on the fault intensity level. ' \
+      'cF is the coefficient that is determined based on the training data set. ' \
+      ' F = 1-√((1+r_pd-c_F)/(1-c_F )) ----- (15)'
   end
 
   # define the arguments that the user will input
