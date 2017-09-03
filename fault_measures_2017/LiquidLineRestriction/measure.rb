@@ -31,18 +31,18 @@ class RTULLWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable description
   def description
     return 'A liquid-line restriction fault occurs when particles accumulate ' \
-      'within the refrigerant filter located between the condenser and the expansion ' \
-      'valve in the refrigerant circuit of a vapor compression cycle. The accumulation ' \
-      'increases the flow resistance of the refrigerant circuit and the pressure ' \
-      'difference across the compressor. It also reduces the evaporating temperature ' \
-      'and leads to lower cooling capacity, efficiency, and sensible heat ratio. ' \
-      'The lower sensible heat ratio leads to increased latent load to meet a ' \
-      'particular sensible load. The fault intensity is the percentage difference ' \
-      'between the pressure drop from the condenser outlet and evaporator inlet in ' \
-      'the restricted case and the pressure drop across the same location in the ' \
-      'non-faulted case. This measure simulates the liquid-line restriction by ' \
-      'modifying Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the ' \
-      'heating and cooling system.'
+      'within the refrigerant filter located between the condenser and the ' \
+      'expansion valve in the refrigerant circuit of a vapor compression cycle. ' \
+      'The accumulation increases the flow resistance of the refrigerant ' \
+      'circuit and the pressure difference across the compressor. It also ' \
+      'reduces the evaporating temperature and leads to lower cooling capacity, ' \
+      'efficiency, and SHR. The lower SHR leads to increased latent load to ' \
+      'meet a particular sensible load. This measure simulates a liquid-line ' \
+      'restriction by modifying the Coil:Cooling:DX:SingleSpeed object in ' \
+      'EnergyPlus assigned to the heating and cooling system. ' \
+      'The fault intensity (F) for this fault is defined as the ratio of ' \
+      'increase in the pressure difference between the condenser outlet and ' \
+      'evaporator inlet due to the restriction.'
   end
 
   # human readable description of workspace approach
@@ -75,7 +75,7 @@ class RTULLWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
     # make a double argument for the fault level
     fault_lvl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_lvl', false)
     fault_lvl.setDisplayName('Percentage of liquid line restriction fault [%]')
-    fault_lvl.setDefaultValue(10.0)  # defaulted at 10%
+    fault_lvl.setDefaultValue(0.1)  # defaulted at 10%
     args << fault_lvl
 
     # rated cooling capacity
@@ -189,7 +189,7 @@ class RTULLWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
     # function to return inputs stored in user_arguments
     coil_choice = runner.getStringArgumentValue('coil_choice', user_arguments)
-    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)/100.0  # from percentage to dimensionless number
+    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
     fault_lvl_check = _check_fault_lvl(runner, coil_choice, fault_lvl)
     return coil_choice, fault_lvl, fault_lvl_check
   end
