@@ -21,22 +21,31 @@ class EconomizerOutdoorRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScr
 
   # human readable description
   def description
-    return 'When sensors drift and are not regularly calibrated it causes a bias. ' \
-	'Sensor readings often drift from their calibration with age, causing ' \
-	'equipment control algorithms to produce outputs that deviate from their ' \
-	'intended function. This can lead to increased energy use, reduced comfort, ' \
-	'insufficient ventilation, etc. This measure simulates the biased ' \
-	'economizer sensor (outdoor relative humidity) by modifying ' \
-	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
-	'cooling system. '
+    return 'When sensors drift and are not regularly calibrated, it causes a ' \
+	'bias. Sensor readings often drift from their calibration with age, ' \
+	'causing equipment control algorithms to produce outputs that deviate ' \
+	'from their intended function. A positive bias in the economizer outdoor ' \
+        'relative humidity (RH) sensor leads to a higher estimate in the outdoor ' \
+	'air enthalpy, which shifts the economizer switch-off point and could ' \
+	'cause higher cooling or heating energy consumption. This measure ' \
+	'simulates the biased economizer sensor (outdoor air RH) by modifying ' \
+	'the Controller:OutdoorAir object in EnergyPlus assigned to the heating ' \
+	'and cooling system. The fault intensity (F) for this fault is defined ' \
+	'as the biased RH level (%)'
   end
 
   # human readable description of workspace approach
   def workspaceer_description
-    return 'To use this measure, choose the Controller:OutdoorAir object to be ' \
+    return 'Two user inputs are required, based on these user inputs, the ' \
+	'outdoor air RH reading in the economizer will be replaced by the ' \
+	'equation below, where RH_(oa,F) is the biased outdoor air RH ' \
+	'reading, RH_oa is the actual outdoor air RH, and F is the fault ' \
+	'intensity. ' \
+	'RH_(oa,F) = RH_oa + F ' \	  
+	'To use this measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of relative humidity sensor bias between 0 to 1 ' \
 	'that you want at the outdoor air duct for the economizer during the ' \
-	'simulation period. For example, setting 0.03 means the sensor is reading ' \
+	'simulation period. For example, setting F=3 means the sensor is reading ' \
 	'25% when the actual relative humidity is 22%. You can also impose a ' \
 	'schedule of the presence of fault during the simulation period. If a ' \
 	'schedule name is not given, the model assumes that the fault is present ' \
