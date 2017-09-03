@@ -30,14 +30,16 @@ class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'Condenser fouling occurs when litter, dirt, or dust accumulates on or ' \
-      'between the fins of a condenser of an air conditioner located in the outdoor ' \
-      'environment. The blockage reduces the airflow across the condenser and increases ' \
-      'the condensing temperature in the refrigerant circuit. The elevated temperature ' \
-      'increases the pressure difference across the compressor and reduces the ' \
-      'equipment efficiency. This measure simulates the condenser fan degradation by ' \
-      'modifying Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the ' \
-      'heating and cooling system.'
+    return 'Condenser fouling occurs when litter, dirt, or dust accumulates ' \
+      'on or between the fins of a condenser of an air conditioner located in ' \
+      'the outdoor environment. The blockage reduces the airflow across the ' \
+      'condenser and increases the condensing temperature in the refrigerant ' \
+      'circuit. The elevated temperature increases the pressure difference ' \
+      'across the compressor and reduces the equipment efficiency. This measure ' \
+      'simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed ' \
+      'object in EnergyPlus assigned to the heating and cooling system.' \
+      'The fault intensity (F) for this fault is defined as the ratio of ' \
+      'reduction in condenser coil airflow at full load.'
   end
 
   # human readable description of workspace approach
@@ -69,8 +71,8 @@ class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
     # make a double argument for the fault level
     fault_lvl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_lvl', false)
-    fault_lvl.setDisplayName('Percentage reduction of condenser airflow [%]')
-    fault_lvl.setDefaultValue(10.0)  # defaulted at 10%
+    fault_lvl.setDisplayName('Percentage reduction of condenser airflow [-]')
+    fault_lvl.setDefaultValue(0.1)  # defaulted at 10%
     args << fault_lvl
 
     # rated cooling capacity
@@ -184,7 +186,7 @@ class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
     # function to return inputs stored in user_arguments
     coil_choice = runner.getStringArgumentValue('coil_choice', user_arguments)
-    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)/100.0  # from percentage to dimensionless number
+    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
     fault_lvl_check = _check_fault_lvl(runner, coil_choice, fault_lvl)
     return coil_choice, fault_lvl, fault_lvl_check
   end
