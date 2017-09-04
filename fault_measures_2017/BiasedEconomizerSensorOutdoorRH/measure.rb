@@ -82,7 +82,7 @@ class EconomizerOutdoorRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScr
     
     #obtain values
     econ_choice = runner.getStringArgumentValue('econ_choice',user_arguments)
-    oa_rh_bias = runner.getDoubleArgumentValue('oa_rh_bias',user_arguments)
+    oa_rh_bias = runner.getDoubleArgumentValue('oa_rh_bias',user_arguments)/100 #normalize from % to dimensionless
     bias_sensor = "OA"
     if oa_rh_bias == 0
       runner.registerAsNotApplicable("#{name} is not running with zero fault level. Skipping......")
