@@ -40,7 +40,7 @@ class EconomizerReturnRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScri
 	'To use this Measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of relative humidity sensor bias between 0 to 100 ' \
 	'that you want at the return air duct for the economizer during the ' \
-	'simulation period. For example, setting 3 means the sensor is reading ' \
+	'simulation period. For example, setting F=3 means the sensor is reading ' \
 	'25% when the actual relative humidity is 22%. You can also impose a ' \
 	'schedule of the presence of fault during the simulation period. If a ' \
 	'schedule name is not given, the model assumes that the fault is present ' \
@@ -77,7 +77,7 @@ class EconomizerReturnRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScri
     
     #obtain values
     econ_choice = runner.getStringArgumentValue('econ_choice',user_arguments)
-    ret_rh_bias = runner.getDoubleArgumentValue('ret_rh_bias',user_arguments)
+    ret_rh_bias = runner.getDoubleArgumentValue('ret_rh_bias',user_arguments)/100 #normalize from % to dimensionless
     bias_sensor = "RET"
     if ret_rh_bias == 0
       runner.registerAsNotApplicable("#{name} is not running with zero fault level. Skipping......")
