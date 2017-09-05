@@ -62,11 +62,11 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
     equip_name.setDefaultValue($allahuchoice)
     args << equip_name
     
-    # ask user for a fault level in terms of the percentage of mass flow rate degradation
-    pressure_rise_lvl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('pressure_rise_lvl', true)
-    pressure_rise_lvl.setDefaultValue(10.0)
-    pressure_rise_lvl.setDisplayName('Percentage increase of air duct pressure drop when the fans are running at their maximum speed (from 0 to 100). (%)')
-    args << pressure_rise_lvl
+    # ask user for a fault level in terms of the percentage of mass flow rate reduction
+    evap_flow_reduction = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('evap_flow_reduction', true)
+    evap_flow_reduction.setDefaultValue(0.1)
+    evap_flow_reduction.setDisplayName('Percentage increase of air duct pressure drop when the fans are running at their maximum speed (from 0 to 100). (%)')
+    args << evap_flow_reduction
     
     #make double arguments to obtain coefficients
     args = enter_coefficients(args, 1, 'fanCurve', [1.4048])
@@ -85,17 +85,17 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
 
     # assign the user inputs to variables
     equip_name = runner.getStringArgumentValue('equip_name', user_arguments)
-    pressure_rise_lvl = (runner.getDoubleArgumentValue('pressure_rise_lvl', user_arguments))/100.0
+    evap_flow_reduction = (runner.getDoubleArgumentValue('evap_flow_reduction', user_arguments))
     coeff = runner_pass_coefficients(runner, user_arguments, 1, 'fanCurve')
 
-    # check the pressure_rise_lvl for reasonableness
-    if pressure_rise_lvl < 0.0
+    # check the evap_flow_reduction for reasonableness
+    if evap_flow_reduction < 0.0
       runner.registerError("User defined fouling level in Measure #{name} is negative. Exiting......")
       return false
-    elsif pressure_rise_lvl >= 1.0
+    elsif evap_flow_reduction >= 1.0
       runner.registerError("The resultant mass flow rate in Measure #{name} is negative. Exiting......")
       return false
-    elsif pressure_rise_lvl == 0.0
+    elsif evap_flow_reduction == 0.0
       runner.registerAsNotApplicable("Fouling level is zero. Skipping the Measure #{name}")
       return true
     end
@@ -129,10 +129,10 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
             else
               # change the maximum flow rate condition with the given fan curve
               delta_P = fan.pressureRise
-              delta_P = delta_P*(1.+pressure_rise_lvl)
+              delta_P = delta_P*(1.+(coeff[0]-1)*evap_flow_reduction*(2-evap_flow_reduction))
               max_flow = fan.getMaximumFlowRate
               max_flow = max_flow.get
-              max_flow = max_flow*((1.+pressure_rise_lvl-coeff[0])/(1.0-coeff[0]))**0.5
+              max_flow = max_flow*(1.-evap_flow_reduction)
               fan.setMaximumFlowRate(max_flow)
               fan.setPressureRise(delta_P)
               runner.registerInfo("#{fan.name.to_s} has its rated condition altered for fouling.")
@@ -151,10 +151,10 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
               # change the maximum flow rate condition with the given fan curve
               # variables defined in a little bit different way to facilitate future modification
               old_delta_P = fan.pressureRise
-              delta_P = old_delta_P*(1.+pressure_rise_lvl)
+              delta_P = old_delta_P*(1.+(coeff[0]-1)*evap_flow_reduction*(2-evap_flow_reduction))
               old_max_flow = fan.getMaximumFlowRate
               old_max_flow = old_max_flow.get.value
-              max_flow = old_max_flow*((1.+pressure_rise_lvl-coeff[0])/(1.-coeff[0]))**0.5
+              max_flow = old_max_flow*(1.-evap_flow_reduction)
               fan.setMaximumFlowRate(max_flow)
               fan.setPressureRise(delta_P)
               runner.registerInfo("#{fan.name.to_s} maximum flow becomes #{max_flow} m3/s from #{old_max_flow} m3/s.")
@@ -262,10 +262,10 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
               # change the maximum flow rate condition with the given fan curve
               # variables defined in a little bit different way to facilitate future modification
               old_delta_P = fan.pressureRise
-              delta_P = old_delta_P*(1.+pressure_rise_lvl)
+              delta_P = old_delta_P*(1.+(coeff[0]-1)*evap_flow_reduction*(2-evap_flow_reduction))
               old_max_flow = fan.getMaximumFlowRate
               old_max_flow = old_max_flow.get
-              max_flow = old_max_flow*((1.+pressure_rise_lvl-coeff[0])/(1.-coeff[0]))**0.5
+              max_flow = old_max_flow*(1.-evap_flow_reduction)
               fan.setMaximumFlowRate(max_flow)
               fan.setPressureRise(delta_P)
               runner.registerInfo("#{fan.name.to_s} has its rated condition altered for fouling.")
