@@ -274,7 +274,7 @@ class FanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
     end
 
     # report final condition of workspace
-    runner.registerFinalCondition("Imposed airflow blockage level at #{eff_degrad_fac} on #{fan_choice}.")
+    runner.registerFinalCondition("Imposed efficiency degradation level at #{eff_degrad_fac} on #{fan_choice}.")
 
     return true
   end
