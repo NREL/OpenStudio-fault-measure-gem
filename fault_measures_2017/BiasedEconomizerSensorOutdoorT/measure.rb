@@ -71,7 +71,7 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
     #make a double argument for the temperature sensor bias
     oa_tmp_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("oa_tmp_bias", false)
     oa_tmp_bias.setDisplayName("Enter the bias level of the outdoor air temperature sensor. A positive number means that the sensor is reading a temperature higher than the true temperature. (K)")
-    oa_tmp_bias.setDefaultValue(-2)  #default fouling level to be 30%
+    oa_tmp_bias.setDefaultValue(-2)  #default fouling level to be -2K bias
     args << oa_tmp_bias
     
     #name of schedule for the multiplier of fault level at the outdoor air sensor.
