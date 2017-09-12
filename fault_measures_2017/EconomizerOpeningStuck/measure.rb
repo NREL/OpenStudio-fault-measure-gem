@@ -74,7 +74,7 @@ class EconomizerDamperStuckFaultScheduled < OpenStudio::Ruleset::ModelUserScript
     #and 1 means fully opened damper
     damper_pos = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('damper_pos', false)
     damper_pos.setDisplayName('The position of damper indicated between 0 and 1. If it is -1 and a schedule of fault prevalence is not given, the fault model will not be imposed to the building simulation without warning.')
-    damper_pos.setDefaultValue(0.5)  #default position to be fully closed
+    damper_pos.setDefaultValue(0.5)  #default position 50% open
     args << damper_pos
 	
     return args
