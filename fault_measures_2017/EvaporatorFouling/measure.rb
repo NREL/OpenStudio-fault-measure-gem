@@ -65,7 +65,7 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
     # ask user for a fault level in terms of the percentage of mass flow rate reduction
     evap_flow_reduction = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('evap_flow_reduction', true)
     evap_flow_reduction.setDefaultValue(0.1)
-    evap_flow_reduction.setDisplayName('Percentage increase of air duct pressure drop when the fans are running at their maximum speed (from 0 to 100). (%)')
+    evap_flow_reduction.setDisplayName('Percentage decrease of air mass flow rate when the fans are running at their maximum speed (from 0 to 100). (%)')
     args << evap_flow_reduction
     
     #make double arguments to obtain coefficients
