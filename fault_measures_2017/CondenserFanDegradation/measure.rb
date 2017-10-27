@@ -165,7 +165,7 @@ class RTUCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserSc
           end
 
           #check the type of unit. Raise an error if it is not air-cooled
-          if not coilcoolingdxsinglespeed.getString(19).to_s.eql?("AirCooled")
+          if not coilcoolingdxsinglespeed.getString(20).to_s.eql?("AirCooled")
             runner.registerError(coil_choice+" is not air cooled. Impossible to impose condenser fan motor efficiency degradation. Exiting......")
             return false
           end
