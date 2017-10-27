@@ -123,15 +123,9 @@ def main_program_entry(workspace, string_objects, coil_choice, curve_name, para,
         SET IVThree = IVOne*IVTwo,  !- <none>
         SET OriCurve = (C1+(C2*IVOne) + (C3*IVOne*IVone) + (C4*IVTwo) + (C5*IVTwo*IVTwo) + (C6*IVThree)),  !- <none>
         SET FAULT_ADJ_RATIO = 1.0, !- <none>
-        SET CAFaultLevel = CAFaultDegrade"+sh_coil_choice+",   !- <none>
-        RUN CA_ADJUST_"+sh_coil_choice+"_"+model_name+", !- Calling subrountines that adjust the cooling capacity based on condenser fouling
-        SET FAULT_ADJ_RATIO = CA_FAULT_ADJ_RATIO*FAULT_ADJ_RATIO,     !- The next few lines will be filled by other refrigerant-side faults in the future
         SET CAFFaultLevel = CAFFaultDegrade"+sh_coil_choice+",   !- <none>
         RUN CAF_ADJUST_"+sh_coil_choice+"_"+model_name+", !- Calling subrountines that adjust the cooling capacity based on condenser fouling
         SET FAULT_ADJ_RATIO = CAF_FAULT_ADJ_RATIO*FAULT_ADJ_RATIO,     !- The next few lines will be filled by other refrigerant-side faults in the future
-        SET CHFaultLevel = CHFaultDegrade"+sh_coil_choice+",   !- <none>
-        RUN CH_ADJUST_"+sh_coil_choice+"_"+model_name+", !- Calling subrountines that adjust the cooling capacity based on condenser fouling
-        SET FAULT_ADJ_RATIO = CH_FAULT_ADJ_RATIO*FAULT_ADJ_RATIO,     !- The next few lines will be filled by other refrigerant-side faults in the future
         SET "+model_name+"Curve"+sh_coil_choice+" = (OriCurve*FAULT_ADJ_RATIO);  !- <none>
         
     "
