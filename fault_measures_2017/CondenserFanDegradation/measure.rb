@@ -74,7 +74,7 @@ class RTUCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserSc
     #it should range between 0 and 0.9. 0 means no degradation
     #and 0.9 means that percentage drop of COP is 90% and percentage drop of cooling load is also 90%
     degrd_lvl = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("degrd_lvl", false)
-    degrd_lvl.setDisplayName("Fan motor efficiency degradation level of the Cooling:Coil:DX:SingleSpeed object.")
+    degrd_lvl.setDisplayName("Fan motor efficiency degradation ratio [-]")
     degrd_lvl.setDefaultValue(0.5)  #default fouling level to be 50%
     args << degrd_lvl
 	
