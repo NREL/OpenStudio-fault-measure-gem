@@ -74,7 +74,7 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
     # make a double argument for the fault level
     fault_lvl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_lvl', false)
-    fault_lvl.setDisplayName('Percentage reduction of charge level [%]')
+    fault_lvl.setDisplayName('Reduction ratio of charge level [-]')
     fault_lvl.setDefaultValue(0.1)  # defaulted at 10%
     args << fault_lvl
 
@@ -98,8 +98,8 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
     # fault level limits
     min_fl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('min_fl', true)
-    min_fl.setDisplayName('Maximum value of fault level [%]')
-    min_fl.setDefaultValue(30.0)
+    min_fl.setDisplayName('Maximum value of fault level [-]')
+    min_fl.setDefaultValue(0.3)
     args << min_fl
 
     # coefficients of models should be inputs.
@@ -339,7 +339,7 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
   def _get_parameters(runner, user_arguments)
     # This function returns the parameters for Q and EIR calculation
 
-    min_fl = runner.getDoubleArgumentValue('min_fl', user_arguments)/100.0
+    min_fl = runner.getDoubleArgumentValue('min_fl', user_arguments)
     max_max_para = _get_ext_from_argumets(runner, user_arguments)
 
     uc_q_para = runner_pass_coefficients(runner, user_arguments, $q_para_num, "Q_#{$faultnow}")
