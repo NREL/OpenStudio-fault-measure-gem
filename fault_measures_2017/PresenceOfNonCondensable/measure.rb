@@ -208,7 +208,7 @@ class RTUNCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcoolingdxsinglespeed)
     # check component validity
-    unless pass_string(coilcoolingdxsinglespeed, 19).eql?('AirCooled')
+    unless pass_string(coilcoolingdxsinglespeed, 20).eql?('AirCooled')
       runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in RTUNCWithBfOffset. Exiting......")
       return false
     end
