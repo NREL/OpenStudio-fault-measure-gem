@@ -95,8 +95,8 @@ class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
     # fault level limits
     min_fl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('min_fl', true)
-    min_fl.setDisplayName('Maximum value of fault level [%]')
-    min_fl.setDefaultValue(50.0)
+    min_fl.setDisplayName('Maximum value of fault level [-]')
+    min_fl.setDefaultValue(0.5)
     args << min_fl
 
     # coefficients of models should be inputs.
@@ -336,7 +336,7 @@ class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
   def _get_parameters(runner, user_arguments)
     # This function returns the parameters for Q and EIR calculation
 
-    min_fl = runner.getDoubleArgumentValue('min_fl', user_arguments)/100.0
+    min_fl = runner.getDoubleArgumentValue('min_fl', user_arguments)
     max_max_para = _get_ext_from_argumets(runner, user_arguments)
 
     uc_q_para = runner_pass_coefficients(runner, user_arguments, $q_para_num, "Q_#{$faultnow}")
