@@ -61,9 +61,9 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
     args << zone
 
     #make choice argument for thermal zone
-    zone = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("zone", zone_display_names, zone_display_names, true)
-    zone.setDisplayName("Zone")
-    args << zone
+    #zone = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("zone", zone_display_names, zone_display_names, true)
+    #zone.setDisplayName("Zone")
+    #args << zone
 
     months = OpenStudio::StringVector.new
     months << "January"
