@@ -162,7 +162,6 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
               #{supply_node},                         !- Air Outlet Node Name
               #{newnodename},                         !- Air Inlet Node Name
               #{defaultflow},                         !- Maximum Air Flow Rate {m3/s}
-              ,                                       !- Hot Water or Steam Inlet Node Name
               Coil:Heating:Electric,                  !- Reheat Coil Object Type
               #{newcoilname},                         !- Reheat Coil Name
               Autosize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
