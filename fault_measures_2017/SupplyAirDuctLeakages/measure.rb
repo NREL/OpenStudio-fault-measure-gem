@@ -11,7 +11,7 @@
 class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
-    return 'Air Leakage from Supply to Return'
+    return 'Supply Air Duct Leakages'
   end
 
   # human readable description
