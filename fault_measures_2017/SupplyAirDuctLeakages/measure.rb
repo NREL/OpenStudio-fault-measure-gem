@@ -103,26 +103,30 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
           defaultflow = airterminal.getString(3).to_s  # can be "Autosize" so leave it as string
           # change the equipment list object type and names under AirTerminal:SingleDuct:Uncontrolled
           newaduname = "ADU #{sh_airterminal_choice}"
-          equiplistchange = false
-          equiplists = workspace.getObjectsByType('ZoneHVAC:EquipmentList'.to_IddObjectType)
-          equiplists.each do |equiplist|
-            equiplistfields = equiplist.numFields
-            (1..(equiplistfields - 1)).each do |ind|
-              if equiplist.getString(ind).to_s.eql?(airterminal_choice)
-                equiplist.setString(ind, newaduname)
-                equiplist.setString(ind - 1, 'ZoneHVAC:AirDistributionUnit')
-                equiplistchange = true
-                break
-              end
-            end
-            if equiplistchange
-              break
-            end
-          end
-          unless equiplistchange
-            runner.registerError("Measure AirTerminalSupplyDownstreamLeakToReturn cannot find the ZoneHVAC:EquipmentList that contains #{airterminal_choice}. Exiting......")
-            return false
-          end
+          
+          #############################################################################################          
+          #equiplistchange = false
+          #equiplists = workspace.getObjectsByType('ZoneHVAC:EquipmentList'.to_IddObjectType)
+          #equiplists.each do |equiplist|
+          #  equiplistfields = equiplist.numFields
+          #  (1..(equiplistfields - 1)).each do |ind|
+          #    if equiplist.getString(ind).to_s.eql?(airterminal_choice)
+          #      equiplist.setString(ind, newaduname)
+          #      equiplist.setString(ind - 1, 'ZoneHVAC:AirDistributionUnit')
+          #      equiplistchange = true
+          #      break
+          #    end
+          #  end
+          #  if equiplistchange
+          #    break
+          #  end
+          #end
+          #unless equiplistchange
+          #  runner.registerError("Measure AirTerminalSupplyDownstreamLeakToReturn cannot find the ZoneHVAC:EquipmentList that contains #{airterminal_choice}. Exiting......")
+          #  return false
+          #end
+          #############################################################################################
+          
           # change the AirLoopHVAC:ZoneSplitter object with new node name
           newnodename = "NodeIn#{sh_airterminal_choice}"  # name of node between the new terminal and the ZoneSplitter object
           zonesplitterchange = false
@@ -186,12 +190,51 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
               return false
             end
           end
+          
+          #############################################################################################
+          #string_objects = []
+          ## remove the AirTerminal:SingleDuct:Uncontrolled object
+          #airterminal.remove
+          #break
+          #############################################################################################
+          
+        end
+      end
+      
+      #############################################################################################
+      airterminals.each do |airterminal|
+        if airterminal.getString(0).to_s.eql?(airterminal_choice)
+      
+          # change the equipment list object type and names under AirTerminal:SingleDuct:Uncontrolled
+          newaduname = "ADU #{sh_airterminal_choice}"
+                   
+          equiplistchange = false
+          equiplists = workspace.getObjectsByType('ZoneHVAC:EquipmentList'.to_IddObjectType)
+          equiplists.each do |equiplist|
+            equiplistfields = equiplist.numFields
+            (1..(equiplistfields - 1)).each do |ind|
+              if equiplist.getString(ind).to_s.eql?(airterminal_choice)
+                equiplist.setString(ind, newaduname)
+                equiplist.setString(ind - 1, 'ZoneHVAC:AirDistributionUnit')
+                equiplistchange = true
+                break
+              end
+            end
+            if equiplistchange
+              break
+            end
+          end
+          unless equiplistchange
+            runner.registerError("Measure AirTerminalSupplyDownstreamLeakToReturn cannot find the ZoneHVAC:EquipmentList that contains #{airterminal_choice}. Exiting......")
+            return false
+          end
           string_objects = []
           # remove the AirTerminal:SingleDuct:Uncontrolled object
           airterminal.remove
           break
         end
       end
+      #############################################################################################
 
       # find the AirTerminal object to change
       airterminal_changed = false
