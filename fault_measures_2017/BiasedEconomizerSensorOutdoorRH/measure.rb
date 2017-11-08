@@ -38,10 +38,10 @@ class EconomizerOutdoorRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScr
   def workspaceer_description
     return 'Two user inputs are required, based on these user inputs, the ' \
 	'outdoor air RH reading in the economizer will be replaced by the ' \
-	'equation below, where RHoa_F is the biased outdoor air RH ' \
+	'equation below, where RHoaF is the biased outdoor air RH ' \
 	'reading, RHoa is the actual outdoor air RH, and F is the fault ' \
 	'intensity. ' \
-	'RHoa_F = RHoa + F ' \	  
+	'RHoaF = RHoa + F ' \	  
 	'To use this measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of relative humidity sensor bias between 0 to 1 ' \
 	'that you want at the outdoor air duct for the economizer during the ' \
