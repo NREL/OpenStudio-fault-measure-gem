@@ -5,7 +5,7 @@
   <version_id>8f25239e-0366-4100-b1ee-a0036735387b</version_id>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>EconomizerReturnTempSensorBiasFault</class_name>
-  <display_name>Economizer Return Air Temperature Sensor Bias Fault</display_name>
+  <display_name>Biased Economizer Sensor: Return Temperature</display_name>
   <description>This Measure simulates the effect of economizer sensor fault of any RTU to the building performance.</description>
   <modeler_description>To use this Measure, activate the Measure by the first boolean. Choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias in degree Celcius that you want at the return air duct for the economizer during the simulation period. For example, setting 2 means the sensor is reading 28C when the actual temperature is 26C. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period.</modeler_description>
   <arguments>
