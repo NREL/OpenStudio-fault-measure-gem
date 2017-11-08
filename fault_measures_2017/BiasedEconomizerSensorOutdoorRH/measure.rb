@@ -16,7 +16,7 @@ class EconomizerOutdoorRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScr
 
   # human readable name
   def name
-    return 'All Economizer Outdoor Air Relative Humidity Sensor Bias Fault'
+    return 'Biased Economizer Sensor: Outdoor RH'
   end
 
   # human readable description
