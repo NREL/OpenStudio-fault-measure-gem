@@ -25,7 +25,7 @@ $all_coil_selection = '* ALL Coil Selected *'
 class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
-    return 'RTU UnderCharging Simulation'
+    return 'Nonstandard Charging'
   end
 
   # human readable description
