@@ -36,7 +36,7 @@ class EconomizerReturnRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScri
 	'return air RH reading in the economizer will be replaced by the equation ' \
 	'below, where RHraF is the biased return air RH reading, RHra is the ' \
 	'actual return air RH, and F is the fault intensity. ' \
-	' RHraF = RHra + F ' \	  
+	' RHraF equals RHra plus F ' \	  
 	'To use this Measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of relative humidity sensor bias between 0 to 100 ' \
 	'that you want at the return air duct for the economizer during the ' \
