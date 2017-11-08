@@ -25,7 +25,7 @@ $all_coil_selection = '* ALL Coil Selected *'
 class RTULLWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
-    return 'RTU Liquid Line Restriction Simulation'
+    return 'Liquid-Line Restriction'
   end
 
   # human readable description
