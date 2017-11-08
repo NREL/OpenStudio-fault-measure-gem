@@ -34,7 +34,7 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
 	'by the equation below, where TmaF is the biased mixed air ' \
 	'temperature reading, Tma is the actual mixed air temperature, and F ' \
 	'is the fault intensity.' \
-	' TmaF = Tma + F ' \	  
+	' TmaF equals Tma plus F ' \	  
 	'To use this Measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of temperature sensor bias that you want at the ' \
 	'mixed air duct for the economizer during the simulation period. The ' \
