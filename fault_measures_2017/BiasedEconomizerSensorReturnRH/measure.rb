@@ -34,9 +34,9 @@ class EconomizerReturnRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScri
   def workspaceer_description
     return 'Two user inputs are required and, based on these user inputs, the ' \
 	'return air RH reading in the economizer will be replaced by the equation ' \
-	'below, where RH_(ra,F) is the biased return air RH reading, RH_ra is the ' \
+	'below, where RHra_F is the biased return air RH reading, RHra is the ' \
 	'actual return air RH, and F is the fault intensity. ' \
-	' RH_(ra,F) = RH_ra + F ' \	  
+	' RHra_F = RHra + F ' \	  
 	'To use this Measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of relative humidity sensor bias between 0 to 100 ' \
 	'that you want at the return air duct for the economizer during the ' \
