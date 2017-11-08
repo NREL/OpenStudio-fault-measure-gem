@@ -37,10 +37,10 @@ class EconomizerReturnTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserSc
   def workspaceer_description
     return 'Three user inputs are required and, based on these user inputs, the ' \
 	'return air temperature reading in the economizer will be replaced by the ' \
-	'equation below, where Tra_F is the biased return air temperature ' \
+	'equation below, where TraF is the biased return air temperature ' \
 	'reading, Tra is the actual return air temperature, and F is the fault ' \
 	'intensity.' \
-	' Tra_F = Tra + F ' \
+	' TraF = Tra + F ' \
 	'To use this measure, choose the Controller:OutdoorAir object to be faulted. ' \
 	'Set the level of temperature sensor bias in K that you want at the return air ' \
 	'duct for the economizer during the simulation period. For example, ' \
