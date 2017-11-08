@@ -40,7 +40,7 @@ class EconomizerReturnTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserSc
 	'equation below, where TraF is the biased return air temperature ' \
 	'reading, Tra is the actual return air temperature, and F is the fault ' \
 	'intensity.' \
-	' TraF = Tra + F ' \
+	' TraF equals Tra plus F ' \
 	'To use this measure, choose the Controller:OutdoorAir object to be faulted. ' \
 	'Set the level of temperature sensor bias in K that you want at the return air ' \
 	'duct for the economizer during the simulation period. For example, ' \
