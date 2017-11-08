@@ -10,7 +10,7 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
 
   # human readable name
   def name
-    return 'All Duct fouling'
+    return 'Evaporator Fouling'
   end
 
   # human readable description
