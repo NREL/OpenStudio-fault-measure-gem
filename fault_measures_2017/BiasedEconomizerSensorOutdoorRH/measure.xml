@@ -6,7 +6,7 @@
   <version_modified>20170602T144309Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>EconomizerOutdoorRHSensorBiasFault</class_name>
-  <display_name>All Economizer Outdoor Air Relative Humidity Sensor Bias Fault</display_name>
+  <display_name>Biased Economizer Sensor: Outdoor RH</display_name>
   <description>This Measure simulates the effect of a constant bias of an economizer outdoor air relative humidity sensor of any RTU to the building performance.</description>
   <modeler_description>To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of relative humidity sensor bias between 0 to 1 that you want at the outdoor air duct for the economizer during the simulation period. For example, setting 0.03 means the sensor is reading 25% when the actual relative humidity is 22%. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period.</modeler_description>
   <arguments>
