@@ -5,7 +5,7 @@
   <version_id>07aee4ff-bafd-4357-9e14-4dd8e09941de</version_id>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>EconomizerOutdoorTempSensorBiasFault</class_name>
-  <display_name>Economizer Outdoor Temperature Sensor Bias Fault</display_name>
+  <display_name>Biased Economizer Sensor: Outdoor Temperature</display_name>
   <description>This Measure simulates the effect of economizer outdoor air temperature sensor fault of any RTU to the building performance.</description>
   <modeler_description>To use this Measure, activate the Measure by the first boolean. Choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias in degree Celcius that you want at the outdoors for the economizer during the simulation period. For example, setting 2 means the sensor is reading 28C when the actual temperature is 26C. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period.</modeler_description>
   <arguments>
