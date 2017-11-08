@@ -37,10 +37,10 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
   def workspaceer_description
     return 'Three user inputs are required and, based on ' \
 	'these user inputs, the outdoor air temperature reading in the economizer ' \
-	'will be replaced by the equation below, where Toa_F is the biased ' \
+	'will be replaced by the equation below, where ToaF is the biased ' \
 	'outdoor air temperature reading, Toa is the actual outdoor air ' \
 	'temperature, and F is the fault intensity.' \
-	' Toa_F = Toa + F ' \	  
+	' ToaF = Toa + F ' \	  
 	'To use this measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of temperature sensor bias in K that you want ' \
 	'at the outdoors for the economizer during the simulation period. ' \
