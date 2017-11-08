@@ -15,7 +15,7 @@ $allchoices = '* ALL Fan objects *'
 class FanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
-    return 'All Fan Motor Efficiency Fault'
+    return 'Air Handling Unit Fan Motor Degradation'
   end
 
   # human readable description
