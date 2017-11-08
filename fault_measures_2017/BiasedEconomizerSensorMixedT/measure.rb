@@ -12,7 +12,7 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
 
   # human readable name
   def name
-    return "Economizer Mixed Air Temperature Sensor Bias Fault"
+    return "Biased Economizer Sensor: Mixed Temperature"
   end
 
   # human readable description
