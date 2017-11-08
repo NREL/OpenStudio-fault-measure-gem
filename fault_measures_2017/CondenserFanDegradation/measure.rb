@@ -23,7 +23,7 @@ class RTUCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserSc
 
   # human readable name
   def name
-    return "RTU Condenser Fan Motor Efficiency Fault"
+    return "Condenser Fan Degradation"
   end
 
   # human readable description
