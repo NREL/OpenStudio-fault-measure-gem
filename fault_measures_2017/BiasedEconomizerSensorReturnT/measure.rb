@@ -18,7 +18,7 @@ class EconomizerReturnTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserSc
 
   # human readable name
   def name
-    return "Economizer Return Air Temperature Sensor Bias Fault"
+    return "Biased Economizer Sensor: Return Temperature"
   end
 
   # human readable description
