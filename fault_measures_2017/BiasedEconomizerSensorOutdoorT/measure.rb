@@ -40,7 +40,7 @@ class EconomizerOutdoorTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserS
 	'will be replaced by the equation below, where ToaF is the biased ' \
 	'outdoor air temperature reading, Toa is the actual outdoor air ' \
 	'temperature, and F is the fault intensity.' \
-	' ToaF = Toa + F ' \	  
+	' ToaF equals Toa plus F ' \	  
 	'To use this measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of temperature sensor bias in K that you want ' \
 	'at the outdoors for the economizer during the simulation period. ' \
