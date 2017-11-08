@@ -16,7 +16,7 @@ class EconomizerReturnRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScri
 
   # human readable name
   def name
-    return 'All Economizer Return Air Relative Humidity Sensor Bias Fault'
+    return 'Biased Economizer Sensor: Return RH'
   end
 
   # human readable description
