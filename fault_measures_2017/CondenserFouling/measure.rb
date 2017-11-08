@@ -25,7 +25,7 @@ $all_coil_selection = '* ALL Coil Selected *'
 class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
-    return 'RTU Condenser Fouling Simulation'
+    return 'Condenser Fouling'
   end
 
   # human readable description
