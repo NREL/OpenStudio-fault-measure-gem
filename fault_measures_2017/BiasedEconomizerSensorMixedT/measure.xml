@@ -5,7 +5,7 @@
   <version_id>fe5a9164-349d-4703-b1e0-52e4d9385932</version_id>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>EconomizerPotentialMixedTempSensorBiasFault</class_name>
-  <display_name>Economizer Mixed Air Temperature Sensor Bias Fault</display_name>
+  <display_name>Biased Economizer Sensor: Mixed Temperature</display_name>
   <description>This Measure simulates the effect of temperature sensor fault in the mixed air chamber of any RTU to the building performance.</description>
   <modeler_description>To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias that you want at the mixed air duct for the economizer during the simulation period. For example, setting 0.3 means the sensor is reading 23.3C when the actual relative humidity is 23C. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period.</modeler_description>
   <arguments>
