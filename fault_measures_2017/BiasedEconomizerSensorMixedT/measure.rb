@@ -31,10 +31,10 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
   def workspaceer_description
     return 'Two user inputs are required and, based on these user inputs, ' \
 	'the mixed air temperature reading in the economizer will be replaced ' \
-	'by the equation below, where T_(ma,F) is the biased mixed air ' \
+	'by the equation below, where Tma_F is the biased mixed air ' \
 	'temperature reading, T_ma is the actual mixed air temperature, and F ' \
 	'is the fault intensity.' \
-	' T_(ma,F) = T_ma + F ' \	  
+	' Tma_F = Tma + F ' \	  
 	'To use this Measure, choose the Controller:OutdoorAir object to be ' \
 	'faulted. Set the level of temperature sensor bias that you want at the ' \
 	'mixed air duct for the economizer during the simulation period. The ' \
