@@ -25,7 +25,7 @@ $all_coil_selection = '* ALL Coil Selected *'
 class RTUNCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
-    return 'RTU Non-condensable Simulation'
+    return 'Presence Of Noncondensable'
   end
 
   # human readable description
