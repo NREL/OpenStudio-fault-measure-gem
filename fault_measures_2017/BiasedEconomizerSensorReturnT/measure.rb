@@ -23,31 +23,12 @@ class EconomizerReturnTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserSc
 
   # human readable description
   def description
-    return 'When sensors drift and are not regularly calibrated, it causes a ' \
-	'bias. Sensor readings often drift from their calibration with age, ' \
-	'causing equipment control algorithms to produce outputs that deviate ' \
-	'from their intended function. This measure simulates the biased ' \
-	'economizer sensor (return temperature) by modifying ' \
-	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
-	'cooling system. The fault intensity (F) for this fault is defined as the ' \
-	'biased temperature level (K), which is also specified as one of the inputs.'
+    return "When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. This measure simulates the biased economizer sensor (return temperature) by modifying Controller:OutdoorAir object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the biased temperature level (K), which is also specified as one of the inputs."
   end
 
   # human readable description of workspace approach
-  def workspaceer_description
-    return 'Three user inputs are required and, based on these user inputs, the ' \
-	'return air temperature reading in the economizer will be replaced by the ' \
-	'equation below, where TraF is the biased return air temperature ' \
-	'reading, Tra is the actual return air temperature, and F is the fault ' \
-	'intensity.' \
-	'TraF = Tra + F ' \
-	'To use this measure, choose the Controller:OutdoorAir object to be faulted. ' \
-	'Set the level of temperature sensor bias in K that you want at the return air ' \
-	'duct for the economizer during the simulation period. For example, ' \
-	'setting 2 means the sensor is reading 28C when the actual temperature is ' \
-	'26C. You can also impose a schedule of the presence of fault during the ' \
-	'simulation period. If a schedule name is not given, the model assumes that ' \
-	'the fault is present during the entire simulation period.'
+  def modeler_description
+    return "Three user inputs are required and, based on these user inputs, the return air temperature reading in the economizer will be replaced by the equation below, where TraF is the biased return air temperature reading, Tra is the actual return air temperature, and F is the fault intensity. TraF = Tra + F. To use this measure, choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias in K that you want at the return air duct for the economizer during the simulation period. For example, setting 2 means the sensor is reading 28C when the actual temperature is 26C. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period."
   end
 
   # define the arguments that the user will input
