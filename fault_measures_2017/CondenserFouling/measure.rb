@@ -30,33 +30,12 @@ class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'Condenser fouling occurs when litter, dirt, or dust accumulates ' \
-      'on or between the fins of a condenser of an air conditioner located in ' \
-      'the outdoor environment. The blockage reduces the airflow across the ' \
-      'condenser and increases the condensing temperature in the refrigerant ' \
-      'circuit. The elevated temperature increases the pressure difference ' \
-      'across the compressor and reduces the equipment efficiency. This measure ' \
-      'simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed ' \
-      'object in EnergyPlus assigned to the heating and cooling system.' \
-      'The fault intensity (F) for this fault is defined as the ratio of ' \
-      'reduction in condenser coil airflow at full load.'
+    return "Condenser fouling occurs when litter, dirt, or dust accumulates on or between the fins of a condenser of an air conditioner located in the outdoor environment. The blockage reduces the airflow across the condenser and increases the condensing temperature in the refrigerant circuit. The elevated temperature increases the pressure difference across the compressor and reduces the equipment efficiency. This measure simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of reduction in condenser coil airflow at full load."
   end
 
   # human readable description of workspace approach
-  def workspaceer_description
-    return 'Twelve user inputs, ' \
-      '- DX coil where the fault occurs ' \
-      '- Percentage reduction of condenser airflow ' \
-      '- rated cooling capacity ' \
-      '- rated sensible heat ratio ' \
-      '- rated volumetric flow rate ' \
-      '- minimum/maximum evaporator air inlet wet-bulb temperature ' \
-      '- minimum/maximum condenser air inlet temperature ' \
-      '- minimum/maximum rated COP ' \
-      '- percentage change of UA with increase of fault level '\
-      'can be defined or remained with default values. ' \
-      'Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX ' \
-      'cooling coil model is recalculated to reflect the faulted operation'
+  def modeler_description
+    return "Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation."
   end
 
   # define the arguments that the user will input
