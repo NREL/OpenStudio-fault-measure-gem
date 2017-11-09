@@ -18,23 +18,12 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
   
   # human readable description
   def description
-    return 'Excessive infiltration around the building envelope occurs by the ' \
-      'unintentional introduction of outside air into a building, typically through ' \
-      'cracks in the building envelope and through use of windows and doors. ' \
-      'Infiltration is driven by pressure differences between indoors and outdoors ' \
-      'of the building caused by wind and by air buoyancy forces known commonly as ' \
-      'the stack effect (ASHRAE Handbook Fundamentals, 2005). Excessive infiltration ' \
-      'can affect thermal comfort, indoor air quality, heating and cooling demand, and ' \
-      'moisture damage of building envelope components (Emmerich et al., 2005). The fault ' \
-      'intensity is defined as the percentage of excessive infiltration around the ' \
-      'building envelope compared to the non-faulted condition'
+    return "Excessive infiltration around the building envelope occurs by the unintentional introduction of outside air into a building, typically through cracks in the building envelope and through use of windows and doors. Infiltration is driven by pressure differences between indoors and outdoors of the building caused by wind and by air buoyancy forces known commonly as the stack effect (ASHRAE Handbook Fundamentals, 2005). Excessive infiltration can affect thermal comfort, indoor air quality, heating and cooling demand, and moisture damage of building envelope components (Emmerich et al., 2005). The fault intensity is defined as the percentage of excessive infiltration around the building envelope compared to the non-faulted condition."
   end
   
   # human readable description of modeling approach
   def modeler_description
-    return 'The user input of the percentage of excessive infiltration is multiplied ' \
-      'to one of either four variables depending on the user’s choice of infiltration ' \
-      'implementation method to impose fault over the original (non-faulted) configuration.'
+    return "The user input of the percentage of excessive infiltration is multiplied to one of either four variables depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration."
   end
 
   #define the arguments that the user will input
