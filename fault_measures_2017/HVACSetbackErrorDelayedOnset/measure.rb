@@ -44,7 +44,7 @@ class ExtendEveningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
       'zone', zone_display_names, zone_display_names, true
     )
     zone.setDefaultValue(zone_display_names[0])
-    zone.setDisplayName('Zone')
+    zone.setDisplayName("Zone. Choose #{$allzonechoices} if you want to impose the fault in all zones")
     args << zone
 
     osmonths = OpenStudio::StringVector.new
