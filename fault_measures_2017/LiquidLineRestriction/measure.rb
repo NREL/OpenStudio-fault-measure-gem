@@ -30,36 +30,12 @@ class RTULLWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'A liquid-line restriction fault occurs when particles accumulate ' \
-      'within the refrigerant filter located between the condenser and the ' \
-      'expansion valve in the refrigerant circuit of a vapor compression cycle. ' \
-      'The accumulation increases the flow resistance of the refrigerant ' \
-      'circuit and the pressure difference across the compressor. It also ' \
-      'reduces the evaporating temperature and leads to lower cooling capacity, ' \
-      'efficiency, and SHR. The lower SHR leads to increased latent load to ' \
-      'meet a particular sensible load. This measure simulates a liquid-line ' \
-      'restriction by modifying the Coil:Cooling:DX:SingleSpeed object in ' \
-      'EnergyPlus assigned to the heating and cooling system. ' \
-      'The fault intensity (F) for this fault is defined as the ratio of ' \
-      'increase in the pressure difference between the condenser outlet and ' \
-      'evaporator inlet due to the restriction.'
+    return "A liquid-line restriction fault occurs when particles accumulate within the refrigerant filter located between the condenser and the expansion valve in the refrigerant circuit of a vapor compression cycle. The accumulation increases the flow resistance of the refrigerant circuit and the pressure difference across the compressor. It also reduces the evaporating temperature and leads to lower cooling capacity, efficiency, and SHR. The lower SHR leads to increased latent load to meet a particular sensible load. This measure simulates a liquid-line restriction by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of increase in the pressure difference between the condenser outlet and evaporator inlet due to the restriction."
   end
 
   # human readable description of workspace approach
-  def workspaceer_description
-    return 'Twelve user inputs, ' \
-      '- DX coil where the fault occurs ' \
-      '- Percentage reduction of condenser airflow ' \
-      '- rated cooling capacity ' \
-      '- rated sensible heat ratio ' \
-      '- rated volumetric flow rate ' \
-      '- minimum/maximum evaporator air inlet wet-bulb temperature ' \
-      '- minimum/maximum condenser air inlet temperature ' \
-      '- minimum/maximum rated COP ' \
-      '- percentage change of UA with increase of fault level '\
-      'can be defined or remained with default values. ' \
-      'Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX ' \
-      'cooling coil model is recalculated to reflect the faulted operation'
+  def modeler_description
+    return "Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation."
   end
 
   # define the arguments that the user will input
