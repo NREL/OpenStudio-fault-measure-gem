@@ -21,30 +21,12 @@ class EconomizerReturnRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScri
 
   # human readable description
   def description
-    return 'When sensors drift and are not regularly calibrated, it causes a ' \
-	'bias. Sensor readings often drift from their calibration with age, ' \
-	'causing equipment control algorithms to produce outputs that deviate ' \
-	'from their intended function. This measure ' \
-	'simulates the biased economizer sensor (return relative humidity) by modifying ' \
-	'Controller:OutdoorAir object in EnergyPlus assigned to the heating and ' \
-	'cooling system. '
+    return "When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. This measure simulates the biased economizer sensor (return relative humidity) by modifying Controller:OutdoorAir object in EnergyPlus assigned to the heating and cooling system."
   end
 
   # human readable description of workspace approach
-  def workspaceer_description
-    return 'Two user inputs are required and, based on these user inputs, the ' \
-	'return air RH reading in the economizer will be replaced by the equation ' \
-	'below, where RHraF is the biased return air RH reading, RHra is the ' \
-	'actual return air RH, and F is the fault intensity. ' \
-	'RHraF = RHra + F ' \	  
-	'To use this Measure, choose the Controller:OutdoorAir object to be ' \
-	'faulted. Set the level of relative humidity sensor bias between 0 to 100 ' \
-	'that you want at the return air duct for the economizer during the ' \
-	'simulation period. For example, setting F=3 means the sensor is reading ' \
-	'25% when the actual relative humidity is 22%. You can also impose a ' \
-	'schedule of the presence of fault during the simulation period. If a ' \
-	'schedule name is not given, the model assumes that the fault is present ' \
-	'during the entire simulation period.'
+  def modeler_description
+    return "Two user inputs are required and, based on these user inputs, the return air RH reading in the economizer will be replaced by the equation below, where RHraF is the biased return air RH reading, RHra is the actual return air RH, and F is the fault intensity. RHraF = RHra + F. To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of relative humidity sensor bias between 0 to 100 that you want at the return air duct for the economizer during the simulation period. For example, setting F=3 means the sensor is reading 25% when the actual relative humidity is 22%. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period."
   end
 
   # define the arguments that the user will input
