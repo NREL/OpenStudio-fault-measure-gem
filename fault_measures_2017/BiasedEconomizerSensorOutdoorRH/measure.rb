@@ -41,7 +41,7 @@ class EconomizerOutdoorRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScr
 	
     #make a double argument for the relative humidity sensor bias
     oa_rh_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("oa_rh_bias", false)
-    oa_rh_bias.setDisplayName("Enter the bias level of the return air relative humidity sensor. A positive number means that the sensor is reading a relative humidity higher than the true relative humidity.")
+    oa_rh_bias.setDisplayName("Enter the bias level of the return air relative humidity sensor. A positive number means that the sensor is reading a relative humidity higher than the true relative humidity. [%]")
     oa_rh_bias.setDefaultValue(0)  #default fouling level to be 0%
     args << oa_rh_bias
 
