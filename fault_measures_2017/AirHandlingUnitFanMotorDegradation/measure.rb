@@ -30,7 +30,7 @@ class FanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
   end
 
   # human readable description of workspace approach
-  def workspaceer_description
+  def modeler_description
     return 'Two user inputs are required and, based on these user inputs, the ' \
       'fan efficiency is recalculated to reflect the faulted operation as ' \
       'shown below, where η_(fan,tot,F) is the degraded total efficiency under ' \
