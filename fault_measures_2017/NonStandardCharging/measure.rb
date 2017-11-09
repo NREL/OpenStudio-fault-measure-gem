@@ -30,36 +30,12 @@ class RTUUCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'Nonstandard charging occurs when the refrigerant is undercharged ' \
-      'or overcharged within the refrigerant circuit of an air-conditioning, ' \
-      'heat pump, or refrigeration system. Without sufficient refrigerant ' \
-      'running in the system, the average refrigerant density, the ' \
-      'evaporating temperature, and the refrigerant mass flow rate from the ' \
-      'compressor decrease, leading to reduced capacity, increased ' \
-      'operating time, and increased energy consumption. This fault can be ' \
-      'due to leakage or improper charging during service. This measure ' \
-      'simulates nonstandard charging by modifying the ' \
-      'Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the ' \
-      'heating and cooling system. ' \
-      'The fault intensity (F) for this fault is defined as the ratio of ' \
-      'deviation in refrigerant mass from the nominal value.'
+    return "Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This measure simulates nonstandard charging by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of deviation in refrigerant mass from the nominal value."
   end
 
   # human readable description of workspace approach
-  def workspaceer_description
-    return 'Twelve user inputs, ' \
-      '- DX coil where the fault occurs ' \
-      '- Percentage reduction of condenser airflow ' \
-      '- rated cooling capacity ' \
-      '- rated sensible heat ratio ' \
-      '- rated volumetric flow rate ' \
-      '- minimum/maximum evaporator air inlet wet-bulb temperature ' \
-      '- minimum/maximum condenser air inlet temperature ' \
-      '- minimum/maximum rated COP ' \
-      '- percentage change of UA with increase of fault level '\
-      'can be defined or remained with default values. ' \
-      'Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX ' \
-      'cooling coil model is recalculated to reflect the faulted operation'
+  def modeler_description
+    return "Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation."
   end
 
   # define the arguments that the user will input
