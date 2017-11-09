@@ -20,23 +20,12 @@ class FanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'Fan motor degradation occurs due to bearing and stator winding faults, ' \
-      'leading to a decrease in motor efficiency and an increase in overall fan ' \
-      'power consumption. This measure simulates the air handling unit fan motor ' \
-      'degradation by modifying either the Fan:ConstantVolume, Fan:VariableVolume, ' \
-      'or the Fan:OnOff objects in EnergyPlus assigned to the ventilation system. ' \
-      'The fault intensity (F) for this fault is defined as the ratio of fan motor ' \
-      'efficiency degradation.'
+    return "Fan motor degradation occurs due to bearing and stator winding faults, leading to a decrease in motor efficiency and an increase in overall fan power consumption. This measure simulates the air handling unit fan motor degradation by modifying either the Fan:ConstantVolume, Fan:VariableVolume, or the Fan:OnOff objects in EnergyPlus assigned to the ventilation system. The fault intensity (F) for this fault is defined as the ratio of fan motor efficiency degradation."
   end
 
   # human readable description of workspace approach
   def modeler_description
-    return 'Two user inputs are required and, based on these user inputs, the ' \
-      'fan efficiency is recalculated to reflect the faulted operation as ' \
-      'shown below, where η_(fan,tot,F) is the degraded total efficiency under ' \
-      'faulted condition, η_(fan,tot) is the total efficiency under normal ' \
-      'condition, and F is the fault intensity. ' \
-      ' η_(fan,tot,F) = η_(fan,tot)∙(1-F) '
+    return "Two user inputs are required and, based on these user inputs, the fan efficiency is recalculated to reflect the faulted operation as shown below, where η_(fan,tot,F) is the degraded total efficiency under faulted condition, η_(fan,tot) is the total efficiency under normal condition, and F is the fault intensity. η_(fan,tot,F) = η_(fan,tot)∙(1-F)"
   end
 
   # define the arguments that the user will input
