@@ -27,25 +27,12 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
   
   # human readable description
   def description
-    return 'Drift of the thermostat temperature sensor over time can lead to ' \
-      'increased energy use and/or reduced occupant comfort. This measure ' \
-      'simulates a biased thermostat by modifying the Schedule:Compact object ' \
-      'in EnergyPlus assigned to heating and cooling set points. ' \
-      'The fault intensity (F) for this fault is defined as the thermostat ' \
-      'measurement bias (K), which is also specified as one of the inputs. ' \
+    return "Drift of the thermostat temperature sensor over time can lead to increased energy use and/or reduced occupant comfort. This measure simulates a biased thermostat by modifying the Schedule:Compact object in EnergyPlus assigned to heating and cooling set points. The fault intensity (F) for this fault is defined as the thermostat measurement bias (K), which is also specified as one of the inputs."
   end
   
   # human readable description of modeling approach
   def modeler_description
-    return 'Four user inputs are required and, based on ' \
-      'these user inputs, the original (non-faulted) heating and cooling ' \
-      'set point schedules in the building model will be replaced with a ' \
-      'biased temperature set point by the equation below. If the reading of ' \
-      'the thermostat is biased with +1oC, the actual space temperature should ' \
-      'be maintained 1oC lower than the reading. Thus, the set point for the ' \
-      'space is corrected by subtracting the original set point from the ' \
-      'biased level. ' \
-      ' T_(stpt,heat,F)=T_(stpt,heat)-F / T_(stpt,cool,F)=T_(stpt,cool)-F '
+    return "Four user inputs are required and, based on these user inputs, the original (non-faulted) heating and cooling set point schedules in the building model will be replaced with a biased temperature set point by the equation below. If the reading of the thermostat is biased with +1oC, the actual space temperature should be maintained 1oC lower than the reading. Thus, the set point for the space is corrected by subtracting the original set point from the biased level. T_(stpt,heat,F)=T_(stpt,heat)-F / T_(stpt,cool,F)=T_(stpt,cool)-F"
   end
 
   #define the arguments that the user will input
