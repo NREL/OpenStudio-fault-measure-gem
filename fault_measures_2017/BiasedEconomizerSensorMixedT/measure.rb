@@ -21,7 +21,7 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
   end
 
   # human readable description of workspace approach
-  def workspaceer_description
+  def modeler_description
     return "Two user inputs are required and, based on these user inputs, the mixed air temperature reading in the economizer will be replaced by the equation below, where TmaF is the biased mixed air temperature reading, Tma is the actual mixed air temperature, and F is the fault intensity. TmaF = Tma + F. To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias that you want at the mixed air duct for the economizer during the simulation period. The algorithm checks if a real sensor exists in the mixed air chamber, and set up the bias at the sensor appropriately if it exists. For instance, SetpointManager:MixedAir does not model a real temperature sensor in the mixed air chamber, and will not be affected by this model."
   end
 
