@@ -16,33 +16,12 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
 
   # human readable description
   def description
-    return 'Duct leakage can be caused by torn or missing external duct ' \
-      'wrap, poor workmanship around duct takeoffs and fittings, ' \
-      'disconnected ducts, improperly installed duct mastic, and ' \
-      'temperature and pressure cycling (Roth et al. 2004, 2005). ' \
-      'Conditioned air leaking to an unconditioned space in buildings ' \
-      'increases the equipment heating or cooling demand and can increase ' \
-      'fan power for variable air volume systems. This measure simulates ' \
-      'supply air leakage by modifying the ZoneHVAC:AirDistributionUnit ' \
-      'object in EnergyPlus. Equation (1) provides an expression for ' \
-      'the downstream leakage ratio (r_(leak,dnst,F)) under faulty ' \
-      'conditions in terms of a “normal” leakage ratio (r_(leak,dnst)) ' \
-      'and a fault intensity (F) defined as the ratio of the leakage ' \
-      'flow relative to supply flow.' \
-      'r_(leak,dnst,F) = 1 - ( 1 - r_(leak,dnst) ) * ( 1 - F ) ------ (1)'    
+    return "Duct leakage can be caused by torn or missing external duct wrap, poor workmanship around duct takeoffs and fittings, disconnected ducts, improperly installed duct mastic, and temperature and pressure cycling (Roth et al. 2004, 2005). Conditioned air leaking to an unconditioned space in buildings increases the equipment heating or cooling demand and can increase fan power for variable air volume systems. This measure simulates supply air leakage by modifying the ZoneHVAC:AirDistributionUnit object in EnergyPlus. Equation (1) provides an expression for the downstream leakage ratio (r_(leak,dnst,F)) under faulty conditions in terms of a “normal” leakage ratio (r_(leak,dnst)) and a fault intensity (F) defined as the ratio of the leakage flow relative to supply flow. r_(leak,dnst,F) = 1 - ( 1 - r_(leak,dnst) ) * ( 1 - F ) ------ (1)"   
   end
 
   # human readable description of workspace approach
-  def workspaceer_description
-    return 'Two user inputs are required to simulate the fault. ' \
-      'The ZoneHVAC:AirDistributionUnit object has two leakage ' \
-      'options (upstream and downstream leakages) available. For supply ' \
-      'duct leakage, the leakage ratio (leakage flow relative to supply ' \
-      'flow) is applied to the downstream leakage parameter and the ' \
-      'upstream leakage parameter is replaced with zero in the object.'    
-      'To use this Measure, choose the AirTerminal object to  ' \
-      'be faulted and a ratio of leakage flow rate to the airflow ' \
-      'directed to the zone upstream to the leak.'
+  def modeler_description
+    return "Two user inputs are required to simulate the fault. The ZoneHVAC:AirDistributionUnit object has two leakage options (upstream and downstream leakages) available. For supply duct leakage, the leakage ratio (leakage flow relative to supply flow) is applied to the downstream leakage parameter and the upstream leakage parameter is replaced with zero in the object. To use this Measure, choose the AirTerminal object to be faulted and a ratio of leakage flow rate to the airflow directed to the zone upstream to the leak."
   end
 
   # define the arguments that the user will input
