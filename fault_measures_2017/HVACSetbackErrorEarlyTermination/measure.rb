@@ -26,35 +26,12 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
 
   # simple human readable description
   def description
-    return 'Thermostat schedules are employed to raise set points for cooling ' \
-      'and lower set points for heating at night, to switch fan operation from ' \
-      'being continuously on during occupied times to being coupled to cooling ' \
-      'or heating demands at other times, and to close ventilation dampers ' \
-      'during unoccupied periods. Faults can occur due to malfunctioning, ' \
-      'unprogrammed, or incorrectly programmed or scheduled thermostats, leading ' \
-      'to increased energy consumption and/or compromised comfort and air quality. ' \
-      'This measure simulates the effect of overnight HVAC setback being ' \
-      'terminated earlier during unoccupied hours by modifying the Schedule:Compact ' \
-      'object in EnergyPlus assigned to thermostat set point schedules.' \
-      'The fault intensity (F) for this fault is defined as the early termination ' \
-      'of overnight HVAC setback (in hours), which is specified as one of the inputs.'
+    return "Thermostat schedules are employed to raise set points for cooling and lower set points for heating at night, to switch fan operation from being continuously on during occupied times to being coupled to cooling or heating demands at other times, and to close ventilation dampers during unoccupied periods. Faults can occur due to malfunctioning, unprogrammed, or incorrectly programmed or scheduled thermostats, leading to increased energy consumption and/or compromised comfort and air quality. This measure simulates the effect of overnight HVAC setback being terminated earlier during unoccupied hours by modifying the Schedule:Compact object in EnergyPlus assigned to thermostat set point schedules. The fault intensity (F) for this fault is defined as the early termination of overnight HVAC setback (in hours), which is specified as one of the inputs."
   end
 
   # detailed human readable description about how to use the measure
   def modeler_description
-    return 'Five different user inputs are required to simulate the fault. ' \
-      'The measure detects the original (non-faulted) thermostat schedule ' \
-      'applied in EnergyPlus automatically, and adjusts the morning schedule ' \
-      'based on user inputs. Note that this measure only works for buildings ' \
-      'that become unoccupied before midnight. To use this Measure, ' \
-      'choose the Zone that is faulted, ' \
-      'and the period of time when you want the fault to occur. ' \
-      'You should also enter the number of hours that the extension ' \
-      'sustains. The measure will detect the thermostat schedule of the ' \
-      'automatically, and adjust the morning schedule to the daytime ' \
-      'schedule. Note that this measure only works for buildings close ' \
-      'before midnight. You also need to choose one day in a week (Monday, ' \
-      'Tuesday, .....) to simulate weekly fault occurence.'
+    return "Five different user inputs are required to simulate the fault. The measure detects the original (non-faulted) thermostat schedule applied in EnergyPlus automatically, and adjusts the morning schedule based on user inputs. Note that this measure only works for buildings that become unoccupied before midnight. To use this Measure, choose the Zone that is faulted, and the period of time when you want the fault to occur. You should also enter the number of hours that the extension sustains. The measure will detect the thermostat schedule of the automatically, and adjust the morning schedule to the daytime schedule. Note that this measure only works for buildings close before midnight. You also need to choose one day in a week (Monday, Tuesday, .....) to simulate weekly fault occurence."
   end
 
   # define the arguments that the user will input
