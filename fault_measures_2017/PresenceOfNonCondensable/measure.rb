@@ -30,36 +30,12 @@ class RTUNCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return 'When an air conditioner, heat pump, or refrigeration unit is ' \
-      'not properly evacuated prior to being charged with refrigerant, ' \
-      'the unit runs with a mixture of air and refrigerant. Because it is ' \
-      'noncondensable, the air inside the refrigerant circuit typically ' \
-      'is trapped in the high-pressure vapor downstream of the compressor, ' \
-      'and the pressure difference across the compressor and the compressor ' \
-      'power consumption increase. This measure simulates the presence of ' \
-      'the noncondensable by modifying the Coil:Cooling:DX:SingleSpeed ' \
-      'object in EnergyPlus assigned to the heating and cooling system. ' \
-      '(12). The fault intensity (F) for this fault is defined as the ' \
-      'ratio of the mass of noncondensable in the refrigerant circuit to ' \
-      'the mass of noncondensable that the refrigerant circuit can hold at ' \
-      'standard atmospheric pressure.'
+    return "When an air conditioner, heat pump, or refrigeration unit is not properly evacuated prior to being charged with refrigerant, the unit runs with a mixture of air and refrigerant. Because it is noncondensable, the air inside the refrigerant circuit typically is trapped in the high-pressure vapor downstream of the compressor, and the pressure difference across the compressor and the compressor power consumption increase. This measure simulates the presence of the noncondensable by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. (12). The fault intensity (F) for this fault is defined as the ratio of the mass of noncondensable in the refrigerant circuit to the mass of noncondensable that the refrigerant circuit can hold at standard atmospheric pressure."
   end
 
   # human readable description of workspace approach
-  def workspaceer_description
-    return 'Twelve user inputs, ' \
-      '- DX coil where the fault occurs ' \
-      '- Percentage reduction of condenser airflow ' \
-      '- rated cooling capacity ' \
-      '- rated sensible heat ratio ' \
-      '- rated volumetric flow rate ' \
-      '- minimum/maximum evaporator air inlet wet-bulb temperature ' \
-      '- minimum/maximum condenser air inlet temperature ' \
-      '- minimum/maximum rated COP ' \
-      '- percentage change of UA with increase of fault level '\
-      'can be defined or remained with default values. ' \
-      'Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX ' \
-      'cooling coil model is recalculated to reflect the faulted operation'
+  def modeler_description
+    return "Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation."
   end
 
   # define the arguments that the user will input
