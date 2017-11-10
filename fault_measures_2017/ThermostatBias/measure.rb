@@ -22,7 +22,7 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
   #define the name that a user will see, this method may be deprecated as
   #the display name in PAT comes from the name field in measure.xml
   def name
-    return "Thermostat Bias"
+    return "Thermostat Measurement Bias"
   end
   
   # human readable description
