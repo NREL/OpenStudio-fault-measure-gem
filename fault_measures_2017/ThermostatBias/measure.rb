@@ -314,11 +314,11 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
         runner.registerInitialCondition("Initial heating setpoints in affected zones range from #{setpoint_values[:init_htg_min].min.round(1)} C to #{setpoint_values[:init_htg_max].max.round(1)} C. Initial cooling setpoints in affected zones range from #{setpoint_values[:init_clg_min].min.round(1)} C to #{setpoint_values[:init_clg_max].max.round(1)} C.")
         runner.registerFinalCondition("Final heating setpoints in affected zones range from #{setpoint_values[:final_htg_min].min.round(1)} C to #{setpoint_values[:final_htg_max].max.round(1)} C. Final cooling setpoints in affected zones range from #{setpoint_values[:final_clg_min].min.round(1)} C to #{setpoint_values[:final_clg_max].max.round(1)} C.")
       else
-        runner.registerAsNotApplicable("No changes made, selected zones may not have had setpoint schedules, or they schedules may not have been ScheduleRulesets.")
+        runner.registerAsNotApplicable("No changes made, selected zones may not have had setpoint schedules, or schedules may not have been ScheduleRulesets.")
       end
 
     else
-      runner.registerAsNotApplicable("No changes made thermostat bias of 0.0 requested.")
+      runner.registerAsNotApplicable("No changes made, thermostat bias of 0.0 requested.")
     end
 
     return true
