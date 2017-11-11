@@ -150,7 +150,7 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
         # get thermostat
         thermostatsetpointdualsetpoint = thermalzone.thermostatSetpointDualSetpoint
         if thermostatsetpointdualsetpoint.empty?
-          runner.registerWarning("Cannot find existing thermostat for thermal zone '#{thermalzone.name}'. No changes made ot this zone.")
+          runner.registerWarning("Cannot find existing thermostat for thermal zone '#{thermalzone.name}'. No changes made in this zone.")
           next
         end
         thermostatsetpointdualsetpoint = thermostatsetpointdualsetpoint.get.clone.to_ThermostatSetpointDualSetpoint.get
