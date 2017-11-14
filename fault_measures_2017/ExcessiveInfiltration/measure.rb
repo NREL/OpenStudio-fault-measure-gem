@@ -68,22 +68,22 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     args << space_infiltration_increase_percent
 
     #make an argument for material and installation cost
-    material_and_installation_cost = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("material_and_installation_cost",true)
-    material_and_installation_cost.setDisplayName("Increase in Material and Installation Costs for Building per Affected Floor Area ($/ft^2).")
-    material_and_installation_cost.setDefaultValue(0.0)
-    args << material_and_installation_cost
+    #material_and_installation_cost = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("material_and_installation_cost",true)
+    #material_and_installation_cost.setDisplayName("Increase in Material and Installation Costs for Building per Affected Floor Area ($/ft^2).")
+    #material_and_installation_cost.setDefaultValue(0.0)
+    #args << material_and_installation_cost
 
     #make an argument for O & M cost
-    om_cost = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("om_cost",true)
-    om_cost.setDisplayName("O & M Costs for Construction per Affected Floor Area ($/ft^2).")
-    om_cost.setDefaultValue(0.0)
-    args << om_cost
+    #om_cost = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("om_cost",true)
+    #om_cost.setDisplayName("O & M Costs for Construction per Affected Floor Area ($/ft^2).")
+    #om_cost.setDefaultValue(0.0)
+    #args << om_cost
 
     #make an argument for O & M frequency
-    om_frequency = OpenStudio::Ruleset::OSArgument::makeIntegerArgument("om_frequency",true)
-    om_frequency.setDisplayName("O & M Frequency (whole years).")
-    om_frequency.setDefaultValue(1)
-    args << om_frequency
+    #om_frequency = OpenStudio::Ruleset::OSArgument::makeIntegerArgument("om_frequency",true)
+    #om_frequency.setDisplayName("O & M Frequency (whole years).")
+    #om_frequency.setDefaultValue(1)
+    #args << om_frequency
 
     return args
   end #end the arguments method
@@ -100,9 +100,9 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     #assign the user inputs to variables
     object = runner.getOptionalWorkspaceObjectChoiceValue("space_type",user_arguments,model)
     space_infiltration_increase_percent = runner.getDoubleArgumentValue("space_infiltration_increase_percent",user_arguments)
-    material_and_installation_cost = runner.getDoubleArgumentValue("material_and_installation_cost",user_arguments)
-    om_cost = runner.getDoubleArgumentValue("om_cost",user_arguments)
-    om_frequency = runner.getIntegerArgumentValue("om_frequency",user_arguments)
+    #material_and_installation_cost = runner.getDoubleArgumentValue("material_and_installation_cost",user_arguments)
+    #om_cost = runner.getDoubleArgumentValue("om_cost",user_arguments)
+    #om_frequency = runner.getIntegerArgumentValue("om_frequency",user_arguments)
 
     #check the space_type for reasonableness and see if measure should run on space type or on the entire building
     apply_to_building = false
@@ -141,19 +141,19 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     end
 
     #check lifecycle cost arguments for reasonableness
-    if material_and_installation_cost < -100
-      runner.registerError("Material and Installation Cost percentage increase can't be less than -100.")
-      return false
-    end
+    #if material_and_installation_cost < -100
+    #  runner.registerError("Material and Installation Cost percentage increase can't be less than -100.")
+    #  return false
+    #end
 
-    if om_cost < -100
-      runner.registerError("O & M Cost percentage increase can't be less than -100.")
-      return false
-    end
+    #if om_cost < -100
+    #  runner.registerError("O & M Cost percentage increase can't be less than -100.")
+    #  return false
+    #end
 
-    if om_frequency < 1
-      runner.registerError("Choose an integer greater than 0 for O & M Frequency.")
-    end
+    #if om_frequency < 1
+    #  runner.registerError("Choose an integer greater than 0 for O & M Frequency.")
+    #end
 
     #helper to make numbers pretty (converts 4125001.25641 to 4,125,001.26 or 4,125,001). The definition be called through this measure.
     def neat_numbers(number, roundto = 2) #round to 0 or 2)
@@ -243,7 +243,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     end #end space types each do
 
     #loop through space types for ZoneInfiltration:EffectiveLeakageArea
-	  space_types.each do |space_type|
+    space_types.each do |space_type|
       next if not space_type.spaces.size > 0
       space_type_infiltration_ela_objects = space_type.spaceInfiltrationEffectiveLeakageAreas
       space_type_infiltration_ela_objects.each do |space_type_infiltration_ela_object|
@@ -284,7 +284,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     end 
 
     #loop through spaces for ZoneInfiltration:EffectiveLeakageArea
-	  spaces.each do |space|
+    spaces.each do |space|
       space_infiltration_ela_objects = space.spaceInfiltrationEffectiveLeakageAreas
       space_infiltration_ela_objects.each do |space_infiltration_ela_object|
 
@@ -297,24 +297,25 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       end 
     end
 
-    if altered_instances == 0 and material_and_installation_cost == 0 and om_cost == 0
-      runner.registerAsNotApplicable("No space infiltration objects were found in the specified space type(s) and no life cycle costs were requested.")
-    end
+    #if altered_instances == 0 and material_and_installation_cost == 0 and om_cost == 0
+    #  runner.registerAsNotApplicable("No space infiltration objects were found in the specified space type(s) and no life cycle costs were requested.")
+    #end
 
     #only add LifeCyCyleCostItem if the user entered some non 0 cost values
-    affected_area_ip = OpenStudio::convert(affected_area_si,"m^2","ft^2").get
-    if material_and_installation_cost != 0 or om_cost != 0
-      lcc_mat = OpenStudio::Model::LifeCycleCost.createLifeCycleCost("LCC_Mat - Cost to Adjust Infiltration", building, affected_area_ip * material_and_installation_cost, "CostPerEach", "Construction", 0, 0)  #0 for expected life will result infinite expected life
-      lcc_om = OpenStudio::Model::LifeCycleCost.createLifeCycleCost("LCC_OM - Cost to Adjust Infiltration", building, affected_area_ip * om_cost, "CostPerEach", "Maintenance", om_frequency, 0) #o&m costs start after at sane time that material and installation costs occur
-      runner.registerInfo("Costs related to the change in infiltration are attached to the building object. Any subsequent measures that may affect infiltration won't affect these costs.")
-      final_cost = lcc_mat.get.totalCost
-    else
-      runner.registerInfo("Cost arguments were not provided, no cost objects were added to the model.")
-      final_cost = 0
-    end #end of material_cost_ip != 0 or om_cost_ip != 0
+    #affected_area_ip = OpenStudio::convert(affected_area_si,"m^2","ft^2").get
+    #if material_and_installation_cost != 0 or om_cost != 0
+    #  lcc_mat = OpenStudio::Model::LifeCycleCost.createLifeCycleCost("LCC_Mat - Cost to Adjust Infiltration", building, affected_area_ip * material_and_installation_cost, "CostPerEach", "Construction", 0, 0)  #0 for expected life will result infinite expected life
+    #  lcc_om = OpenStudio::Model::LifeCycleCost.createLifeCycleCost("LCC_OM - Cost to Adjust Infiltration", building, affected_area_ip * om_cost, "CostPerEach", "Maintenance", om_frequency, 0) #o&m costs start after at sane time that material and installation costs occur
+    #  runner.registerInfo("Costs related to the change in infiltration are attached to the building object. Any subsequent measures that may affect infiltration won't affect these costs.")
+    #  final_cost = lcc_mat.get.totalCost
+    #else
+    #  runner.registerInfo("Cost arguments were not provided, no cost objects were added to the model.")
+    #  final_cost = 0
+    #end #end of material_cost_ip != 0 or om_cost_ip != 0
 
     #report final condition
-    runner.registerFinalCondition("#{altered_instances} space infiltration objects in the model were altered affecting #{neat_numbers(affected_area_ip,0)}(ft^2) at a total cost of $#{neat_numbers(final_cost,0)}.")
+    runner.registerFinalCondition("#{altered_instances} space infiltration objects in the model were altered.")
+    #runner.registerFinalCondition("#{altered_instances} space infiltration objects in the model were altered affecting #{neat_numbers(affected_area_ip,0)}(ft^2) at a total cost of $#{neat_numbers(final_cost,0)}.")
 
     return true
 
