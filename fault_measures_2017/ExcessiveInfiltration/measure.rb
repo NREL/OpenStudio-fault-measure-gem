@@ -169,6 +169,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 
     #get space infiltration objects used in the model
     space_infiltration_objects = model.getSpaceInfiltrationDesignFlowRates
+    space_infiltration_ela_objects = model.getSpaceInfiltrationEffectiveLeakageAreas
     #todo - it would be nice to give ranges for different calculation methods but would take some work.
 
     #counters needed for measure
@@ -176,8 +177,8 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     affected_area_si = 0
 
     #reporting initial condition of model
-    if space_infiltration_objects.size > 0
-      runner.registerInitialCondition("The initial model contained #{space_infiltration_objects.size} space infiltration objects.")
+    if space_infiltration_objects.size > 0 && space_infiltration_ela_objects.size > 0 
+      runner.registerInitialCondition("The initial model contained #{space_infiltration_objects.size + space_infiltration_ela_objects.size} space infiltration objects.")
     else
       runner.registerInitialCondition("The initial model did not contain any space infiltration objects.")
     end
@@ -211,10 +212,22 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       else
         runner.registerWarning("'#{instance.name}' is used by one or more instances and has no load values.")
       end
-
     end #end of def alter_performance_and_lcc()
 
-    #loop through space types
+    def alter_performance_ela(object, space_infiltration_increase_percent, runner)
+
+      #edit instance based on percentage increase
+      instance = object
+	  	  
+      if not instance.effectiveAirLeakageArea.to_s.empty?
+		    new_infiltration_ela = instance.setEffectiveAirLeakageArea(instance.effectiveAirLeakageArea + instance.effectiveAirLeakageArea*space_infiltration_increase_percent*0.01)
+      else
+        runner.registerWarning("'#{instance.name}' is used by one or more instances and has no load values.")
+      end
+
+    end
+
+    #loop through space types for ZoneInfiltration:DesignFlowRate
     space_types.each do |space_type|
       next if not space_type.spaces.size > 0
       space_type_infiltration_objects = space_type.spaceInfiltrationDesignFlowRates
@@ -226,10 +239,23 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
         #rename
         updated_instance_name = space_type_infiltration_object.setName("#{space_type_infiltration_object.name} #{space_infiltration_increase_percent} percent increase")
         altered_instances += 1
-
       end #end space_type_infiltration_objects.each do
-
     end #end space types each do
+
+    #loop through space types for ZoneInfiltration:EffectiveLeakageArea
+	  space_types.each do |space_type|
+      next if not space_type.spaces.size > 0
+      space_type_infiltration_ela_objects = space_type.spaceInfiltrationEffectiveLeakageAreas
+      space_type_infiltration_ela_objects.each do |space_type_infiltration_ela_object|
+
+        #call def to alter performance and life cycle costs
+        alter_performance_ela(space_type_infiltration_ela_object, space_infiltration_increase_percent, runner)
+
+        #rename
+        updated_instance_name = space_type_infiltration_ela_object.setName("#{space_type_infiltration_ela_object.name} #{space_infiltration_increase_percent} percent increase")
+        altered_instances += 1
+      end 
+    end
 
     #getting spaces in the model
     spaces = model.getSpaces
@@ -243,6 +269,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       end
     end
 
+    #loop through spaces for ZoneInfiltration:DesignFlowRate
     spaces.each do |space|
       space_infiltration_objects = space.spaceInfiltrationDesignFlowRates
       space_infiltration_objects.each do |space_infiltration_object|
@@ -253,10 +280,22 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
         #rename
         updated_instance_name = space_infiltration_object.setName("#{space_infiltration_object.name} #{space_infiltration_increase_percent} percent increase")
         altered_instances += 1
+      end 
+    end 
 
-      end #end space_infiltration_object.each do
+    #loop through spaces for ZoneInfiltration:EffectiveLeakageArea
+	  spaces.each do |space|
+      space_infiltration_ela_objects = space.spaceInfiltrationEffectiveLeakageAreas
+      space_infiltration_ela_objects.each do |space_infiltration_ela_object|
 
-    end #end of loop through spaces
+        #call def to alter performance and life cycle costs
+        alter_performance_ela(space_infiltration_ela_object, space_infiltration_increase_percent, runner)
+
+        #rename
+        updated_instance_name = space_infiltration_ela_object.setName("#{space_infiltration_ela_object.name} #{space_infiltration_increase_percent} percent increase")
+        altered_instances += 1
+      end 
+    end
 
     if altered_instances == 0 and material_and_installation_cost == 0 and om_cost == 0
       runner.registerAsNotApplicable("No space infiltration objects were found in the specified space type(s) and no life cycle costs were requested.")
