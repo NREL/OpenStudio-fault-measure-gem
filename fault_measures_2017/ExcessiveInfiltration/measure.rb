@@ -23,7 +23,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
   
   # human readable description of modeling approach
   def modeler_description
-    return "The user input of the percentage of excessive infiltration is multiplied to one of either four variables depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration."
+    return "The user input of the percentage of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F/100), where Infil_o is the original value defined in the infiltration object and F is the percentage of excessive infiltration."
   end
 
   #define the arguments that the user will input
