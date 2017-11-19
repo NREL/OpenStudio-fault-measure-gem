@@ -26,12 +26,12 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
 
   # simple human readable description
   def description
-    return "Thermostat schedules are employed to raise set points for cooling and lower set points for heating at night, to switch fan operation from being continuously on during occupied times to being coupled to cooling or heating demands at other times, and to close ventilation dampers during unoccupied periods. Faults can occur due to malfunctioning, unprogrammed, or incorrectly programmed or scheduled thermostats, leading to increased energy consumption and/or compromised comfort and air quality. This measure simulates the effect of having no overnight setback by modifying the Schedule:Compact object in EnergyPlus assigned to thermostat set point schedules. The fault intensity (F) for this fault is defined as the absence of overnight HVAC setback (binary)."
+    return "Lighting should be turned off or at least reduced during unoccupied hours. However, some commissioning studies have found noticeable lighting energy use at night either because lighting schedules are improperly configured or occupants forget to turn off lights when vacating a building (Haasl, Stum, and Arney 1996; Kahn, Potter, and Haasl 2002). This measure simulates the effect of having no setback during unoccupied hours by modifying the Schedule:Compact object in EnergyPlus assigned to lighting schedules. The fault intensity (F) for this fault is defined as the absence of overnight lighting setback (binary)."
   end
 
   # detailed human readable description about how to use the measure
   def modeler_description
-    return "Four different user inputs are required to simulate the fault. The measure detects the original (non-faulted) thermostat schedule applied in EnergyPlus automatically, and adjusts the evening schedule by removing the overnight setback and replacing it with the daytime schedule. To use this Measure, choose the zone that is faulted, and the period of time what you want the fault to occur. The measure will detect the thermostat schedule of the automatically, and adjust the evening schedule to the daytime schedule. You also need to choose one day in a week (Monday, Tuesday, .....) to simulate weekly fault occurence."
+    return "Four different user inputs are required; zone where the fault occurs, starting month of the faulted operation, ending month of the faulted operation, day of the week when the fault occurs. The measure detects the original (non-faulted) lighting schedule applied in EnergyPlus automatically, and adjusts the schedule based on user inputs."
   end
 
   # define the arguments that the user will input
