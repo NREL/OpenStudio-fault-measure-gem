@@ -7,6 +7,8 @@
 # see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # http://openstudio.nrel.gov/sites/openstudio.nrel.gov/files/nv_data/cpp_documentation_it/model/html/namespaces.html
 
+# 11/18/2017 Lighting Setback Error measure developed based on HVAC Setback Error measure
+# codes within ######## are modified parts
 require 'date'
 require 'openstudio-standards' # this is used to get min/max values from thermostat schedules for reporting purposes
 
@@ -108,12 +110,14 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
       # create empty has to poulate when loop through zones
       setpoint_values = create_initial_final_setpoint_values_hash
 
-	  zone = runner.getStringArgumentValue('zone', user_arguments)
-	  lights = obtainlight(zone, model, runner, user_arguments)
+      ###########################################################################
+      ###########################################################################
+      zone = runner.getStringArgumentValue('zone', user_arguments)
+      lights = obtainlight(zone, model, runner, user_arguments)
 	  
       # apply fault
       lights.each do |light|
-	    next if not light.size > 0
+	next if not light.size > 0
         results = applyfaulttolight_no_setback(light, start_month, end_month, dayofweek, runner, setpoint_values, model)
 
         # populate hash for min max values across zones
@@ -121,6 +125,8 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
           setpoint_values = results
         end
       end
+      ###########################################################################
+      ###########################################################################
 
       # register initial and final condition
       if setpoint_values[:initial_ltg_min].size > 0
