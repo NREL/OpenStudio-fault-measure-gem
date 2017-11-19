@@ -114,13 +114,13 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
       setpoint_values = create_initial_final_setpoint_values_hash
 
       ###########################################################################
-	  ###########################################################################
-	  zone = runner.getStringArgumentValue('zone', user_arguments)
-	  lights = obtainlight(zone, model, runner, user_arguments)
+      ###########################################################################
+      zone = runner.getStringArgumentValue('zone', user_arguments)
+      lights = obtainlight(zone, model, runner, user_arguments)
 	  
       # apply fault
       lights.each do |light|
-	    next if not light.size > 0
+	next if not light.size > 0
         results = applyfaulttolight_no_setback_ext_hr(light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
 
         # populate hash for min max values across zones
@@ -128,8 +128,8 @@ class ExtendMorningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
           setpoint_values = results
         end
       end
-	  ###########################################################################
-	  ###########################################################################
+      ###########################################################################
+      ###########################################################################
 
       # todo - this isn't useful here, since range isn't change, maybe I should calculate weighted building average thermostat based on floor area or zone volume.
       # register initial and final condition
