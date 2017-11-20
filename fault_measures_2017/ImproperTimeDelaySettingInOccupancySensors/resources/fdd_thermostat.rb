@@ -666,26 +666,25 @@ module OsLib_FDD
     # hours of building daytime operation, it extends the operation schedule
     # by extended hour
 		
-	scheduleday_ltg = lightingrulesetschedule.defaultDaySchedule
+    scheduleday_ltg = lightingrulesetschedule.defaultDaySchedule
     scheduleday_ltg.clearValues
 	
     # force the first setpoint of the day and any setpoint in the evening
     # to be the same as the daytime setpoint
     newtime = shifttimevector(times, values, ext_hr, changetime, moring_evening_string, runner)
-	i = 0
+    i = 0
     times.zip(values).each do |time, value|
       if time == changetime
-	    if moring_evening_string == "morning"
+        if moring_evening_string == "morning"
           scheduleday_ltg.addValue(newtime, value)
-		else
-		  scheduleday_ltg.addValue(newtime, values[i-1])
-		end
+	else
+          scheduleday_ltg.addValue(newtime, values[i-1])
+	end
       else
         scheduleday_ltg.addValue(time, value)
       end
-	  i = i + 1
+      i = i + 1
     end
-	
   end
   ##########################################################
   ##########################################################
