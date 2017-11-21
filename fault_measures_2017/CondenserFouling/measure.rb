@@ -22,7 +22,7 @@ $err_check = false
 $all_coil_selection = '* ALL Coil Selected *'
 
 # start the measure
-class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
+class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
     return 'Condenser Fouling'
@@ -592,4 +592,4 @@ class RTUCAWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 end
 
 # register the measure to be used by the application
-RTUCAWithSHRChange.new.registerWithApplication
+CondenserFouling.new.registerWithApplication
