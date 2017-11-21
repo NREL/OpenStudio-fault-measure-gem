@@ -14,7 +14,7 @@ $q_para_num = 6
 $eir_para_num = 6
 
 # start the measure
-class EconomizerReturnTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScript
+class BiasedEconomizerSensorReturnT < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable name
   def name
@@ -144,14 +144,14 @@ class EconomizerReturnTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserSc
       
       #give an error for the name if no RTU is changed
       if no_econ_found
-        runner.registerError("Measure EconomizerReturnTempSensorBiasFault cannot find "+econ_choice+". Exiting......")
+        runner.registerError("Measure BiasedEconomizerSensorReturnT cannot find "+econ_choice+". Exiting......")
         return false
       end
 
       # report final condition of workspace
       runner.registerFinalCondition("Imposed Sensor Bias on "+econ_choice+".")
     else
-      runner.registerAsNotApplicable("EconomizerReturnTempSensorBiasFault is not running for "+econ_choice+". Skipping......")
+      runner.registerAsNotApplicable("BiasedEconomizerSensorReturnT is not running for "+econ_choice+". Skipping......")
     end
 
     return true
@@ -161,4 +161,4 @@ class EconomizerReturnTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserSc
 end
 
 # register the measure to be used by the application
-EconomizerReturnTempSensorBiasFault.new.registerWithApplication
+BiasedEconomizerSensorReturnT.new.registerWithApplication
