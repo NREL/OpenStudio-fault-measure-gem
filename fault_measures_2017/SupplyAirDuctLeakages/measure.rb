@@ -8,7 +8,7 @@
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
 # start the measure
-class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUserScript
+class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
     return 'Supply Air Duct Leakages'
@@ -101,7 +101,7 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
           #  end
           #end
           #unless equiplistchange
-          #  runner.registerError("Measure AirTerminalSupplyDownstreamLeakToReturn cannot find the ZoneHVAC:EquipmentList that contains #{airterminal_choice}. Exiting......")
+          #  runner.registerError("Measure SupplyAirDuctLeakages cannot find the ZoneHVAC:EquipmentList that contains #{airterminal_choice}. Exiting......")
           #  return false
           #end
           #############################################################################################
@@ -124,7 +124,7 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
             end
           end
           unless zonesplitterchange
-            runner.registerError("Measure AirTerminalSupplyDownstreamLeakToReturn cannot find the AirLoopHVAC:ZoneSplitter that contains #{airterminal_choice}. Exiting......")
+            runner.registerError("Measure SupplyAirDuctLeakages cannot find the AirLoopHVAC:ZoneSplitter that contains #{airterminal_choice}. Exiting......")
             return false
           end
           # create new AirTerminal:SingleDuct:ConstantVolume:Reheat, Coil:Heating:Electric and ZoneHVAC:AirDistributionUnit objects
@@ -204,7 +204,7 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
             end
           end
           unless equiplistchange
-            runner.registerError("Measure AirTerminalSupplyDownstreamLeakToReturn cannot find the ZoneHVAC:EquipmentList that contains #{airterminal_choice}. Exiting......")
+            runner.registerError("Measure SupplyAirDuctLeakages cannot find the ZoneHVAC:EquipmentList that contains #{airterminal_choice}. Exiting......")
             return false
           end
           string_objects = []
@@ -312,7 +312,7 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
 
       # give an error for the name if no RTU is changed
       if !airterminal_changed
-        runner.registerError("Measure AirTerminalSupplyDownstreamLeakToReturn cannot find #{airterminal_choice}. Exiting......")
+        runner.registerError("Measure SupplyAirDuctLeakages cannot find #{airterminal_choice}. Exiting......")
         airterminals_msg = 'Only AirTerminals '
         existing_airterminals.each do |existing_airterminal|
           airterminals_msg = "#{airterminals_msg}#{existing_airterminal}, "
@@ -321,7 +321,7 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
         runner.registerError(airterminals_msg)
         return false
       elsif !adu_changed
-        runner.registerError("Measure AirTerminalSupplyDownstreamLeakToReturn cannot find the ZoneHVAC:AirDistributionUnit that contains #{airterminal_choice}. Exiting......")
+        runner.registerError("Measure SupplyAirDuctLeakages cannot find the ZoneHVAC:AirDistributionUnit that contains #{airterminal_choice}. Exiting......")
         return false
       elsif !ratio_set
         runner.registerError("Leakage ratio cannot be assigned to #{airterminal_choice} with the ZoneHVAC:AirDistributionUnit object having #{field_num} fields. Exiting......")
@@ -331,7 +331,7 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
       # report final condition of workspace
       runner.registerFinalCondition("Imposed performance degradation on #{airterminal_choice}.")
     else
-      runner.registerAsNotApplicable("AirTerminalSupplyDownstreamLeakToReturn is not running for #{airterminal_choice}. Skipping......")
+      runner.registerAsNotApplicable("SupplyAirDuctLeakages is not running for #{airterminal_choice}. Skipping......")
     end
 
     return true
@@ -339,4 +339,4 @@ class AirTerminalSupplyDownstreamLeakToReturn < OpenStudio::Ruleset::WorkspaceUs
 end
 
 # register the measure to be used by the application
-AirTerminalSupplyDownstreamLeakToReturn.new.registerWithApplication
+SupplyAirDuctLeakages.new.registerWithApplication
