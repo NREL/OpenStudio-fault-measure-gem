@@ -12,7 +12,7 @@ require "#{File.dirname(__FILE__)}/resources/ScheduleSearch"
 $allchoices = '* ALL Fan objects *'
 
 # start the measure
-class FanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
+class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
     return 'Air Handling Unit Fan Motor Degradation'
@@ -270,4 +270,4 @@ class FanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
 end
 
 # register the measure to be used by the application
-FanMotorEfficiencyFault.new.registerWithApplication
+AirHandlingUnitFanMotorDegradation.new.registerWithApplication
