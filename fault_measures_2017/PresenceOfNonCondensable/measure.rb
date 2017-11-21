@@ -22,7 +22,7 @@ $err_check = false
 $all_coil_selection = '* ALL Coil Selected *'
 
 # start the measure
-class RTUNCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
+class PresenceOfNonCondensable < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
     return 'Presence Of Noncondensable'
@@ -592,4 +592,4 @@ class RTUNCWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 end
 
 # register the measure to be used by the application
-RTUNCWithSHRChange.new.registerWithApplication
+PresenceOfNonCondensable.new.registerWithApplication
