@@ -19,7 +19,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 include OsLib_FDD
 
 # start the measure
-class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
+class LightingSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
   # define the name that a user will see, this method may be deprecated as
   # the display name in PAT comes from the name field in measure.xml
   def name
@@ -101,7 +101,7 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
     # get inputs
     dayofweek = runner.getStringArgumentValue('dayofweek', user_arguments)
     if dayofweek == $not_faulted
-      runner.registerAsNotApplicable('Measure NoOvernightSetbackWeek not run')
+      runner.registerAsNotApplicable('Measure LightingSetbackErrorNoOvernightSetback not run')
     else
       start_month = runner.getStringArgumentValue('start_month', user_arguments)
       end_month = runner.getStringArgumentValue('end_month', user_arguments)
@@ -150,4 +150,4 @@ class NoOvernightSetbackWeek < OpenStudio::Ruleset::ModelUserScript
 end # end the measure
 
 # this allows the measure to be use by the application
-NoOvernightSetbackWeek.new.registerWithApplication
+LightingSetbackErrorNoOvernightSetback.new.registerWithApplication
