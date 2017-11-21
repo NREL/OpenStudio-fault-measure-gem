@@ -19,7 +19,7 @@ $eir_para_num = 5
 $all_coil_selection = '* ALL Coil Selected *'
 
 # start the measure
-class RTUCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserScript
+class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable name
   def name
@@ -335,7 +335,7 @@ class RTUCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserSc
       
       #give an error for the name if no RTU is changed
       if no_RTU_changed
-        runner.registerError("Measure RTUCondenserFanMotorEfficiencyFault cannot find "+coil_choice_all+". Exiting......")
+        runner.registerError("Measure CondenserFanDegradation cannot find "+coil_choice_all+". Exiting......")
         coils_msg = "Only coils "
         existing_coils.each do |existing_coil|
           coils_msg = coils_msg+existing_coil+", "
@@ -348,7 +348,7 @@ class RTUCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserSc
       # report final condition of workspace
       runner.registerFinalCondition("Imposed performance degradation on "+coil_choice_all+".")
     else
-      runner.registerAsNotApplicable("RTUCondenserFanMotorEfficiencyFault is not running for "+coil_choice_all+". Skipping......")
+      runner.registerAsNotApplicable("CondenserFanDegradation is not running for "+coil_choice_all+". Skipping......")
     end
 
     return true
@@ -358,4 +358,4 @@ class RTUCondenserFanMotorEfficiencyFault < OpenStudio::Ruleset::WorkspaceUserSc
 end
 
 # register the measure to be used by the application
-RTUCondenserFanMotorEfficiencyFault.new.registerWithApplication
+CondenserFanDegradation.new.registerWithApplication
