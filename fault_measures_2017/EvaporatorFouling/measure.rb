@@ -6,7 +6,7 @@ require "#{File.dirname(__FILE__)}/resources/EnterCoefficients"
 $allahuchoice = '* ALL AHUs *'
 
 # start the measure
-class DuctFouling < OpenStudio::Ruleset::ModelUserScript
+class EvaporatorFouling < OpenStudio::Ruleset::ModelUserScript
 
   # human readable name
   def name
@@ -281,4 +281,4 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
 end
 
 # register the measure to be used by the application
-DuctFouling.new.registerWithApplication
+EvaporatorFouling.new.registerWithApplication
