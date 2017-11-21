@@ -8,7 +8,7 @@
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
 # start the measure
-class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScript
+class BiasedEconomizerSensorMixedT < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable name
   def name
@@ -219,13 +219,13 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
     
     #give an error for the name if no RTU is changed
     if no_econ_found
-      runner.registerError("Measure EconomizerPotentialMixedTempSensorBiasFault cannot find "+econ_choice+". Exiting......")
+      runner.registerError("Measure BiasedEconomizerSensorMixedT cannot find "+econ_choice+". Exiting......")
       return false
     elsif applicable
       # report final condition of workspace
       runner.registerFinalCondition("Imposed Sensor Bias on "+econ_choice+".")
     else
-      runner.registerAsNotApplicable("EconomizerPotentialMixedTempSensorBiasFault is not running for "+econ_choice+" because of inapplicability. Skipping......")
+      runner.registerAsNotApplicable("BiasedEconomizerSensorMixedT is not running for "+econ_choice+" because of inapplicability. Skipping......")
     end
 
     return true
@@ -235,4 +235,4 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
 end
 
 # register the measure to be used by the application
-EconomizerPotentialMixedTempSensorBiasFault.new.registerWithApplication
+BiasedEconomizerSensorMixedT.new.registerWithApplication
