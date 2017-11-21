@@ -22,7 +22,7 @@ $err_check = false
 $all_coil_selection = '* ALL Coil Selected *'
 
 # start the measure
-class RTULLWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
+class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
     return 'Liquid-Line Restriction'
@@ -592,4 +592,4 @@ class RTULLWithSHRChange < OpenStudio::Ruleset::WorkspaceUserScript
 end
 
 # register the measure to be used by the application
-RTULLWithSHRChange.new.registerWithApplication
+LiquidLineRestriction.new.registerWithApplication
