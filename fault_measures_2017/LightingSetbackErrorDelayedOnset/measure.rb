@@ -20,7 +20,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 include OsLib_FDD
 
 # start the measure
-class ExtendEveningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
+class LightingSetbackErrorDelayedOnset < OpenStudio::Ruleset::ModelUserScript
   # define the name that a user will see, this method may be deprecated as
   # the display name in PAT comes from the name field in measure.xml
   def name
@@ -143,7 +143,7 @@ class ExtendEveningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
 
     else
       runner.registerAsNotApplicable('Zero hour extension in Measure ' \
-                                     'ExtendEveningThermostatSetpointWeek. ' \
+                                     'LightingSetbackErrorDelayedOnset. ' \
                                      'Exiting......')
     end
 
@@ -152,4 +152,4 @@ class ExtendEveningThermostatSetpointWeek < OpenStudio::Ruleset::ModelUserScript
 end # end the measure
 
 # this allows the measure to be use by the application
-ExtendEveningThermostatSetpointWeek.new.registerWithApplication
+LightingSetbackErrorDelayedOnset.new.registerWithApplication
