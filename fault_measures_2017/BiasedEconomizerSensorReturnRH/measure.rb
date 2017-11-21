@@ -12,7 +12,7 @@ require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow"
 $allchoices = '* ALL Controller:OutdoorAir *'
 
 # start the measure
-class EconomizerReturnRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScript
+class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable name
   def name
@@ -133,4 +133,4 @@ class EconomizerReturnRHSensorBiasFault < OpenStudio::Ruleset::WorkspaceUserScri
 end
 
 # register the measure to be used by the application
-EconomizerReturnRHSensorBiasFault.new.registerWithApplication
+BiasedEconomizerSensorReturnRH.new.registerWithApplication
