@@ -69,10 +69,10 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
 	
     #Input check
     if sizing_increase_percent < 0.0 || sizing_increase_percent > 50.0
-      runner.registerError("Fault level #{sizing_increase_percent} for #{coil_choice} is outside the range from 0 to 50%. Exiting......")
+      runner.registerError("Fault intensity #{sizing_increase_percent} is defined outside the range from 0 to 50%. Exiting......")
       return false
     elsif sizing_increase_percent.abs < 0.001
-      runner.registerAsNotApplicable("OversizedEquipmentAtDesign is not running for #{coil_choice}. Skipping......")
+      runner.registerAsNotApplicable("Fault intensity #{sizing_increase_percent} is defined too small. Skipping......")
       return true
     end
 	
