@@ -1,0 +1,60 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>oversized_equipment_at_design</name>
+  <uid>c97fd24d-b0f3-45e0-93a7-487e0b3759fb</uid>
+  <version_id>a2942f5e-71f7-4352-bc4e-3700bb3e2139</version_id>
+  <version_modified>20171122T164556Z</version_modified>
+  <xml_checksum>EACB548E</xml_checksum>
+  <class_name>OversizedEquipmentAtDesign</class_name>
+  <display_name>Oversized Equipment at Design</display_name>
+  <description>Oversizing of heating and cooling equipment is commonly accepted in real-world applications. In a previous study (Felts and Bailey 2000), more than 40% of the units surveyed were oversized by more than 25%, and 10% were oversized by more than 50%. System oversizing can ensure that the highest heating and cooling demands are met. But excessive oversizing of units can lead to increased equipment cycling with increased energy use due to efficiency losses. The fault intensity (F) for this fault is defined as the ratio of increased sizing compared to the correct sizing.</description>
+  <modeler_description>This measure simulates the effect of oversized equipment at design by modifying the Sizing:Parameters object in EnergyPlus assigned to the heating and cooling system. One user input is required; percentage of increased sizing</modeler_description>
+  <arguments>
+    <argument>
+      <name>coil_choice</name>
+      <display_name>Enter the name of the oversized coil object. If you want to impose the fault on all equipment, select * ALL Coil Selected *</display_name>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL Coil Selected *</default_value>
+    </argument>
+    <argument>
+      <name>sizing_increase_percent</name>
+      <display_name>Sizing Increase (between 0-50%).</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>10</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Whole System</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Uses SketchUp API</name>
+      <value>false</value>
+      <datatype>boolean</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.0.5</identifier>
+        <min_compatible>1.0.5</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>1FB334C7</checksum>
+    </file>
+  </files>
+</measure>
