@@ -26,7 +26,7 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
   
   # human readable description of modeling approach
   def modeler_description
-    return "This measure simulates the effect of oversized equipment at design by modifying the Sizing:Parameters object in EnergyPlus assigned to the heating and cooling system. One user input is required; percentage of increased sizing"
+    return "This measure simulates the effect of oversized equipment at design by modifying the Sizing:Parameters object and capacity fields in coil objects in EnergyPlus assigned to the heating and cooling system. One user input is required; percentage of increased sizing. Current measure applicable to following objects; coilcoolingdxsinglespeed, coilcoolingdxtwospeed,  coilcoolingdxtwostagewithhumiditycontrolmode, coilcoolingdxvariablerefrigerantflow, coilheatingdxvariablerefrigerantflow, coilheatinggas, coilheatingelectric"
   end
 
   #define the arguments that the user will input
