@@ -31,95 +31,95 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
 
   #define the arguments that the user will input
   def arguments(model)
-    args = OpenStudio::Ruleset::OSArgumentVector.new
+  args = OpenStudio::Ruleset::OSArgumentVector.new
 	
-	####################################################################################
-	####################################################################################
-	# make choice arguments for Coil:Cooling:DX:SingleSpeed
-    coil_choice = OpenStudio::Ruleset::OSArgument.makeStringArgument('coil_choice', true)
-    coil_choice.setDisplayName("Enter the name of the oversized coil object. If you want to impose the fault on all equipment, select #{$all_coil_selection}")
-    coil_choice.setDefaultValue("#{$all_coil_selection}")
-    args << coil_choice
+  ####################################################################################
+  ####################################################################################
+  # make choice arguments for Coil:Cooling:DX:SingleSpeed
+  coil_choice = OpenStudio::Ruleset::OSArgument.makeStringArgument('coil_choice', true)
+  coil_choice.setDisplayName("Enter the name of the oversized coil object. If you want to impose the fault on all equipment, select #{$all_coil_selection}")
+  coil_choice.setDefaultValue("#{$all_coil_selection}")
+  args << coil_choice
 	
-	#make an argument for excessive sizing
-    sizing_increase_percent = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("sizing_increase_percent",true)
-    sizing_increase_percent.setDisplayName("Sizing Increase (between 0-50%).")
-    sizing_increase_percent.setDefaultValue(10.0)
-    args << sizing_increase_percent	
-	####################################################################################
-	####################################################################################
+  #make an argument for excessive sizing
+  sizing_increase_percent = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("sizing_increase_percent",true)
+  sizing_increase_percent.setDisplayName("Sizing Increase (between 0-50%).")
+  sizing_increase_percent.setDefaultValue(10.0)
+  args << sizing_increase_percent	
+  ####################################################################################
+  ####################################################################################
 
-    return args
-  end #end the arguments method
+  return args
+end #end the arguments method
 
-  #define what happens when the measure is run
-  def run(model, runner, user_arguments)
-    super(model, runner, user_arguments)
+#define what happens when the measure is run
+def run(model, runner, user_arguments)
+  super(model, runner, user_arguments)
 
-    #use the built-in error checking
-    if not runner.validateUserArguments(arguments(model), user_arguments)
-      return false
-    end
+  #use the built-in error checking
+  if not runner.validateUserArguments(arguments(model), user_arguments)
+    return false
+  end
 	
-	####################################################################################
-	####################################################################################
-	coil_choice = runner.getStringArgumentValue('coil_choice', user_arguments)
-    sizing_increase_percent = runner.getDoubleArgumentValue('sizing_increase_percent', user_arguments)
+  ####################################################################################
+  ####################################################################################
+  coil_choice = runner.getStringArgumentValue('coil_choice', user_arguments)
+  sizing_increase_percent = runner.getDoubleArgumentValue('sizing_increase_percent', user_arguments)
 	
-	#Initial Condition
-	if coil_choice.eql?($all_coil_selection)
-      runner.registerInitialCondition('Oversized Equipment at Design fault are being applied on all coils......')
-    else
-      runner.registerInitialCondition("Oversized Equipment at Design fault is being applied to the #{coil_choice}......")
-    end
+  #Initial Condition
+  if coil_choice.eql?($all_coil_selection)
+    runner.registerInitialCondition('Oversized Equipment at Design fault are being applied on all coils......')
+  else
+    runner.registerInitialCondition("Oversized Equipment at Design fault is being applied to the #{coil_choice}......")
+  end
 	
-	#Input check
-	if sizing_increase_percent < 0.0 || sizing_increase_percent > 50.0
-      runner.registerError("Fault level #{sizing_increase_percent} for #{coil_choice} is outside the range from 0 to 50%. Exiting......")
-      return false
-    elsif sizing_increase_percent.abs < 0.001
-      runner.registerAsNotApplicable("OversizedEquipmentAtDesign is not running for #{coil_choice}. Skipping......")
-      return true
-    end
+  #Input check
+  if sizing_increase_percent < 0.0 || sizing_increase_percent > 50.0
+    runner.registerError("Fault level #{sizing_increase_percent} for #{coil_choice} is outside the range from 0 to 50%. Exiting......")
+    return false
+  elsif sizing_increase_percent.abs < 0.001
+    runner.registerAsNotApplicable("OversizedEquipmentAtDesign is not running for #{coil_choice}. Skipping......")
+    return true
+  end
 	
-	####################################################################################
-	#Coil Types (limitation on type of coils of this measure)
-	  #Cooling coils
-	coilcoolingdxsinglespeeds = model.getCoilCoolingDXSingleSpeeds
-	coilcoolingdxtwospeeds = model.getCoilCoolingDXTwoSpeeds
-	coilcoolingdxtwostagewithhumiditycontrolmodes = model.getCoilCoolingDXTwoStageWithHumidityControlModes
-	coilcoolingdxvariablerefrigerantflows = model.getCoilCoolingDXVariableRefrigerantFlows
-	  #Heating coils
-	coilheatingdxvariablerefrigerantflows = model.getCoilHeatingDXVariableRefrigerantFlows
-	coilheatinggass = model.getCoilHeatingGass
-	coilheatingelectrics = model.getCoilHeatingElectrics
-	####################################################################################
-	def changeratedcapacity1(objects, objectname, sizing_increase_percent, runner) #Coil Cooling DX Single Speed 1
-	  #works for
-	  #CoilCoolingDXSingleSpeed
-	  #CoilCoolingDXVariableRefrigerantFlow
+  ####################################################################################
+  #Coil Types (limitation on type of coils of this measure)
+  #Cooling coils
+  coilcoolingdxsinglespeeds = model.getCoilCoolingDXSingleSpeeds
+  coilcoolingdxtwospeeds = model.getCoilCoolingDXTwoSpeeds
+  coilcoolingdxtwostagewithhumiditycontrolmodes = model.getCoilCoolingDXTwoStageWithHumidityControlModes
+  coilcoolingdxvariablerefrigerantflows = model.getCoilCoolingDXVariableRefrigerantFlows
+  #Heating coils
+  coilheatingdxvariablerefrigerantflows = model.getCoilHeatingDXVariableRefrigerantFlows
+  coilheatinggass = model.getCoilHeatingGass
+  coilheatingelectrics = model.getCoilHeatingElectrics
+  ####################################################################################
+  def changeratedcapacity1(objects, objectname, sizing_increase_percent, runner) #Coil Cooling DX Single Speed 1
+  #works for
+  #CoilCoolingDXSingleSpeed
+  #CoilCoolingDXVariableRefrigerantFlow
 	  
-      objects.each do |object| 
-	    if object.name.to_s == objectname
-		  autosized = object.isRatedTotalCoolingCapacityAutosized
-		  if autosized
-		    runner.registerInfo("Capacity of coil (#{object.name.to_s}) is autosized, skipping..")
-		  else
-		    value_before_cap = object.ratedTotalCoolingCapacity.to_f
-		    #value_before_flow = object.ratedAirFlowRate.to_f
-		    value_after_cap = value_before_cap + value_before_cap*sizing_increase_percent/100
-		    #value_after_flow = value_before_flow + value_before_flow*sizing_increase_percent/100
+    objects.each do |object| 
+      if object.name.to_s == objectname
+        autosized = object.isRatedTotalCoolingCapacityAutosized
+        if autosized
+          runner.registerInfo("Capacity of coil (#{object.name.to_s}) is autosized, skipping..")
+        else
+          value_before_cap = object.ratedTotalCoolingCapacity.to_f
+	  #value_before_flow = object.ratedAirFlowRate.to_f
+	  value_after_cap = value_before_cap + value_before_cap*sizing_increase_percent/100
+	  #value_after_flow = value_before_flow + value_before_flow*sizing_increase_percent/100
 		  
-		    object.setRatedTotalCoolingCapacity(value_after_cap)
-		    #object.setRatedAirFlowRate(value_after_flow)
+	  object.setRatedTotalCoolingCapacity(value_after_cap)
+	  #object.setRatedAirFlowRate(value_after_flow)
 		  
-		    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_percent.round(0)}% increase).") 
-	      end
-		else
-	      next
-	    end
-	  end
+	  runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_percent.round(0)}% increase).") 
+        end
+      else
+        next
+      end
     end
+  end
 	
 	def changeratedcapacity2(objects, objectname, sizing_increase_percent, runner) #RoofTop Cooling Coil
 	  #works for
