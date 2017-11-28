@@ -561,22 +561,22 @@ module OsLib_FDD
     # force the first setpoint of the day and any setpoint in the evening
     # to be the same as the daytime setpoint
     newtime = shifttimevector(times, values, ext_hr, changetime, moring_evening_string, runner)
-	i = 0
+    i = 0
     times.zip(values).each do |time, value|
       if time == changetime
-	    ################################
-	    ################################
-	    if moring_evening_string == "morning"
+	################################
+	################################
+	if moring_evening_string == "morning"
           scheduleday.addValue(newtime, value)
-		else
-		  scheduleday.addValue(newtime, values[i-1])
-		end
-		################################
-		################################
+	else
+	  scheduleday.addValue(newtime, values[i-1])
+	end
+	################################
+	################################
       else
         scheduleday.addValue(time, value)
       end
-	  i = i + 1
+      i = i + 1
     end
 	
   end
