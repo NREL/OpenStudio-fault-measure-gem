@@ -32,7 +32,7 @@ class EconomizerPotentialMixedTempSensorBiasFault < OpenStudio::Ruleset::Workspa
     #choose the Controller:OutdoorAir to be faulted
     econ_choice = OpenStudio::Ruleset::OSArgument::makeStringArgument("econ_choice", true)
     econ_choice.setDisplayName("Enter the name of the faulted Controller:OutdoorAir object")
-    econ_choice.setDefaultValue("Controller Outdoor Air 1")  #name of economizer for the EC building
+    econ_choice.setDefaultValue("")  #name of economizer for the EC building
     args << econ_choice
 	
     #make a double argument for the relative humidity sensor bias
