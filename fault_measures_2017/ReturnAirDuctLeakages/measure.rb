@@ -68,8 +68,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       controlleroutdoorairs.each do |controlleroutdoorair|
         if controlleroutdoorair.getString(0).to_s.eql?(econ_choice)
           no_econ_found = false
-		  
-		  mixedairnote_name = controlleroutdoorair.getString(3).to_s
+	  mixedairnote_name = controlleroutdoorair.getString(3).to_s
           
           #create an empty string_objects to be appended into the .idf file
           string_objects = []
@@ -79,40 +78,40 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
           #outdoor air sensor temperature bias
           if leak_ratio != 0
 			
-			string_objects << "
-              EnergyManagementSystem:Sensor,
-                SA_FlowRate,                !- Name
-                #{mixedairnote_name},       !- Output:Variable or Output:Meter Index Key Name
-                System Node Mass Flow Rate;    !- Output:Variable or Output:Meter Name
-            "
+	  string_objects << "
+            EnergyManagementSystem:Sensor,
+              SA_FlowRate,                !- Name
+              #{mixedairnote_name},       !- Output:Variable or Output:Meter Index Key Name
+              System Node Mass Flow Rate;    !- Output:Variable or Output:Meter Name
+          "
 			
-			string_objects << "
-              EnergyManagementSystem:InternalVariable,
-                OA_Min,
-				#{econ_choice},
-				Outdoor Air Controller Minimum Mass Flow Rate;
-            "
+	  string_objects << "
+            EnergyManagementSystem:InternalVariable,
+              OA_Min,
+              #{econ_choice},
+	      Outdoor Air Controller Minimum Mass Flow Rate;
+          "
 			
-			string_objects << "
-              EnergyManagementSystem:Program,
-                OA_FlowRate_Recalculation, !- Name
-                SET OA_FlowRate_Ctrl = OA_Min + SA_FlowRate*#{leak_ratio}, !- Program Line 1
-            "
+	  string_objects << "
+            EnergyManagementSystem:Program,
+              OA_FlowRate_Recalculation, !- Name
+              SET OA_FlowRate_Ctrl = OA_Min + SA_FlowRate*#{leak_ratio}, !- Program Line 1
+          "
 			
-			string_objects << "
-              EnergyManagementSystem:ProgramCallingManager,
-                OA_FlowRate_Modification, !- Name
-                AfterPredictorBeforeHVACManagers, !- EnergyPlus Model Calling Point, only works when the SHR is autosized
-                OA_FlowRate_Recalculation; !- Program Name 1
-            "
+	  string_objects << "
+            EnergyManagementSystem:ProgramCallingManager,
+              OA_FlowRate_Modification, !- Name
+              AfterPredictorBeforeHVACManagers, !- EnergyPlus Model Calling Point, only works when the SHR is autosized
+              OA_FlowRate_Recalculation; !- Program Name 1
+          "
 			
-			string_objects << "
-              EnergyManagementSystem:Actuator,
-                OA_FlowRate_Ctrl, !- Name
-                #{econ_choice}, !- Component Name
-                Outdoor Air Controller, !- Actuated Component Type
-                Air Mass Flow Rate; !- Actuated Component Control Type
-            "
+	  string_objects << "
+            EnergyManagementSystem:Actuator,
+              OA_FlowRate_Ctrl, !- Name
+              #{econ_choice}, !- Component Name
+              Outdoor Air Controller, !- Actuated Component Type
+              Air Mass Flow Rate; !- Actuated Component Control Type
+          "
 	
           end
           
