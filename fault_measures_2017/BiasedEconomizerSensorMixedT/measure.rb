@@ -147,7 +147,7 @@ class BiasedEconomizerSensorMixedT < OpenStudio::Ruleset::WorkspaceUserScript
                     end
                   # for some setpoint managers, add ems code to shift the setpoint upon calculation
                   # write ems to offset the setpoints
-                  elsif manager_type.eql?("SetpointManager:Scheduled") or manager_type.eql?("SetpointManager:Scheduled:DualSetpoint") or manager_type.eql?("SetpointManager:ReturnAirBypassFlow")
+                  elsif manager_type.eql?("SetpointManager:Scheduled") or manager_type.eql?("SetpointManager:Scheduled:DualSetpoint") or manager_type.eql?("SetpointManager:ReturnAirBypassFlow") or manager_type.eql?("SetpointManager:MixedAir")
                     # only continue if the schedule is a schedule of temperature
                     if manager_type.eql?("SetpointManager:ReturnAirBypassFlow") or manager.getString(1).to_s.include?("Temperature")
                   
