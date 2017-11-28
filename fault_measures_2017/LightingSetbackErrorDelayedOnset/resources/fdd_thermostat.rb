@@ -622,46 +622,44 @@ module OsLib_FDD
     # This function finds the time of lighting goes on and off
 	
     finval = values[0]
-	pretime = times[0]
+    pretime = times[0]
     changetime = times[0]
-	i = 0
+    i = 0
 	
-	p_tol_min = 30 # percentage
-	p_tol_max = 30 # percentage
+    p_tol_min = 30 # percentage
+    p_tol_max = 30 # percentage
 	
-	tol_min = values.min.abs*p_tol_min/100
-	tol_max = values.max.abs*p_tol_max/100
+    tol_min = values.min.abs*p_tol_min/100
+    tol_max = values.max.abs*p_tol_max/100
 		
-	# any lighting fraction change after 3am should be a result of building opening
-	# any lighting fraction change after 3pm should be a result of building shutdown
-	if moring_evening_string == "morning"
+    # any lighting fraction change after 3am should be a result of building opening
+    # any lighting fraction change after 3pm should be a result of building shutdown
+    if moring_evening_string == "morning"
       times.zip(values).each do |time, value|
-		if (values[i] - values.min).abs > tol_max && i > 0 && time.hours >= 3
-		  finval = value
-		  changetime = times[i-1]
-		  break
-		else
-          final = value
-		  changetime = time	  
-		end
-		
-		i = i + 1
-      end
+	if (values[i] - values.min).abs > tol_max && i > 0 && time.hours >= 3
+	  finval = value
+          changetime = times[i-1]
+	  break
 	else
-	  times.zip(values).each do |time, value|
-		if (values[i] - values.max).abs > tol_max && i > 0 && time.hours >= 15
-		  finval = value
-		  changetime = time
-		  break
-		else
           final = value
-		  changetime = time	  
-		end
-		
-		i = i + 1
-      end
+	  changetime = time	  
 	end	
-	return changetime
+	i = i + 1
+      end
+    else
+      times.zip(values).each do |time, value|
+	if (values[i] - values.max).abs > tol_max && i > 0 && time.hours >= 15
+	  finval = value
+	  changetime = time
+	  break
+	else
+          final = value
+	  changetime = time	  
+	end	
+	i = i + 1
+      end
+    end	
+    return changetime
   end
   ##########################################################
   ##########################################################
