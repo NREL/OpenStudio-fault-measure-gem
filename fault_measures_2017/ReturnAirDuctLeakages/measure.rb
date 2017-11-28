@@ -60,7 +60,12 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     
     if leak_ratio !=0 # only continue if the user is running the module and the readings are sensible
     
-      runner.registerInitialCondition("Imposing ReturnAirDuctLeakages on "+econ_choice+".")
+      runner.registerInitialCondition("Imposing duct leakages on #{econ_choice}.")
+	    
+      if leak_ratio < 0.0 || leak_ratio > 0.3
+        runner.registerError("Fault level #{leak_ratio} for #{econ_choice} is outside the range from 0 to 0.3. Exiting......")
+        return false
+      end
     
       #find the economizer to change
       no_econ_found = true
@@ -132,7 +137,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       end
 
       # report final condition of workspace
-      runner.registerFinalCondition("Imposed ReturnAirDuctLeakages on "+econ_choice+".")
+      runner.registerFinalCondition("Imposed performance degradation on #{econ_choice}.")
     else
       runner.registerAsNotApplicable("ReturnAirDuctLeakages is not running for "+econ_choice+". Skipping......")
     end
