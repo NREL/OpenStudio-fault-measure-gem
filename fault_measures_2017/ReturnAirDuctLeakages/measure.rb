@@ -32,11 +32,10 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     #choose the Controller:OutdoorAir to be faulted
     econ_choice = OpenStudio::Ruleset::OSArgument::makeStringArgument("econ_choice", true)
     econ_choice.setDisplayName("Enter the name of the faulted Controller:OutdoorAir object included in the air terminal unit where the fault occurs")
-    # econ_choice.setDefaultValue("asintakef4058507-81d6-4711-96a3-ca67f519872c controller")  #name of economizer for the EC building
-    econ_choice.setDefaultValue("")  #name of economizer for the EC building
+    econ_choice.setDefaultValue("")  
     args << econ_choice
 	
-	# make a double argument for the leakage ratio
+    # make a double argument for the leakage ratio
     leak_ratio = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('leak_ratio', false)
     leak_ratio.setDisplayName('Ratio of leak airflow between 0 and 0.3.')
     leak_ratio.setDefaultValue(0.1)  # default leakage level to be 10%
