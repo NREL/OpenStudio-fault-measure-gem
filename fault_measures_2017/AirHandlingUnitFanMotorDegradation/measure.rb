@@ -32,7 +32,7 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
 
-    # make choice arguments for Coil:Cooling:DX:SingleSpeed
+    # make choice arguments for fan
     # fan_name = OpenStudio::StringVector.new
     fan_choice = OpenStudio::Ruleset::OSArgument.makeStringArgument('fan_choice', true)
     fan_choice.setDisplayName("Enter the name of the faulted Fan:ConstantVolume, Fan:OnOff object or Fan:VariableVolume. If you want to impose the fault on all fan objects in the building, enter #{$allchoices}.")
