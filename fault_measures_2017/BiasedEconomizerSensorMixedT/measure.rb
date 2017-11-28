@@ -17,12 +17,12 @@ class BiasedEconomizerSensorMixedT < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return "When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. This measure simulates the biased economizer sensor (mixed air temperature) by modifying the Controller:OutdoorAir object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) defined as the biased temperature level (K)."
+    return "When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. This measure simulates the biased economizer sensor (mixed air temperature) by modifying the SetpointManager object assigned to the economizer. The fault intensity (F) defined as the biased temperature level (K)."
   end
 
   # human readable description of workspace approach
   def modeler_description
-    return "Two user inputs are required and, based on these user inputs, the mixed air temperature reading in the economizer will be replaced by the equation below, where TmaF is the biased mixed air temperature reading, Tma is the actual mixed air temperature, and F is the fault intensity. TmaF = Tma + F. To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias that you want at the mixed air duct for the economizer during the simulation period. The algorithm checks if a real sensor exists in the mixed air chamber, and set up the bias at the sensor appropriately if it exists. For instance, SetpointManager:MixedAir does not model a real temperature sensor in the mixed air chamber, and will not be affected by this model."
+    return "Two user inputs are required and, based on these user inputs, the setpoint temperature at the mixed air temperature node will be replaced by the following equation, Tma_setpoint,F, = Tma_setpoint – F, where Tma_setpoint,F is the mixed air temperature setpoint affected by the bias, Tma_setpoint is the actual mixed air temperature setpoint, and F is the fault intensity. To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias that you want at the mixed air duct for the economizer during the simulation period. Positive value of F means sensor is reading higher value than the actual temperature. The algorithm checks if a real sensor exists in the mixed air chamber, and set up the bias at the sensor appropriately if it exists. For instance, SetpointManager:MixedAir does not model a real temperature sensor in the mixed air chamber, and will not be affected by this model."
   end
 
   # define the arguments that the user will input
