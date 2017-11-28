@@ -72,7 +72,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       controlleroutdoorairs.each do |controlleroutdoorair|
         if controlleroutdoorair.getString(0).to_s.eql?(econ_choice)
           no_econ_found = false
-	  mixedairnote_name = controlleroutdoorair.getString(3).to_s
+	  returnairnote_name = controlleroutdoorair.getString(2).to_s
           
           #create an empty string_objects to be appended into the .idf file
           string_objects = []
@@ -85,7 +85,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 	  string_objects << "
             EnergyManagementSystem:Sensor,
               SA_FlowRate,                !- Name
-              #{mixedairnote_name},       !- Output:Variable or Output:Meter Index Key Name
+              #{returnairnote_name},       !- Output:Variable or Output:Meter Index Key Name
               System Node Mass Flow Rate;    !- Output:Variable or Output:Meter Name
           "
 			
