@@ -885,8 +885,8 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
           outdoorairspecs.each do |outdoorairspec|
             
             #####################################################
-			      oaschedule_name = outdoorairspec.getString(6).to_s
-			      #####################################################
+	    oaschedule_name = outdoorairspec.getString(6).to_s
+	    #####################################################
     
             if controllermechventilation.getString(4+3*i+2).to_s.eql?(outdoorairspec.getString(0).to_s)
               zone_name = controllermechventilation.getString(4+3*i+1).to_s
@@ -929,7 +929,7 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
                   "+oaschedule_name+",                        !- Output:Variable or Output:Meter Index Key Name
                   Schedule Value;                !- Output:Variable or Output:Meter Name
               "
-			        #####################################################
+	      #####################################################
             end
           end
         end
