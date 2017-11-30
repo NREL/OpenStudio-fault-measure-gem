@@ -349,7 +349,7 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
     end
     if not controlleroutdoorair.getString(13).to_s.eql?("")  #Minimum dry-bulb limit
       main_body = main_body+"
-        IF OATmp-#{controlleroutdoorair.getDouble(13).to_f} < 0.0, !- Minimum dry-bulb limit
+        IF OATmp < #{controlleroutdoorair.getDouble(13).to_f}, !- Minimum dry-bulb limit
         SET OA_SIGN = MIN_FRAC, !- <none>
         SET ECON_OP = False, !- <none>
         ENDIF, !- <none>
