@@ -1,96 +1,83 @@
 require 'openstudio'
 require 'openstudio/ruleset/ShowRunnerOutput'
 require 'minitest/autorun'
-
 require_relative '../measure.rb'
-
 require 'fileutils'
 
-class AutoSizetoHarSizeTest < MiniTest::Test
-
-  # def setup
-  # end
-
-  # def teardown
-  # end
-
-  def test_number_of_arguments_and_argument_names
-    # create an instance of the measure
-    measure = AutoSizetoHarSize.new
-
-    # make an empty model
-    model = OpenStudio::Model::Model.new
-
-    # get arguments and test that they are what we are expecting
-    arguments = measure.arguments(model)
-    assert_equal(1, arguments.size)
-    assert_equal("space_name", arguments[0].name)
-  end
-
-  def test_bad_argument_values   
-    # create an instance of the measure
-    measure = AutoSizetoHarSize.new
-
-    # create an instance of a runner
-    runner = OpenStudio::Ruleset::OSRunner.new
-
-    # make an empty model
-    model = OpenStudio::Model::Model.new
-
-    # check that there are no spaces
-    assert_equal(0, model.getSpaces.size)
-
-    # get arguments
-    arguments = measure.arguments(model)
-    argument_map = OpenStudio::Ruleset.convertOSArgumentVectorToMap(arguments)
-
-    # set argument values to bad value
-    space_name = arguments[0].clone
-    assert(space_name.setValue(""))
-    argument_map["space_name"] = space_name
-
-    # run the measure
-    measure.run(model, runner, argument_map)
-    result = runner.result
-    assert_equal("Fail", result.value.valueName)
-
-    # check that there are still no spaces
-    assert_equal(0, model.getSpaces.size)
-  end
+class AutoSizeToHardSizeEPlusVersion_Test < MiniTest::Unit::TestCase
 
   def test_good_argument_values
     # create an instance of the measure
-    measure = AutoSizetoHarSize.new
+    measure = AutoSizeToHardSizeEPlusVersion.new
 
-    # create an instance of a runner
-    runner = OpenStudio::Ruleset::OSRunner.new
+    # create runner with empty OSW
+    osw = OpenStudio::WorkflowJSON.new
+    puts "hello"
+    puts osw
+    osw_path = OpenStudio::Path.new(File.dirname(__FILE__) + "/test.osw")
+    osw = OpenStudio::WorkflowJSON.load(osw_path).get
+    runner = OpenStudio::Measure::OSRunner.new(osw)
 
-    # make an empty model
-    model = OpenStudio::Model::Model.new
-    
-    # check that there are no spaces
-    assert_equal(0, model.getSpaces.size)
+    # load the test model
+    translator = OpenStudio::OSVersion::VersionTranslator.new
+    path = OpenStudio::Path.new(File.dirname(__FILE__) + "/1204_a.osm")
+    model = translator.loadModel(path)
+    assert((not model.empty?))
+    model = model.get
 
     # get arguments
     arguments = measure.arguments(model)
-    argument_map = OpenStudio::Ruleset.convertOSArgumentVectorToMap(arguments)
+    argument_map = OpenStudio::Measure.convertOSArgumentVectorToMap(arguments)
 
-    # set argument values to good values
-    space_name = arguments[0].clone
-    assert(space_name.setValue("New Space"))
-    argument_map["space_name"] = space_name
+    # create hash of argument values.
+    # If the argument has a default that you want to use, you don't need it in the hash
+    args_hash = {}
+    #args_hash["space_name"] = "New Space"
 
-    # run the measure
-    measure.run(model, runner, argument_map)
-    result = runner.result
-    assert_equal("Success", result.value.valueName)
+    # populate argument with specified hash value if specified
+    arguments.each do |arg|
+      temp_arg_var = arg.clone
+      if args_hash.has_key?(arg.name)
+        assert(temp_arg_var.setValue(args_hash[arg.name]))
+      end
+      argument_map[arg.name] = temp_arg_var
+    end
 
-    # check that there is now 1 space
-    assert_equal(1, model.getSpaces.size)
 
-    # check that space is properly named
-    space = model.getSpaces[0]
-    assert_equal("New Space", space.name.get)
+    # temporarily change directory to the run directory and run the measure
+    start_dir = Dir.pwd
+    begin
+
+      # make directory
+      output_dir = "#{File.dirname(__FILE__)}/output/good_argument_values"
+      FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
+      Dir.chdir(output_dir)
+
+      # todo - try to run with CLI in test to get rid of [openstudio.measure.OSRunner] Cannot find current Workflow Step
+      #cli_path = OpenStudio.getOpenStudioCLI
+      #workflow_path = '../../test.osw'
+      #workflow_path = File.absolute_path(workflow_path)
+      #cmd = "\"#{cli_path}\" run -m -w \"#{workflow_path}\""
+      #system(cmd)
+
+      # run the measure
+      measure.run(model, runner, argument_map)
+      result = runner.result
+
+      # show the output
+      show_output(result)
+
+      # assert that it ran correctly
+      assert_equal("Success", result.value.valueName)
+      #assert(result.info.size == 1)
+      #assert(result.warnings.size == 0)
+    ensure
+      Dir.chdir(start_dir)
+    end
+
+    # save the model to test output directory
+    output_file_path = OpenStudio::Path.new(File.dirname(__FILE__) + "/output/good_argument_values/test_output.osm")
+    model.save(output_file_path,true)
   end
 
 end
