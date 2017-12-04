@@ -11,9 +11,7 @@ class AutoSizeToHardSizeEPlusVersion_Test < MiniTest::Unit::TestCase
     measure = AutoSizeToHardSizeEPlusVersion.new
 
     # create runner with empty OSW
-    osw = OpenStudio::WorkflowJSON.new
-    puts "hello"
-    puts osw
+    #osw = OpenStudio::WorkflowJSON.new (get Cannot find current Workflow Step when I run test with empty OSW)
     osw_path = OpenStudio::Path.new(File.dirname(__FILE__) + "/test.osw")
     osw = OpenStudio::WorkflowJSON.load(osw_path).get
     runner = OpenStudio::Measure::OSRunner.new(osw)

@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>auto_size_to_hard_size_e_plus_version</name>
   <uid>c2d2ca51-8546-40cf-8393-b00f7f30bdee</uid>
-  <version_id>6761acbc-638c-4e1d-af8a-47e876a9e1a8</version_id>
-  <version_modified>20171204T190853Z</version_modified>
+  <version_id>3f216a03-1e3e-4458-990f-cfdac9962dff</version_id>
+  <version_modified>20171204T191934Z</version_modified>
   <xml_checksum>C49A7DAB</xml_checksum>
   <class_name>AutoSizeToHardSizeEPlusVersion</class_name>
   <display_name>Auto Size To Hard Size</display_name>
@@ -50,12 +50,6 @@
       <checksum>0C18E42F</checksum>
     </file>
     <file>
-      <filename>auto_sizeto_har_size_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>828ABBD4</checksum>
-    </file>
-    <file>
       <filename>1204_a.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
@@ -72,6 +66,12 @@
       <filetype>epw</filetype>
       <usage_type>test</usage_type>
       <checksum>EE565FCC</checksum>
+    </file>
+    <file>
+      <filename>auto_sizeto_har_size_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>A7FF23FC</checksum>
     </file>
   </files>
 </measure>
