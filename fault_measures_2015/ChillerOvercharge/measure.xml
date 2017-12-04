@@ -1,9 +1,9 @@
 <measure>
   <schema_version>3.0</schema_version>
   <name>chiller_overcharge</name>
-  <uid>4847bc7a-3809-49fe-9f41-c304b2215b0d</uid>
-  <version_id>57f1644e-b665-4e77-94aa-61d024148bd4</version_id>
-  <version_modified>20170602T144309Z</version_modified>
+  <uid>e42c09b8-2a57-46a9-984d-44784fa83a12</uid>
+  <version_id>e2b6b426-ee8c-4fc0-ae72-8873381a87aa</version_id>
+  <version_modified>20171204T234446Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>ChillerOvercharge</class_name>
   <display_name>Water-cooled chiller overcharged</display_name>

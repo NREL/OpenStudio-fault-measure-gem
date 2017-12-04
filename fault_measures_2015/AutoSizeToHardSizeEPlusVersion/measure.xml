@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>auto_size_to_hard_size_e_plus_version</name>
   <uid>c2d2ca51-8546-40cf-8393-b00f7f30bdee</uid>
-  <version_id>3f216a03-1e3e-4458-990f-cfdac9962dff</version_id>
-  <version_modified>20171204T191934Z</version_modified>
+  <version_id>cce2effc-e996-4c32-b17c-39b5de62634f</version_id>
+  <version_modified>20171204T234445Z</version_modified>
   <xml_checksum>C49A7DAB</xml_checksum>
   <class_name>AutoSizeToHardSizeEPlusVersion</class_name>
   <display_name>Auto Size To Hard Size</display_name>
@@ -71,7 +71,7 @@
       <filename>auto_sizeto_har_size_test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>A7FF23FC</checksum>
+      <checksum>73C1A870</checksum>
     </file>
   </files>
 </measure>

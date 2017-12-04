@@ -41,7 +41,6 @@ class AutoSizeToHardSizeEPlusVersion_Test < MiniTest::Unit::TestCase
       argument_map[arg.name] = temp_arg_var
     end
 
-
     # temporarily change directory to the run directory and run the measure
     start_dir = Dir.pwd
     begin
@@ -50,13 +49,6 @@ class AutoSizeToHardSizeEPlusVersion_Test < MiniTest::Unit::TestCase
       output_dir = "#{File.dirname(__FILE__)}/output/good_argument_values"
       FileUtils.mkdir_p(output_dir) unless File.exists?(output_dir)
       Dir.chdir(output_dir)
-
-      # todo - try to run with CLI in test to get rid of [openstudio.measure.OSRunner] Cannot find current Workflow Step
-      #cli_path = OpenStudio.getOpenStudioCLI
-      #workflow_path = '../../test.osw'
-      #workflow_path = File.absolute_path(workflow_path)
-      #cmd = "\"#{cli_path}\" run -m -w \"#{workflow_path}\""
-      #system(cmd)
 
       # run the measure
       measure.run(model, runner, argument_map)

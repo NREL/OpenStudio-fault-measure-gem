@@ -136,7 +136,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       return fault_lvl_check
     end
 
-    # find the RTU to change
+    # find the single speed RTU to change
     rtu_changed = false
     existing_coils = []
     coilcoolingdxsinglespeeds = get_workspace_objects(workspace, 'Coil:Cooling:DX:SingleSpeed')
@@ -148,6 +148,23 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
         return false
       end
       # break
+    end
+
+    # find the two stage RTU to change
+    coilcoolingdxtwostages = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
+    coilcoolingdxtwostages.each do |coilcoolingdxtwostage|
+      existing_coils << pass_string(coilcoolingdxtwostage, 0)
+      next unless pass_string(coilcoolingdxtwostage, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
+
+      runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostage.getString(0)}")
+      rtu_changed = true
+
+      # todo - if two stage, run EnergyPlus sizing run
+
+      # todo - gather what is needed from EnergyPlus run
+
+      # todo - write and point two stage specific EMS code.
+
     end
 
     # give an error for the name if no RTU is changed
