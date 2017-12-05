@@ -77,20 +77,27 @@ def main_program_entry(workspace, string_objects, coil_choice, curve_name, para,
   if sh_coil_choice.eql?(nil)
     sh_coil_choice = coil_choice
   end
-
+  
+  ##################################################
+  sh_curve_name = curve_name.clone.gsub!(/[^0-9A-Za-z]/, '')
+  if sh_curve_name.eql?(nil)
+    sh_curve_name = curve_name
+  end
+  
   emsprograms = workspace.getObjectsByType('EnergyManagementSystem:Program'.to_IddObjectType)
   writeprogram = true
   emsprograms.each do |emsprogram|
-    if emsprogram.getString(0).to_s.eql?('DXCoolingCoilDegradation' + sh_coil_choice + model_name)
+    if emsprogram.getString(0).to_s.eql?('DXCoolingCoilDegradation' + sh_coil_choice + model_name + sh_curve_name)
       writeprogram = false
       break
     end
   end
+  ##################################################
 
   if writeprogram
     string_objects << "
       EnergyManagementSystem:Program,
-        DXCoolingCoilDegradation#{sh_coil_choice + model_name}, !- Name
+        DXCoolingCoilDegradation#{sh_coil_choice + model_name + sh_curve_name}, !- Name
         SET TTmp = CoilInletDBT#{sh_coil_choice}, !- Program Line 1
         SET WTmp = CoilInletW#{sh_coil_choice},   !- Program Line 2
         SET PTmp = Pressure#{sh_coil_choice},     !- <none>
@@ -123,9 +130,9 @@ def main_program_entry(workspace, string_objects, coil_choice, curve_name, para,
         SET OriCurve = (C1+(C2*IVOne) + (C3*IVOne*IVone) + (C4*IVTwo) + (C5*IVTwo*IVTwo) + (C6*IVThree)),  !- <none>
         SET FAULT_ADJ_RATIO = 1.0, !- <none>
         SET #{$faultnow}FaultLevel = #{$faultnow}FaultDegrade#{sh_coil_choice},   !- <none>
-        RUN #{$faultnow}_ADJUST_#{sh_coil_choice}_#{model_name}, !- Calling subrountines that adjust the cooling capacity based on fault type
+        RUN #{$faultnow}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}, !- Calling subrountines that adjust the cooling capacity based on fault type
         SET FAULT_ADJ_RATIO = #{$faultnow}_FAULT_ADJ_RATIO*FAULT_ADJ_RATIO,     !- <none>
-        SET #{model_name}Curve#{sh_coil_choice} = (OriCurve*FAULT_ADJ_RATIO);  !- <none>
+        SET #{model_name}Curve#{sh_coil_choice}#{sh_curve_name} = (OriCurve*FAULT_ADJ_RATIO);  !- <none>
     "
 
     # create the ProgramCaller, required actuators, etc. that are only required by this program
@@ -133,12 +140,12 @@ def main_program_entry(workspace, string_objects, coil_choice, curve_name, para,
       EnergyManagementSystem:ProgramCallingManager,
       EMSCallDXCoolingCoilDegradation#{sh_coil_choice}#{model_name}, !- Name
       AfterPredictorBeforeHVACManagers, !- EnergyPlus Model Calling Point
-      DXCoolingCoilDegradation#{sh_coil_choice}#{model_name}; !- Program Name 1
+      DXCoolingCoilDegradation#{sh_coil_choice}#{model_name}#{sh_curve_name}; !- Program Name 1
     "
 
     string_objects << "
       EnergyManagementSystem:Actuator,
-        #{model_name}Curve#{sh_coil_choice},          !- Name
+        #{model_name}Curve#{sh_coil_choice}#{sh_curve_name},          !- Name
         #{curve_name},           !- Actuated Component Unique Name
         Curve,                   !- Actuated Component Type
         Curve Result;            !- Actuated Component Control Type
@@ -147,7 +154,7 @@ def main_program_entry(workspace, string_objects, coil_choice, curve_name, para,
     string_objects << "
       EnergyManagementSystem:OutputVariable,
         #{model_name}CurveValue#{sh_coil_choice},           !- Name
-        #{model_name}Curve#{sh_coil_choice},          !- EMS Variable Name
+        #{model_name}Curve#{sh_coil_choice}#{sh_curve_name},          !- EMS Variable Name
         Averaged,                !- Type of Data in Variable
         ZoneTimeStep,            !- Update Frequency
         ,                        !- EMS Program or Subroutine Name
@@ -158,17 +165,33 @@ def main_program_entry(workspace, string_objects, coil_choice, curve_name, para,
   return string_objects
 end
 
-def dummy_fault_sub_add(workspace, string_objects, fault_choice = 'CA', coil_choice, model_name)
+def dummy_fault_sub_add(workspace, string_objects, coilcooling, fault_choice = 'CA', coil_choice, model_name, coiltype, coilperformancedxcooling, curve_index)
   # This function adds any dummy subroutine that does nothing. It's used when the fault is not modeled
   add_sub = true
+  ##################################################
   sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
   if sh_coil_choice.eql?(nil)
     sh_coil_choice = coil_choice
   end
+  
+  if coiltype == 1 #SINGLESPEED
+	curve_str = pass_string(coilcooling, curve_index)
+  elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+	curve_str = pass_string(coilperformancedxcooling, curve_index)
+  end
+
+  curvebiquadratics = get_workspace_objects(workspace, 'Curve:Biquadratic')
+  curve_name, paraq, no_curve = para_biquadratic_limit(curvebiquadratics, curve_str)
+  
+  sh_curve_name = curve_name.clone.gsub!(/[^0-9A-Za-z]/, '')
+  if sh_curve_name.eql?(nil)
+    sh_curve_name = curve_name
+  end
+  ##################################################
 
   subroutines = workspace.getObjectsByType('EnergyManagementSystem:Subroutine'.to_IddObjectType)
   subroutines.each do |subroutine|
-    if subroutine.getString(0).to_s.eql?("#{fault_choice}_ADJUST_#{sh_coil_choice}_#{model_name}")
+    if subroutine.getString(0).to_s.eql?("#{fault_choice}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}")
       add_sub = false
       break
     end
@@ -177,7 +200,7 @@ def dummy_fault_sub_add(workspace, string_objects, fault_choice = 'CA', coil_cho
   if add_sub
     string_objects << "
       EnergyManagementSystem:Subroutine,
-        #{fault_choice}_ADJUST_#{sh_coil_choice}_#{model_name}, !- Name
+        #{fault_choice}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}, !- Name
         SET #{fault_choice}_FAULT_ADJ_RATIO = 1.0,  !- <none>
     "
 
@@ -232,20 +255,43 @@ def fault_level_sensor_sch_insert(workspace, string_objects, fault_choice = 'CA'
   return string_objects
 end
 
-def general_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, model_name, para, fault_name)
+def general_adjust_function(workspace, coil_choice, string_objects, coilcooling, model_name, para, fault_name, coiltype, coilperformancedxcooling, curve_index)
   # This function appends the program and the required variables that calculate the fault impact ratio
   # into the EnergyPlus IDF file
 
-  coil_choice = coilcoolingdxsinglespeed.getString(0).to_s
+  ##################################################
   sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-  rated_cop = coilcoolingdxsinglespeed.getDouble(4).to_f
+  if sh_coil_choice.eql?(nil)
+    sh_coil_choice = coil_choice
+  end
+  
+  if coiltype == 1 #SINGLESPEED
+	curve_str = pass_string(coilcooling, curve_index)
+  elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+	curve_str = pass_string(coilperformancedxcooling, curve_index)
+  end
+
+  curvebiquadratics = get_workspace_objects(workspace, 'Curve:Biquadratic')
+  curve_name, paraq, no_curve = para_biquadratic_limit(curvebiquadratics, curve_str)
+  
+  sh_curve_name = curve_name.clone.gsub!(/[^0-9A-Za-z]/, '')
+  if sh_curve_name.eql?(nil)
+    sh_curve_name = curve_name
+  end
+  
+  if coiltype == 1 #SINGLESPEED
+    rated_cop = coilcooling.getDouble(4).to_f
+  elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+    rated_cop = coilperformancedxcooling.getDouble(3).to_f
+  end
+  ##################################################
 
   fault_level_name = "#{fault_name}FaultLevel"
   fir_name = "#{fault_name}_FAULT_ADJ_RATIO"
   
   final_line = "
     EnergyManagementSystem:Subroutine,
-      #{fault_name}_ADJUST_#{sh_coil_choice}_#{model_name}, !- Name
+      #{fault_name}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}, !- Name
       SET TTmp = CoilInletDBT#{sh_coil_choice}, !- Program Line 1
       SET WTmp = CoilInletW#{sh_coil_choice},   !- Program Line 2
       SET PTmp = Pressure#{sh_coil_choice},     !- <none>
@@ -296,7 +342,7 @@ def general_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed,
   # before addition, delete any dummy subrountine with the same name in the workspace
   subroutines = workspace.getObjectsByType('EnergyManagementSystem:Subroutine'.to_IddObjectType)
   subroutines.each do |subroutine|
-    if subroutine.getString(0).to_s.eql?("#{fault_name}_ADJUST_#{sh_coil_choice}_#{model_name}")
+    if subroutine.getString(0).to_s.eql?("#{fault_name}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}")
       workspace.removeObject(subroutine.handle)  # should have only one of them
       break
     end
