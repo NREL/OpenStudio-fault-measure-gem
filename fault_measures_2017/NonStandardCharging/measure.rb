@@ -141,10 +141,10 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     
     # find the single speed RTU to change
     ##################################################
-	  #SINGLE SPEED
+    #SINGLE SPEED
     coilcoolingdxsinglespeeds = get_workspace_objects(workspace, 'Coil:Cooling:DX:SingleSpeed')
     coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
-	    coiltype = 1
+      coiltype = 1
       existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
       next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
       runner.registerInfo("Found single speed coil named #{coilcoolingdxsinglespeed.getString(0)}")
@@ -154,14 +154,14 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       end
       # break
     end
-	  ##################################################
+    ##################################################
 
     # find the two stage RTU to change
     ##################################################
-	  #TWO STAGE WITH HUMIDITY CONTROL MODE
-	  coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
-	  coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
-	    coiltype = 2
+    #TWO STAGE WITH HUMIDITY CONTROL MODE
+    coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
+    coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
+      coiltype = 2
       existing_coils << pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0)
       next unless pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
       runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostagewithhumiditycontrolmode.getString(0)}")
@@ -169,7 +169,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       unless rtu_changed
         return false
       end
-       # break
+      # break
       
       # if need absolute CLI path use code below
       #cli_path = OpenStudio.getOpenStudioCLI.to_s
@@ -192,7 +192,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       system(cmd)
       
     end
-	  ##################################################
+    ##################################################
 
     # give an error for the name if no RTU is changed
     return _return_err_message_for_not_unit(runner, existing_coils, coil_choice) unless rtu_changed
