@@ -5,11 +5,11 @@ OS:Version,
 
 OS:Site,
   {3a1edcec-3cbf-4f45-88d2-3a278ae9e394}, !- Handle
-  Oak Ridge_TN_USA Design_Conditions,     !- Name
-  35.96,                                  !- Latitude {deg}
-  -84.29,                                 !- Longitude {deg}
+  Knoxville Mcghee Tyson Ap,              !- Name
+  35.82,                                  !- Latitude {deg}
+  -83.98,                                 !- Longitude {deg}
   -5,                                     !- Time Zone {hr}
-  334,                                    !- Elevation {m}
+  293,                                    !- Elevation {m}
   Suburbs;                                !- Terrain
 
 OS:SimulationControl,
@@ -3675,8 +3675,8 @@ OS:DesignSpecification:OutdoorAir,
 
 OS:YearDescription,
   {12b9753f-a6c6-4c6c-95cf-1c0d51bcd3c1}, !- Handle
-  2015,                                   !- Calendar Year
-  ,                                       !- Day of Week for Start Day
+  ,                                       !- Calendar Year
+  Sunday,                                 !- Day of Week for Start Day
   ;                                       !- Is Leap Year
 
 OS:Output:Variable,
@@ -11757,4 +11757,18 @@ OS:Site:WaterMainsTemperature,
   ,                                       !- Temperature Schedule Name
   14.55,                                  !- Annual Average Outdoor Air Temperature {C}
   22;                                     !- Maximum Difference In Monthly Average Outdoor Air Temperatures {deltaC}
+
+OS:WeatherFile,
+  {6ea32a6c-1ee2-4c55-8d55-d04d8940b435}, !- Handle
+  Knoxville Mcghee Tyson Ap,              !- City
+  TN,                                     !- State Province Region
+  USA,                                    !- Country
+  TMY3,                                   !- Data Source
+  723260,                                 !- WMO Number
+  35.82,                                  !- Latitude {deg}
+  -83.98,                                 !- Longitude {deg}
+  -5,                                     !- Time Zone {hr}
+  293,                                    !- Elevation {m}
+  file:USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw, !- Url
+  E49A6D8D;                               !- Checksum
 

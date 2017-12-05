@@ -1,14 +1,14 @@
 <measure>
   <schema_version>3.0</schema_version>
-  <name>rtuuc_with_shr_change</name>
+  <name>non_standard_charging</name>
   <uid>af77eb6c-c4c6-4990-bc8b-af916215b967</uid>
-  <version_id>4394287c-e1f3-41a5-821f-2026dc2cb27e</version_id>
-  <version_modified>20170602T144310Z</version_modified>
+  <version_id>98f6ad08-5c18-4516-b730-b5afce62eab0</version_id>
+  <version_modified>20171205T164709Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
-  <class_name>RTUUCWithSHRChange</class_name>
-  <display_name>RTU UnderCharging Simulation</display_name>
-  <description>This Measure simulates the effect of undercharging of any RTU to the building performance, including the sensible heat ratio effect..</description>
-  <modeler_description>To use this Measure, choose the Coil:Cooling:DX:SingleSpeed object to be faulted and a fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur.</modeler_description>
+  <class_name>NonStandardCharging</class_name>
+  <display_name>Nonstandard Charging</display_name>
+  <description>Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This measure simulates nonstandard charging by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of deviation in refrigerant mass from the nominal value.</description>
+  <modeler_description>Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation.</modeler_description>
   <arguments>
     <argument>
       <name>coil_choice</name>
@@ -20,11 +20,11 @@
     </argument>
     <argument>
       <name>fault_lvl</name>
-      <display_name>Percentage reduction of charge level [%]</display_name>
+      <display_name>Reduction ratio of charge level [-]</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>10</default_value>
+      <default_value>0.1</default_value>
     </argument>
     <argument>
       <name>q_rat</name>
@@ -52,11 +52,11 @@
     </argument>
     <argument>
       <name>min_fl</name>
-      <display_name>Maximum value of fault level [%]</display_name>
+      <display_name>Maximum value of fault level [-]</display_name>
       <type>Double</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value>30</default_value>
+      <default_value>0.3</default_value>
     </argument>
     <argument>
       <name>Q_CHa1</name>
@@ -294,6 +294,48 @@
       <checksum>D73C9CAE</checksum>
     </file>
     <file>
+      <filename>FaultCalculationCoilCoolingDXSingleSpeed.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>EBDA5BF5</checksum>
+    </file>
+    <file>
+      <filename>faultcalculationcoilcoolingdxsinglespeed.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>EBDA5BF5</checksum>
+    </file>
+    <file>
+      <filename>1204_b.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>4DF86781</checksum>
+    </file>
+    <file>
+      <filename>EnvelopeAndLoadTestModel_01.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E4D5A1B8</checksum>
+    </file>
+    <file>
+      <filename>test.osw</filename>
+      <filetype>osw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>06C6246E</checksum>
+    </file>
+    <file>
+      <filename>USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E49A6D8D</checksum>
+    </file>
+    <file>
+      <filename>measure_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>9BFD2C98</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -302,19 +344,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>A07FEA3A</checksum>
-    </file>
-    <file>
-      <filename>FaultCalculationCoilCoolingDXSingleSpeed.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>65472BB1</checksum>
-    </file>
-    <file>
-      <filename>faultcalculationcoilcoolingdxsinglespeed.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>65472BB1</checksum>
+      <checksum>76B9DEF9</checksum>
     </file>
   </files>
 </measure>

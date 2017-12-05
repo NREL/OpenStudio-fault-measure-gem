@@ -6,7 +6,7 @@ require_relative '../measure.rb'
 
 class NonStandardCharging_Test < MiniTest::Unit::TestCase
 
-  def no_test_all_coils
+  def test_all_coils
 
     # create an instance of the measure
     measure = NonStandardCharging.new
@@ -52,7 +52,7 @@ class NonStandardCharging_Test < MiniTest::Unit::TestCase
     workspace.save(output_file_path,true)
   end
 
-  def no_test_single_coil
+  def test_single_coil
 
     # create an instance of the measure
     measure = NonStandardCharging.new
@@ -105,7 +105,9 @@ class NonStandardCharging_Test < MiniTest::Unit::TestCase
     measure = NonStandardCharging.new
 
     # create an instance of a runner
-    runner = OpenStudio::Ruleset::OSRunner.new
+    osw_path = OpenStudio::Path.new(File.dirname(__FILE__) + "/test.osw")
+    osw = OpenStudio::WorkflowJSON.load(osw_path).get
+    runner = OpenStudio::Measure::OSRunner.new(osw)
 
     # load the test model
     translator = OpenStudio::OSVersion::VersionTranslator.new
@@ -134,6 +136,10 @@ class NonStandardCharging_Test < MiniTest::Unit::TestCase
       end
       argument_map[arg.name] = temp_arg_var
     end
+
+    # set last weather file
+    epw = OpenStudio::Path.new(File.dirname(__FILE__)) / OpenStudio::Path.new('USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw')
+    runner.setLastEpwFilePath(epw.to_s)
 
     # temporarily change directory to the run directory and run the measure (added since this will have sizing run)
     start_dir = Dir.pwd

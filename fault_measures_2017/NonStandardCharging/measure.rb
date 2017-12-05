@@ -159,7 +159,25 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostage.getString(0)}")
       rtu_changed = true
 
-      # todo - if two stage, run EnergyPlus sizing run
+      # if need absolute CLI path use code below
+      #cli_path = OpenStudio.getOpenStudioCLI.to_s
+      #runner.registerInfo(cli_path.to_s)
+      #energy_plus_path = cli_path.gsub("bin/openstudio","EnergyPlus/energyplus")
+      #runner.registerInfo(energy_plus_path)
+
+      # get weather file
+      epw_path = runner.lastEpwFilePath
+      if epw_path.empty?
+        runner.registerError('Cannot find last epw path.')
+        return false
+      end
+      epw_path = epw_path.get.to_s
+
+      # run simulation design days only
+      workspace.save("dd_sim.idf",true)
+      cmd = "energyplus -w #{epw_path} -D dd_sim.idf"
+      runner.registerInfo(cmd)
+      system(cmd)
 
       # todo - gather what is needed from EnergyPlus run
 
