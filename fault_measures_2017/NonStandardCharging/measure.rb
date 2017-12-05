@@ -228,10 +228,15 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
 
   def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcooling, coiltype)
     # check component validity
-    unless pass_string(coilcoolingdxsinglespeed, 20).eql?('AirCooled')
-      runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in RTUUCithBfOffset. Exiting......")
-      return false
-    end
+	  
+	  ##################################################
+    if coiltype == 1 #SINGLESPEED
+      unless pass_string(coilcooling, 20).eql?('AirCooled')
+        runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in NonStandardCharging. Exiting......")
+        return false
+      end
+	end
+	  ##################################################
 
     # create an empty string_objects to be appended into the .idf file
     runner.registerInitialCondition("Imposing performance degradation on #{coil_choice}.")
