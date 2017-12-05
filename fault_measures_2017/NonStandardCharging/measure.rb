@@ -136,29 +136,41 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       return fault_lvl_check
     end
 
-    # find the single speed RTU to change
     rtu_changed = false
     existing_coils = []
+    
+    # find the single speed RTU to change
+    ##################################################
+	  #SINGLE SPEED
     coilcoolingdxsinglespeeds = get_workspace_objects(workspace, 'Coil:Cooling:DX:SingleSpeed')
     coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
+	    coiltype = 1
       existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
       next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
-      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed)
+      runner.registerInfo("Found single speed coil named #{coilcoolingdxsinglespeed.getString(0)}")
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed, coiltype)
       unless rtu_changed
         return false
       end
       # break
     end
+	  ##################################################
 
     # find the two stage RTU to change
-    coilcoolingdxtwostages = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
-    coilcoolingdxtwostages.each do |coilcoolingdxtwostage|
-      existing_coils << pass_string(coilcoolingdxtwostage, 0)
-      next unless pass_string(coilcoolingdxtwostage, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
-
-      runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostage.getString(0)}")
-      rtu_changed = true
-
+    ##################################################
+	  #TWO STAGE WITH HUMIDITY CONTROL MODE
+	  coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
+	  coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
+	    coiltype = 2
+      existing_coils << pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0)
+      next unless pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
+      runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostagewithhumiditycontrolmode.getString(0)}")
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0), fault_lvl, coilcoolingdxtwostagewithhumiditycontrolmode, coiltype)
+      unless rtu_changed
+        return false
+      end
+       # break
+      
       # if need absolute CLI path use code below
       #cli_path = OpenStudio.getOpenStudioCLI.to_s
       #runner.registerInfo(cli_path.to_s)
@@ -178,12 +190,9 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       cmd = "energyplus -w #{epw_path} -D dd_sim.idf"
       runner.registerInfo(cmd)
       system(cmd)
-
-      # todo - gather what is needed from EnergyPlus run
-
-      # todo - write and point two stage specific EMS code.
-
+      
     end
+	  ##################################################
 
     # give an error for the name if no RTU is changed
     return _return_err_message_for_not_unit(runner, existing_coils, coil_choice) unless rtu_changed
@@ -217,7 +226,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     return 'continue'
   end
 
-  def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcoolingdxsinglespeed)
+  def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcooling, coiltype)
     # check component validity
     unless pass_string(coilcoolingdxsinglespeed, 20).eql?('AirCooled')
       runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in RTUUCithBfOffset. Exiting......")
@@ -234,7 +243,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     # create energyplus management system code to alter the cooling capacity and EIR of the coil object
     # introduce code to modify the temperature curve for cooling capacity
     # obtaining the coefficients in the original Q curve
-    string_objects, workspace = _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcoolingdxsinglespeed, string_objects)
+    string_objects, workspace = _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype)
 
     # write EMS sensors for schedules of fault levels
     string_objects = fault_level_sensor_sch_insert(workspace, string_objects, $faultnow, coil_choice, sch_choice)
@@ -242,12 +251,12 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     # write variable definition for EMS programs
     # EMS Sensors to the workspace
     # check if the sensors are added previously by other fault models
-    _write_ems_sensors(workspace, coilcoolingdxsinglespeed, sh_coil_choice, string_objects, find_outdoor_node_name(workspace))
+    _write_ems_sensors(workspace, runner, coilcooling, sh_coil_choice, string_objects, find_outdoor_node_name(workspace), coiltype)
 
     # create EMS for adjusting the bypass factor according to the fault level
     # stored in the form of rated SHR
     # check if cooling capacity and volumetric airflow are rated or manual
-    _configure_shr(runner, user_arguments, coilcoolingdxsinglespeed, fault_lvl, coil_choice, string_objects)
+    # _configure_shr(runner, user_arguments, coilcooling, fault_lvl, coil_choice, string_objects)
 
     return _wrapping_up(runner, workspace, coil_choice, string_objects)
   end
@@ -298,51 +307,95 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     return sch_choice, scheduletypelimitname
   end
 
-  def _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcoolingdxsinglespeed, string_objects)
+  def _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype)
     # This function writes the original and adjustment curves in EMS
-    string_objects = _write_q_and_eir_curves(workspace, coil_choice, coilcoolingdxsinglespeed, string_objects)
-    string_objects, workspace = _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcoolingdxsinglespeed, string_objects)
+    string_objects = _write_q_and_eir_curves(workspace, coil_choice, coilcooling, string_objects, runner, coiltype)
+    string_objects, workspace = _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype)
     return string_objects, workspace
   end
 
-  def _write_q_and_eir_curves(workspace, coil_choice, coilcoolingdxsinglespeed, string_objects)
+  def _write_q_and_eir_curves(workspace, coil_choice, coilcooling, string_objects, runner, coiltype)
     # This function appends and returns the string_objects with ems program statements. It also
     # returns a boolean to indicate if the addition is successful
 
     # curves generated by OpenStudio. No need to check
-    string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcoolingdxsinglespeed, string_objects, 'Q', 9)
-    string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcoolingdxsinglespeed, string_objects, 'EIR', 11)
-
+    ##################################################
+	  if coiltype == 1 #SINGLESPEED
+      string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'Q', 9, runner, coiltype, [])
+      string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 11, runner, coiltype, [])
+    elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+	    coilperformancedxcoolings = workspace.getObjectsByType(coilcooling.getString(8).to_s.to_IddObjectType)
+	    coilperformancedxcoolings.each do |coilperformancedxcooling|
+	      string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'Q', 6, runner, coiltype, coilperformancedxcooling)
+		    string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 8, runner, coiltype, coilperformancedxcooling)
+	    end
+	  end
+	  ##################################################
     return string_objects
   end
 
-  def _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcoolingdxsinglespeed, string_objects)
+  def _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype)
     # This function writes the adjustment routines of the Q and EIR curves to impose faults
 
     # pass the minimum and maximum values of model inputs to ca_q_para and ca_eir_para to insert them to the subroutines
     q_para, eir_para = _get_parameters(runner, user_arguments)
 
     # write the EMS subroutines
-    string_objects, workspace = general_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, 'Q', q_para, $faultnow)
-    string_objects, workspace = general_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, 'EIR', eir_para, $faultnow)
+    ##################################################
+    if coiltype == 1 #SINGLESPEED
+      string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'Q', q_para, $faultnow, coiltype, [], 9)
+      string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'EIR', eir_para, $faultnow, coiltype, [], 11)
+	  elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+	    coilperformancedxcoolings = workspace.getObjectsByType(coilcooling.getString(8).to_s.to_IddObjectType)
+	    coilperformancedxcoolings.each do |coilperformancedxcooling|
+	      string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'Q', q_para, $faultnow, coiltype, coilperformancedxcooling, 6)
+        string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'EIR', eir_para, $faultnow, coiltype, coilperformancedxcooling, 8)
+	    end
+	  end
 
     # write dummy subroutines for other faults, and make sure that it is not current fault
     $model_names.each do |model_name|
       $other_faults.each do |other_fault|
-        string_objects = dummy_fault_sub_add(workspace, string_objects, other_fault, coil_choice, model_name) unless other_fault.eql?($faultnow)
-      end
+	      if coiltype == 1 #SINGLESPEED
+          string_objects = dummy_fault_sub_add(workspace, string_objects, coilcooling, other_fault, coil_choice, model_name, coiltype, [], 9) unless other_fault.eql?($faultnow)
+        elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+		      coilperformancedxcoolings = workspace.getObjectsByType(coilcooling.getString(8).to_s.to_IddObjectType)
+		      coilperformancedxcoolings.each do |coilperformancedxcooling|
+		        string_objects = dummy_fault_sub_add(workspace, string_objects, coilcooling, other_fault, coil_choice, model_name, coiltype, coilperformancedxcooling, 6) unless other_fault.eql?($faultnow)
+		      end
+		    end
+	    end
     end
+	  ##################################################
     return string_objects, workspace
   end
 
-  def _write_curves(workspace, coil_choice, coilcoolingdxsinglespeed, string_objects, curve_name, curve_index)
-    curve_str = pass_string(coilcoolingdxsinglespeed, curve_index)
+  def _write_curves(workspace, coil_choice, coilcooling, string_objects, curve_name, curve_index, runner, coiltype, coilperformancedxcooling)
+    ##################################################
+	  if coiltype == 1 #SINGLESPEED
+	    curve_str = pass_string(coilcooling, curve_index)
+	  elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+	    curve_str = pass_string(coilperformancedxcooling, curve_index)
+	  end
+	  ##################################################
     curvebiquadratics = get_workspace_objects(workspace, 'Curve:Biquadratic')
     curve_nameq, paraq, no_curve = para_biquadratic_limit(curvebiquadratics, curve_str)
+
     if no_curve
       runner.registerError("No Temperature Adjustment Curve for #{coil_choice} #{curve_name} model. Exiting......")
       return string_objects, false
     end
+	
+	  ##################################################
+	  sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
+    if sh_coil_choice.eql?(nil)
+      sh_coil_choice = coil_choice
+    end
+	  sh_curve_name = curve_nameq.clone.gsub!(/[^0-9A-Za-z]/, '')
+    if sh_curve_name.eql?(nil)
+      sh_curve_name = curve_nameq
+    end
+	  ##################################################
     string_objects = main_program_entry(workspace, string_objects, coil_choice, curve_nameq, paraq, curve_name)
     return string_objects, true
   end
@@ -378,13 +431,20 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     return [min_wb_tmp_uc, max_wb_tmp_uc, min_cond_tmp_uc, max_cond_tmp_uc, min_cop_uc, max_cop_uc]
   end
 
-  def _write_ems_sensors(workspace, coilcoolingdxsinglespeed, sh_coil_choice, string_objects, outdoor_node)
+  def _write_ems_sensors(workspace, runner, coilcooling, sh_coil_choice, string_objects, outdoor_node, coiltype)
     # This function checks if the sensors exist before writing
     pressure_sensor_name = "Pressure#{sh_coil_choice}"
     db_sensor_name = "CoilInletDBT#{sh_coil_choice}"
     humidity_sensor_name = "CoilInletW#{sh_coil_choice}"
     oat_sensor_name = "OAT#{sh_coil_choice}"
-    inlet_node = pass_string(coilcoolingdxsinglespeed, 7)
+    
+    ##################################################
+	  if coiltype == 1 #SINGLESPEED
+      inlet_node = pass_string(coilcooling, 7)
+	  elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+	    inlet_node = pass_string(coilcooling, 2)
+	  end
+	  ##################################################
 
     string_objects << ems_sensor_str(pressure_sensor_name, outdoor_node, 'System Node Pressure') unless check_exist_workspace_objects(workspace, pressure_sensor_name, 'EnergyManagementSystem:Sensor')
     string_objects << ems_sensor_str(db_sensor_name, inlet_node, 'System Node Temperature') unless check_exist_workspace_objects(workspace, db_sensor_name, 'EnergyManagementSystem:Sensor')
