@@ -943,3 +943,279 @@ def nc_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, mode
 
   return string_objects, workspace
 end
+
+def tadp_solver(workspace, runner, t_adp, slope_adp, p_atm, t_in, w_in)
+  thres = 0.0001
+  negthres = -1.0*Thres
+  error = 1000.0
+  errorlast = error
+  deltatadp = 5.0
+  it = 1
+  while error > thres || error < negthres && it < 100 do
+	if it > 1
+	  t_adp = t_adp + deltatadp
+	end
+	w_adp = 0 ############################################PSYCHFUNCTION(t_adp, 1.0, p_atm) 
+	slope = (w_in - w_adp)/(t_in - t_adp)
+	error = (slope - slope_adp)/slope_adp
+	if it > 1
+	  if error > 0.0 && errorlast <= 0.0
+		deltatadp = -1.0*(deltatadp/2.0)
+	  elsif error <= 0.0 && errorlast > 0.0
+		deltatadp = -1.0*(deltatadp/2.0)
+	  elsif error > 0.0 && errorlast > 0.0 && error > errorlast
+		deltatadp = -1.0*deltatadp
+	  elsif error < 0.0 && errorlast < 0.0 && error < errorlast
+		deltatadp = -1.0*deltatadp
+	  end
+	end
+	it = it + 1
+	errorlast = error
+  end
+  t_adp_new = t_adp
+  w_adp_new = w_adp
+  
+  return t_adp_new, w_adp_new
+  
+  #Original EMS code
+  # TADPNCCoilCoolingDXSingleSpeed1SOLVER,  !- Name
+  # SET Tadp = TadpNCCoilCoolingDXSingleSpeed1, !- Program Line 1
+  # SET Slopeadp = SlopeadpNCCoilCoolingDXSingleSpeed1, !- Program Line 2
+  # SET PTmp = PatmNCCoilCoolingDXSingleSpeed1, !- Program Line 3
+  # SET Tin = TinNCCoilCoolingDXSingleSpeed1, !- Program Line 4
+  # SET Win = WinNCCoilCoolingDXSingleSpeed1, !- Program Line 5
+  # SET Thres = 0.0001,                     !- Program Line 6
+  # SET NegThres = -1.0*Thres,              !- Program Line 7
+  # SET Error = 1000.0,                     !- Program Line 8
+  # SET Errorlast = Error,                  !- Program Line 9
+  # SET DeltaTadp = 5.0,                    !- Program Line 10
+  # SET IT = 1,                             !- Program Line 11
+  # WHILE ((Error > Thres || Error < NegThres) && IT < 100), !- Program Line 12
+    # IF IT > 1,                              !- Program Line 13
+      # SET Tadp = Tadp+DeltaTadp,              !- Program Line 14
+    # ENDIF,                                  !- Program Line 15
+    # SET Wadp = @WFnTdbRhPb Tadp 1.0 PTmp,   !- Program Line 16
+    # SET Slope = Win-Wadp,                   !- Program Line 17
+    # SET Slope = Slope/(Tin-Tadp),           !- Program Line 18
+    # SET Error = Slope-Slopeadp,             !- Program Line 19
+    # SET Error = Error/Slopeadp,             !- Program Line 20
+    # IF IT > 1,                              !- Program Line 21
+      # IF Error > 0.0 && Errorlast <= 0.0,     !- Program Line 22
+        # SET DeltaTadp = DeltaTadp/2.0,          !- Program Line 23
+        # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 24
+      # ELSEIF Error <= 0.0 && Errorlast > 0.0, !- Program Line 25
+        # SET DeltaTadp = DeltaTadp/2.0,          !- Program Line 26
+        # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 27
+      # ELSEIF Error > 0.0 && Errorlast > 0.0 && Error > Errorlast, !- Program Line 28
+        # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 29
+      # ELSEIF Error < 0.0 && Errorlast < 0.0 && Error < Errorlast, !- Program Line 30
+        # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 31
+      # ENDIF,                                  !- Program Line 32
+    # ENDIF,                                  !- Program Line 33
+    # SET IT = IT+1,                          !- Program Line 34
+    # SET Errorlast = Error,                  !- Program Line 35
+  # ENDWHILE,                               !- Program Line 36
+  # SET TadpNCCoilCoolingDXSingleSpeed1 = Tadp, !- Program Line 37
+  # SET WadpNCCoilCoolingDXSingleSpeed1 = Wadp; !- Program Line 38
+
+  
+end
+
+def tout_solver(workspace, runner, t_out, h_out, slope_adp, p_atm, t_in, w_in)
+  thres = 0.0001
+  negthres = -1.0*Thres
+  error = 1000.0
+  errorlast = error
+  deltatout = 5.0
+  it = 1
+  while error > thres || error < negthres && it < 100 do
+	if it > 1
+	  t_out = t_out + deltatout
+	end
+	w_out = 0.0 ############################################PSYCHFUNCTION(t_out, h_out)
+	slope = (w_in - w_out)/(t_in - t_out)
+	error = (slope - slope_adp)/slope_adp
+	if it > 1
+	  if error > 0.0 && errorlast <= 0.0
+		deltatout = -1.0*(deltatout/2.0)
+	  elsif error <= 0.0 && errorlast > 0.0
+		deltatout = -1.0*(deltatout/2.0)
+	  elsif error > 0.0 && errorlast > 0.0 && error > errorlast
+		deltatout = -1.0*deltatout
+	  elsif error < 0.0 && errorlast < 0.0 && error < errorlast
+		deltatout = -1.0*deltatout
+	  end
+	end
+	it = it + 1
+	errorlast = error
+  end
+  t_out_new = t_out
+  w_out_new = w_out
+  
+  return t_out_new, w_out_new
+  
+  #Original EMS code
+  # TOUTNCCoilCoolingDXSingleSpeed1SOLVER,  !- Name
+  # SET Tout = ToutNCCoilCoolingDXSingleSpeed1, !- Program Line 1
+  # SET Hout = HoutNCCoilCoolingDXSingleSpeed1, !- Program Line 2
+  # SET Slopeadp = SlopeadpNCCoilCoolingDXSingleSpeed1, !- Program Line 3
+  # SET PTmp = PatmNCCoilCoolingDXSingleSpeed1, !- Program Line 4
+  # SET Tin = TinNCCoilCoolingDXSingleSpeed1, !- Program Line 5
+  # SET Win = WinNCCoilCoolingDXSingleSpeed1, !- Program Line 6
+  # SET Thres = 0.0001,                     !- Program Line 7
+  # SET NegThres = -1.0*Thres,              !- Program Line 8
+  # SET Error = 1000.0,                     !- Program Line 9
+  # SET Errorlast = Error,                  !- Program Line 10
+  # SET DeltaTout = 5.0,                    !- Program Line 11
+  # SET IT = 1,                             !- Program Line 12
+  # WHILE ((Error > Thres || Error < NegThres) && IT < 100), !- Program Line 13
+    # IF IT > 1,                              !- Program Line 14
+      # SET Tout = Tout+DeltaTout,              !- Program Line 15
+    # ENDIF,                                  !- Program Line 16
+    # SET Wout = @WFnTdbH Tout Hout,          !- Program Line 17
+    # SET Slope = Win-Wout,                   !- Program Line 18
+    # SET Slope = Slope/(Tin-Tout),           !- Program Line 19
+    # SET Error = Slope-Slopeadp,             !- Program Line 20
+    # SET Error = Error/Slopeadp,             !- Program Line 21
+    # IF IT > 1,                              !- Program Line 22
+      # IF Error > 0.0 && Errorlast <= 0.0,     !- Program Line 23
+        # SET DeltaTout = DeltaTout/2.0,          !- Program Line 24
+        # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 25
+      # ELSEIF Error <= 0.0 && Errorlast > 0.0, !- Program Line 26
+        # SET DeltaTout = DeltaTout/2.0,          !- Program Line 27
+        # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 28
+      # ELSEIF Error > 0.0 && Errorlast > 0.0 && Error > Errorlast, !- Program Line 29
+        # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 30
+      # ELSEIF Error < 0.0 && Errorlast < 0.0 && Error < Errorlast, !- Program Line 31
+        # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 32
+      # ENDIF,                                  !- Program Line 33
+    # ENDIF,                                  !- Program Line 34
+    # SET IT = IT+1,                          !- Program Line 35
+    # SET Errorlast = Error,                  !- Program Line 36
+  # ENDWHILE,                               !- Program Line 37
+  # SET ToutNCCoilCoolingDXSingleSpeed1 = Tout, !- Program Line 38
+  # SET WoutNCCoilCoolingDXSingleSpeed1 = Wout; !- Program Line 39
+
+   
+end
+
+def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fault_lvl)
+  t_tmp = 26.7
+  w_tmp = 0.011152
+  p_tmp = 101325.0
+  h_in = 2000 ############################################PSYCHFUNCTION(t_tmp, w_tmp)
+  rho_in = 1.2 ############################################PSYCHFUNCTION(p_tmp, t_tmp, w_tmp)
+  mdot_a = rho_in*vdot_rat
+  deltah = qdot_rat/mdot_a
+  h_tin_wout = h_in - (1 - shr_rat)*deltah
+  w_out = 0.01 ############################################PSYCHFUNCTION(t_tmp, h_tin_wout)
+  h_out = h_in - deltah
+  t_out = 26 ############################################PSYCHFUNCTION(h_out, w_out)
+  deltat = t_tmp - t_out
+  deltaw = w_tmp - w_out
+  slope_adp = deltaw/deltat
+  t_adp = t_out - 1.0
+  t_in = t_tmp
+  w_in = w_tmp
+  p_atm = p_tmp
+  
+  t_adp, w_adp = tadp_solver(workspace, runner, t_adp, slope_adp, p_atm, t_in, w_in)
+  
+  h_adp = 2000 ############################################PSYCHFUNCTION(t_adp, w_adp)
+  bf = (h_out - h_adp)/(h_in - h_adp)
+  adjao = 1 + bf_para*fault_lvl
+  ao = (-1.0*mdot_a*ln(BF))*adjao ############################################MATH LIBRARY??
+  bf = exp((-1.0*ao)/mdot_a) ############################################MATH LIBRARY??
+  
+  h_adp = ((bf*h_in) - h_out)/(bf - 1.0)
+  
+  t_adp = 26 ############################################PSYCHFUNCTION(h_adp, p_tmp)
+  w_adp = 0.001 ############################################PSYCHFUNCTION(t_adp, h_adp)
+  
+  deltat = t_tmp - t_adp
+  deltaw = w_tmp - w_adp
+  
+  slope_adp = deltaw/deltatadptout
+  t_out = t_adp + 1.0
+  h_out = h_out 
+  t_in = t_tmp
+  w_in = w_tmp
+  p_atm = p_tmp
+  
+  t_out, w_out = tout_solver(workspace, runner, t_out, h_out, slope_adp, p_atm, t_in, w_in)
+  
+  if w_out >= w_tmp
+    shr_new = 1.0
+  else
+    h_fg_adp = 2000 ############################################PSYCHFUNCTION(w_adp, t_adp)
+	qdot_lat = h_fg_adp*(w_tmp - w_out)
+	shr_new = 1.0 - qdot_lat*(h_in - h_out)
+  end
+  
+  return shr_new
+
+  #Original EMS code
+  # NC_DXSHRModCoilCoolingDXSingleSpeed1,   !- Name
+  # SET TTmp = 26.7,                        !- Program Line 1
+  # SET WTmp = 0.011152,                    !- Program Line 2
+  # SET PTmp = 101325.0,                    !- Program Line 3
+  # SET Hin = @HFnTdbW TTmp WTmp,           !- Program Line 4
+  # SET Rhoin = @RhoAirFnPbTdbW PTmp TTmp WTmp, !- Program Line 5
+  # SET Qrat = 1000.0,                      !- Program Line 6
+  # SET SHRrat = 0.687,                     !- Program Line 7
+  # SET Volrat = 0.05,                      !- Program Line 8
+  # SET Mdota = Rhoin*Volrat,               !- Program Line 9
+  # SET DeltaH = Qrat/mdota,                !- Program Line 10
+  # SET HTinWout = Hin-(1-SHRrat)*DeltaH,   !- Program Line 11
+  # SET Wout = @WFnTdbH TTmp HTinWout,      !- Program Line 12
+  # SET Hout = Hin-DeltaH,                  !- Program Line 13
+  # SET Tout = @TdbFnHW Hout Wout,          !- Program Line 14
+  # SET DeltaT = TTmp-Tout,                 !- Program Line 15
+  # SET DeltaW = WTmp-Wout,                 !- Program Line 16
+  # SET SlopeadpNCCoilCoolingDXSingleSpeed1 = DeltaW/DeltaT, !- Program Line 17
+  # SET TadpNCCoilCoolingDXSingleSpeed1 = Tout-1.0, !- Program Line 18
+  # SET TinNCCoilCoolingDXSingleSpeed1 = TTmp, !- Program Line 19
+  # SET WinNCCoilCoolingDXSingleSpeed1 = WTmp, !- Program Line 20
+  # SET PatmNCCoilCoolingDXSingleSpeed1 = PTmp, !- Program Line 21
+  # RUN TADPNCCoilCoolingDXSingleSpeed1SOLVER, !- Program Line 22
+  # SET Tadp = TadpNCCoilCoolingDXSingleSpeed1, !- Program Line 23
+  # SET Wadp = WadpNCCoilCoolingDXSingleSpeed1, !- Program Line 24
+  # SET Hadp = @HFnTdbW Tadp Wadp,          !- Program Line 25
+  # SET BF = Hout-Hadp,                     !- Program Line 26
+  # SET BF = BF/(Hin-Hadp),                 !- Program Line 27
+  # SET Ao = @Ln BF,                        !- Program Line 28
+  # SET Ao = mdota*Ao,                      !- Program Line 29
+  # SET Ao = -1.0*Ao,                       !- Program Line 30
+  # SET adjAo = 0.373*0.4,                  !- Program Line 31
+  # SET adjAo = 1+adjAo,                    !- Program Line 32
+  # SET Ao = Ao*adjAo,                      !- Program Line 33
+  # SET BF = -1.0*Ao,                       !- Program Line 34
+  # SET BF = BF/mdota,                      !- Program Line 35
+  # SET BF = @Exp BF,                       !- Program Line 36
+  # SET Hadp = BF*Hin,                      !- Program Line 37
+  # SET Hadp = Hadp-Hout,                   !- Program Line 38
+  # SET Hadp = Hadp/(BF-1.0),               !- Program Line 39
+  # SET Tadp = @TsatFnHPb Hadp PTmp,        !- Program Line 40
+  # SET Wadp = @WFnTdbH Tadp Hadp,          !- Program Line 41
+  # SET DeltaT = TTmp-Tadp,                 !- Program Line 42
+  # SET DeltaW = WTmp-Wadp,                 !- Program Line 43
+  # SET SlopeadpNCCoilCoolingDXSingleSpeed1 = DeltaW/DeltaT, !- Program Line 44
+  # SET ToutNCCoilCoolingDXSingleSpeed1 = Tadp+1.0, !- Program Line 45
+  # SET HoutNCCoilCoolingDXSingleSpeed1 = Hout, !- Program Line 46
+  # SET TinNCCoilCoolingDXSingleSpeed1 = TTmp, !- Program Line 47
+  # SET WinNCCoilCoolingDXSingleSpeed1 = WTmp, !- Program Line 48
+  # SET PatmNCCoilCoolingDXSingleSpeed1 = PTmp, !- Program Line 49
+  # RUN TOUTNCCoilCoolingDXSingleSpeed1SOLVER, !- Program Line 50
+  # SET Tout = ToutNCCoilCoolingDXSingleSpeed1, !- Program Line 51
+  # SET Wout = WoutNCCoilCoolingDXSingleSpeed1, !- Program Line 52
+  # IF Wout >= WTmp,                        !- Program Line 53
+    # SET SHRnew = 1.0,                       !- Program Line 54
+  # ELSE,                                   !- Program Line 55
+    # SET Hfgadp = @HfgAirFnWTdb Wadp Tadp,   !- Program Line 56
+    # SET qlat = WTmp-Wout,                   !- Program Line 57
+    # SET qlat = Hfgadp*qlat,                 !- Program Line 58
+    # SET SHRnew = 1.0-qlat/(Hin-Hout),       !- Program Line 59
+  # ENDIF,                                  !- Program Line 60
+  # SET SHRnewNCCoilCoolingDXSingleSpeed1 = SHRnew; !- Program Line 61
+
+end
