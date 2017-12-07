@@ -1205,12 +1205,12 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
   # SET Tout = ToutNCCoilCoolingDXSingleSpeed1, !- Program Line 51
   # SET Wout = WoutNCCoilCoolingDXSingleSpeed1, !- Program Line 52
   # IF Wout >= WTmp,                        !- Program Line 53
-    # SET SHRnew = 1.0,                       !- Program Line 54
+  # SET SHRnew = 1.0,                       !- Program Line 54
   # ELSE,                                   !- Program Line 55
-    # SET Hfgadp = @HfgAirFnWTdb Wadp Tadp,   !- Program Line 56
-    # SET qlat = WTmp-Wout,                   !- Program Line 57
-    # SET qlat = Hfgadp*qlat,                 !- Program Line 58
-    # SET SHRnew = 1.0-qlat/(Hin-Hout),       !- Program Line 59
+  # SET Hfgadp = @HfgAirFnWTdb Wadp Tadp,   !- Program Line 56
+  # SET qlat = WTmp-Wout,                   !- Program Line 57
+  # SET qlat = Hfgadp*qlat,                 !- Program Line 58
+  # SET SHRnew = 1.0-qlat/(Hin-Hout),       !- Program Line 59
   # ENDIF,                                  !- Program Line 60
   # SET SHRnewNCCoilCoolingDXSingleSpeed1 = SHRnew; !- Program Line 61
 end
