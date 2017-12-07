@@ -136,8 +136,10 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       return fault_lvl_check
     end
 	  
-	  bf_para = runner.getDoubleArgumentValue('bf_para', user_arguments)
-	fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
+    ##################################################
+    bf_para = runner.getDoubleArgumentValue('bf_para', user_arguments)
+    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
+    ##################################################
 
     rtu_changed = false
     existing_coils = []
@@ -147,6 +149,13 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     #SINGLE SPEED
     coilcoolingdxsinglespeeds = get_workspace_objects(workspace, 'Coil:Cooling:DX:SingleSpeed')
     coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
+      
+      qdot_rat = coilcoolingdxsinglespeed.getString(2).get.clone.to_f
+      shr_rat = coilcoolingdxsinglespeed.getString(3).get.clone.to_f
+      vdot_rat = coilcoolingdxsinglespeed.getString(5).get.clone.to_f
+      # shr_fault = shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fault_lvl)
+      # coilcoolingdxsinglespeed.setRatedSensibleHeatRatio(shr_fault)
+      
       coiltype = 1
       existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
       next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
@@ -164,6 +173,16 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     #TWO STAGE WITH HUMIDITY CONTROL MODE
     coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
     coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
+      
+      coilperformancedxcoolings = workspace.getObjectsByType(coilcoolingdxtwostagewithhumiditycontrolmode.getString(8).to_s.to_IddObjectType)
+      coilperformancedxcoolings.each do |coilperformancedxcooling|
+	qdot_rat = coilperformancedxcooling.getString(1).get.clone.to_f
+	shr_rat = coilperformancedxcooling.getString(2).get.clone.to_f
+	vdot_rat = coilperformancedxcooling.getString(4).get.clone.to_f
+	# shr_fault = shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fault_lvl)
+	# coilperformancedxcooling.setGrossRatedSensibleHeatRatio(shr_fault)
+      end
+      
       coiltype = 2
       existing_coils << pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0)
       next unless pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
