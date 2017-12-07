@@ -952,25 +952,25 @@ def tadp_solver(workspace, runner, t_adp, slope_adp, p_atm, t_in, w_in)
   deltatadp = 5.0
   it = 1
   while error > thres || error < negthres && it < 100 do
-	if it > 1
-	  t_adp = t_adp + deltatadp
-	end
-	w_adp = 0 ############################################PSYCHFUNCTION(t_adp, 1.0, p_atm) 
-	slope = (w_in - w_adp)/(t_in - t_adp)
-	error = (slope - slope_adp)/slope_adp
-	if it > 1
-	  if error > 0.0 && errorlast <= 0.0
-		deltatadp = -1.0*(deltatadp/2.0)
-	  elsif error <= 0.0 && errorlast > 0.0
-		deltatadp = -1.0*(deltatadp/2.0)
-	  elsif error > 0.0 && errorlast > 0.0 && error > errorlast
-		deltatadp = -1.0*deltatadp
-	  elsif error < 0.0 && errorlast < 0.0 && error < errorlast
-		deltatadp = -1.0*deltatadp
-	  end
-	end
-	it = it + 1
-	errorlast = error
+    if it > 1
+      t_adp = t_adp + deltatadp
+    end
+    w_adp = 0 ############################################PSYCHFUNCTION(t_adp, 1.0, p_atm) 
+    slope = (w_in - w_adp)/(t_in - t_adp)
+    error = (slope - slope_adp)/slope_adp
+    if it > 1
+      if error > 0.0 && errorlast <= 0.0
+	deltatadp = -1.0*(deltatadp/2.0)
+      elsif error <= 0.0 && errorlast > 0.0
+	deltatadp = -1.0*(deltatadp/2.0)
+      elsif error > 0.0 && errorlast > 0.0 && error > errorlast
+	deltatadp = -1.0*deltatadp
+      elsif error < 0.0 && errorlast < 0.0 && error < errorlast
+	deltatadp = -1.0*deltatadp
+      end
+    end
+    it = it + 1
+    errorlast = error
   end
   t_adp_new = t_adp
   w_adp_new = w_adp
@@ -991,34 +991,32 @@ def tadp_solver(workspace, runner, t_adp, slope_adp, p_atm, t_in, w_in)
   # SET DeltaTadp = 5.0,                    !- Program Line 10
   # SET IT = 1,                             !- Program Line 11
   # WHILE ((Error > Thres || Error < NegThres) && IT < 100), !- Program Line 12
-    # IF IT > 1,                              !- Program Line 13
-      # SET Tadp = Tadp+DeltaTadp,              !- Program Line 14
-    # ENDIF,                                  !- Program Line 15
-    # SET Wadp = @WFnTdbRhPb Tadp 1.0 PTmp,   !- Program Line 16
-    # SET Slope = Win-Wadp,                   !- Program Line 17
-    # SET Slope = Slope/(Tin-Tadp),           !- Program Line 18
-    # SET Error = Slope-Slopeadp,             !- Program Line 19
-    # SET Error = Error/Slopeadp,             !- Program Line 20
-    # IF IT > 1,                              !- Program Line 21
-      # IF Error > 0.0 && Errorlast <= 0.0,     !- Program Line 22
-        # SET DeltaTadp = DeltaTadp/2.0,          !- Program Line 23
-        # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 24
-      # ELSEIF Error <= 0.0 && Errorlast > 0.0, !- Program Line 25
-        # SET DeltaTadp = DeltaTadp/2.0,          !- Program Line 26
-        # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 27
-      # ELSEIF Error > 0.0 && Errorlast > 0.0 && Error > Errorlast, !- Program Line 28
-        # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 29
-      # ELSEIF Error < 0.0 && Errorlast < 0.0 && Error < Errorlast, !- Program Line 30
-        # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 31
-      # ENDIF,                                  !- Program Line 32
-    # ENDIF,                                  !- Program Line 33
-    # SET IT = IT+1,                          !- Program Line 34
-    # SET Errorlast = Error,                  !- Program Line 35
+  # IF IT > 1,                              !- Program Line 13
+  # SET Tadp = Tadp+DeltaTadp,              !- Program Line 14
+  # ENDIF,                                  !- Program Line 15
+  # SET Wadp = @WFnTdbRhPb Tadp 1.0 PTmp,   !- Program Line 16
+  # SET Slope = Win-Wadp,                   !- Program Line 17
+  # SET Slope = Slope/(Tin-Tadp),           !- Program Line 18
+  # SET Error = Slope-Slopeadp,             !- Program Line 19
+  # SET Error = Error/Slopeadp,             !- Program Line 20
+  # IF IT > 1,                              !- Program Line 21
+  # IF Error > 0.0 && Errorlast <= 0.0,     !- Program Line 22
+  # SET DeltaTadp = DeltaTadp/2.0,          !- Program Line 23
+  # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 24
+  # ELSEIF Error <= 0.0 && Errorlast > 0.0, !- Program Line 25
+  # SET DeltaTadp = DeltaTadp/2.0,          !- Program Line 26
+  # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 27
+  # ELSEIF Error > 0.0 && Errorlast > 0.0 && Error > Errorlast, !- Program Line 28
+  # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 29
+  # ELSEIF Error < 0.0 && Errorlast < 0.0 && Error < Errorlast, !- Program Line 30
+  # SET DeltaTadp = -1.0*DeltaTadp,         !- Program Line 31
+  # ENDIF,                                  !- Program Line 32
+  # ENDIF,                                  !- Program Line 33
+  # SET IT = IT+1,                          !- Program Line 34
+  # SET Errorlast = Error,                  !- Program Line 35
   # ENDWHILE,                               !- Program Line 36
   # SET TadpNCCoilCoolingDXSingleSpeed1 = Tadp, !- Program Line 37
   # SET WadpNCCoilCoolingDXSingleSpeed1 = Wadp; !- Program Line 38
-
-  
 end
 
 def tout_solver(workspace, runner, t_out, h_out, slope_adp, p_atm, t_in, w_in)
@@ -1029,25 +1027,25 @@ def tout_solver(workspace, runner, t_out, h_out, slope_adp, p_atm, t_in, w_in)
   deltatout = 5.0
   it = 1
   while error > thres || error < negthres && it < 100 do
-	if it > 1
-	  t_out = t_out + deltatout
-	end
-	w_out = 0.0 ############################################PSYCHFUNCTION(t_out, h_out)
-	slope = (w_in - w_out)/(t_in - t_out)
-	error = (slope - slope_adp)/slope_adp
-	if it > 1
-	  if error > 0.0 && errorlast <= 0.0
-		deltatout = -1.0*(deltatout/2.0)
-	  elsif error <= 0.0 && errorlast > 0.0
-		deltatout = -1.0*(deltatout/2.0)
-	  elsif error > 0.0 && errorlast > 0.0 && error > errorlast
-		deltatout = -1.0*deltatout
-	  elsif error < 0.0 && errorlast < 0.0 && error < errorlast
-		deltatout = -1.0*deltatout
-	  end
-	end
-	it = it + 1
-	errorlast = error
+    if it > 1
+      t_out = t_out + deltatout
+    end
+    w_out = 0.0 ############################################PSYCHFUNCTION(t_out, h_out)
+    slope = (w_in - w_out)/(t_in - t_out)
+    error = (slope - slope_adp)/slope_adp
+    if it > 1
+      if error > 0.0 && errorlast <= 0.0
+	deltatout = -1.0*(deltatout/2.0)
+      elsif error <= 0.0 && errorlast > 0.0
+	deltatout = -1.0*(deltatout/2.0)
+      elsif error > 0.0 && errorlast > 0.0 && error > errorlast
+	deltatout = -1.0*deltatout
+      elsif error < 0.0 && errorlast < 0.0 && error < errorlast
+	deltatout = -1.0*deltatout
+      end
+    end
+    it = it + 1
+    errorlast = error
   end
   t_out_new = t_out
   w_out_new = w_out
@@ -1069,34 +1067,32 @@ def tout_solver(workspace, runner, t_out, h_out, slope_adp, p_atm, t_in, w_in)
   # SET DeltaTout = 5.0,                    !- Program Line 11
   # SET IT = 1,                             !- Program Line 12
   # WHILE ((Error > Thres || Error < NegThres) && IT < 100), !- Program Line 13
-    # IF IT > 1,                              !- Program Line 14
-      # SET Tout = Tout+DeltaTout,              !- Program Line 15
-    # ENDIF,                                  !- Program Line 16
-    # SET Wout = @WFnTdbH Tout Hout,          !- Program Line 17
-    # SET Slope = Win-Wout,                   !- Program Line 18
-    # SET Slope = Slope/(Tin-Tout),           !- Program Line 19
-    # SET Error = Slope-Slopeadp,             !- Program Line 20
-    # SET Error = Error/Slopeadp,             !- Program Line 21
-    # IF IT > 1,                              !- Program Line 22
-      # IF Error > 0.0 && Errorlast <= 0.0,     !- Program Line 23
-        # SET DeltaTout = DeltaTout/2.0,          !- Program Line 24
-        # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 25
-      # ELSEIF Error <= 0.0 && Errorlast > 0.0, !- Program Line 26
-        # SET DeltaTout = DeltaTout/2.0,          !- Program Line 27
-        # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 28
-      # ELSEIF Error > 0.0 && Errorlast > 0.0 && Error > Errorlast, !- Program Line 29
-        # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 30
-      # ELSEIF Error < 0.0 && Errorlast < 0.0 && Error < Errorlast, !- Program Line 31
-        # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 32
-      # ENDIF,                                  !- Program Line 33
-    # ENDIF,                                  !- Program Line 34
-    # SET IT = IT+1,                          !- Program Line 35
-    # SET Errorlast = Error,                  !- Program Line 36
+  # IF IT > 1,                              !- Program Line 14
+  # SET Tout = Tout+DeltaTout,              !- Program Line 15
+  # ENDIF,                                  !- Program Line 16
+  # SET Wout = @WFnTdbH Tout Hout,          !- Program Line 17
+  # SET Slope = Win-Wout,                   !- Program Line 18
+  # SET Slope = Slope/(Tin-Tout),           !- Program Line 19
+  # SET Error = Slope-Slopeadp,             !- Program Line 20
+  # SET Error = Error/Slopeadp,             !- Program Line 21
+  # IF IT > 1,                              !- Program Line 22
+  # IF Error > 0.0 && Errorlast <= 0.0,     !- Program Line 23
+  # SET DeltaTout = DeltaTout/2.0,          !- Program Line 24
+  # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 25
+  # ELSEIF Error <= 0.0 && Errorlast > 0.0, !- Program Line 26
+  # SET DeltaTout = DeltaTout/2.0,          !- Program Line 27
+  # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 28
+  # ELSEIF Error > 0.0 && Errorlast > 0.0 && Error > Errorlast, !- Program Line 29
+  # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 30
+  # ELSEIF Error < 0.0 && Errorlast < 0.0 && Error < Errorlast, !- Program Line 31
+  # SET DeltaTout = -1.0*DeltaTout,         !- Program Line 32
+  # ENDIF,                                  !- Program Line 33
+  # ENDIF,                                  !- Program Line 34
+  # SET IT = IT+1,                          !- Program Line 35
+  # SET Errorlast = Error,                  !- Program Line 36
   # ENDWHILE,                               !- Program Line 37
   # SET ToutNCCoilCoolingDXSingleSpeed1 = Tout, !- Program Line 38
   # SET WoutNCCoilCoolingDXSingleSpeed1 = Wout; !- Program Line 39
-
-   
 end
 
 def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fault_lvl)
@@ -1148,8 +1144,8 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
     shr_new = 1.0
   else
     h_fg_adp = 2000 ############################################PSYCHFUNCTION(w_adp, t_adp)
-	qdot_lat = h_fg_adp*(w_tmp - w_out)
-	shr_new = 1.0 - qdot_lat*(h_in - h_out)
+    qdot_lat = h_fg_adp*(w_tmp - w_out)
+    shr_new = 1.0 - qdot_lat*(h_in - h_out)
   end
   
   return shr_new
@@ -1217,5 +1213,4 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
     # SET SHRnew = 1.0-qlat/(Hin-Hout),       !- Program Line 59
   # ENDIF,                                  !- Program Line 60
   # SET SHRnewNCCoilCoolingDXSingleSpeed1 = SHRnew; !- Program Line 61
-
 end
