@@ -135,6 +135,9 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     unless fault_lvl_check == 'continue'
       return fault_lvl_check
     end
+	  
+	  bf_para = runner.getDoubleArgumentValue('bf_para', user_arguments)
+	fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
 
     rtu_changed = false
     existing_coils = []
