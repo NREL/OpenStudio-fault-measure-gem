@@ -2,6 +2,7 @@
 # faults in Coil:Cooling:DX:SingleSpeed objects
 
 require "#{File.dirname(__FILE__)}/misc_eplus_func"
+require "#{File.dirname(__FILE__)}/psychrometric"
 
 def no_fault_schedules(workspace, scheduletypelimitname, string_objects)
   # This function creates constant schedules at zero and one throughout the year
