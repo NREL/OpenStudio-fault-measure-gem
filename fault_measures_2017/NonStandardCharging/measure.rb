@@ -13,6 +13,7 @@ require "#{File.dirname(__FILE__)}/resources/entercoefficients"
 require "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdxsinglespeed"
 require "#{File.dirname(__FILE__)}/resources/faultdefinitions"
 require "#{File.dirname(__FILE__)}/resources/misc_eplus_func"
+require "#{File.dirname(__FILE__)}/resources/psychrometric"
 
 # define number of parameters in the model
 $q_para_num = 6
