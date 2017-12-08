@@ -1120,8 +1120,8 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
   h_adp = 2000 ############################################PSYCHFUNCTION(t_adp, w_adp)
   bf = (h_out - h_adp)/(h_in - h_adp)
   adjao = 1 + bf_para*fault_lvl
-  ao = (-1.0*mdot_a*ln(BF))*adjao ############################################MATH LIBRARY??
-  bf = exp((-1.0*ao)/mdot_a) ############################################MATH LIBRARY??
+  ao = (-1.0*mdot_a*(Math.log(BF)))*adjao ############################################MATH LIBRARY??
+  bf = Math.exp((-1.0*ao)/mdot_a) ############################################MATH LIBRARY??
   
   h_adp = ((bf*h_in) - h_out)/(bf - 1.0)
   
