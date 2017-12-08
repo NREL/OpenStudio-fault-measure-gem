@@ -13,6 +13,7 @@ require "#{File.dirname(__FILE__)}/resources/entercoefficients"
 require "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdxsinglespeed"
 require "#{File.dirname(__FILE__)}/resources/faultdefinitions"
 require "#{File.dirname(__FILE__)}/resources/misc_eplus_func"
+require "#{File.dirname(__FILE__)}/resources/psychrometric"
 
 # define number of parameters in the model
 $q_para_num = 6
@@ -135,20 +136,86 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
     unless fault_lvl_check == 'continue'
       return fault_lvl_check
     end
-
-    # find the RTU to change
+    
+    ##################################################
+    bf_para = runner.getDoubleArgumentValue('bf_para', user_arguments)
+    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
+    ##################################################
+    
     rtu_changed = false
     existing_coils = []
+
+    ##################################################
+    # find the single speed RTU to change
+    ##################################################
+    #SINGLE SPEED
     coilcoolingdxsinglespeeds = get_workspace_objects(workspace, 'Coil:Cooling:DX:SingleSpeed')
     coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
+      
+      qdot_rat = coilcoolingdxsinglespeed.getString(2).get.clone.to_f
+      shr_rat = coilcoolingdxsinglespeed.getString(3).get.clone.to_f
+      vdot_rat = coilcoolingdxsinglespeed.getString(5).get.clone.to_f
+      shr_fault = shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fault_lvl)
+      coilcoolingdxsinglespeed.setString(3, shr_fault.to_s)
+      
+      coiltype = 1
       existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
       next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
-      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed)
+      runner.registerInfo("Found single speed coil named #{coilcoolingdxsinglespeed.getString(0)}")
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed, coiltype)
       unless rtu_changed
         return false
       end
       # break
     end
+    ##################################################
+    # find the two stage RTU to change
+    ##################################################
+    #TWO STAGE WITH HUMIDITY CONTROL MODE
+    coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
+    coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
+      
+      coilperformancedxcoolings = workspace.getObjectsByType(coilcoolingdxtwostagewithhumiditycontrolmode.getString(8).to_s.to_IddObjectType)
+      coilperformancedxcoolings.each do |coilperformancedxcooling|
+	qdot_rat = coilperformancedxcooling.getString(1).get.clone.to_f
+	shr_rat = coilperformancedxcooling.getString(2).get.clone.to_f
+	vdot_rat = coilperformancedxcooling.getString(4).get.clone.to_f
+	shr_fault = shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fault_lvl)
+	coilperformancedxcooling.setString(2, shr_fault.to_s)
+      end
+      
+      coiltype = 2
+      existing_coils << pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0)
+      next unless pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
+      runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostagewithhumiditycontrolmode.getString(0)}")
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0), fault_lvl, coilcoolingdxtwostagewithhumiditycontrolmode, coiltype)
+      unless rtu_changed
+        return false
+      end
+      # break
+      
+      # if need absolute CLI path use code below
+      #cli_path = OpenStudio.getOpenStudioCLI.to_s
+      #runner.registerInfo(cli_path.to_s)
+      #energy_plus_path = cli_path.gsub("bin/openstudio","EnergyPlus/energyplus")
+      #runner.registerInfo(energy_plus_path)
+
+      # get weather file
+      epw_path = runner.lastEpwFilePath
+      if epw_path.empty?
+        runner.registerError('Cannot find last epw path.')
+        return false
+      end
+      epw_path = epw_path.get.to_s
+
+      # run simulation design days only
+      workspace.save("dd_sim.idf",true)
+      cmd = "energyplus -w #{epw_path} -D dd_sim.idf"
+      runner.registerInfo(cmd)
+      system(cmd)
+      
+    end
+    ##################################################
 
     # give an error for the name if no RTU is changed
     return _return_err_message_for_not_unit(runner, existing_coils, coil_choice) unless rtu_changed
