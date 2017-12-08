@@ -145,6 +145,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     rtu_changed = false
     existing_coils = []
     
+    ##################################################
     # find the single speed RTU to change
     ##################################################
     #SINGLE SPEED
@@ -168,7 +169,6 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       # break
     end
     ##################################################
-
     # find the two stage RTU to change
     ##################################################
     #TWO STAGE WITH HUMIDITY CONTROL MODE
