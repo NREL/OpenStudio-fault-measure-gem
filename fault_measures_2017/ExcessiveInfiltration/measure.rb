@@ -220,7 +220,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       instance = object
 	  	  
       if not instance.effectiveAirLeakageArea.to_s.empty?
-		    new_infiltration_ela = instance.setEffectiveAirLeakageArea(instance.effectiveAirLeakageArea + instance.effectiveAirLeakageArea*space_infiltration_increase_percent*0.01)
+	new_infiltration_ela = instance.setEffectiveAirLeakageArea(instance.effectiveAirLeakageArea + instance.effectiveAirLeakageArea*space_infiltration_increase_percent*0.01)
       else
         runner.registerWarning("'#{instance.name}' is used by one or more instances and has no load values.")
       end
