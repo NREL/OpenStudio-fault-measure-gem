@@ -156,7 +156,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       shr_rat = coilcoolingdxsinglespeed.getString(3).get.clone.to_f
       vdot_rat = coilcoolingdxsinglespeed.getString(5).get.clone.to_f
       shr_fault = shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fault_lvl)
-      coilcoolingdxsinglespeed.setRatedSensibleHeatRatio(shr_fault)
+      coilcoolingdxsinglespeed.setString(3, shr_fault.to_s)
       
       coiltype = 1
       existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
@@ -181,7 +181,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
 	shr_rat = coilperformancedxcooling.getString(2).get.clone.to_f
 	vdot_rat = coilperformancedxcooling.getString(4).get.clone.to_f
 	shr_fault = shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fault_lvl)
-	coilperformancedxcooling.setGrossRatedSensibleHeatRatio(shr_fault)
+	coilperformancedxcooling.setString(2, shr_fault.to_s)
       end
       
       coiltype = 2
