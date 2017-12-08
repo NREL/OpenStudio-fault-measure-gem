@@ -1164,7 +1164,7 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
 	
     ############################################################
     h_g = 2500940.0 + 1858.95*t_adp
-    h_f = 4180.0d0*t_adp
+    h_f = 4180.0*t_adp
     h_fg_adp2 = h_g - h_f
     ############################################################
 	
