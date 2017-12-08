@@ -946,7 +946,7 @@ end
 
 def tadp_solver(workspace, runner, t_adp, slope_adp, p_atm, t_in, w_in)
   thres = 0.0001
-  negthres = -1.0*Thres
+  negthres = -1.0*thres
   error = 1000.0
   errorlast = error
   deltatadp = 5.0
@@ -955,7 +955,7 @@ def tadp_solver(workspace, runner, t_adp, slope_adp, p_atm, t_in, w_in)
     if it > 1
       t_adp = t_adp + deltatadp
     end
-    w_adp = 0 ############################################PSYCHFUNCTION(t_adp, 1.0, p_atm) 
+    w_adp = psych(p_atm, 'tdb', t_adp, 'rh', 1.0, 'w', unittype='SI') #@WFnTdbRhPb Tadp 1.0 PTmp 
     slope = (w_in - w_adp)/(t_in - t_adp)
     error = (slope - slope_adp)/slope_adp
     if it > 1
@@ -1021,7 +1021,7 @@ end
 
 def tout_solver(workspace, runner, t_out, h_out, slope_adp, p_atm, t_in, w_in)
   thres = 0.0001
-  negthres = -1.0*Thres
+  negthres = -1.0*thres
   error = 1000.0
   errorlast = error
   deltatout = 5.0
@@ -1030,7 +1030,7 @@ def tout_solver(workspace, runner, t_out, h_out, slope_adp, p_atm, t_in, w_in)
     if it > 1
       t_out = t_out + deltatout
     end
-    w_out = 0.0 ############################################PSYCHFUNCTION(t_out, h_out)
+    w_out = psych(p_atm, 'tdb', t_out, 'h', h_out/1000.0, 'w', unittype='SI') #@WFnTdbH Tout Hout
     slope = (w_in - w_out)/(t_in - t_out)
     error = (slope - slope_adp)/slope_adp
     if it > 1
@@ -1099,14 +1099,14 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
   t_tmp = 26.7
   w_tmp = 0.011152
   p_tmp = 101325.0
-  h_in = 2000 ############################################PSYCHFUNCTION(t_tmp, w_tmp)
-  rho_in = 1.2 ############################################PSYCHFUNCTION(p_tmp, t_tmp, w_tmp)
+  h_in = psych(p_tmp, 'tdb', t_tmp, 'w', w_tmp, 'h', unittype='SI')*1000 #@HFnTdbW TTmp WTmp
+  rho_in = psych(p_tmp, 'tdb', t_tmp, 'w', w_tmp, 'MAD', unittype='SI') #@RhoAirFnPbTdbW PTmp TTmp WTmp  
   mdot_a = rho_in*vdot_rat
   deltah = qdot_rat/mdot_a
   h_tin_wout = h_in - (1 - shr_rat)*deltah
-  w_out = 0.01 ############################################PSYCHFUNCTION(t_tmp, h_tin_wout)
+  w_out = psych(p_tmp, 'tdb', t_tmp, 'h', h_tin_wout/1000.0, 'w', unittype='SI') #@WFnTdbH TTmp HTinWout
   h_out = h_in - deltah
-  t_out = 26 ############################################PSYCHFUNCTION(h_out, w_out)
+  t_out = psych(p_tmp, 'h', h_out/1000.0, 'w', w_out, 'tdb', unittype='SI') #@TdbFnHW Hout Wout  
   deltat = t_tmp - t_out
   deltaw = w_tmp - w_out
   slope_adp = deltaw/deltat
@@ -1117,21 +1117,37 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
   
   t_adp, w_adp = tadp_solver(workspace, runner, t_adp, slope_adp, p_atm, t_in, w_in)
   
-  h_adp = 2000 ############################################PSYCHFUNCTION(t_adp, w_adp)
+  h_adp = psych(p_atm, 'tdb', t_adp, 'w', w_adp, 'h', unittype='SI')*1000 #@HFnTdbW Tadp Wadp
   bf = (h_out - h_adp)/(h_in - h_adp)
+  
+  runner.registerInfo("### h_adp/bf ### = #{h_adp.round(2)}	#{bf.round(4)}")
+  
   adjao = 1 + bf_para*fault_lvl
-  ao = (-1.0*mdot_a*(Math.log(BF)))*adjao ############################################MATH LIBRARY??
-  bf = Math.exp((-1.0*ao)/mdot_a) ############################################MATH LIBRARY??
+  ao = (-1.0*mdot_a*(Math.log(bf)))*adjao 
+  bf = Math.exp((-1.0*ao)/mdot_a) 
   
   h_adp = ((bf*h_in) - h_out)/(bf - 1.0)
   
-  t_adp = 26 ############################################PSYCHFUNCTION(h_adp, p_tmp)
-  w_adp = 0.001 ############################################PSYCHFUNCTION(t_adp, h_adp)
+  ############################################################
+  w_iter = 0.002
+  error_iter = 100.0
+  while error_iter >= 0.01 do
+	dsat_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'DSat', unittype='SI')
+	tdb_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'tdb', unittype='SI')
+	error_iter = (1 - dsat_iter).abs
+	w_iter = w_iter +0.0001	  
+  end
+  ############################################################
+  
+  t_adp = tdb_iter #@TsatFnHPb Hadp PTmp
+  w_adp = psych(p_atm, 'tdb', t_adp, 'h', h_adp/1000.0, 'w', unittype='SI') #@WFnTdbH Tadp Hadp
+  
+  runner.registerInfo("### t_adp/w_adp ### = #{t_adp.round(2)}	#{w_adp.round(4)}")
   
   deltat = t_tmp - t_adp
   deltaw = w_tmp - w_adp
   
-  slope_adp = deltaw/deltatadptout
+  slope_adp = deltaw/deltat
   t_out = t_adp + 1.0
   h_out = h_out 
   t_in = t_tmp
@@ -1143,9 +1159,20 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
   if w_out >= w_tmp
     shr_new = 1.0
   else
-    h_fg_adp = 2000 ############################################PSYCHFUNCTION(w_adp, t_adp)
+    #h_fg_adp = psych(p_atm, 'tdb', t_adp, 'w', w_adp, 'h', unittype='SI')*1000 #@HfgAirFnWTdb Wadp Tadp
+	h_fg_adp = -0.4121*t_adp**2.0 - 2351.91*t_adp + 2501084.59
+	
+	############################################################
+	h_g = 2500940.0 + 1858.95*t_adp
+	h_f = 4180.0d0*t_adp
+	h_fg_adp2 = h_g - h_f
+	############################################################
+	
     qdot_lat = h_fg_adp*(w_tmp - w_out)
-    shr_new = 1.0 - qdot_lat*(h_in - h_out)
+    shr_new = 1.0 - qdot_lat/(h_in - h_out)
+	runner.registerInfo("### w_in/w_out ### = #{w_in.round(4)}	#{w_out.round(4)}")
+	runner.registerInfo("### h_fg_adp/h_fg_adp2/qdot ### = #{h_fg_adp.round(2)}	#{h_fg_adp2.round(2)}	#{qdot_lat.round(2)}")
+	runner.registerInfo("### h_in/h_out/shr_new ### = #{h_in.round(2)}	#{h_out.round(2)}	#{shr_new.round(2)}")
   end
   
   return shr_new
