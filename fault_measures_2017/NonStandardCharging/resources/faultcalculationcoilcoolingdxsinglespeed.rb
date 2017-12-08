@@ -1124,13 +1124,13 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
   h_adp = ((bf*h_in) - h_out)/(bf - 1.0)
   
   ############################################################
-  w_iter = 0.002
+  w_iter = 0.004
   error_iter = 100.0
   while error_iter >= 0.01 do
 	dsat_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'DSat', unittype='SI')
 	tdb_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'tdb', unittype='SI')
-	error_iter = (1 - dsat_iter).abs
-	w_iter = w_iter +0.0001	  
+	error_iter = (1 - dsat_iter)
+	w_iter = w_iter + 0.0001	
   end
   ############################################################
   
