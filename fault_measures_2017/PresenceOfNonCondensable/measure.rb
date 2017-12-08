@@ -255,7 +255,7 @@ class PresenceOfNonCondensable < OpenStudio::Ruleset::WorkspaceUserScript
     ##################################################
     if coiltype == 1 #SINGLESPEED
       unless pass_string(coilcooling, 20).eql?('AirCooled')
-        runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in NonStandardCharging. Exiting......")
+        runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in PresenceOfNonCondensable. Exiting......")
         return false
       end
     end
