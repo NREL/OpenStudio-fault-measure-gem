@@ -1132,10 +1132,10 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
   w_iter = 0.002
   error_iter = 100.0
   while error_iter >= 0.01 do
-	dsat_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'DSat', unittype='SI')
-	tdb_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'tdb', unittype='SI')
-	error_iter = (1 - dsat_iter).abs
-	w_iter = w_iter +0.0001	  
+    dsat_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'DSat', unittype='SI')
+    tdb_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'tdb', unittype='SI')
+    error_iter = (1 - dsat_iter).abs
+    w_iter = w_iter +0.0001	  
   end
   ############################################################
   
@@ -1160,19 +1160,19 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
     shr_new = 1.0
   else
     #h_fg_adp = psych(p_atm, 'tdb', t_adp, 'w', w_adp, 'h', unittype='SI')*1000 #@HfgAirFnWTdb Wadp Tadp
-	h_fg_adp = -0.4121*t_adp**2.0 - 2351.91*t_adp + 2501084.59
+    h_fg_adp = -0.4121*t_adp**2.0 - 2351.91*t_adp + 2501084.59
 	
-	############################################################
-	h_g = 2500940.0 + 1858.95*t_adp
-	h_f = 4180.0d0*t_adp
-	h_fg_adp2 = h_g - h_f
-	############################################################
+    ############################################################
+    h_g = 2500940.0 + 1858.95*t_adp
+    h_f = 4180.0d0*t_adp
+    h_fg_adp2 = h_g - h_f
+    ############################################################
 	
     qdot_lat = h_fg_adp*(w_tmp - w_out)
     shr_new = 1.0 - qdot_lat/(h_in - h_out)
-	runner.registerInfo("### w_in/w_out ### = #{w_in.round(4)}	#{w_out.round(4)}")
-	runner.registerInfo("### h_fg_adp/h_fg_adp2/qdot ### = #{h_fg_adp.round(2)}	#{h_fg_adp2.round(2)}	#{qdot_lat.round(2)}")
-	runner.registerInfo("### h_in/h_out/shr_new ### = #{h_in.round(2)}	#{h_out.round(2)}	#{shr_new.round(2)}")
+    runner.registerInfo("### w_in/w_out ### = #{w_in.round(4)}	#{w_out.round(4)}")
+    runner.registerInfo("### h_fg_adp/h_fg_adp2/qdot ### = #{h_fg_adp.round(2)}	#{h_fg_adp2.round(2)}	#{qdot_lat.round(2)}")
+    runner.registerInfo("### h_in/h_out/shr_new ### = #{h_in.round(2)}	#{h_out.round(2)}	#{shr_new.round(2)}")
   end
   
   return shr_new
