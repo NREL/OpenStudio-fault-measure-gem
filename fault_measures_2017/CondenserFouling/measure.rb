@@ -243,7 +243,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
       runner.registerError("Fault level #{fault_lvl} for #{coil_choice} is outside the range from 0 to 1. Exiting......")
       return false
     elsif fault_lvl.abs < 0.001
-      runner.registerAsNotApplicable("RTUCAWithBfOffset is not running for #{coil_choice}. Skipping......")
+      runner.registerAsNotApplicable("CondenserFouling is not running for #{coil_choice}. Skipping......")
       return true
     end
     return 'continue'
@@ -255,7 +255,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
     ##################################################
     if coiltype == 1 #SINGLESPEED
       unless pass_string(coilcooling, 20).eql?('AirCooled')
-        runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in NonStandardCharging. Exiting......")
+        runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in CondenserFouling. Exiting......")
         return false
       end
     end
