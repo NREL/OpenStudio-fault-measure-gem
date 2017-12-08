@@ -1114,36 +1114,28 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
   t_in = t_tmp
   w_in = w_tmp
   p_atm = p_tmp
-  
   t_adp, w_adp = tadp_solver(workspace, runner, t_adp, slope_adp, p_atm, t_in, w_in)
-  
   h_adp = psych(p_atm, 'tdb', t_adp, 'w', w_adp, 'h', unittype='SI')*1000 #@HFnTdbW Tadp Wadp
-  bf = (h_out - h_adp)/(h_in - h_adp)
-  
-  runner.registerInfo("### h_adp/bf ### = #{h_adp.round(2)}	#{bf.round(4)}")
-  
+  bf = (h_out - h_adp)/(h_in - h_adp)  
   adjao = 1 + bf_para*fault_lvl
   ao = (-1.0*mdot_a*(Math.log(bf)))*adjao 
   bf = Math.exp((-1.0*ao)/mdot_a) 
-  
   h_adp = ((bf*h_in) - h_out)/(bf - 1.0)
   
   ############################################################
   w_iter = 0.002
   error_iter = 100.0
   while error_iter >= 0.01 do
-    dsat_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'DSat', unittype='SI')
-    tdb_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'tdb', unittype='SI')
-    error_iter = (1 - dsat_iter).abs
-    w_iter = w_iter +0.0001	  
+	dsat_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'DSat', unittype='SI')
+	tdb_iter = psych(p_atm, 'h', h_adp/1000.0, 'w', w_iter, 'tdb', unittype='SI')
+	error_iter = (1 - dsat_iter).abs
+	w_iter = w_iter +0.0001	  
   end
   ############################################################
   
   t_adp = tdb_iter #@TsatFnHPb Hadp PTmp
   w_adp = psych(p_atm, 'tdb', t_adp, 'h', h_adp/1000.0, 'w', unittype='SI') #@WFnTdbH Tadp Hadp
-  
-  runner.registerInfo("### t_adp/w_adp ### = #{t_adp.round(2)}	#{w_adp.round(4)}")
-  
+   
   deltat = t_tmp - t_adp
   deltaw = w_tmp - w_adp
   
@@ -1158,21 +1150,15 @@ def shr_modification(workspace, runner, qdot_rat, shr_rat, vdot_rat, bf_para, fa
   
   if w_out >= w_tmp
     shr_new = 1.0
-  else
-    #h_fg_adp = psych(p_atm, 'tdb', t_adp, 'w', w_adp, 'h', unittype='SI')*1000 #@HfgAirFnWTdb Wadp Tadp
-    h_fg_adp = -0.4121*t_adp**2.0 - 2351.91*t_adp + 2501084.59
-	
+  else	
     ############################################################
-    h_g = 2500940.0 + 1858.95*t_adp
-    h_f = 4180.0*t_adp
-    h_fg_adp2 = h_g - h_f
+    h_g = 2500940.0 + 1858.95*t_adp #EnergyPlus PsychRoutines
+    h_f = 4180.0*t_adp #EnergyPlus PsychRoutines
+    h_fg_adp = h_g - h_f #EnergyPlus PsychRoutines
+    # h_fg_adp = -0.4121*t_adp**2.0 - 2351.91*t_adp + 2501084.59 #Saturated Air Properties (Incropera)
     ############################################################
-	
     qdot_lat = h_fg_adp*(w_tmp - w_out)
     shr_new = 1.0 - qdot_lat/(h_in - h_out)
-    runner.registerInfo("### w_in/w_out ### = #{w_in.round(4)}	#{w_out.round(4)}")
-    runner.registerInfo("### h_fg_adp/h_fg_adp2/qdot ### = #{h_fg_adp.round(2)}	#{h_fg_adp2.round(2)}	#{qdot_lat.round(2)}")
-    runner.registerInfo("### h_in/h_out/shr_new ### = #{h_in.round(2)}	#{h_out.round(2)}	#{shr_new.round(2)}")
   end
   
   return shr_new
