@@ -346,21 +346,20 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
         end
       end
       
-	    ##################################################
+      ##################################################
       # find the two stage DX coil to change
       ##################################################
       coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
       coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
-	    coilperformancedxcoolings = workspace.getObjectsByType(coilcoolingdxtwostagewithhumiditycontrolmode.getString(8).to_s.to_IddObjectType)
-		coilperformancedxcoolings.each do |coilperformancedxcooling|
-	  
-	  
+	coilperformancedxcoolings = workspace.getObjectsByType(coilcoolingdxtwostagewithhumiditycontrolmode.getString(8).to_s.to_IddObjectType)
+	coilperformancedxcoolings.each do |coilperformancedxcooling|
+  
           if coilcoolingdxtwostagewithhumiditycontrolmode.getString(0).to_s.eql?(coil_choice_all) | coil_choice_all.eql?($all_coil_selection)
           
             coil_choice = coilcoolingdxtwostagewithhumiditycontrolmode.getString(0).to_s
             no_RTU_changed = false
 		  
-		    coiltype = 2 #Coil:Cooling:DX:TwoStageWithHumidityControlMode
+	    coiltype = 2 #Coil:Cooling:DX:TwoStageWithHumidityControlMode
     
             sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
             if sh_coil_choice.eql?(nil)
@@ -422,8 +421,8 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
             #introduce code to modify the temperature curve for cooling capacity
           
             #obtaining the coefficients in the original EIR curve
-		    curve_str = pass_string(coilperformancedxcooling, 8)
-		    curvebiquadratics = get_workspace_objects(workspace, 'Curve:Biquadratic')
+	    curve_str = pass_string(coilperformancedxcooling, 8)
+	    curvebiquadratics = get_workspace_objects(workspace, 'Curve:Biquadratic')
             curve_nameEIR, paraEIR, no_curve = para_biquadratic_limit(curvebiquadratics, curve_str)
 		  
             if no_curve
@@ -446,18 +445,14 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
             eir_para = [fan_power_ratio]
           
             #write the EMS subroutines
-		    ##################################################
             string_objects, workspace = caf_adjust_function(workspace, string_objects, coilcoolingdxtwostagewithhumiditycontrolmode, "EIR", eir_para, coiltype, coilperformancedxcooling, 8)
-		    ##################################################
           
             #write dummy subroutines for other faults, and make sure that it is not current fault
             $model_names.each do |model_name|
               $other_faults.each do |other_fault|
                 if not other_fault.eql?("CAF")
                   # string_objects = dummy_fault_sub_add(workspace, string_objects, other_fault, coil_choice, model_name)
-				  ##################################################
-				  string_objects = dummy_fault_sub_add(workspace, string_objects, coilcoolingdxtwostagewithhumiditycontrolmode, other_fault, coil_choice, model_name, coiltype, coilperformancedxcooling, 6)
-				  ##################################################
+		  string_objects = dummy_fault_sub_add(workspace, string_objects, coilcoolingdxtwostagewithhumiditycontrolmode, other_fault, coil_choice, model_name, coiltype, coilperformancedxcooling, 6)
                 end
               end
             end
@@ -481,24 +476,19 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
           
             ems_sensors = workspace.getObjectsByType("EnergyManagementSystem:Sensor".to_IddObjectType)
             ems_sensors.each do |ems_sensor|
-			  runner.registerInfo("### SENSOR ### = #{ems_sensor.getString(0).to_s}")
               sensor_name = ems_sensor.getString(0).to_s
               if sensor_name.eql?(pressure_sensor_name)
                 pressure_sensor_write = false
               end
-			  runner.registerInfo("### pressure_sensor_write ### = #{pressure_sensor_write}")
               if sensor_name.eql?(db_sensor_name)
                 db_sensor_write = false
               end
-			  runner.registerInfo("### db_sensor_write ### = #{db_sensor_write}")
               if sensor_name.eql?(humidity_sensor_name)
                 humidity_sensor_write = false
               end
-			  runner.registerInfo("### humidity_sensor_write ### = #{humidity_sensor_write}")
               if sensor_name.eql?(oat_sensor_name)
                  oat_sensor_write = false
               end
-			  runner.registerInfo("### oat_sensor_write ### = #{oat_sensor_write}")
             end
           
             if pressure_sensor_write
@@ -558,7 +548,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
             existing_coils << coilcoolingdxtwostagewithhumiditycontrolmode.getString(0).to_s
           end
         end
-	  end
+      end
 	    
       #give an error for the name if no RTU is changed
       if no_RTU_changed
