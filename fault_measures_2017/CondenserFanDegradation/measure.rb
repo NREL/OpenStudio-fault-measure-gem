@@ -271,7 +271,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
           humidity_sensor_write = true
           oat_sensor_write = true
           
-          ems_sensors = workspace.getObjectsByType("EnergyManagementSystem:GlobalVariable".to_IddObjectType)
+          ems_sensors = workspace.getObjectsByType("EnergyManagementSystem:Sensor".to_IddObjectType)
           ems_sensors.each do |ems_sensor|
             sensor_name = ems_sensor.getString(0).to_s
             if sensor_name.eql?(pressure_sensor_name)
@@ -346,6 +346,220 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
         end
       end
       
+	    ##################################################
+      # find the two stage DX coil to change
+      ##################################################
+      coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
+      coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
+	    coilperformancedxcoolings = workspace.getObjectsByType(coilcoolingdxtwostagewithhumiditycontrolmode.getString(8).to_s.to_IddObjectType)
+		coilperformancedxcoolings.each do |coilperformancedxcooling|
+	  
+	  
+          if coilcoolingdxtwostagewithhumiditycontrolmode.getString(0).to_s.eql?(coil_choice_all) | coil_choice_all.eql?($all_coil_selection)
+          
+            coil_choice = coilcoolingdxtwostagewithhumiditycontrolmode.getString(0).to_s
+            no_RTU_changed = false
+		  
+		    coiltype = 2 #Coil:Cooling:DX:TwoStageWithHumidityControlMode
+    
+            sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
+            if sh_coil_choice.eql?(nil)
+              sh_coil_choice = coil_choice
+            end
+
+          
+            #create an empty string_objects to be appended into the .idf file
+            string_objects = []
+          
+            #create a faulted schedule. If schedule_exist is 1, create a schedule that the fault exists
+            #all the time. Otherwise, create a schedule that the fault does not happens
+          
+            #check if the Fractional Schedule Type Limit exists and create it if
+            #it doesn't. It's going to be used by the schedule in this script.
+            print_fractional_schedule = true
+            scheduletypelimitname = "Fraction"
+            scheduletypelimits.each do |scheduletypelimit|
+              if scheduletypelimit.getString(0).to_s.eql?(scheduletypelimitname)
+                if not (scheduletypelimit.getString(1).to_s.to_f >= 0 && scheduletypelimit.getString(2).to_s.to_f <= 1 && scheduletypelimit.getString(3).to_s.eql?("Continuous"))
+                  #if the existing ScheduleTypeLimits does not satisfy the requirement, generate the ScheduleTypeLimits with a unique name
+                  scheduletypelimitname = "Fraction"+sh_coil_choice
+                else
+                  print_fractional_schedule = false
+                end
+                break
+              end
+            end
+            if print_fractional_schedule
+              string_objects << "
+                ScheduleTypeLimits,
+                  "+scheduletypelimitname+",                             !- Name
+                  0,                                      !- Lower Limit Value {BasedOnField A3}
+                  1,                                      !- Upper Limit Value {BasedOnField A3}
+                  Continuous;                             !- Numeric Type
+              "
+            end
+          
+            #if the schedule does not exist, create a new schedule according to fault_lvl
+            if not schedule_exist
+              #set a unique name for the schedule according to the component and the fault
+              sch_choice = "CAFDegradactionFactor"+sh_coil_choice+"_SCH"
+            
+              #create a Schedule:Compact object with a schedule type limit "Fractional" that are usually 
+              #created in OpenStudio for continuous schedules bounded by 0 and 1
+              string_objects << "
+                Schedule:Constant,
+                  "+sch_choice+",         !- Name
+                  "+scheduletypelimitname+",                       !- Schedule Type Limits Name
+                  #{fault_lvl};                    !- Hourly Value
+              "
+            end
+          
+            #create schedules with zero and one all the time for zero fault scenarios
+            string_objects = no_fault_schedules(workspace, scheduletypelimitname, string_objects)
+          
+            #create energyplus management system code to alter the cooling capacity and EIR of the coil object
+          
+            #introduce code to modify the temperature curve for cooling capacity
+          
+            #obtaining the coefficients in the original EIR curve
+		    curve_str = pass_string(coilperformancedxcooling, 8)
+		    curvebiquadratics = get_workspace_objects(workspace, 'Curve:Biquadratic')
+            curve_nameEIR, paraEIR, no_curve = para_biquadratic_limit(curvebiquadratics, curve_str)
+		  
+            if no_curve
+              runner.registerError("No Temperature Adjustment Curve for "+coil_choice+" EIR. Exiting......")
+              return false
+            end
+          
+            # obtain the name of an outdoor air node
+            outdoor_node = ""
+            outdoorairnodelists = workspace.getObjectsByType("OutdoorAir:NodeList".to_IddObjectType)
+            outdoorairnodelists.each do |outdoorairnodelist|
+              outdoor_node = outdoorairnodelist.getString(0).to_s  #all are the same
+              break
+            end
+          
+            #write EMS program of the new curve
+            string_objects = main_program_entry(workspace, string_objects, coil_choice, curve_nameEIR, paraEIR, "EIR")
+          
+            #pass the minimum and maximum values of model inputs to ca_q_para and ca_eir_para tio insert them to the subroutines          
+            eir_para = [fan_power_ratio]
+          
+            #write the EMS subroutines
+		    ##################################################
+            string_objects, workspace = caf_adjust_function(workspace, string_objects, coilcoolingdxtwostagewithhumiditycontrolmode, "EIR", eir_para, coiltype, coilperformancedxcooling, 8)
+		    ##################################################
+          
+            #write dummy subroutines for other faults, and make sure that it is not current fault
+            $model_names.each do |model_name|
+              $other_faults.each do |other_fault|
+                if not other_fault.eql?("CAF")
+                  # string_objects = dummy_fault_sub_add(workspace, string_objects, other_fault, coil_choice, model_name)
+				  ##################################################
+				  string_objects = dummy_fault_sub_add(workspace, string_objects, coilcoolingdxtwostagewithhumiditycontrolmode, other_fault, coil_choice, model_name, coiltype, coilperformancedxcooling, 6)
+				  ##################################################
+                end
+              end
+            end
+          
+            #write EMS sensors for schedules of fault levels
+            string_objects = fault_level_sensor_sch_insert(workspace, string_objects, "CAF", coil_choice, sch_choice)
+          
+            # write variable definition for EMS programs
+          
+            #EMS Sensors to the workspace
+          
+            #check if the sensors are added previously by other fault models
+            pressure_sensor_name = "Pressure"+sh_coil_choice
+            db_sensor_name = "CoilInletDBT"+sh_coil_choice
+            humidity_sensor_name = "CoilInletW"+sh_coil_choice
+            oat_sensor_name = "OAT"+sh_coil_choice
+            pressure_sensor_write = true
+            db_sensor_write = true
+            humidity_sensor_write = true
+            oat_sensor_write = true
+          
+            ems_sensors = workspace.getObjectsByType("EnergyManagementSystem:Sensor".to_IddObjectType)
+            ems_sensors.each do |ems_sensor|
+			  runner.registerInfo("### SENSOR ### = #{ems_sensor.getString(0).to_s}")
+              sensor_name = ems_sensor.getString(0).to_s
+              if sensor_name.eql?(pressure_sensor_name)
+                pressure_sensor_write = false
+              end
+			  runner.registerInfo("### pressure_sensor_write ### = #{pressure_sensor_write}")
+              if sensor_name.eql?(db_sensor_name)
+                db_sensor_write = false
+              end
+			  runner.registerInfo("### db_sensor_write ### = #{db_sensor_write}")
+              if sensor_name.eql?(humidity_sensor_name)
+                humidity_sensor_write = false
+              end
+			  runner.registerInfo("### humidity_sensor_write ### = #{humidity_sensor_write}")
+              if sensor_name.eql?(oat_sensor_name)
+                 oat_sensor_write = false
+              end
+			  runner.registerInfo("### oat_sensor_write ### = #{oat_sensor_write}")
+            end
+          
+            if pressure_sensor_write
+              string_objects << "
+                EnergyManagementSystem:Sensor,
+                  Pressure"+sh_coil_choice+",                !- Name
+                  "+outdoor_node+",       !- Output:Variable or Output:Meter Index Key Name
+                  System Node Pressure;    !- Output:Variable or Output:Meter Name
+              "
+            end
+          
+            if db_sensor_write
+              string_objects << "
+                EnergyManagementSystem:Sensor,
+                  CoilInletDBT"+sh_coil_choice+",            !- Name
+                  "+coilcoolingdxtwostagewithhumiditycontrolmode.getString(2).to_s+",  !- Output:Variable or Output:Meter Index Key Name
+                  System Node Temperature; !- Output:Variable or Output:Meter Name
+              "
+            end
+          
+            if humidity_sensor_write
+              string_objects << "
+                EnergyManagementSystem:Sensor,
+                  CoilInletW"+sh_coil_choice+",              !- Name
+                  "+coilcoolingdxtwostagewithhumiditycontrolmode.getString(2).to_s+",  !- Output:Variable or Output:Meter Index Key Name
+                  System Node Humidity Ratio;  !- Output:Variable or Output:Meter Name
+              "
+            end
+          
+            if oat_sensor_write
+              string_objects << "
+                EnergyManagementSystem:Sensor,
+                  OAT"+sh_coil_choice+",                     !- Name
+                  "+outdoor_node+",       !- Output:Variable or Output:Meter Index Key Name
+                  System Node Temperature; !- Output:Variable or Output:Meter Name
+              "
+            end
+          
+            # only add Output:EnergyManagementSystem if it does not exist in the code
+            outputemss = workspace.getObjectsByType("Output:EnergyManagementSystem".to_IddObjectType)
+            if outputemss.size == 0
+              string_objects << "
+                Output:EnergyManagementSystem,
+                  Verbose,                 !- Actuator Availability Dictionary Reporting
+                  Verbose,                 !- Internal Variable Availability Dictionary Reporting
+                  ErrorsOnly;                 !- EMS Runtime Language Debug Output Level
+              "
+            end
+          
+            #add all of the strings to workspace to create IDF objects
+            string_objects.each do |string_object|
+              idfObject = OpenStudio::IdfObject::load(string_object)
+              object = idfObject.get
+              wsObject = workspace.addObject(object)
+            end
+          else
+            existing_coils << coilcoolingdxtwostagewithhumiditycontrolmode.getString(0).to_s
+          end
+        end
+	  end
+	    
       #give an error for the name if no RTU is changed
       if no_RTU_changed
         runner.registerError("Measure CondenserFanDegradation cannot find "+coil_choice_all+". Exiting......")
