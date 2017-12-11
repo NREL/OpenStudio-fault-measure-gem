@@ -549,6 +549,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
           end
         end
       end
+      ##################################################
 	    
       #give an error for the name if no RTU is changed
       if no_RTU_changed
