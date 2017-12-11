@@ -10,12 +10,13 @@
 require "#{File.dirname(__FILE__)}/resources/TransferCurveParameters"
 require "#{File.dirname(__FILE__)}/resources/ScheduleSearch"
 require "#{File.dirname(__FILE__)}/resources/EnterCoefficients"
-require "#{File.dirname(__FILE__)}/resources/FaultCalculationCoilCoolingDXSingleSpeed"
+require "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdx_CAF"
 require "#{File.dirname(__FILE__)}/resources/FaultDefinitions"
     
 #define number of parameters in the model
 $q_para_num = 5
 $eir_para_num = 5
+$faultnow = 'CAF'
 $all_coil_selection = '* ALL Coil Selected *'
 
 # start the measure
@@ -56,10 +57,10 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
     #make a double argument for the fault level
     #it should range between 0 and 0.9. 0 means no degradation
     #and 0.9 means that percentage drop of COP is 90% and percentage drop of cooling load is also 90%
-    degrd_lvl = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("degrd_lvl", false)
-    degrd_lvl.setDisplayName("Fan motor efficiency degradation ratio [-]")
-    degrd_lvl.setDefaultValue(0.5)  #default fouling level to be 50%
-    args << degrd_lvl
+    fault_lvl = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("fault_lvl", false)
+    fault_lvl.setDisplayName("Fan motor efficiency degradation ratio [-]")
+    fault_lvl.setDefaultValue(0.5)  #default fouling level to be 50%
+    args << fault_lvl
 	
     #make a double argument for the fault level
     #it should range between 0 and 0.9. 0 means no degradation
@@ -84,7 +85,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
     #obtain values
     coil_choice_all = runner.getStringArgumentValue('coil_choice',user_arguments)
     sch_choice = runner.getStringArgumentValue('sch_choice',user_arguments)
-    degrd_lvl = runner.getDoubleArgumentValue('degrd_lvl',user_arguments)
+    fault_lvl = runner.getDoubleArgumentValue('fault_lvl',user_arguments)
     fan_power_ratio = runner.getDoubleArgumentValue('fan_power_ratio',user_arguments)
     
     #create schedule_exist
@@ -93,7 +94,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
       schedule_exist = false
     end
     
-    if (schedule_exist || degrd_lvl != 0) # only continue if the user is running the module
+    if (schedule_exist || fault_lvl != 0) # only continue if the user is running the module
     
       runner.registerInitialCondition("Imposing performance degradation on "+coil_choice_all+".")
       
@@ -125,8 +126,8 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
       else
       
         #if there is no user-defined schedule, check if the fouling level is positive
-        if degrd_lvl < 0.0 || degrd_lvl > 0.99
-          runner.registerError("Fault level #{degrd_lvl} for "+coil_choice_all+" is oustide the range from 0 to 0.99. Exiting......")
+        if fault_lvl < 0.0 || fault_lvl > 0.99
+          runner.registerError("Fault level #{fault_lvl} for "+coil_choice_all+" is oustide the range from 0 to 0.99. Exiting......")
           return false
         end
         
@@ -135,12 +136,20 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
       #find the RTU to change
       no_RTU_changed = true
       existing_coils = []
+	    
+      ##################################################
+      # find the single speed RTU to change
+      ##################################################
       coilcoolingdxsinglespeeds = workspace.getObjectsByType("Coil:Cooling:DX:SingleSpeed".to_IddObjectType)
       coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
         if coilcoolingdxsinglespeed.getString(0).to_s.eql?(coil_choice_all) | coil_choice_all.eql?($all_coil_selection)
           
           coil_choice = coilcoolingdxsinglespeed.getString(0).to_s
           no_RTU_changed = false
+		
+	  ##################################################
+	  coiltype = 1 #Coil:Cooling:DX:SingleSpeed
+	  ##################################################
     
           sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
           if sh_coil_choice.eql?(nil)
@@ -184,7 +193,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
             "
           end
           
-          #if the schedule does not exist, create a new schedule according to degrd_lvl
+          #if the schedule does not exist, create a new schedule according to fault_lvl
           if not schedule_exist
             #set a unique name for the schedule according to the component and the fault
             sch_choice = "CAFDegradactionFactor"+sh_coil_choice+"_SCH"
@@ -195,7 +204,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
               Schedule:Constant,
                 "+sch_choice+",         !- Name
                 "+scheduletypelimitname+",                       !- Schedule Type Limits Name
-                #{degrd_lvl};                    !- Hourly Value
+                #{fault_lvl};                    !- Hourly Value
             "
           end
           
@@ -230,13 +239,17 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
           eir_para = [fan_power_ratio]
           
           #write the EMS subroutines
-          string_objects, workspace = caf_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, "EIR", eir_para)
+	  ##################################################
+          string_objects, workspace = caf_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, "EIR", eir_para, coiltype, [], 11)
+	  ##################################################
           
           #write dummy subroutines for other faults, and make sure that it is not current fault
           $model_names.each do |model_name|
             $other_faults.each do |other_fault|
               if not other_fault.eql?("CAF")
-                string_objects = dummy_fault_sub_add(workspace, string_objects, other_fault, coil_choice, model_name)
+		##################################################
+                string_objects = dummy_fault_sub_add(workspace, string_objects, coilcoolingdxsinglespeed, other_fault, coil_choice, model_name, coiltype, [], 9)
+		##################################################
               end
             end
           end
