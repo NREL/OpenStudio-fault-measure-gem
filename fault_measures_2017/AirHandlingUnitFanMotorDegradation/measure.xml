@@ -1,0 +1,90 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>air_handling_unit_fan_motor_degradation</name>
+  <uid>9814a5e9-37b7-472a-bae5-e9e2e794c024</uid>
+  <version_id>cb7bd04f-c2c7-4abf-9221-f9bc9abeb3d6</version_id>
+  <version_modified>20171212T144504Z</version_modified>
+  <xml_checksum>FAAEB4D1</xml_checksum>
+  <class_name>AirHandlingUnitFanMotorDegradation</class_name>
+  <display_name>Air Handling Unit Fan Motor Degradation</display_name>
+  <description>Fan motor degradation occurs due to bearing and stator winding faults, leading to a decrease in motor efficiency and an increase in overall fan power consumption. This measure simulates the air handling unit fan motor degradation by modifying either the Fan:ConstantVolume, Fan:VariableVolume, or the Fan:OnOff objects in EnergyPlus assigned to the ventilation system. The fault intensity (F) for this fault is defined as the ratio of fan motor efficiency degradation.</description>
+  <modeler_description>Two user inputs are required and, based on these user inputs, the fan efficiency is recalculated to reflect the faulted operation as shown below, where η_(fan,tot,F) is the degraded total efficiency under faulted condition, η_(fan,tot) is the total efficiency under normal condition, and F is the fault intensity. η_(fan,tot,F) = η_(fan,tot)∙(1-F)</modeler_description>
+  <arguments>
+    <argument>
+      <name>fan_choice</name>
+      <display_name>Enter the name of the faulted Fan:ConstantVolume, Fan:OnOff object or Fan:VariableVolume. If you want to impose the fault on all fan objects in the building, enter * ALL Fan objects *.</display_name>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL Fan objects *</default_value>
+    </argument>
+    <argument>
+      <name>eff_degrad_fac</name>
+      <display_name>Degradation factor of the total efficiency of the fan during the simulation period. If the fan is not faulted, set it to zero.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.15</default_value>
+    </argument>
+    <argument>
+      <name>sch_choice</name>
+      <display_name>Enter the name of the schedule of the fault level. If you do not have a schedule, leave this blank.</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Ventilation</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>ScheduleSearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>577A5309</checksum>
+    </file>
+    <file>
+      <filename>schedulesearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>577A5309</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>32D91FFE</checksum>
+    </file>
+  </files>
+</measure>
