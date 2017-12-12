@@ -29,11 +29,18 @@ class BiasedEconomizerSensorMixedT < OpenStudio::Ruleset::WorkspaceUserScript
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
     
-    #choose the Controller:OutdoorAir to be faulted
-    econ_choice = OpenStudio::Ruleset::OSArgument::makeStringArgument("econ_choice", true)
-    econ_choice.setDisplayName("Enter the name of the faulted Controller:OutdoorAir object")
-    econ_choice.setDefaultValue("")  
+    ##################################################
+    #make choice arguments for economizers
+    controlleroutdoorairs = workspace.getObjectsByType("Controller:OutdoorAir".to_IddObjectType)
+    chs = OpenStudio::StringVector.new
+    controlleroutdoorairs.each do |controlleroutdoorair|
+      chs << controlleroutdoorair.name.to_s
+    end
+    econ_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('econ_choice', chs, true)
+    econ_choice.setDisplayName("Choice of economizers.")
+    econ_choice.setDefaultValue(chs[0].to_s)
     args << econ_choice
+    ##################################################
 	
     #make a double argument for the temperature sensor bias
     mix_temp_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("mix_temp_bias", false)
