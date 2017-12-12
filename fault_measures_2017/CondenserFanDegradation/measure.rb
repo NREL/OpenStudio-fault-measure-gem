@@ -133,12 +133,12 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
         
       end
     
-      #find the RTU to change
+      #find the DX unit to change
       no_RTU_changed = true
       existing_coils = []
 	    
       ##################################################
-      # find the single speed RTU to change
+      # find the single speed DX unit to change
       ##################################################
       coilcoolingdxsinglespeeds = workspace.getObjectsByType("Coil:Cooling:DX:SingleSpeed".to_IddObjectType)
       coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
@@ -347,7 +347,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
       end
       
       ##################################################
-      # find the two stage DX coil to change
+      # find the two stage DX unit to change
       ##################################################
       coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
       coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
@@ -551,7 +551,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
       end
       ##################################################
 	    
-      #give an error for the name if no RTU is changed
+      #give an error for the name if no DX unit is changed
       if no_RTU_changed
         runner.registerError("Measure CondenserFanDegradation cannot find "+coil_choice_all+". Exiting......")
         coils_msg = "Only coils "
