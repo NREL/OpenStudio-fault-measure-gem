@@ -28,11 +28,67 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
 
-    # make a string argument for the name of the AirTerminal object that is leaking
-    airterminal_choice = OpenStudio::Ruleset::OSArgument::makeStringArgument('airterminal_choice', true)
-    airterminal_choice.setDisplayName('Enter the name of the faulted AirTerminal object')
-    airterminal_choice.setDefaultValue('')
+    ##################################################
+    list = OpenStudio::StringVector.new
+    atsdus = workspace.getObjectsByType("AirTerminal:SingleDuct:Uncontrolled".to_IddObjectType)
+    atsdus.each do |atsdu|
+      list << atsdu.name.to_s
+    end
+    atddcvs = workspace.getObjectsByType("AirTerminal:DualDuct:ConstantVolume".to_IddObjectType)
+    atddcvs.each do |atddcv|
+      list << atddcv.name.to_s
+    end
+    atddvavs = workspace.getObjectsByType("AirTerminal:DualDuct:VAV".to_IddObjectType)
+    atddvavs.each do |atddvav|
+      list << atddvav.name.to_s
+    end
+	atddvavoas = workspace.getObjectsByType("AirTerminal:DualDuct:VAV:OutdoorAir".to_IddObjectType)
+    atddvavoas.each do |atddvavoa|
+      list << atddvavoa.name.to_s
+    end
+	atsdcvrs = workspace.getObjectsByType("AirTerminal:SingleDuct:ConstantVolume:Reheat".to_IddObjectType)
+    atsdcvrs.each do |atsdcvr|
+      list << atsdcvr.name.to_s
+    end
+	atsdvavrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:Reheat".to_IddObjectType)
+    atsdvavrs.each do |atsdvavr|
+      list << atsdvavr.name.to_s
+    end
+	atsdvavnrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:NoReheat".to_IddObjectType)
+    atsdvavnrs.each do |atsdvavnr|
+      list << atsdvavnr.name.to_s
+    end
+	atsdspiurs = workspace.getObjectsByType("AirTerminal:SingleDuct:SeriesPIU:Reheat".to_IddObjectType)
+    atsdspiurs.each do |atsdspiur|
+      list << atsdspiur.name.to_s
+    end
+	atsdppiurs = workspace.getObjectsByType("AirTerminal:SingleDuct:ParallelPIU:Reheat".to_IddObjectType)
+    atsdppiurs.each do |atsdppiur|
+      list << atsdppiur.name.to_s
+    end
+	atsdcvfpis = workspace.getObjectsByType("AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction".to_IddObjectType)
+    atsdcvfpis.each do |atsdcvfpi|
+      list << atsdcvfpi.name.to_s
+    end
+	atsdvavrvsfs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:Reheat:VariableSpeedFan".to_IddObjectType)
+    atsdvavrvsfs.each do |atsdvavrvsf|
+      list << atsdvavrvsf.name.to_s
+    end
+	atsdvavhacrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat".to_IddObjectType)
+    atsdvavhacrs.each do |atsdvavhacr|
+      list << atsdvavhacr.name.to_s
+    end
+	atsdvavhacnrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:HeatAndCool:NoReheat".to_IddObjectType)
+    atsdvavhacnrs.each do |atsdvavhacnr|
+      list << atsdvavhacnr.name.to_s
+    end
+		
+    # make choice arguments for fan
+    airterminal_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("airterminal_choice", list, true)
+    airterminal_choice.setDisplayName("Select the name of the faulted AirTerminal object")
+    airterminal_choice.setDefaultValue(list[0].to_s)
     args << airterminal_choice
+    ##################################################
 
     # make a double argument for the leakage ratio
     leak_ratio = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('leak_ratio', false)
