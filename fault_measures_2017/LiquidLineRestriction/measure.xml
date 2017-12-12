@@ -1,0 +1,320 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>liquid_line_restriction</name>
+  <uid>7b7c155e-f73d-4805-a285-7750c5c356ae</uid>
+  <version_id>f1bbc774-afa7-4eec-989b-27c28f1b7fc8</version_id>
+  <version_modified>20171212T143711Z</version_modified>
+  <xml_checksum>CBC45526</xml_checksum>
+  <class_name>LiquidLineRestriction</class_name>
+  <display_name>Liquid-Line Restriction</display_name>
+  <description>A liquid-line restriction fault occurs when particles accumulate within the refrigerant filter located between the condenser and the expansion valve in the refrigerant circuit of a vapor compression cycle. The accumulation increases the flow resistance of the refrigerant circuit and the pressure difference across the compressor. It also reduces the evaporating temperature and leads to lower cooling capacity, efficiency, and SHR. The lower SHR leads to increased latent load to meet a particular sensible load. This measure simulates a liquid-line restriction by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of increase in the pressure difference between the condenser outlet and evaporator inlet due to the restriction.</description>
+  <modeler_description>Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation.</modeler_description>
+  <arguments>
+    <argument>
+      <name>coil_choice</name>
+      <display_name>Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select * ALL Coil Selected *</display_name>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL Coil Selected *</default_value>
+    </argument>
+    <argument>
+      <name>fault_lvl</name>
+      <display_name>Ratio of liquid line restriction fault [-]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+    <argument>
+      <name>q_rat</name>
+      <display_name>Rated cooling capacity of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0. (W)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1</default_value>
+    </argument>
+    <argument>
+      <name>shr_rat</name>
+      <display_name>Rated sensible heat ratio of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0.</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1</default_value>
+    </argument>
+    <argument>
+      <name>vol_rat</name>
+      <display_name>Rated air flow rate of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0. (m3/s)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1</default_value>
+    </argument>
+    <argument>
+      <name>min_fl</name>
+      <display_name>Maximum value of fault level [-]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.25</default_value>
+    </argument>
+    <argument>
+      <name>Q_LLa1</name>
+      <display_name>Parameter a1 for the Q_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1.0205</default_value>
+    </argument>
+    <argument>
+      <name>Q_LLa2</name>
+      <display_name>Parameter a2 for the Q_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-3.2899</default_value>
+    </argument>
+    <argument>
+      <name>Q_LLa3</name>
+      <display_name>Parameter a3 for the Q_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3.66</default_value>
+    </argument>
+    <argument>
+      <name>Q_LLa4</name>
+      <display_name>Parameter a4 for the Q_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1.9118</default_value>
+    </argument>
+    <argument>
+      <name>Q_LLa5</name>
+      <display_name>Parameter a5 for the Q_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.031398</default_value>
+    </argument>
+    <argument>
+      <name>Q_LLa6</name>
+      <display_name>Parameter a6 for the Q_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.064409</default_value>
+    </argument>
+    <argument>
+      <name>EIR_LLa1</name>
+      <display_name>Parameter a1 for the EIR_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1.4031</default_value>
+    </argument>
+    <argument>
+      <name>EIR_LLa2</name>
+      <display_name>Parameter a2 for the EIR_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3.7922</default_value>
+    </argument>
+    <argument>
+      <name>EIR_LLa3</name>
+      <display_name>Parameter a3 for the EIR_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-5.343</default_value>
+    </argument>
+    <argument>
+      <name>EIR_LLa4</name>
+      <display_name>Parameter a4 for the EIR_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3.0229</default_value>
+    </argument>
+    <argument>
+      <name>EIR_LLa5</name>
+      <display_name>Parameter a5 for the EIR_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1.6979</default_value>
+    </argument>
+    <argument>
+      <name>EIR_LLa6</name>
+      <display_name>Parameter a6 for the EIR_LL model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.12159</default_value>
+    </argument>
+    <argument>
+      <name>min_wb_tmp_uc</name>
+      <display_name>Minimum value of evaporator air inlet wet-bulb temperature [C]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12.8</default_value>
+    </argument>
+    <argument>
+      <name>max_wb_tmp_uc</name>
+      <display_name>Maximum value of evaporator air inlet wet-bulb temperature [C]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23.9</default_value>
+    </argument>
+    <argument>
+      <name>min_cond_tmp_uc</name>
+      <display_name>Minimum value of condenser air inlet temperature [C]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>18.3</default_value>
+    </argument>
+    <argument>
+      <name>max_cond_tmp_uc</name>
+      <display_name>Maximum value of condenser air inlet temperature [C]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>46.1</default_value>
+    </argument>
+    <argument>
+      <name>min_cop_uc</name>
+      <display_name>Minimum value of rated COP</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3.74</default_value>
+    </argument>
+    <argument>
+      <name>max_cop_uc</name>
+      <display_name>Maximum value of rated COP</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>4.69</default_value>
+    </argument>
+    <argument>
+      <name>bf_para</name>
+      <display_name>Percentage change of UA with increase of fault level level (% of UA/% of fault level)</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1.32</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Cooling</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>TransferCurveParameters.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>627EF985</checksum>
+    </file>
+    <file>
+      <filename>ScheduleSearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>577A5309</checksum>
+    </file>
+    <file>
+      <filename>EnterCoefficients.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FD200DD7</checksum>
+    </file>
+    <file>
+      <filename>entercoefficients.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FD200DD7</checksum>
+    </file>
+    <file>
+      <filename>schedulesearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>577A5309</checksum>
+    </file>
+    <file>
+      <filename>transfercurveparameters.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>627EF985</checksum>
+    </file>
+    <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>6230C9E3</checksum>
+    </file>
+    <file>
+      <filename>faultdefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>6230C9E3</checksum>
+    </file>
+    <file>
+      <filename>misc_eplus_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>D73C9CAE</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>2EA8427B</checksum>
+    </file>
+    <file>
+      <filename>psychrometric.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>2E414023</checksum>
+    </file>
+    <file>
+      <filename>faultcalculationcoilcoolingdx.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>4FC60DC4</checksum>
+    </file>
+  </files>
+</measure>
