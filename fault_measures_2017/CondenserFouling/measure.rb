@@ -302,7 +302,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
   end
 
   def _return_err_message_for_not_unit(runner, existing_coils, coil_choice)
-    runner.registerError("Measure RTULLWithBfOffset cannot find #{coil_choice}. Exiting......")
+    runner.registerError("Measure CondenserFouling cannot find #{coil_choice}. Exiting......")
     coils_msg = 'Only coils '
     existing_coils.each do |existing_coil|
       coils_msg += (existing_coil + ', ')
