@@ -1,0 +1,66 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>excessive_infiltration</name>
+  <uid>d8161857-8b77-4e1a-a76c-ae5deab7c1e0</uid>
+  <version_id>259bc27b-45ee-4e90-b874-cc3aa16809b9</version_id>
+  <version_modified>20171212T144506Z</version_modified>
+  <xml_checksum>EACB548E</xml_checksum>
+  <class_name>ExcessiveInfiltration</class_name>
+  <display_name>Excessive Infiltration</display_name>
+  <description>Excessive infiltration around the building envelope occurs by the unintentional introduction of outside air into a building, typically through cracks in the building envelope and through use of windows and doors. Infiltration is driven by pressure differences between indoors and outdoors of the building caused by wind and by air buoyancy forces known commonly as the stack effect (ASHRAE Handbook Fundamentals, 2005). Excessive infiltration can affect thermal comfort, indoor air quality, heating and cooling demand, and moisture damage of building envelope components (Emmerich et al., 2005). The fault intensity is defined as the percentage of excessive infiltration around the building envelope compared to the non-faulted condition.</description>
+  <modeler_description>The user input of the percentage of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F/100), where Infil_o is the original value defined in the infiltration object and F is the percentage of excessive infiltration.</modeler_description>
+  <arguments>
+    <argument>
+      <name>space_type</name>
+      <display_name>Apply the Measure to a Specific Space Type or to the Entire Model.</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>*Entire Building*</default_value>
+      <choices>
+        <choice>
+          <value>{e71cf7ba-f7ad-451f-b70a-b321f75dd1ac}</value>
+          <display_name>*Entire Building*</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>space_infiltration_increase_percent</name>
+      <display_name>Space Infiltration Increase (%).</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>20</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>Envelope.Infiltration</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Uses SketchUp API</name>
+      <value>false</value>
+      <datatype>boolean</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.0.5</identifier>
+        <min_compatible>1.0.5</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>CA30E77D</checksum>
+    </file>
+  </files>
+</measure>
