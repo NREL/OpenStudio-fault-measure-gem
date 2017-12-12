@@ -146,7 +146,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
     existing_coils = []
 
     ##################################################
-    # find the single speed RTU to change
+    # find the single speed DX unit to change
     ##################################################
     #SINGLE SPEED
     coilcoolingdxsinglespeeds = get_workspace_objects(workspace, 'Coil:Cooling:DX:SingleSpeed')
@@ -169,7 +169,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
       # break
     end
     ##################################################
-    # find the two stage RTU to change
+    # find the two stage DX unit to change
     ##################################################
     #TWO STAGE WITH HUMIDITY CONTROL MODE
     coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
@@ -217,7 +217,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
     end
     ##################################################
 
-    # give an error for the name if no RTU is changed
+    # give an error for the name if no DX unit is changed
     return _return_err_message_for_not_unit(runner, existing_coils, coil_choice) unless rtu_changed
 
     # report final condition of workspace
