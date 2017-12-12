@@ -43,11 +43,26 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
 
-    # make choice arguments for Coil:Cooling:DX:SingleSpeed
-    coil_choice = OpenStudio::Ruleset::OSArgument.makeStringArgument('coil_choice', true)
+    ##################################################
+    list = OpenStudio::StringVector.new
+    singlespds = workspace.getObjectsByType("Coil:Cooling:DX:SingleSpeed".to_IddObjectType)
+    singlespds.each do |singlespd|
+      list << singlespd.name.to_s
+    end
+	
+    twostages = workspace.getObjectsByType("Coil:Cooling:DX:TwoStageWithHumidityControlMode".to_IddObjectType)
+      twostages.each do |twostage|
+      list << twostage.name.to_s
+    end
+	
+    list << $all_coil_selection
+	
+    #make choice arguments for Coil:Cooling:DX:SingleSpeed
+    coil_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("coil_choice", list, true)
     coil_choice.setDisplayName("Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select #{$all_coil_selection}")
-    coil_choice.setDefaultValue("#{$all_coil_selection}")
+    coil_choice.setDefaultValue($all_coil_selection)
     args << coil_choice
+    ##################################################
 
     # make a double argument for the fault level
     fault_lvl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_lvl', false)
