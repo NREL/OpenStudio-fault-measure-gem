@@ -32,12 +32,31 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
 
+    ##################################################
+    list = OpenStudio::StringVector.new
+    cvs = workspace.getObjectsByType("Fan:ConstantVolume".to_IddObjectType)
+    cvs.each do |cv|
+      list << cv.name.to_s
+    end
+	
+    ofs = workspace.getObjectsByType("Fan:OnOff".to_IddObjectType)
+      ofs.each do |of|
+      list << of.name.to_s
+    end
+	
+	  vvs = workspace.getObjectsByType("Fan:VariableVolume".to_IddObjectType)
+      vvs.each do |vv|
+      list << vv.name.to_s
+    end
+	
+    list << $allchoices
+	
     # make choice arguments for fan
-    # fan_name = OpenStudio::StringVector.new
-    fan_choice = OpenStudio::Ruleset::OSArgument.makeStringArgument('fan_choice', true)
-    fan_choice.setDisplayName("Enter the name of the faulted Fan:ConstantVolume, Fan:OnOff object or Fan:VariableVolume. If you want to impose the fault on all fan objects in the building, enter #{$allchoices}.")
+    fan_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("fan_choice", list, true)
+    fan_choice.setDisplayName("Enter the name of the faulted Fan:ConstantVolume, Fan:OnOff object or Fan:VariableVolume. If you want to impose the fault on all fan objects in the building, enter #{$allchoices}")
     fan_choice.setDefaultValue($allchoices)
     args << fan_choice
+    ##################################################
 
     # make a double argument for the fault level
     # it should range between 0 and 1. 0 means no degradation
