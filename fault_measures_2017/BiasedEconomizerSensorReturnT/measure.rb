@@ -35,12 +35,18 @@ class BiasedEconomizerSensorReturnT < OpenStudio::Ruleset::WorkspaceUserScript
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
     
-    #choose the Controller:OutdoorAir to be faulted
-    econ_choice = OpenStudio::Ruleset::OSArgument::makeStringArgument("econ_choice", true)
-    econ_choice.setDisplayName("Enter the name of the faulted Controller:OutdoorAir object")
-    # econ_choice.setDefaultValue("asintakef4058507-81d6-4711-96a3-ca67f519872c controller")  #name of economizer for the EC building
-    econ_choice.setDefaultValue("")  #name of economizer for the EC building
+    ##################################################
+    #make choice arguments for economizers
+    controlleroutdoorairs = workspace.getObjectsByType("Controller:OutdoorAir".to_IddObjectType)
+    chs = OpenStudio::StringVector.new
+    controlleroutdoorairs.each do |controlleroutdoorair|
+      chs << controlleroutdoorair.name.to_s
+    end
+    econ_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('econ_choice', chs, true)
+    econ_choice.setDisplayName("Choice of economizers.")
+    econ_choice.setDefaultValue(chs[0].to_s)
     args << econ_choice
+    ##################################################
     
     #name of schedule for the presence of fault at the return air sensor. 0 for no fault and 1.0 means fault level.
     ret_tmp_sch = OpenStudio::Ruleset::OSArgument::makeStringArgument("ret_tmp_sch", true)
