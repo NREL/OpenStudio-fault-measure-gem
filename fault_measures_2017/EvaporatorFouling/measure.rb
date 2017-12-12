@@ -134,7 +134,7 @@ class EvaporatorFouling < OpenStudio::Ruleset::ModelUserScript
               max_flow = old_max_flow*(1.-evap_flow_reduction)
               fan.setMaximumFlowRate(max_flow)
               fan.setPressureRise(delta_P)
-              runner.registerInfo("#{fan.name.to_s} maximum flow becomes #{max_flow} m3/s from #{old_max_flow} m3/s.")
+              runner.registerInfo("#{fan.name.to_s} maximum flow becomes #{max_flow.round(3)} m3/s from #{old_max_flow.round(3)} m3/s.")
               
               # fix the flow rate corresponding to the minimum power consumption
               # get f_pl coefficients
@@ -216,7 +216,7 @@ class EvaporatorFouling < OpenStudio::Ruleset::ModelUserScript
                   end
                 end
                 new_min_v = x_high
-                runner.registerInfo("#{fan.name.to_s} fixes its min. power at #{min_power} W with new min. flow at #{new_min_v} m3/s from #{old_min_v} m3/s.")
+                runner.registerInfo("#{fan.name.to_s} fixes its min. power at #{min_power.round(2)} W with new min. flow at #{new_min_v.round(3)} m3/s from #{old_min_v.round(3)} m3/s.")
                 if min_flow_method.eql?("FixedFlowRate")
                   fan.setFanPowerMinimumAirFlowRate(new_min_v)
                 else  # default is fraction
