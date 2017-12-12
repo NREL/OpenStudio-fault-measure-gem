@@ -30,35 +30,13 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
   def arguments(model)
     args = OpenStudio::Ruleset::OSArgumentVector.new
 
-    #make a choice argument for model objects
-    space_type_handles = OpenStudio::StringVector.new
-    space_type_display_names = OpenStudio::StringVector.new
-
-    #putting model object and names into hash
-    space_type_args = model.getSpaceTypes
-    space_type_args_hash = {}
-    space_type_args.each do |space_type_arg|
-      space_type_args_hash[space_type_arg.name.to_s] = space_type_arg
-    end
-
-    #looping through sorted hash of model objects
-    space_type_args_hash.sort.map do |key,value|
-      #only include if space type is used in the model
-      if value.spaces.size > 0
-        space_type_handles << value.handle.to_s
-        space_type_display_names << key
-      end
-    end
-
-    #add building to string vector with space type
-    building = model.getBuilding
-    space_type_handles << building.handle.to_s
-    space_type_display_names << "*Entire Building*"
-
-    #make a choice argument for space type
-    space_type = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("space_type", space_type_handles, space_type_display_names)
-    space_type.setDisplayName("Apply the Measure to a Specific Space Type or to the Entire Model.")
-    space_type.setDefaultValue("*Entire Building*") #if no space type is chosen this will run on the entire building
+    # make choice argument for thermal zone
+    zone_handles, zone_display_names = pass_zone(model, $allzonechoices)
+    space_type = OpenStudio::Ruleset::OSArgument.makeChoiceArgument(
+        'space_type', zone_display_names, zone_display_names, true
+    )
+    space_type.setDefaultValue("* All Zones *")
+    space_type.setDisplayName("Zone. Choose #{$allzonechoices} if you want to impose the fault in all zones")
     args << space_type
 
     #make an argument for excessive infiltration percentage
@@ -87,6 +65,33 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 
     return args
   end #end the arguments method
+
+  def pass_zone(model, allchoices)
+    # This function returns the zone handle and zone display name in
+    # the OpenStudio model so that they can be used as part of the
+    # arguments in the measure script
+
+    # make a choice argument for model objects
+    zone_handles = OpenStudio::StringVector.new
+    zone_display_names = OpenStudio::StringVector.new
+
+    # putting model object and names into hash
+    zone_args = model.getThermalZones
+    zone_args_hash = {}
+    zone_args.each do |zone_arg|
+      zone_args_hash[zone_arg.name.to_s] = zone_arg
+    end
+
+    # looping through sorted hash of model objects
+    zone_args_hash.sort.map do |key, value|
+      zone_handles << value.handle.to_s
+      zone_display_names << key
+    end
+    zone_handles << ''
+    zone_display_names << allchoices
+
+    return zone_handles, zone_display_names
+  end
 
   #define what happens when the measure is run
   def run(model, runner, user_arguments)
