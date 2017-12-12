@@ -146,7 +146,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     existing_coils = []
     
     ##################################################
-    # find the single speed RTU to change
+    # find the single speed DX unit to change
     ##################################################
     #SINGLE SPEED
     coilcoolingdxsinglespeeds = get_workspace_objects(workspace, 'Coil:Cooling:DX:SingleSpeed')
@@ -169,7 +169,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       # break
     end
     ##################################################
-    # find the two stage RTU to change
+    # find the two stage DX unit to change
     ##################################################
     #TWO STAGE WITH HUMIDITY CONTROL MODE
     coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
@@ -217,7 +217,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     end
     ##################################################
 
-    # give an error for the name if no RTU is changed
+    # give an error for the name if no DX unit is changed
     return _return_err_message_for_not_unit(runner, existing_coils, coil_choice) unless rtu_changed
 
     # report final condition of workspace
@@ -243,7 +243,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       runner.registerError("Fault level #{fault_lvl} for #{coil_choice} is outside the range from 0 to 1. Exiting......")
       return false
     elsif fault_lvl.abs < 0.001
-      runner.registerAsNotApplicable("RTUUCWithBfOffset is not running for #{coil_choice}. Skipping......")
+      runner.registerAsNotApplicable("NonStandardCharging is not running for #{coil_choice}. Skipping......")
       return true
     end
     return 'continue'
@@ -302,7 +302,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
   end
 
   def _return_err_message_for_not_unit(runner, existing_coils, coil_choice)
-    runner.registerError("Measure RTULLWithBfOffset cannot find #{coil_choice}. Exiting......")
+    runner.registerError("Measure NonStandardCharging cannot find #{coil_choice}. Exiting......")
     coils_msg = 'Only coils '
     existing_coils.each do |existing_coil|
       coils_msg += (existing_coil + ', ')
