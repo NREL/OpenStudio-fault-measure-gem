@@ -36,10 +36,10 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
     #make choice arguments for economizers
     controlleroutdoorairs = model.getControllerOutdoorAirs
     chs = OpenStudio::StringVector.new
+    chs << $allchoices
     controlleroutdoorairs.each do |controlleroutdoorair|
       chs << controlleroutdoorair.name.to_s
     end
-    chs << $allchoices
     econ_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('econ_choice', chs, true)
     econ_choice.setDisplayName("Choice of economizers. If you want to impose the fault on all economizers, choose #{$allchoices}")
     econ_choice.setDefaultValue($allchoices)
