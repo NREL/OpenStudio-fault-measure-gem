@@ -30,10 +30,10 @@ class EvaporatorFouling < OpenStudio::Ruleset::ModelUserScript
     # find all the airloop objects
     airloophvacs = model.getAirLoopHVACs
     chs = OpenStudio::StringVector.new
+    chs << $allahuchoice
     airloophvacs.each do |airloophvac|
       chs << airloophvac.name.to_s
     end
-    chs << $allahuchoice
     equip_name = OpenStudio::Ruleset::OSArgument.makeChoiceArgument('equip_name', chs, true)  #  use the names for choices of equipment
     equip_name.setDisplayName('Choice of AirLoopHVAC objects. If you want to impose it on all AHUs, choose * ALL AHUs *')
     equip_name.setDefaultValue($allahuchoice)
