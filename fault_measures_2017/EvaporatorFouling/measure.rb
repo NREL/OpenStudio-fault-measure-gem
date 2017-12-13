@@ -80,10 +80,10 @@ class EvaporatorFouling < OpenStudio::Ruleset::ModelUserScript
     # report initial condition of model
     allahus = false
     if equip_name.eql?($allahuchoice)
-      runner.registerInitialCondition('Duct fouling are being applied on all AHUs......')
+      runner.registerInitialCondition('Fouling are being applied on all AHUs......')
       allahus = true
     else
-      runner.registerInitialCondition("Duct fouling is being applied to the #{equip_name}......")
+      runner.registerInitialCondition("Fouling is being applied to the #{equip_name}......")
     end
     
     # locate the airloop
@@ -258,10 +258,10 @@ class EvaporatorFouling < OpenStudio::Ruleset::ModelUserScript
 
     # report final condition of model
     if allahus
-        runner.registerFinalCondition('Duct fouling are applied on all AHUs......')
+        runner.registerFinalCondition('Fouling are applied on all AHUs......')
     else
       if fan_found
-        runner.registerFinalCondition("Duct fouling is applied to the #{equip_name}......")
+        runner.registerFinalCondition("Fouling is applied to the #{equip_name}......")
       else
         runner.registerError("No Fan objects reside in #{equip_name} to restrict the airflow. Exiting......")
         return false
