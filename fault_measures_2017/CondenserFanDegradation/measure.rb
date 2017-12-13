@@ -43,6 +43,8 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
     
     ##################################################
     list = OpenStudio::StringVector.new
+    list << $all_coil_selection
+	  
     singlespds = workspace.getObjectsByType("Coil:Cooling:DX:SingleSpeed".to_IddObjectType)
     singlespds.each do |singlespd|
       list << singlespd.name.to_s
@@ -52,8 +54,6 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
       twostages.each do |twostage|
       list << twostage.name.to_s
     end
-	
-    list << $all_coil_selection
 	
     #make choice arguments for Coil:Cooling:DX:SingleSpeed
     coil_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("coil_choice", list, true)
