@@ -33,11 +33,46 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
   def arguments(model)
     args = OpenStudio::Ruleset::OSArgumentVector.new
     
-    # make choice arguments for Coil:Cooling:DX:SingleSpeed
-    coil_choice = OpenStudio::Ruleset::OSArgument.makeStringArgument('coil_choice', true)
+    ##################################################
+    list = OpenStudio::StringVector.new
+    list << $all_coil_selection
+	
+    #Cooling coils
+    coilcoolingdxsinglespeeds = model.getCoilCoolingDXSingleSpeeds
+    coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
+      list << coilcoolingdxsinglespeed.name.to_s
+    end
+    coilcoolingdxtwospeeds = model.getCoilCoolingDXTwoSpeeds
+    coilcoolingdxtwospeeds.each do |coilcoolingdxtwospeed|
+      list << coilcoolingdxtwospeed.name.to_s
+    end
+    coilcoolingdxtwostagewithhumiditycontrolmodes = model.getCoilCoolingDXTwoStageWithHumidityControlModes
+    coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
+      list << coilcoolingdxtwostagewithhumiditycontrolmode.name.to_s
+    end
+    coilcoolingdxvariablerefrigerantflows = model.getCoilCoolingDXVariableRefrigerantFlows
+    coilcoolingdxvariablerefrigerantflows.each do |coilcoolingdxvariablerefrigerantflow|
+      list << coilcoolingdxvariablerefrigerantflow.name.to_s
+    end
+    #Heating coils
+    coilheatingdxvariablerefrigerantflows = model.getCoilHeatingDXVariableRefrigerantFlows
+    coilheatingdxvariablerefrigerantflows.each do |coilheatingdxvariablerefrigerantflow|
+      list << coilheatingdxvariablerefrigerantflow.name.to_s
+    end
+    coilheatinggass = model.getCoilHeatingGass
+    coilheatinggass.each do |coilheatinggas|
+      list << coilheatinggas.name.to_s
+    end
+    coilheatingelectrics = model.getCoilHeatingElectrics
+    coilheatingelectrics.each do |coilheatingelectric|
+      list << coilheatingelectric.name.to_s
+    end
+	
+    coil_choice = OpenStudio::Ruleset::OSArgument.makeChoiceArgument('coil_choice', list, true)
     coil_choice.setDisplayName("Enter the name of the oversized coil object. If you want to impose the fault on all equipment, select #{$all_coil_selection}")
     coil_choice.setDefaultValue("#{$all_coil_selection}")
     args << coil_choice
+    ##################################################
 	
     #make an argument for excessive sizing
     sizing_increase_percent = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("sizing_increase_percent",true)
