@@ -34,6 +34,8 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
 
     ##################################################
     list = OpenStudio::StringVector.new
+    list << $allchoices
+	  
     cvs = workspace.getObjectsByType("Fan:ConstantVolume".to_IddObjectType)
     cvs.each do |cv|
       list << cv.name.to_s
@@ -48,8 +50,6 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
       vvs.each do |vv|
       list << vv.name.to_s
     end
-	
-    list << $allchoices
 	
     # make choice arguments for fan
     fan_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("fan_choice", list, true)
