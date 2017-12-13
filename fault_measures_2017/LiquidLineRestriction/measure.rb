@@ -46,6 +46,7 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
     ##################################################
     list = OpenStudio::StringVector.new
     list << $all_coil_selection
+	  
     singlespds = workspace.getObjectsByType("Coil:Cooling:DX:SingleSpeed".to_IddObjectType)
     singlespds.each do |singlespd|
       list << singlespd.name.to_s
