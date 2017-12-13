@@ -33,6 +33,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     #make a choice argument for model objects
     space_type_handles = OpenStudio::StringVector.new
     space_type_display_names = OpenStudio::StringVector.new
+    space_type_display_names << "*Entire Building*"
 
     #putting model object and names into hash
     space_type_args = model.getSpaceTypes
@@ -53,7 +54,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     #add building to string vector with space type
     building = model.getBuilding
     space_type_handles << building.handle.to_s
-    space_type_display_names << "*Entire Building*"
+    
 
     #make a choice argument for space type
     space_type = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("space_type", space_type_handles, space_type_display_names)
