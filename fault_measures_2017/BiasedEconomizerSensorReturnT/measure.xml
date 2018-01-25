@@ -1,46 +1,29 @@
 <measure>
   <schema_version>3.0</schema_version>
-  <name>biased_economizer_sensor_return_t</name>
-  <uid>bbb7856d-ab58-4b57-a1e8-17214749166c</uid>
-  <version_id>528d34d8-8cff-40c1-a7de-01a85614f425</version_id>
-  <version_modified>20171212T144505Z</version_modified>
+  <name>biased_economizer_sensor_return_rh</name>
+  <uid>f1ba09fb-2903-45b2-838c-604b63fc4662</uid>
+  <version_id>b33b376b-954f-4f8c-ba4c-866f11acd81f</version_id>
+  <version_modified>20180125T161148Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
-  <class_name>BiasedEconomizerSensorReturnT</class_name>
+  <class_name>BiasedEconomizerSensorReturnRH</class_name>
   <display_name>Biased Economizer Sensor: Return Temperature</display_name>
   <description>When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. This measure simulates the biased economizer sensor (return temperature) by modifying Controller:OutdoorAir object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the biased temperature level (K), which is also specified as one of the inputs.</description>
-  <modeler_description>Three user inputs are required and, based on these user inputs, the return air temperature reading in the economizer will be replaced by the equation below, where TraF is the biased return air temperature reading, Tra is the actual return air temperature, and F is the fault intensity. TraF = Tra + F. To use this measure, choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias in K that you want at the return air duct for the economizer during the simulation period. For example, setting 2 means the sensor is reading 28C when the actual temperature is 26C. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period.</modeler_description>
+  <modeler_description>Two user inputs are required and, based on these user inputs, the return air temperature reading in the economizer will be replaced by the equation below, where TraF is the biased return air temperature reading, Tra is the actual return air temperature, and F is the fault intensity. TraF = Tra + F. To use this measure, choose the Controller:OutdoorAir object to be faulted. Set the level of temperature sensor bias in K that you want at the return air duct for the economizer during the simulation period. For example, setting 2 means the sensor is reading 28C when the actual temperature is 26C.</modeler_description>
   <arguments>
     <argument>
       <name>econ_choice</name>
-      <display_name>Enter the name of the faulted Controller:OutdoorAir object</display_name>
-      <type>String</type>
+      <display_name>Choice of economizers.</display_name>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
     </argument>
     <argument>
-      <name>ret_tmp_sch</name>
-      <display_name>Enter the name of the schedule of the fault presence at the return air temperature sensor. 0 means no fault and 1 means faulted. If you do not have a schedule, leave this blank.</display_name>
-      <type>String</type>
-      <required>true</required>
-      <model_dependent>false</model_dependent>
-      <default_value></default_value>
-    </argument>
-    <argument>
-      <name>ret_tmp_bias</name>
-      <display_name>Enter the bias level of the return air temperature sensor. A positive number means that the sensor is reading a temperature higher than the true temperature. (K)</display_name>
+      <name>ret_t_bias</name>
+      <display_name>Enter the bias level of the return air temperature sensor. A positive number means that the sensor is reading a temperature higher than the true temperature. [K]</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>-2</default_value>
-    </argument>
-    <argument>
-      <name>ret_bias_sch</name>
-      <display_name>Enter the name of the schedule for the multiplier of bias if you want to simulate a change of return air temperature sensor bias  during simulation period. 0 means no fault and 2 means that the bias at that time is doubled. If you do not need this function, leave this blank.</display_name>
-      <type>String</type>
-      <required>true</required>
-      <model_dependent>false</model_dependent>
-      <default_value></default_value>
+      <default_value>2</default_value>
     </argument>
   </arguments>
   <outputs/>
@@ -72,10 +55,10 @@
   </attributes>
   <files>
     <file>
-      <filename>ScheduleSearch.rb</filename>
+      <filename>misc_eplus_func.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>65DA606F</checksum>
+      <checksum>435C6B82</checksum>
     </file>
     <file>
       <version>
@@ -86,7 +69,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>9500CE55</checksum>
+      <checksum>3B63D6DA</checksum>
+    </file>
+    <file>
+      <filename>ControllerOutdoorAirFlow.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>BDD575B4</checksum>
     </file>
   </files>
 </measure>
