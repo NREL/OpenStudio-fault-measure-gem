@@ -27,7 +27,7 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
   econ_short_name = name_cut(econ_choice)
   main_body = "
     EnergyManagementSystem:Program,
-      RH_BIAS"+name_cut(econ_choice)+", !- Name
+      RH_BIAS"+name_cut(econ_choice)+"#{bias_sensor}_RH, !- Name
       SET DELTASMALL = 0.00001, !- Program Line 1
       SET SMALLMASSFLOW = 0.001, !- Program Line 2
       SET SMALLVOLFLOW = 0.001, !- Program Line 3
@@ -529,7 +529,7 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
     SET OA_NEW = @Min MDOT_OA_MAX OA_NEW, !- <none>
     SET FinalFlow = OA_NEW, !- <none>
     ENDIF, !- <none>
-    SET "+name_cut(econ_choice)+"MDOT_OA = FinalFlow; !- <none>
+    SET "+name_cut(econ_choice)+"MDOT_OA#{bias_sensor}_RH = FinalFlow; !- <none>
   "
   
   return main_body
@@ -742,7 +742,7 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
     EnergyManagementSystem:ProgramCallingManager,
       EMSCallRH_BIAS"+name_cut(econ_choice)+", !- Name
       InsideHVACSystemIterationLoop,       !- EnergyPlus Model Calling Point
-      RH_BIAS"+name_cut(econ_choice)+", !- Name
+      RH_BIAS"+name_cut(econ_choice)+"#{bias_sensor}_RH, !- Name
   "
   
   string_objects << "      
@@ -807,7 +807,7 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
   
   string_objects << "   
     EnergyManagementSystem:Actuator,
-      "+name_cut(econ_choice)+"MDOT_OA,        !- Name
+      "+name_cut(econ_choice)+"MDOT_OA#{bias_sensor}_RH,        !- Name
       "+econ_choice+", !- Actuated Component Unique Name
       Outdoor Air Controller,                                  !- Actuated Component Type
       Air Mass Flow Rate;                           !- Actuated Component Control Type
