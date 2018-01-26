@@ -534,7 +534,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     SET OA_NEW = @Min MDOT_OA_MAX OA_NEW, !- <none>
     SET FinalFlow = OA_NEW, !- <none>
     ENDIF, !- <none>
-    SET "+name_cut(econ_choice)+"MDOT_OA = FinalFlow; !- <none>
+    SET "+name_cut(econ_choice)+"MDOT_OA#{bias_sensor}_T = FinalFlow; !- <none>
   "
   
   return main_body
@@ -812,7 +812,7 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
   
   string_objects << "   
     EnergyManagementSystem:Actuator,
-      "+name_cut(econ_choice)+"MDOT_OA,        !- Name
+      "+name_cut(econ_choice)+"MDOT_OA#{bias_sensor}_T,        !- Name
       "+econ_choice+", !- Actuated Component Unique Name
       Outdoor Air Controller,                                  !- Actuated Component Type
       Air Mass Flow Rate;                           !- Actuated Component Control Type
