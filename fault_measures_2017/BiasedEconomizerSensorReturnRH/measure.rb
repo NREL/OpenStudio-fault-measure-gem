@@ -7,7 +7,7 @@
 #see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
-require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow"
+require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_RH"
 
 $allchoices = '* ALL Controller:OutdoorAir *'
 
