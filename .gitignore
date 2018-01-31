@@ -11,3 +11,4 @@ faraday.log
 /analysis
 Cofee-measures
 .Rproj.user
+*/*/tests/output/*.osm

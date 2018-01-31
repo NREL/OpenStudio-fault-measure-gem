@@ -4,13 +4,16 @@
 # Acknowledgement
 # This Measure is written by Andrew Parker at NREL and is given to the FDD algorithm
 # development team in 2/2015
+# updated in 11/2017 based for OpenStudio 2.x openstudio-standards based solution
 
 # start the measure
 class AutoSizeToHardSizeEPlusVersion < OpenStudio::Ruleset::ModelUserScript
 
+  require 'openstudio-standards'
+
   # human readable name
   def name
-    return "Auto Size To Hard Size with EnergyPlus Version as Input"
+    return "Auto Size To Hard Size"
   end
 
   # human readable description
@@ -26,12 +29,6 @@ class AutoSizeToHardSizeEPlusVersion < OpenStudio::Ruleset::ModelUserScript
   # define the arguments that the user will input
   def arguments(model)
     args = OpenStudio::Ruleset::OSArgumentVector.new
-    
-    eplus_version = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('eplus_version', false)
-    eplus_version.setDisplayName('EnergyPlus version in use')
-    eplus_version.setDefaultValue(8.2)
-    
-    args << eplus_version
 
     return args
   end
@@ -40,59 +37,20 @@ class AutoSizeToHardSizeEPlusVersion < OpenStudio::Ruleset::ModelUserScript
   def run(model, runner, user_arguments)
     super(model, runner, user_arguments)
 
-    # use the built-in error checking
-    if !runner.validateUserArguments(arguments(model), user_arguments)
-      return false
-    end
-    
-    # get eplus version
-    eplus_version = runner.getDoubleArgumentValue('eplus_version', user_arguments)
+    # Run a sizing run and attach the resulting
+    # sql file to the model.  Hard sizing methods
+    # won't work unless the model has a sql file.
+    model.runSizingRun("#{Dir.pwd}")
 
-    # Load the libraries
-    # HVAC sizing
-    require_relative 'resources/HVACSizing.Model'
-    
-    # for logging
-    msg_log = OpenStudio::StringStreamLogSink.new
-    msg_log.setLogLevel(OpenStudio::Info)
+    # Hard sizing every object in the model.
+    model.applySizingValues
 
-    # Make a directory for the sizing run
-    run_directory = "#{Dir.pwd}/SizingRun"
-    if !Dir.exists?(run_directory)
-      Dir.mkdir(run_directory)
-    end    
+    # Log the openstudio-standards messages to the runner
+    log_messages_to_runner(runner, false)
 
-    # Perform a sizing run
-    model.runSizingRun("#{run_directory}", eplus_version)    
-    
-    # Hard-size all HVAC equipment in modeler_description
-    if not model.applySizingValues
-      runner.registerError('Cannot find the previous sql file with the sizing information.')
-      _logging(msg_log, runner)  # only log when there are errors
-      return false
-    end
- 
     return true
   end
 
-  def _logging(msg_log, runner)
-    # Get all the log messages and put into output
-    # for users to see.
-    msg_log.logMessages.each do |msg|
-      # DLM: you can filter on log channel here for now
-      if /openstudio\.model\..*/.match(msg.logChannel)
-        # Skip the annoying/bogus "Skipping layer" warnings
-        next if msg.logMessage.include?("Skipping layer")
-        if msg.logLevel == OpenStudio::Info
-          runner.registerInfo(msg.logMessage)
-        elsif msg.logLevel == OpenStudio::Warn
-          runner.registerWarning(msg.logMessage)
-        elsif msg.logLevel == OpenStudio::Error
-          runner.registerError(msg.logMessage)
-        end
-      end
-    end
-  end
 end
 
 # register the measure to be used by the application
