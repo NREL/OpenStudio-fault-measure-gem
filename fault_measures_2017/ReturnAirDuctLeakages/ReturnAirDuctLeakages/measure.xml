@@ -1,0 +1,81 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>return_air_duct_leakages</name>
+  <uid>e28746df-aa8c-4f6e-a2be-6e2ff3c5e7dd</uid>
+  <version_id>cf29fb02-684e-433d-befb-50e9a12b3e67</version_id>
+  <version_modified>20180219T201946Z</version_modified>
+  <xml_checksum>FAAEB4D1</xml_checksum>
+  <class_name>ReturnAirDuctLeakages</class_name>
+  <display_name>Return Air Duct Leakages</display_name>
+  <description>The return duct of an air system typically operates at negative pressure, thus the leakage in the return duct (outside of conditioned space) results in increased heating and cooling load due to unconditioned air being drawn into the return duct and mixing with return air from conditioned spaces. This measure simulates the return air leakage by modifying the Controller:OutdoorAir object in EnergyPlus.</description>
+  <modeler_description>Two user inputs (outdoor air controller affected by the leakage of unconditioned air from the ambient, unconditioned air introduced to return air stream at full load condition as a ratio of the total airflow rate, F) are required to simulate the fault and, based on these inputs, this fault model simulates the return air duct leakage by introducing additional outdoor air (based on the leakage ratio) through the economizer object. Equation (2) shows the calculation of outdoor airflow rate in the economizer (qdot_(oa,F)) at a faulted condition where qdot_oa is the outdoor airflow rate for ventilation, qdot_(ra,tot) is the return airflow rate, and F is the fault intensity. qdot_(oa,F) = qdot_oa + qdot_(ra,tot)∙F. The second term represents the outdoor airflow rate introduced to the duct due to leakage. The fault intensity (F) for this fault is defined as the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate.</modeler_description>
+  <arguments>
+    <argument>
+      <name>econ_choice</name>
+      <display_name>Outdoor air controller affected by the leakage of unconditioned air from the ambient</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+    </argument>
+    <argument>
+      <name>leak_ratio</name>
+      <display_name>Enter the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Ventilation</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>misc_eplus_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>435C6B82</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>ED00DF1F</checksum>
+    </file>
+    <file>
+      <filename>ControllerOutdoorAirFlow_DuctLeakage.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>3A456472</checksum>
+    </file>
+  </files>
+</measure>
