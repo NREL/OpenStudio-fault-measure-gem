@@ -26,7 +26,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description of workspace approach
   def modeler_description
-    return "Two user inputs (economizer included in the air terminal unit where the fault occurs, unconditioned air introduced to return air stream at full load condition as a ratio of the total airflow rate, F) are required to simulate the fault and, based on these inputs, this fault model simulates the return air duct leakage by introducing additional outdoor air (based on the leakage ratio) through the economizer object. Equation (2) shows the calculation of outdoor airflow rate in the economizer (qdot_(oa,F)) at a faulted condition where qdot_oa is the outdoor airflow rate for ventilation, qdot_(ra,tot) is the return airflow rate, and F is the fault intensity. qdot_(oa,F) = qdot_oa + qdot_(ra,tot)∙F. The second term represents the outdoor airflow rate introduced to the duct due to leakage. The fault intensity (F) for this fault is defined as the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate."
+    return "Two user inputs (outdoor air controller affected by the leakage of unconditioned air from the ambient, unconditioned air introduced to return air stream at full load condition as a ratio of the total airflow rate, F) are required to simulate the fault and, based on these inputs, this fault model simulates the return air duct leakage by introducing additional outdoor air (based on the leakage ratio) through the economizer object. Equation (2) shows the calculation of outdoor airflow rate in the economizer (qdot_(oa,F)) at a faulted condition where qdot_oa is the outdoor airflow rate for ventilation, qdot_(ra,tot) is the return airflow rate, and F is the fault intensity. qdot_(oa,F) = qdot_oa + qdot_(ra,tot)∙F. The second term represents the outdoor airflow rate introduced to the duct due to leakage. The fault intensity (F) for this fault is defined as the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate."
   end
 
   # define the arguments that the user will input
@@ -41,12 +41,12 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       chs << controlleroutdoorair.name.to_s
     end
     econ_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('econ_choice', chs, true)
-    econ_choice.setDisplayName("Choice of economizers.")
+    econ_choice.setDisplayName("Outdoor air controller affected by the leakage of unconditioned air from the ambient")
     econ_choice.setDefaultValue(chs[0].to_s)
     args << econ_choice
     ##################################################
 	
-    #make a double argument for the temperature sensor bias
+    #make a double argument for the return duct leakage
     leak_ratio = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('leak_ratio', false)
     leak_ratio.setDisplayName('Enter the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate.')
     leak_ratio.setDefaultValue(0.1)  #default fault level to be 10%
@@ -72,7 +72,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       return true
     end
     
-    runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice}.")
+    runner.registerInitialCondition("Imposing Return Duct Leakage on #{econ_choice}.")
   
     #find the RTU to change
     no_econ_found = true
@@ -84,7 +84,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
         
         #check applicability of the model        
         if controlleroutdoorair.getString(8).to_s.eql?('MinimumFlowWithBypass')
-          runner.registerAsNotApplicable("MinimumFlowWithBypass in #{econ_choice} is not an economizer and is not supported. Skipping......")
+          runner.registerAsNotApplicable("MinimumFlowWithBypass in #{econ_choice} is not supported. Skipping......")
           applicable = false
         elsif controlleroutdoorair.getString(14).to_s.eql?('LockoutWithHeating') or controlleroutdoorair.getString(14).to_s.eql?("LockoutWithCompressor")
           runner.registerAsNotApplicable(controlleroutdoorair.getString(14).to_s+" in #{econ_choice} is not supported. Skipping......")
@@ -127,7 +127,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       return false
     elsif applicable
       # report final condition of workspace
-      runner.registerFinalCondition("Imposed Sensor Bias on #{econ_choice}.")
+      runner.registerFinalCondition("Imposed Return Duct Leakage on #{econ_choice}.")
     else
       runner.registerAsNotApplicable("#{name} is not running for #{econ_choice} because of inapplicability. Skipping......")
     end

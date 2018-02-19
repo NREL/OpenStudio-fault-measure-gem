@@ -1,5 +1,5 @@
 #This Ruby script creates the main body of the EMS program that
-#calculates the outdoor air mass flow rate because of a temperature bias
+#calculates the outdoor air mass flow rate because of a duct leakage
 
 #This script is used by EnergyPlus Measure script
 
@@ -586,9 +586,6 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   #string_objects is an array containing the program and the program caller
 
   #workspace is the Workspace object in EnergyPlus Measure script
-  
-  #bias_sensor is a string: "RET" means return air sensor and "OA" means an outdoor
-  #air sensor. This function will return an empty string for all other inputs
   
   #controlleroutdoorair is a workspace object representing the chose controller outdorrair object
   
