@@ -1,0 +1,106 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>run_period</name>
+  <uid>9d5a7fe0-e350-4c8a-835b-34ba73eada1a</uid>
+  <version_id>1c4c8bec-b6f6-42f7-bbef-9dc5ab9d90ad</version_id>
+  <version_modified>20171017T174936Z</version_modified>
+  <xml_checksum>057E8D9D</xml_checksum>
+  <class_name>RunPeriod</class_name>
+  <display_name>Set Run Period Object</display_name>
+  <description>Set Run Period Object</description>
+  <modeler_description>Set Run Period Object</modeler_description>
+  <arguments>
+    <argument>
+      <name>runPeriodName</name>
+      <display_name>Run Period Name</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>July</default_value>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>Start date (yyyy-mm-dd or mm-dd-yyyy)</display_name>
+      <description>Start date (yyyy-mm-dd or mm-dd-yyyy)</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>2015-7-25</default_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>End date (yyyy-mm-dd or mm-dd-yyyy)</display_name>
+      <description>End date (yyyy-mm-dd or mm-dd-yyyy)</description>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>2015-7-26</default_value>
+    </argument>
+    <argument>
+      <name>daylightsavings</name>
+      <display_name>Use Daylightsavings</display_name>
+      <type>Boolean</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>false</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>holiday</name>
+      <display_name>Use Holiday and Special Days</display_name>
+      <type>Boolean</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>false</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>Whole Building.Space Types</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Uses SketchUp API</name>
+      <value>false</value>
+      <datatype>boolean</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.1.0</identifier>
+        <min_compatible>2.1.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>C5822A59</checksum>
+    </file>
+  </files>
+</measure>
