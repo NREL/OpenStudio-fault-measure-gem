@@ -36,7 +36,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description of workspace approach
   def modeler_description
-    return "Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation."
+    return "Thirty two user inputs (DX coil where the fault occurs / Percentage reduction of condenser airflow / rated cooling capacity / rated sensible heat ratio / rated volumetric flow rate / minimum-maximum evaporator air inlet wet-bulb temperature / minimum-maximum condenser air inlet dry-bulb temperature / minimum/maximum rated COP / percentage change of UA with increase of fault level / time required for fault to reach full level / fault starting month / fault starting date / fault starting time / fault ending month / fault ending date / fault ending time) can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
   end
 
   # define the arguments that the user will input
@@ -138,6 +138,51 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
     bf_para.setDisplayName('Percentage change of UA with increase of fault level level (% of UA/% of fault level)')
     bf_para.setDefaultValue(0.00)  # default change of bypass factor level with fault level in %
     args << bf_para
+	##################################################
+    #Parameters for transient fault modeling
+	
+	#make a double argument for the time required for fault to reach full level 
+    time_constant = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_constant', false)
+    time_constant.setDisplayName('Enter the time required for fault to reach full level [hr]')
+    time_constant.setDefaultValue(0)  #default is zero
+    args << time_constant
+	
+	#make a double argument for the start month
+    start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
+    start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
+    start_month.setDefaultValue(6)  #default is June
+    args << start_month
+	
+	#make a double argument for the start date
+    start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_date', false)
+    start_date.setDisplayName('Enter the date (1-28/30/31) when the fault starts to occur')
+    start_date.setDefaultValue(1)  #default is 1st day of the month
+    args << start_date
+	
+	#make a double argument for the start time
+    start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
+    start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
+    start_time.setDefaultValue(9)  #default is 9am
+    args << start_time
+	
+	#make a double argument for the end month
+    end_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_month', false)
+    end_month.setDisplayName('Enter the month (1-12) when the fault ends')
+    end_month.setDefaultValue(12)  #default is Decebmer
+    args << end_month
+	
+	#make a double argument for the end date
+    end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_date', false)
+    end_date.setDisplayName('Enter the date (1-28/30/31) when the fault ends')
+    end_date.setDefaultValue(31)  #default is last day of the month
+    args << end_date
+	
+	#make a double argument for the end time
+    end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
+    end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
+    end_time.setDefaultValue(23)  #default is 11pm
+    args << end_time
+    ##################################################
 
     return args
   end
@@ -156,7 +201,20 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
     bf_para = runner.getDoubleArgumentValue('bf_para', user_arguments)
     fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
     ##################################################
-    
+    time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
+	start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
+	start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
+	start_time = runner.getDoubleArgumentValue('start_time',user_arguments).to_s
+	end_month = runner.getDoubleArgumentValue('end_month',user_arguments).to_s
+	end_date = runner.getDoubleArgumentValue('end_date',user_arguments).to_s
+	end_time = runner.getDoubleArgumentValue('end_time',user_arguments).to_s
+	time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
+	dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
+	dts.each do |dt|
+	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
+	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
+	end
+	################################################## 
     rtu_changed = false
     existing_coils = []
 
@@ -177,7 +235,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
       existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
       next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
       runner.registerInfo("Found single speed coil named #{coilcoolingdxsinglespeed.getString(0)}")
-      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed, coiltype)
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
       unless rtu_changed
         return false
       end
@@ -203,7 +261,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
       existing_coils << pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0)
       next unless pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
       runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostagewithhumiditycontrolmode.getString(0)}")
-      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0), fault_lvl, coilcoolingdxtwostagewithhumiditycontrolmode, coiltype)
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0), fault_lvl, coilcoolingdxtwostagewithhumiditycontrolmode, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
       unless rtu_changed
         return false
       end
@@ -264,7 +322,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
     return 'continue'
   end
 
-  def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcooling, coiltype)
+  def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcooling, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
     # check component validity
     
     ##################################################
@@ -295,6 +353,9 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
     # EMS Sensors to the workspace
     # check if the sensors are added previously by other fault models
     _write_ems_sensors(workspace, runner, coilcooling, sh_coil_choice, string_objects, find_outdoor_node_name(workspace), coiltype)
+	#Fault intensity adjustment factor for dynamic modeling
+	faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, fault_lvl, sch_choice)
+
 
     # create EMS for adjusting the bypass factor according to the fault level
     # stored in the form of rated SHR
