@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>presence_of_non_condensable</name>
   <uid>2ff0e29b-c218-422e-b3af-a656eb6f95f7</uid>
-  <version_id>bd104f90-6122-4d18-8f7c-7d7901286628</version_id>
-  <version_modified>20171212T143711Z</version_modified>
+  <version_id>f272b5fb-c7db-41af-be4f-4747734a9721</version_id>
+  <version_modified>20180307T161455Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>PresenceOfNonCondensable</class_name>
   <display_name>Presence Of Noncondensable</display_name>
@@ -13,10 +13,16 @@
     <argument>
       <name>coil_choice</name>
       <display_name>Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select * ALL Coil Selected *</display_name>
-      <type>String</type>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>* ALL Coil Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Coil Selected *</value>
+          <display_name>* ALL Coil Selected *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>fault_lvl</name>
@@ -210,6 +216,62 @@
       <model_dependent>false</model_dependent>
       <default_value>0.373</default_value>
     </argument>
+    <argument>
+      <name>time_constant</name>
+      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>start_month</name>
+      <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6</default_value>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>9</default_value>
+    </argument>
+    <argument>
+      <name>end_month</name>
+      <display_name>Enter the month (1-12) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12</default_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>31</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23</default_value>
+    </argument>
   </arguments>
   <outputs/>
   <provenances/>
@@ -294,17 +356,6 @@
       <checksum>D73C9CAE</checksum>
     </file>
     <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>1.5.0</identifier>
-        <min_compatible>1.5.0</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>72CEE115</checksum>
-    </file>
-    <file>
       <filename>psychrometric.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -314,7 +365,18 @@
       <filename>faultcalculationcoilcoolingdx.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>4FC60DC4</checksum>
+      <checksum>C945EF06</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>69E635A3</checksum>
     </file>
   </files>
 </measure>
