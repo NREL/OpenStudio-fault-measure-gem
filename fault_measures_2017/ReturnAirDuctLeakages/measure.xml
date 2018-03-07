@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>return_air_duct_leakages</name>
   <uid>e28746df-aa8c-4f6e-a2be-6e2ff3c5e7dd</uid>
-  <version_id>48e59315-2e20-4da9-8379-d087260d3655</version_id>
-  <version_modified>20180219T203545Z</version_modified>
+  <version_id>b763aae5-dab9-487a-bad2-ab3ea2c2ecac</version_id>
+  <version_modified>20180226T200142Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>ReturnAirDuctLeakages</class_name>
   <display_name>Return Air Duct Leakages</display_name>
@@ -12,18 +12,74 @@
   <arguments>
     <argument>
       <name>econ_choice</name>
-      <display_name>Outdoor air controller affected by the leakage of unconditioned air from the ambient</display_name>
+      <display_name>Outdoor air controller affected by the leakage of unconditioned air from the ambient.</display_name>
       <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
     </argument>
     <argument>
       <name>leak_ratio</name>
-      <display_name>Enter the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate.</display_name>
+      <display_name>Enter the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate [0-1].</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
       <default_value>0.1</default_value>
+    </argument>
+    <argument>
+      <name>time_constant</name>
+      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>start_month</name>
+      <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6</default_value>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>9</default_value>
+    </argument>
+    <argument>
+      <name>end_month</name>
+      <display_name>Enter the month (1-12) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12</default_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>31</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23</default_value>
     </argument>
   </arguments>
   <outputs/>
@@ -55,6 +111,18 @@
   </attributes>
   <files>
     <file>
+      <filename>misc_eplus_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>435C6B82</checksum>
+    </file>
+    <file>
+      <filename>ControllerOutdoorAirFlow_DuctLeakage.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>EEED55FE</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -63,19 +131,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>2F0ADE31</checksum>
-    </file>
-    <file>
-      <filename>ControllerOutdoorAirFlow_DuctLeakage.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>3A456472</checksum>
-    </file>
-    <file>
-      <filename>misc_eplus_func.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>435C6B82</checksum>
+      <checksum>5AFAB326</checksum>
     </file>
   </files>
 </measure>
