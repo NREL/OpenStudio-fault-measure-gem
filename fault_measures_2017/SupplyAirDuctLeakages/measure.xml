@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>supply_air_duct_leakages</name>
   <uid>8d568a70-080d-4f27-97f5-5210ff639652</uid>
-  <version_id>c4740003-6633-445a-9fa1-02bb613b6fa2</version_id>
-  <version_modified>20180313T161801Z</version_modified>
+  <version_id>b5544e44-1ef3-4e89-93ac-f67c9f114fbf</version_id>
+  <version_modified>20180313T203346Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>SupplyAirDuctLeakages</class_name>
   <display_name>Supply Air Duct Leakages</display_name>
@@ -63,7 +63,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>2ADDED32</checksum>
+      <checksum>BD73AE82</checksum>
     </file>
   </files>
 </measure>
