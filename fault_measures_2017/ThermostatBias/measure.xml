@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>thermostat_bias</name>
   <uid>e359373a-ea8b-459d-a4c0-e2e8ae78b840</uid>
-  <version_id>f9926d04-22bb-485a-8087-f6e674c28bd5</version_id>
-  <version_modified>20171212T144507Z</version_modified>
+  <version_id>273de76f-a84b-4f2e-adeb-69a10ae8391f</version_id>
+  <version_modified>20180313T161801Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ThermostatBias</class_name>
   <display_name>Thermostat Measurement Bias</display_name>
@@ -206,7 +206,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>D23ADCE9</checksum>
+      <checksum>43C2E073</checksum>
     </file>
   </files>
 </measure>

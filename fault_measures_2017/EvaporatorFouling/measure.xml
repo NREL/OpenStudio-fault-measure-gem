@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>evaporator_fouling</name>
   <uid>20a9d083-d915-4653-8893-d94a6dbc72d8</uid>
-  <version_id>eac4ac3c-a9a3-437c-94b6-97d639b2293b</version_id>
-  <version_modified>20171212T144505Z</version_modified>
+  <version_id>f4396152-968b-4927-88da-8aee7d7e8dec</version_id>
+  <version_modified>20180313T161759Z</version_modified>
   <xml_checksum>266557E5</xml_checksum>
   <class_name>EvaporatorFouling</class_name>
   <display_name>Evaporator Fouling</display_name>
@@ -90,7 +90,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>BEA3EAA7</checksum>
+      <checksum>6D317AD2</checksum>
     </file>
   </files>
 </measure>

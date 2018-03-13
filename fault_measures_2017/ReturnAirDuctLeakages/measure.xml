@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>return_air_duct_leakages</name>
   <uid>e28746df-aa8c-4f6e-a2be-6e2ff3c5e7dd</uid>
-  <version_id>b763aae5-dab9-487a-bad2-ab3ea2c2ecac</version_id>
-  <version_modified>20180226T200142Z</version_modified>
+  <version_id>ed62d305-ec3d-476a-97a0-3cfb3eeb59e8</version_id>
+  <version_modified>20180313T161800Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>ReturnAirDuctLeakages</class_name>
   <display_name>Return Air Duct Leakages</display_name>
   <description>The return duct of an air system typically operates at negative pressure, thus the leakage in the return duct (outside of conditioned space) results in increased heating and cooling load due to unconditioned air being drawn into the return duct and mixing with return air from conditioned spaces. This measure simulates the return air leakage by modifying the Controller:OutdoorAir object in EnergyPlus.</description>
-  <modeler_description>Two user inputs (outdoor air controller affected by the leakage of unconditioned air from the ambient, unconditioned air introduced to return air stream at full load condition as a ratio of the total airflow rate, F) are required to simulate the fault and, based on these inputs, this fault model simulates the return air duct leakage by introducing additional outdoor air (based on the leakage ratio) through the economizer object. Equation (2) shows the calculation of outdoor airflow rate in the economizer (qdot_(oa,F)) at a faulted condition where qdot_oa is the outdoor airflow rate for ventilation, qdot_(ra,tot) is the return airflow rate, and F is the fault intensity. qdot_(oa,F) = qdot_oa + qdot_(ra,tot)∙F. The second term represents the outdoor airflow rate introduced to the duct due to leakage. The fault intensity (F) for this fault is defined as the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate.</modeler_description>
+  <modeler_description>Nine user inputs are required to simulate the fault and, based on these inputs, this fault model simulates the return air duct leakage by introducing additional outdoor air (based on the leakage ratio) through the economizer object. Equation (2) shows the calculation of outdoor airflow rate in the economizer (qdot_(oa,F)) at a faulted condition where qdot_oa is the outdoor airflow rate for ventilation, qdot_(ra,tot) is the return airflow rate, F is the fault intensity and AF is the adjustment factor. qdot_(oa,F) = qdot_oa + qdot_(ra,tot)∙F∙AF. The second term represents the outdoor airflow rate introduced to the duct due to leakage. The fault intensity (F) for this fault is defined as the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
       <name>econ_choice</name>
@@ -131,7 +131,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>5AFAB326</checksum>
+      <checksum>13E7D1CB</checksum>
     </file>
   </files>
 </measure>

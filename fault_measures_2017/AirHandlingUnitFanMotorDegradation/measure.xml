@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>air_handling_unit_fan_motor_degradation</name>
   <uid>9814a5e9-37b7-472a-bae5-e9e2e794c024</uid>
-  <version_id>cb7bd04f-c2c7-4abf-9221-f9bc9abeb3d6</version_id>
-  <version_modified>20171212T144504Z</version_modified>
+  <version_id>59797810-9d1f-48d9-8c4d-97494ee73003</version_id>
+  <version_modified>20180313T161758Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>AirHandlingUnitFanMotorDegradation</class_name>
   <display_name>Air Handling Unit Fan Motor Degradation</display_name>
@@ -12,11 +12,17 @@
   <arguments>
     <argument>
       <name>fan_choice</name>
-      <display_name>Enter the name of the faulted Fan:ConstantVolume, Fan:OnOff object or Fan:VariableVolume. If you want to impose the fault on all fan objects in the building, enter * ALL Fan objects *.</display_name>
-      <type>String</type>
+      <display_name>Enter the name of the faulted Fan:ConstantVolume, Fan:OnOff object or Fan:VariableVolume. If you want to impose the fault on all fan objects in the building, enter * ALL Fan objects *</display_name>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>* ALL Fan objects *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Fan objects *</value>
+          <display_name>* ALL Fan objects *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>eff_degrad_fac</name>
@@ -84,7 +90,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>32D91FFE</checksum>
+      <checksum>46EFFB62</checksum>
     </file>
   </files>
 </measure>

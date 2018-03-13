@@ -1,6 +1,7 @@
 {
   "projectName": "PAT_frp_fdd_workflow",
   "projectDir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow",
+  "analysisName": "PAT_frp_fdd_workflow",
   "seed": "frp_baseline_generic_sch.osm",
   "weatherFile": "USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw",
   "analysis_type": "Manual",
@@ -62,9 +63,1152 @@
   "openstudioMD5": "",
   "measures": [
     {
+      "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow/measures/NonStandardCharging",
+      "name": "non_standard_charging",
+      "directory": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/fault_measures_2017/NonStandardCharging",
+      "uid": "af77eb6c-c4c6-4990-bc8b-af916215b967",
+      "uuid": "{af77eb6c-c4c6-4990-bc8b-af916215b967}",
+      "version_id": "854f0705-6504-4f59-a5f7-37c84d946e80",
+      "version_uuid": "{854f0705-6504-4f59-a5f7-37c84d946e80}",
+      "version_modified": "20180313T161800Z",
+      "xml_checksum": "CBC45526",
+      "display_name": "Nonstandard Charging",
+      "class_name": "NonStandardCharging",
+      "description": "Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This measure simulates nonstandard charging by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of deviation in refrigerant mass from the nominal value.",
+      "modeler_description": "Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation.",
+      "tags": "HVAC.Cooling",
+      "outputs": [],
+      "attributes": [
+        {
+          "name": "Measure Type",
+          "display_name": "Measure Type",
+          "value": "EnergyPlusMeasure"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "OpenStudio Application"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Parametric Analysis Tool"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Analysis Spreadsheet"
+        }
+      ],
+      "arguments": [
+        {
+          "specialRowId": "optionDelete",
+          "$$hashKey": "uiGrid-00NN",
+          "variable": false,
+          "option_1": "option_1"
+        },
+        {
+          "specialRowId": "optionName",
+          "type": "String",
+          "$$hashKey": "uiGrid-00NP",
+          "variable": false,
+          "option_1": "opt_a Non Standard Charging Fault"
+        },
+        {
+          "specialRowId": "optionDescription",
+          "type": "String",
+          "$$hashKey": "uiGrid-00NR",
+          "variable": false,
+          "option_1": "Option 1 Description: Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This measure simulates nonstandard charging by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of deviation in refrigerant mass from the nominal value."
+        },
+        {
+          "name": "coil_choice",
+          "display_name": "Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select * ALL Coil Selected *",
+          "description": "",
+          "type": "Choice",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "* ALL Coil Selected *",
+          "choice_values": [
+            "* ALL Coil Selected *",
+            "RoofTop Cooling Coil"
+          ],
+          "choice_display_names": [
+            "* ALL Coil Selected *",
+            "RoofTop Cooling Coil"
+          ],
+          "$$hashKey": "uiGrid-00NT",
+          "variable": false,
+          "option_1": "* ALL Coil Selected *"
+        },
+        {
+          "name": "fault_lvl",
+          "display_name": "Reduction ratio of charge level [-]",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0.1,
+          "$$hashKey": "uiGrid-00NV",
+          "variable": false,
+          "option_1": 0.1
+        },
+        {
+          "name": "q_rat",
+          "display_name": "Rated cooling capacity of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0. (W)",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": -1,
+          "$$hashKey": "uiGrid-00NX",
+          "variable": false,
+          "option_1": -1
+        },
+        {
+          "name": "shr_rat",
+          "display_name": "Rated sensible heat ratio of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0.",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": -1,
+          "$$hashKey": "uiGrid-00NZ",
+          "variable": false,
+          "option_1": -1
+        },
+        {
+          "name": "vol_rat",
+          "display_name": "Rated air flow rate of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0. (m3/s)",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": -1,
+          "$$hashKey": "uiGrid-00O1",
+          "variable": false,
+          "option_1": -1
+        },
+        {
+          "name": "min_fl",
+          "display_name": "Maximum value of fault level [-]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 0.3,
+          "$$hashKey": "uiGrid-00O3",
+          "variable": false,
+          "option_1": 0.3
+        },
+        {
+          "name": "Q_CHa1",
+          "display_name": "Parameter a1 for the Q_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 7.7179,
+          "$$hashKey": "uiGrid-00O5",
+          "variable": false,
+          "option_1": 7.7179
+        },
+        {
+          "name": "Q_CHa2",
+          "display_name": "Parameter a2 for the Q_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -10.765,
+          "$$hashKey": "uiGrid-00O7",
+          "variable": false,
+          "option_1": -10.765
+        },
+        {
+          "name": "Q_CHa3",
+          "display_name": "Parameter a3 for the Q_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 3.129,
+          "$$hashKey": "uiGrid-00O9",
+          "variable": false,
+          "option_1": 3.129
+        },
+        {
+          "name": "Q_CHa4",
+          "display_name": "Parameter a4 for the Q_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -0.88403,
+          "$$hashKey": "uiGrid-00OB",
+          "variable": false,
+          "option_1": -0.88403
+        },
+        {
+          "name": "Q_CHa5",
+          "display_name": "Parameter a5 for the Q_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0.30043,
+          "$$hashKey": "uiGrid-00OD",
+          "variable": false,
+          "option_1": 0.30043
+        },
+        {
+          "name": "Q_CHa6",
+          "display_name": "Parameter a6 for the Q_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -0.036993,
+          "$$hashKey": "uiGrid-00OF",
+          "variable": false,
+          "option_1": -0.036993
+        },
+        {
+          "name": "EIR_CHa1",
+          "display_name": "Parameter a1 for the EIR_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -5.7419,
+          "$$hashKey": "uiGrid-00OH",
+          "variable": false,
+          "option_1": -5.7419
+        },
+        {
+          "name": "EIR_CHa2",
+          "display_name": "Parameter a2 for the EIR_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 8.6709,
+          "$$hashKey": "uiGrid-00OJ",
+          "variable": false,
+          "option_1": 8.6709
+        },
+        {
+          "name": "EIR_CHa3",
+          "display_name": "Parameter a3 for the EIR_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -4.4104,
+          "$$hashKey": "uiGrid-00OL",
+          "variable": false,
+          "option_1": -4.4104
+        },
+        {
+          "name": "EIR_CHa4",
+          "display_name": "Parameter a4 for the EIR_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 1.2489,
+          "$$hashKey": "uiGrid-00ON",
+          "variable": false,
+          "option_1": 1.2489
+        },
+        {
+          "name": "EIR_CHa5",
+          "display_name": "Parameter a5 for the EIR_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 1.2095,
+          "$$hashKey": "uiGrid-00OP",
+          "variable": false,
+          "option_1": 1.2095
+        },
+        {
+          "name": "EIR_CHa6",
+          "display_name": "Parameter a6 for the EIR_CH model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0.36051,
+          "$$hashKey": "uiGrid-00OR",
+          "variable": false,
+          "option_1": 0.36051
+        },
+        {
+          "name": "min_wb_tmp_uc",
+          "display_name": "Minimum value of evaporator air inlet wet-bulb temperature [C]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 12.8,
+          "$$hashKey": "uiGrid-00OT",
+          "variable": false,
+          "option_1": 12.8
+        },
+        {
+          "name": "max_wb_tmp_uc",
+          "display_name": "Maximum value of evaporator air inlet wet-bulb temperature [C]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 23.9,
+          "$$hashKey": "uiGrid-00OV",
+          "variable": false,
+          "option_1": 23.9
+        },
+        {
+          "name": "min_cond_tmp_uc",
+          "display_name": "Minimum value of condenser air inlet temperature [C]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 18.3,
+          "$$hashKey": "uiGrid-00OX",
+          "variable": false,
+          "option_1": 18.3
+        },
+        {
+          "name": "max_cond_tmp_uc",
+          "display_name": "Maximum value of condenser air inlet temperature [C]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 46.1,
+          "$$hashKey": "uiGrid-00OZ",
+          "variable": false,
+          "option_1": 46.1
+        },
+        {
+          "name": "min_cop_uc",
+          "display_name": "Minimum value of rated COP",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 3.74,
+          "$$hashKey": "uiGrid-00P1",
+          "variable": false,
+          "option_1": 3.74
+        },
+        {
+          "name": "max_cop_uc",
+          "display_name": "Maximum value of rated COP",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 4.69,
+          "$$hashKey": "uiGrid-00P3",
+          "variable": false,
+          "option_1": 4.69
+        },
+        {
+          "name": "bf_para",
+          "display_name": "Percentage change of UA with increase of fault level level (% of UA/% of fault level)",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -1.39,
+          "$$hashKey": "uiGrid-00P5",
+          "variable": false,
+          "option_1": -1.39
+        }
+      ],
+      "edit": "",
+      "status": "",
+      "bcl_update": false,
+      "location": "my",
+      "add": "",
+      "open": false,
+      "addedToProject": true,
+      "date": "3/13/2018",
+      "author": "",
+      "type": "EnergyPlusMeasure",
+      "seed": "frp_baseline_generic_sch.osm",
+      "workflow_index": 0,
+      "options": [
+        {
+          "id": "option_1",
+          "arguments": [
+            {
+              "name": "coil_choice",
+              "value": "* ALL Coil Selected *"
+            },
+            {
+              "name": "fault_lvl",
+              "value": 0.1
+            },
+            {
+              "name": "q_rat",
+              "value": -1
+            },
+            {
+              "name": "shr_rat",
+              "value": -1
+            },
+            {
+              "name": "vol_rat",
+              "value": -1
+            },
+            {
+              "name": "min_fl",
+              "value": 0.3
+            },
+            {
+              "name": "Q_CHa1",
+              "value": 7.7179
+            },
+            {
+              "name": "Q_CHa2",
+              "value": -10.765
+            },
+            {
+              "name": "Q_CHa3",
+              "value": 3.129
+            },
+            {
+              "name": "Q_CHa4",
+              "value": -0.88403
+            },
+            {
+              "name": "Q_CHa5",
+              "value": 0.30043
+            },
+            {
+              "name": "Q_CHa6",
+              "value": -0.036993
+            },
+            {
+              "name": "EIR_CHa1",
+              "value": -5.7419
+            },
+            {
+              "name": "EIR_CHa2",
+              "value": 8.6709
+            },
+            {
+              "name": "EIR_CHa3",
+              "value": -4.4104
+            },
+            {
+              "name": "EIR_CHa4",
+              "value": 1.2489
+            },
+            {
+              "name": "EIR_CHa5",
+              "value": 1.2095
+            },
+            {
+              "name": "EIR_CHa6",
+              "value": 0.36051
+            },
+            {
+              "name": "min_wb_tmp_uc",
+              "value": 12.8
+            },
+            {
+              "name": "max_wb_tmp_uc",
+              "value": 23.9
+            },
+            {
+              "name": "min_cond_tmp_uc",
+              "value": 18.3
+            },
+            {
+              "name": "max_cond_tmp_uc",
+              "value": 46.1
+            },
+            {
+              "name": "min_cop_uc",
+              "value": 3.74
+            },
+            {
+              "name": "max_cop_uc",
+              "value": 4.69
+            },
+            {
+              "name": "bf_para",
+              "value": -1.39
+            }
+          ],
+          "name": "opt_a Non Standard Charging Fault",
+          "description": "Option 1 Description: Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This measure simulates nonstandard charging by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of deviation in refrigerant mass from the nominal value."
+        }
+      ],
+      "instanceId": 0.009374809036793996,
+      "numberOfOptions": 1,
+      "$$hashKey": "object:2075"
+    },
+    {
+      "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/fault_measures_2017/CondenserFanDegradation",
+      "name": "condenser_fan_degradation",
+      "directory": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/fault_measures_2017/CondenserFanDegradation",
+      "uid": "78fd31ab-ff52-4260-b680-c2c75dfd31dc",
+      "uuid": "{78fd31ab-ff52-4260-b680-c2c75dfd31dc}",
+      "version_id": "6a673014-3a07-43dc-a71c-331d703fe776",
+      "version_uuid": "{6a673014-3a07-43dc-a71c-331d703fe776}",
+      "version_modified": "20180313T173242Z",
+      "xml_checksum": "CBC45526",
+      "display_name": "Condenser Fan Degradation",
+      "class_name": "CondenserFanDegradation",
+      "description": "Motor efficiency degrades when a motor suffers from a bearing or a stator winding fault. This fault causes the motor to draw higher electrical current without changing the fluid flow. Both a bearing fault and a stator winding fault can be modeled by increasing the power consumption of the condenser fan without changing the airflow of the condenser fan. This measure simulates the condenser fan degradation by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the reduction in motor efficiency as a fraction of the non-faulted motor efficiency.",
+      "modeler_description": "Three user inputs are required and, based on these user inputs, the EIR in the DX cooling coil model is recalculated to reflect the faulted operation as shown in the equation below, where EIRF is the faulted EIR, W ̇_fan is the fan power, W ̇_cool is the DX  coil power, and F is the fault intensity. EIR_F/EIR=1+(W ̇_fan/W ̇_cool)*(F/(1-F)). This fault model also requires the ratio of condenser fan power to the power consumption of compressor and condenser fan as a user input parameter.",
+      "tags": "HVAC.Cooling",
+      "outputs": [],
+      "attributes": [
+        {
+          "name": "Measure Type",
+          "display_name": "Measure Type",
+          "value": "EnergyPlusMeasure"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "OpenStudio Application"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Parametric Analysis Tool"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Analysis Spreadsheet"
+        }
+      ],
+      "arguments": [
+        {
+          "specialRowId": "optionDelete",
+          "$$hashKey": "uiGrid-0271",
+          "variable": false,
+          "option_1": "option_1"
+        },
+        {
+          "specialRowId": "optionName",
+          "type": "String",
+          "$$hashKey": "uiGrid-0273",
+          "variable": false,
+          "option_1": "opt_a Condenser Fan Degradation"
+        },
+        {
+          "specialRowId": "optionDescription",
+          "type": "String",
+          "$$hashKey": "uiGrid-0275",
+          "variable": false,
+          "option_1": "Option 1 Description: Motor efficiency degrades when a motor suffers from a bearing or a stator winding fault. This fault causes the motor to draw higher electrical current without changing the fluid flow. Both a bearing fault and a stator winding fault can be modeled by increasing the power consumption of the condenser fan without changing the airflow of the condenser fan. This measure simulates the condenser fan degradation by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the reduction in motor efficiency as a fraction of the non-faulted motor efficiency."
+        },
+        {
+          "name": "coil_choice",
+          "display_name": "Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select * ALL Coil Selected *",
+          "description": "",
+          "type": "Choice",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "* ALL Coil Selected *",
+          "choice_values": [
+            "* ALL Coil Selected *",
+            "RoofTop Cooling Coil"
+          ],
+          "choice_display_names": [
+            "* ALL Coil Selected *",
+            "RoofTop Cooling Coil"
+          ],
+          "$$hashKey": "uiGrid-0277",
+          "variable": false,
+          "option_1": "* ALL Coil Selected *"
+        },
+        {
+          "name": "sch_choice",
+          "display_name": "Enter the name of the schedule of the fault level. If you do not have a schedule, leave this blank.",
+          "description": "",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "",
+          "$$hashKey": "uiGrid-0279",
+          "variable": false,
+          "option_1": "na"
+        },
+        {
+          "name": "fault_lvl",
+          "display_name": "Fan motor efficiency degradation ratio [-]",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0.5,
+          "$$hashKey": "uiGrid-027B",
+          "variable": false,
+          "option_1": 0.5
+        },
+        {
+          "name": "fan_power_ratio",
+          "display_name": "Ratio of condenser fan motor power consumption to combined power consumption of condenser fan and compressor at rated condition.",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0.091747081,
+          "$$hashKey": "uiGrid-027D",
+          "variable": false,
+          "option_1": 0.091747081
+        }
+      ],
+      "edit": "",
+      "status": "",
+      "bcl_update": false,
+      "location": "my",
+      "add": "",
+      "open": false,
+      "addedToProject": true,
+      "date": "3/13/2018",
+      "author": "",
+      "type": "EnergyPlusMeasure",
+      "seed": "frp_baseline_generic_sch.osm",
+      "workflow_index": 1,
+      "options": [
+        {
+          "id": "option_1",
+          "arguments": [
+            {
+              "name": "coil_choice",
+              "value": "* ALL Coil Selected *"
+            },
+            {
+              "name": "sch_choice",
+              "value": "na"
+            },
+            {
+              "name": "fault_lvl",
+              "value": 0.5
+            },
+            {
+              "name": "fan_power_ratio",
+              "value": 0.091747081
+            }
+          ],
+          "name": "opt_a Condenser Fan Degradation",
+          "description": "Option 1 Description: Motor efficiency degrades when a motor suffers from a bearing or a stator winding fault. This fault causes the motor to draw higher electrical current without changing the fluid flow. Both a bearing fault and a stator winding fault can be modeled by increasing the power consumption of the condenser fan without changing the airflow of the condenser fan. This measure simulates the condenser fan degradation by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the reduction in motor efficiency as a fraction of the non-faulted motor efficiency."
+        }
+      ],
+      "instanceId": 0.9996209021146953,
+      "numberOfOptions": 1,
+      "$$hashKey": "object:6936"
+    },
+    {
+      "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow/measures/CondenserFouling",
+      "name": "condenser_fouling",
+      "directory": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/fault_measures_2017/CondenserFouling",
+      "uid": "7fac3cb7-ed23-454d-ac24-b037d2c8faa4",
+      "uuid": "{7fac3cb7-ed23-454d-ac24-b037d2c8faa4}",
+      "version_id": "429c143e-0d3d-4f46-8287-612c8ed610e3",
+      "version_uuid": "{429c143e-0d3d-4f46-8287-612c8ed610e3}",
+      "version_modified": "20180313T161759Z",
+      "xml_checksum": "CBC45526",
+      "display_name": "Condenser Fouling",
+      "class_name": "CondenserFouling",
+      "description": "Condenser fouling occurs when litter, dirt, or dust accumulates on or between the fins of a condenser of an air conditioner located in the outdoor environment. The blockage reduces the airflow across the condenser and increases the condensing temperature in the refrigerant circuit. The elevated temperature increases the pressure difference across the compressor and reduces the equipment efficiency. This measure simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of reduction in condenser coil airflow at full load.",
+      "modeler_description": "Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation.",
+      "tags": "HVAC.Cooling",
+      "outputs": [],
+      "attributes": [
+        {
+          "name": "Measure Type",
+          "display_name": "Measure Type",
+          "value": "EnergyPlusMeasure"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "OpenStudio Application"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Parametric Analysis Tool"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Analysis Spreadsheet"
+        }
+      ],
+      "arguments": [
+        {
+          "specialRowId": "optionDelete",
+          "$$hashKey": "uiGrid-027F",
+          "variable": false,
+          "option_1": "option_1"
+        },
+        {
+          "specialRowId": "optionName",
+          "type": "String",
+          "$$hashKey": "uiGrid-027H",
+          "variable": false,
+          "option_1": "opt_a Condenser Fouling"
+        },
+        {
+          "specialRowId": "optionDescription",
+          "type": "String",
+          "$$hashKey": "uiGrid-027J",
+          "variable": false,
+          "option_1": "Option 1 Description: Condenser fouling occurs when litter, dirt, or dust accumulates on or between the fins of a condenser of an air conditioner located in the outdoor environment. The blockage reduces the airflow across the condenser and increases the condensing temperature in the refrigerant circuit. The elevated temperature increases the pressure difference across the compressor and reduces the equipment efficiency. This measure simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of reduction in condenser coil airflow at full load."
+        },
+        {
+          "name": "coil_choice",
+          "display_name": "Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select * ALL Coil Selected *",
+          "description": "",
+          "type": "Choice",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "* ALL Coil Selected *",
+          "choice_values": [
+            "* ALL Coil Selected *",
+            "RoofTop Cooling Coil"
+          ],
+          "choice_display_names": [
+            "* ALL Coil Selected *",
+            "RoofTop Cooling Coil"
+          ],
+          "$$hashKey": "uiGrid-027L",
+          "variable": false,
+          "option_1": "* ALL Coil Selected *"
+        },
+        {
+          "name": "fault_lvl",
+          "display_name": "Percentage reduction of condenser airflow [-]",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0.1,
+          "$$hashKey": "uiGrid-027N",
+          "variable": false,
+          "option_1": 0.1
+        },
+        {
+          "name": "q_rat",
+          "display_name": "Rated cooling capacity of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0. (W)",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": -1,
+          "$$hashKey": "uiGrid-027P",
+          "variable": false,
+          "option_1": -1
+        },
+        {
+          "name": "shr_rat",
+          "display_name": "Rated sensible heat ratio of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0.",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": -1,
+          "$$hashKey": "uiGrid-027R",
+          "variable": false,
+          "option_1": -1
+        },
+        {
+          "name": "vol_rat",
+          "display_name": "Rated air flow rate of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0. (m3/s)",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": -1,
+          "$$hashKey": "uiGrid-027T",
+          "variable": false,
+          "option_1": -1
+        },
+        {
+          "name": "min_fl",
+          "display_name": "Maximum value of fault level [-]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 0.5,
+          "$$hashKey": "uiGrid-027V",
+          "variable": false,
+          "option_1": 0.5
+        },
+        {
+          "name": "Q_CAa1",
+          "display_name": "Parameter a1 for the Q_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -2.2162,
+          "$$hashKey": "uiGrid-027X",
+          "variable": false,
+          "option_1": -2.2162
+        },
+        {
+          "name": "Q_CAa2",
+          "display_name": "Parameter a2 for the Q_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 5.6315,
+          "$$hashKey": "uiGrid-027Z",
+          "variable": false,
+          "option_1": 5.6315
+        },
+        {
+          "name": "Q_CAa3",
+          "display_name": "Parameter a3 for the Q_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -3.1199,
+          "$$hashKey": "uiGrid-0281",
+          "variable": false,
+          "option_1": -3.1199
+        },
+        {
+          "name": "Q_CAa4",
+          "display_name": "Parameter a4 for the Q_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0.22492,
+          "$$hashKey": "uiGrid-0283",
+          "variable": false,
+          "option_1": 0.22492
+        },
+        {
+          "name": "Q_CAa5",
+          "display_name": "Parameter a5 for the Q_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -0.76245,
+          "$$hashKey": "uiGrid-0285",
+          "variable": false,
+          "option_1": -0.76245
+        },
+        {
+          "name": "Q_CAa6",
+          "display_name": "Parameter a6 for the Q_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -0.072843,
+          "$$hashKey": "uiGrid-0287",
+          "variable": false,
+          "option_1": -0.072843
+        },
+        {
+          "name": "EIR_CAa1",
+          "display_name": "Parameter a1 for the EIR_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -5.9806,
+          "$$hashKey": "uiGrid-0289",
+          "variable": false,
+          "option_1": -5.9806
+        },
+        {
+          "name": "EIR_CAa2",
+          "display_name": "Parameter a2 for the EIR_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0.9479,
+          "$$hashKey": "uiGrid-028B",
+          "variable": false,
+          "option_1": 0.9479
+        },
+        {
+          "name": "EIR_CAa3",
+          "display_name": "Parameter a3 for the EIR_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 4.3816,
+          "$$hashKey": "uiGrid-028D",
+          "variable": false,
+          "option_1": 4.3816
+        },
+        {
+          "name": "EIR_CAa4",
+          "display_name": "Parameter a4 for the EIR_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": -1.0667,
+          "$$hashKey": "uiGrid-028F",
+          "variable": false,
+          "option_1": -1.0667
+        },
+        {
+          "name": "EIR_CAa5",
+          "display_name": "Parameter a5 for the EIR_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 2.9142,
+          "$$hashKey": "uiGrid-028H",
+          "variable": false,
+          "option_1": 2.9142
+        },
+        {
+          "name": "EIR_CAa6",
+          "display_name": "Parameter a6 for the EIR_CA model",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0.090476,
+          "$$hashKey": "uiGrid-028J",
+          "variable": false,
+          "option_1": 0.090476
+        },
+        {
+          "name": "min_wb_tmp_uc",
+          "display_name": "Minimum value of evaporator air inlet wet-bulb temperature [C]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 12.8,
+          "$$hashKey": "uiGrid-028L",
+          "variable": false,
+          "option_1": 12.8
+        },
+        {
+          "name": "max_wb_tmp_uc",
+          "display_name": "Maximum value of evaporator air inlet wet-bulb temperature [C]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 23.9,
+          "$$hashKey": "uiGrid-028N",
+          "variable": false,
+          "option_1": 23.9
+        },
+        {
+          "name": "min_cond_tmp_uc",
+          "display_name": "Minimum value of condenser air inlet temperature [C]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 18.3,
+          "$$hashKey": "uiGrid-028P",
+          "variable": false,
+          "option_1": 18.3
+        },
+        {
+          "name": "max_cond_tmp_uc",
+          "display_name": "Maximum value of condenser air inlet temperature [C]",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 46.1,
+          "$$hashKey": "uiGrid-028R",
+          "variable": false,
+          "option_1": 46.1
+        },
+        {
+          "name": "min_cop_uc",
+          "display_name": "Minimum value of rated COP",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 3.74,
+          "$$hashKey": "uiGrid-028T",
+          "variable": false,
+          "option_1": 3.74
+        },
+        {
+          "name": "max_cop_uc",
+          "display_name": "Maximum value of rated COP",
+          "description": "",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 4.69,
+          "$$hashKey": "uiGrid-028V",
+          "variable": false,
+          "option_1": 4.69
+        },
+        {
+          "name": "bf_para",
+          "display_name": "Percentage change of UA with increase of fault level level (% of UA/% of fault level)",
+          "description": "",
+          "type": "Double",
+          "required": false,
+          "model_dependent": false,
+          "default_value": 0,
+          "$$hashKey": "uiGrid-028X",
+          "variable": false,
+          "option_1": 0
+        }
+      ],
+      "edit": "",
+      "status": "",
+      "bcl_update": false,
+      "location": "my",
+      "add": "",
+      "open": false,
+      "addedToProject": true,
+      "date": "3/13/2018",
+      "author": "",
+      "type": "EnergyPlusMeasure",
+      "seed": "frp_baseline_generic_sch.osm",
+      "workflow_index": 2,
+      "options": [
+        {
+          "id": "option_1",
+          "arguments": [
+            {
+              "name": "coil_choice",
+              "value": "* ALL Coil Selected *"
+            },
+            {
+              "name": "fault_lvl",
+              "value": 0.1
+            },
+            {
+              "name": "q_rat",
+              "value": -1
+            },
+            {
+              "name": "shr_rat",
+              "value": -1
+            },
+            {
+              "name": "vol_rat",
+              "value": -1
+            },
+            {
+              "name": "min_fl",
+              "value": 0.5
+            },
+            {
+              "name": "Q_CAa1",
+              "value": -2.2162
+            },
+            {
+              "name": "Q_CAa2",
+              "value": 5.6315
+            },
+            {
+              "name": "Q_CAa3",
+              "value": -3.1199
+            },
+            {
+              "name": "Q_CAa4",
+              "value": 0.22492
+            },
+            {
+              "name": "Q_CAa5",
+              "value": -0.76245
+            },
+            {
+              "name": "Q_CAa6",
+              "value": -0.072843
+            },
+            {
+              "name": "EIR_CAa1",
+              "value": -5.9806
+            },
+            {
+              "name": "EIR_CAa2",
+              "value": 0.9479
+            },
+            {
+              "name": "EIR_CAa3",
+              "value": 4.3816
+            },
+            {
+              "name": "EIR_CAa4",
+              "value": -1.0667
+            },
+            {
+              "name": "EIR_CAa5",
+              "value": 2.9142
+            },
+            {
+              "name": "EIR_CAa6",
+              "value": 0.090476
+            },
+            {
+              "name": "min_wb_tmp_uc",
+              "value": 12.8
+            },
+            {
+              "name": "max_wb_tmp_uc",
+              "value": 23.9
+            },
+            {
+              "name": "min_cond_tmp_uc",
+              "value": 18.3
+            },
+            {
+              "name": "max_cond_tmp_uc",
+              "value": 46.1
+            },
+            {
+              "name": "min_cop_uc",
+              "value": 3.74
+            },
+            {
+              "name": "max_cop_uc",
+              "value": 4.69
+            },
+            {
+              "name": "bf_para",
+              "value": 0
+            }
+          ],
+          "name": "opt_a Condenser Fouling",
+          "description": "Option 1 Description: Condenser fouling occurs when litter, dirt, or dust accumulates on or between the fins of a condenser of an air conditioner located in the outdoor environment. The blockage reduces the airflow across the condenser and increases the condensing temperature in the refrigerant circuit. The elevated temperature increases the pressure difference across the compressor and reduces the equipment efficiency. This measure simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of reduction in condenser coil airflow at full load."
+        }
+      ],
+      "instanceId": 0.3475654906302268,
+      "numberOfOptions": 1,
+      "$$hashKey": "object:6937"
+    },
+    {
       "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow/measures/861c42ba-2105-49e6-b727-9fc3567f4834",
       "name": "openstudio_results",
-      "directory": "/Users/dgoldwas/BCL/a25386cd-60e4-46bc-8b11-c755f379d916/861c42ba-2105-49e6-b727-9fc3567f4834",
+      "directory": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow/measures/861c42ba-2105-49e6-b727-9fc3567f4834",
       "uid": "a25386cd-60e4-46bc-8b11-c755f379d916",
       "uuid": "{a25386cd-60e4-46bc-8b11-c755f379d916}",
       "version_id": "024a91bd-90f1-48a2-806f-8c49af8d01b9",
@@ -499,7 +1643,7 @@
       "author": "",
       "type": "ReportingMeasure",
       "seed": "frp_baseline_generic_sch.osm",
-      "workflow_index": 0,
+      "workflow_index": 3,
       "options": [
         {
           "id": "option_1",
@@ -593,14 +1737,14 @@
           "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
         }
       ],
-      "instanceId": 0.3213564095117407,
+      "instanceId": 0.8309853762566688,
       "numberOfOptions": 1,
       "$$hashKey": "object:1414"
     },
     {
       "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow/measures/ExportTimeSeriesDatatoCSV",
       "name": "export_time_series_datato_cS_v",
-      "directory": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/fault_measures_2015/ExportTimeSeriesDatatoCSV",
+      "directory": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow/measures/ExportTimeSeriesDatatoCSV",
       "uid": "556af0ff-b31e-4767-959a-5e213063e13b",
       "uuid": "{556af0ff-b31e-4767-959a-5e213063e13b}",
       "version_id": "bad6a9f9-30d7-4a5e-b724-46b08d443b87",
@@ -658,7 +1802,7 @@
       "author": "",
       "type": "ReportingMeasure",
       "seed": "frp_baseline_generic_sch.osm",
-      "workflow_index": 1,
+      "workflow_index": 4,
       "options": [
         {
           "id": "option_1",
@@ -667,7 +1811,7 @@
           "description": "Option 1 Description: This measure exports time series data to csv for output variables and meters."
         }
       ],
-      "instanceId": 0.8054696876520511,
+      "instanceId": 0.8665794555980697,
       "numberOfOptions": 1,
       "$$hashKey": "object:3616"
     }
@@ -693,34 +1837,40 @@
   },
   "designAlternatives": [
     {
-      "name": "No Reports",
-      "seedModel": "frp_baseline_generic_sch.osm",
-      "weatherFile": "USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw",
-      "openstudio_results": "None",
-      "export_time_series_datato_cS_v": "None",
-      "$$hashKey": "uiGrid-01BL"
-    },
-    {
-      "name": "All Reports",
+      "name": "No Faults",
       "seedModel": "frp_baseline_generic_sch.osm",
       "weatherFile": "USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw",
       "openstudio_results": "OpenStudio Results",
       "export_time_series_datato_cS_v": "Export Timeseries Data to CSV",
-      "$$hashKey": "uiGrid-019Z"
+      "$$hashKey": "uiGrid-01BL",
+      "non_standard_charging": "None",
+      "condenser_fan_degradation": "None",
+      "condenser_fouling": "None"
+    },
+    {
+      "name": "All Faults",
+      "seedModel": "frp_baseline_generic_sch.osm",
+      "weatherFile": "USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw",
+      "openstudio_results": "OpenStudio Results",
+      "export_time_series_datato_cS_v": "Export Timeseries Data to CSV",
+      "$$hashKey": "uiGrid-019Z",
+      "non_standard_charging": "opt_a Non Standard Charging Fault",
+      "condenser_fan_degradation": "opt_a Condenser Fan Degradation",
+      "condenser_fouling": "opt_a Condenser Fouling"
     }
   ],
   "analysisID": null,
   "datapoints": [
     {
-      "name": "No Reports",
-      "id": "No Reports",
+      "name": "No Faults",
+      "id": "No Faults",
       "run": false,
       "modified": false,
       "selected": false
     },
     {
-      "name": "All Reports",
-      "id": "All Reports",
+      "name": "All Faults",
+      "id": "All Faults",
       "run": false,
       "modified": false,
       "selected": false

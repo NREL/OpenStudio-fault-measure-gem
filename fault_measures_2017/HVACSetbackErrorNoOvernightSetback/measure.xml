@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_no_overnight_setback</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>60bf1031-bac2-4e56-8fa9-2a6132f486ad</version_id>
-  <version_modified>20171212T144506Z</version_modified>
+  <version_id>c6e9d958-5b03-4bd7-9f50-ae2dd409fd64</version_id>
+  <version_modified>20180313T161759Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorNoOvernightSetback</class_name>
   <display_name>HVAC Setback Error: No Overnight Setback</display_name>
@@ -258,7 +258,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>36C4BBDD</checksum>
+      <checksum>DB33E0CA</checksum>
     </file>
   </files>
 </measure>

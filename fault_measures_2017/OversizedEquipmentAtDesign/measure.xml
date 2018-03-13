@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>oversized_equipment_at_design</name>
   <uid>c97fd24d-b0f3-45e0-93a7-487e0b3759fb</uid>
-  <version_id>c7d7f6d9-1012-4c3c-84a6-be34b5aec31f</version_id>
-  <version_modified>20171212T144507Z</version_modified>
+  <version_id>eaec4e8c-78f9-48d7-944a-ff1297894792</version_id>
+  <version_modified>20180313T161800Z</version_modified>
   <xml_checksum>4435983D</xml_checksum>
   <class_name>OversizedEquipmentAtDesign</class_name>
   <display_name>Oversized Equipment at Design</display_name>
@@ -13,10 +13,16 @@
     <argument>
       <name>coil_choice</name>
       <display_name>Enter the name of the oversized coil object. If you want to impose the fault on all equipment, select * ALL Coil Selected *</display_name>
-      <type>String</type>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>* ALL Coil Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Coil Selected *</value>
+          <display_name>* ALL Coil Selected *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>sizing_increase_percent</name>
@@ -54,7 +60,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>E732442F</checksum>
+      <checksum>697A7599</checksum>
     </file>
   </files>
 </measure>

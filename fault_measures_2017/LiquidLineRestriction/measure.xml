@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>liquid_line_restriction</name>
   <uid>7b7c155e-f73d-4805-a285-7750c5c356ae</uid>
-  <version_id>f1bbc774-afa7-4eec-989b-27c28f1b7fc8</version_id>
-  <version_modified>20171212T143711Z</version_modified>
+  <version_id>9381ee20-37e0-4858-b270-c8b929a6df43</version_id>
+  <version_modified>20180313T161800Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>LiquidLineRestriction</class_name>
   <display_name>Liquid-Line Restriction</display_name>
@@ -13,10 +13,16 @@
     <argument>
       <name>coil_choice</name>
       <display_name>Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select * ALL Coil Selected *</display_name>
-      <type>String</type>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>* ALL Coil Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Coil Selected *</value>
+          <display_name>* ALL Coil Selected *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>fault_lvl</name>
@@ -294,17 +300,6 @@
       <checksum>D73C9CAE</checksum>
     </file>
     <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>1.5.0</identifier>
-        <min_compatible>1.5.0</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>2EA8427B</checksum>
-    </file>
-    <file>
       <filename>psychrometric.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -315,6 +310,17 @@
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>4FC60DC4</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>38A0A04B</checksum>
     </file>
   </files>
 </measure>

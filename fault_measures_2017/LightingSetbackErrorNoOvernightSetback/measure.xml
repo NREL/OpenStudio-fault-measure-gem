@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>lighting_setback_error_no_overnight_setback</name>
   <uid>646e4236-1db0-44fe-92bf-08d761e2d708</uid>
-  <version_id>37431053-9d03-4f38-9483-304a1f8bf0ce</version_id>
-  <version_modified>20171212T144507Z</version_modified>
+  <version_id>1c13f869-fa2f-4641-850d-4329166794a4</version_id>
+  <version_modified>20180313T161800Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>LightingSetbackErrorNoOvernightSetback</class_name>
   <display_name>Lighting Setback Error: No Overnight Setback</display_name>
@@ -244,6 +244,12 @@
       <checksum>C1F7D0FC</checksum>
     </file>
     <file>
+      <filename>misc_run_dayofweek.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>442A26D3</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
@@ -252,13 +258,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>8A8E63CC</checksum>
-    </file>
-    <file>
-      <filename>misc_run_dayofweek.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>442A26D3</checksum>
+      <checksum>035E2546</checksum>
     </file>
   </files>
 </measure>

@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_rh</name>
   <uid>581a85db-9cee-480f-9e5f-bbf62b217268</uid>
-  <version_id>fc533786-0504-47cf-8e5f-d8787aaa15aa</version_id>
-  <version_modified>20180226T200140Z</version_modified>
+  <version_id>ef46ec6d-f182-4332-aa4b-b8212ed9829c</version_id>
+  <version_modified>20180313T161758Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnRH</class_name>
   <display_name>Biased Economizer Sensor: Return RH</display_name>
-  <description>When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. This measure simulates the biased economizer sensor (return relative humidity) by modifying Controller:OutdoorAir object in EnergyPlus assigned to the heating and cooling system.</description>
-  <modeler_description>Two user inputs are required and, based on these user inputs, the return air RH reading in the economizer will be replaced by the equation below, where RHraF is the biased return air RH reading, RHra is the actual return air RH, and F is the fault intensity. RHraF = RHra + F. To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of relative humidity sensor bias between 0 to 100 that you want at the return air duct for the economizer during the simulation period. For example, setting F=3 means the sensor is reading 25% when the actual relative humidity is 22%. You can also impose a schedule of the presence of fault during the simulation period. If a schedule name is not given, the model assumes that the fault is present during the entire simulation period.</modeler_description>
+  <description>When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. This measure simulates the biased economizer sensor (return relative humidity) by modifying Controller:OutdoorAir object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the biased RH level (%). A positive number means that the sensor is reading a relative humidity higher than the true relative humidity.</description>
+  <modeler_description>Nine user inputs are required and, based on these user inputs, the return air RH reading in the economizer will be replaced by the equation below, where RHraF is the biased return air RH reading, RHra is the actual return air RH, F is the fault intensity and AF is the adjustment factor. RHraF = RHra + F*AF. To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of relative humidity sensor bias between -100 to 100 that you want at the return air duct for the economizer during the simulation period. For example, setting F=3 means the sensor is reading 25% when the actual relative humidity is 22%. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
       <name>econ_choice</name>
@@ -131,7 +131,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>18061382</checksum>
+      <checksum>41FBAC2B</checksum>
     </file>
   </files>
 </measure>

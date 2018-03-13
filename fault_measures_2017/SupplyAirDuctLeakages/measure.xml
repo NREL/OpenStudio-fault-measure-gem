@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>supply_air_duct_leakages</name>
   <uid>8d568a70-080d-4f27-97f5-5210ff639652</uid>
-  <version_id>3dbb4529-7914-4bbf-bfe2-d81d890aa1d6</version_id>
-  <version_modified>20171212T144507Z</version_modified>
+  <version_id>c4740003-6633-445a-9fa1-02bb613b6fa2</version_id>
+  <version_modified>20180313T161801Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>SupplyAirDuctLeakages</class_name>
   <display_name>Supply Air Duct Leakages</display_name>
@@ -12,11 +12,10 @@
   <arguments>
     <argument>
       <name>airterminal_choice</name>
-      <display_name>Enter the name of the faulted AirTerminal object</display_name>
-      <type>String</type>
+      <display_name>Select the name of the faulted AirTerminal object</display_name>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
     </argument>
     <argument>
       <name>leak_ratio</name>
@@ -64,7 +63,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>1FB17F07</checksum>
+      <checksum>2ADDED32</checksum>
     </file>
   </files>
 </measure>

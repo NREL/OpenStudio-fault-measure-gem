@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_mixed_t</name>
   <uid>3a9ab8b0-6fe8-4395-9f3e-57726ae4edaa</uid>
-  <version_id>dee1f19a-cba5-48d3-9bd8-2115007d31cc</version_id>
-  <version_modified>20171212T144504Z</version_modified>
+  <version_id>ece4f30f-0cca-40d1-8292-d7607199f6e1</version_id>
+  <version_modified>20180313T161758Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorMixedT</class_name>
   <display_name>Biased Economizer Sensor: Mixed Temperature</display_name>
@@ -12,11 +12,10 @@
   <arguments>
     <argument>
       <name>econ_choice</name>
-      <display_name>Enter the name of the faulted Controller:OutdoorAir object</display_name>
-      <type>String</type>
+      <display_name>Choice of economizers.</display_name>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
     </argument>
     <argument>
       <name>mix_temp_bias</name>
@@ -64,7 +63,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>F5F3919B</checksum>
+      <checksum>562C0AA6</checksum>
     </file>
   </files>
 </measure>

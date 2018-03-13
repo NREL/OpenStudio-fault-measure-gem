@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>lighting_setback_error_early_termination</name>
   <uid>4068e01b-f572-4805-9d49-a5067c5246ff</uid>
-  <version_id>f9f41a06-d996-49b6-a5d6-c2eb274537ff</version_id>
-  <version_modified>20171212T144507Z</version_modified>
+  <version_id>32f34e99-7a2b-43ad-9134-b8a8d64e841a</version_id>
+  <version_modified>20180313T161800Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>LightingSetbackErrorEarlyTermination</class_name>
   <display_name>Lighting Setback Error: Early Termination</display_name>
@@ -262,7 +262,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>DF7ACD8E</checksum>
+      <checksum>4BB20DA7</checksum>
     </file>
   </files>
 </measure>

@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_delayed_onset</name>
   <uid>fa0f7ae0-8ff7-4484-8a91-842a42656284</uid>
-  <version_id>0ec4fd01-bac5-42c1-8a3e-6780436c73d1</version_id>
-  <version_modified>20171212T144506Z</version_modified>
+  <version_id>89e03ddc-3b73-4167-8ffc-26cacb6a3e3e</version_id>
+  <version_modified>20180313T161759Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorDelayedOnset</class_name>
   <display_name>HVAC Setback Error: Delayed Onset</display_name>
@@ -262,7 +262,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>0FF78C35</checksum>
+      <checksum>43223573</checksum>
     </file>
   </files>
 </measure>
