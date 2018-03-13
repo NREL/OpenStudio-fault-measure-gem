@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_rh</name>
   <uid>f1ba09fb-2903-45b2-838c-604b63fc4662</uid>
-  <version_id>1a395b94-78f7-4fd1-846a-0424b2e5e0a2</version_id>
-  <version_modified>20180126T025630Z</version_modified>
+  <version_id>ab59d54c-af26-45ff-87ba-c5eee4240fd4</version_id>
+  <version_modified>20180226T202106Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnRH</class_name>
   <display_name>Biased Economizer Sensor: Return Temperature</display_name>
@@ -23,7 +23,63 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>2</default_value>
+      <default_value>-2</default_value>
+    </argument>
+    <argument>
+      <name>time_constant</name>
+      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>start_month</name>
+      <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6</default_value>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>9</default_value>
+    </argument>
+    <argument>
+      <name>end_month</name>
+      <display_name>Enter the month (1-12) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12</default_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>31</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23</default_value>
     </argument>
   </arguments>
   <outputs/>
@@ -69,13 +125,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>56459044</checksum>
+      <checksum>4D6ADC68</checksum>
     </file>
     <file>
       <filename>ControllerOutdoorAirFlow_T.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>6D0834EA</checksum>
+      <checksum>A31AFF13</checksum>
     </file>
   </files>
 </measure>
