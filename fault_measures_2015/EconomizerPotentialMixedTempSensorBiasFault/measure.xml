@@ -2,7 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>economizer_potential_mixed_temp_sensor_bias_fault</name>
   <uid>3a9ab8b0-6fe8-4395-9f3e-57726ae4edaa</uid>
-  <version_id>fe5a9164-349d-4703-b1e0-52e4d9385932</version_id>
+  <version_id>3ea3446e-c1d6-4fa7-960c-1e4b0a11fc42</version_id>
+  <version_modified>20180313T155919Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>EconomizerPotentialMixedTempSensorBiasFault</class_name>
   <display_name>Economizer Mixed Air Temperature Sensor Bias Fault</display_name>
@@ -15,7 +16,7 @@
       <type>String</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value>Controller Outdoor Air 1</default_value>
+      <default_value></default_value>
     </argument>
     <argument>
       <name>mix_temp_bias</name>
@@ -26,6 +27,7 @@
       <default_value>2</default_value>
     </argument>
   </arguments>
+  <outputs/>
   <provenances/>
   <tags>
     <tag>HVAC.HVAC Controls</tag>
@@ -62,7 +64,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>ED5D145C</checksum>
+      <checksum>E561D243</checksum>
     </file>
   </files>
 </measure>

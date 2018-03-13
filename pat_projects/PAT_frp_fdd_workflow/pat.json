@@ -1,0 +1,729 @@
+{
+  "projectName": "PAT_frp_fdd_workflow",
+  "projectDir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow",
+  "seed": "frp_baseline_generic_sch.osm",
+  "weatherFile": "USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw",
+  "analysis_type": "Manual",
+  "remoteSettings": {
+    "open": true,
+    "remoteType": "Amazon Cloud",
+    "remoteServerURL": null,
+    "aws": {
+      "connected": false,
+      "cluster_name": "",
+      "server_instance_type": "",
+      "worker_instance_type": "",
+      "user_id": "",
+      "worker_node_number": 0,
+      "aws_tags": [],
+      "openstudio_server_version": ""
+    },
+    "credentials": {
+      "yamlFilename": null,
+      "accessKey": null,
+      "region": "us-east-1"
+    }
+  },
+  "samplingMethod": {
+    "id": "baseline_perturbation",
+    "name": "analysis.type.baselinePerturbation",
+    "link": null
+  },
+  "algorithmSettings": [
+    {
+      "name": "in_measure_combinations",
+      "displayName": "In Measure Combinations",
+      "description": "Options: 'true' or 'false'",
+      "defaultValue": "true",
+      "type": "string",
+      "value": "true"
+    },
+    {
+      "name": "include_baseline_in_combinations",
+      "displayName": "Include Baseline in Combinations?",
+      "description": "Options: 'true' or 'false'",
+      "defaultValue": "true",
+      "type": "string",
+      "value": "true"
+    },
+    {
+      "name": "seed",
+      "displayName": "Seed",
+      "description": "Integer seed for random number generator",
+      "defaultValue": null,
+      "type": "number",
+      "value": null
+    }
+  ],
+  "rubyMD5": "",
+  "mongoMD5": "",
+  "openstudioServerMD5": "",
+  "openstudioCLIMD5": "",
+  "openstudioMD5": "",
+  "measures": [
+    {
+      "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow/measures/861c42ba-2105-49e6-b727-9fc3567f4834",
+      "name": "openstudio_results",
+      "directory": "/Users/dgoldwas/BCL/a25386cd-60e4-46bc-8b11-c755f379d916/861c42ba-2105-49e6-b727-9fc3567f4834",
+      "uid": "a25386cd-60e4-46bc-8b11-c755f379d916",
+      "uuid": "{a25386cd-60e4-46bc-8b11-c755f379d916}",
+      "version_id": "024a91bd-90f1-48a2-806f-8c49af8d01b9",
+      "version_uuid": "{024a91bd-90f1-48a2-806f-8c49af8d01b9}",
+      "version_modified": "20180311T225538Z",
+      "xml_checksum": "557BF06F",
+      "display_name": "OpenStudio Results",
+      "class_name": "OpenStudioResults",
+      "description": "This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data.",
+      "modeler_description": "For the most part consumption data comes from the tabular EnergyPlus results, however there are a few requests added for time series results. Space type and loop details come from the OpenStudio model. The code for this is modular, making it easy to use as a template for your own custom reports. The structure of the report uses bootstrap, and the graphs use dimple js.",
+      "tags": "Reporting.QAQC",
+      "outputs": [
+        {
+          "name": "electricity_ip",
+          "display_name": "electricity_ip",
+          "short_name": "electricity_ip",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "natural_gas_ip",
+          "display_name": "natural_gas_ip",
+          "short_name": "natural_gas_ip",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "additional_fuel_ip",
+          "display_name": "additional_fuel_ip",
+          "short_name": "additional_fuel_ip",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "district_heating_ip",
+          "display_name": "district_heating_ip",
+          "short_name": "district_heating_ip",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "district_cooling_ip",
+          "display_name": "district_cooling_ip",
+          "short_name": "district_cooling_ip",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "eui",
+          "display_name": "eui",
+          "short_name": "eui",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "net_site_energy",
+          "display_name": "net_site_energy",
+          "short_name": "net_site_energy",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "annual_peak_electric_demand",
+          "display_name": "annual_peak_electric_demand",
+          "short_name": "annual_peak_electric_demand",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "unmet_hours_during_occupied_cooling",
+          "display_name": "unmet_hours_during_occupied_cooling",
+          "short_name": "unmet_hours_during_occupied_cooling",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "unmet_hours_during_occupied_heating",
+          "display_name": "unmet_hours_during_occupied_heating",
+          "short_name": "unmet_hours_during_occupied_heating",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "first_year_capital_cost",
+          "display_name": "first_year_capital_cost",
+          "short_name": "first_year_capital_cost",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "annual_utility_cost",
+          "display_name": "annual_utility_cost",
+          "short_name": "annual_utility_cost",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "total_lifecycle_cost",
+          "display_name": "total_lifecycle_cost",
+          "short_name": "total_lifecycle_cost",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        }
+      ],
+      "attributes": [
+        {
+          "name": "Uses SketchUp API",
+          "display_name": "Uses SketchUp API",
+          "value": false
+        },
+        {
+          "name": "Measure Type",
+          "display_name": "Measure Type",
+          "value": "ReportingMeasure"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "OpenStudio Application"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Parametric Analysis Tool"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Analysis Spreadsheet"
+        },
+        {
+          "name": "Intended Use Case",
+          "display_name": "Intended Use Case",
+          "value": "Automatic Report Generation"
+        }
+      ],
+      "arguments": [
+        {
+          "specialRowId": "optionDelete",
+          "$$hashKey": "uiGrid-00MH",
+          "variable": false,
+          "option_1": "option_1"
+        },
+        {
+          "specialRowId": "optionName",
+          "type": "String",
+          "$$hashKey": "uiGrid-00MJ",
+          "variable": false,
+          "option_1": "OpenStudio Results"
+        },
+        {
+          "specialRowId": "optionDescription",
+          "type": "String",
+          "$$hashKey": "uiGrid-00ML",
+          "variable": false,
+          "option_1": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
+        },
+        {
+          "name": "building_summary_section",
+          "display_name": "Model Summary",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00MN",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "annual_overview_section",
+          "display_name": "Annual Overview",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00MP",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "monthly_overview_section",
+          "display_name": "Monthly Overview",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00MR",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "utility_bills_rates_section",
+          "display_name": "Utility Bills/Rates",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00MT",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "envelope_section_section",
+          "display_name": "Envelope",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00MV",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "space_type_breakdown_section",
+          "display_name": "Space Type Breakdown",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00MX",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "space_type_details_section",
+          "display_name": "Space Type Summary",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00MZ",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "interior_lighting_section",
+          "display_name": "Interior Lighting Summary",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00N1",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "plug_loads_section",
+          "display_name": "Plug Loads Summary",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00N3",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "exterior_light_section",
+          "display_name": "Exterior Lighting",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00N5",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "water_use_section",
+          "display_name": "Water Use Equipment",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00N7",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "hvac_load_profile",
+          "display_name": "HVAC Load Profiles",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00N9",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "zone_condition_section",
+          "display_name": "Zone Conditions",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00NB",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "zone_summary_section",
+          "display_name": "Zone Overview",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00ND",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "zone_equipment_detail_section",
+          "display_name": "Zone Equipment Detail",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00NF",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "air_loops_detail_section",
+          "display_name": "Air Loops Detail",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00NH",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "plant_loops_detail_section",
+          "display_name": "Plant Loops Detail",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00NJ",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "outdoor_air_section",
+          "display_name": "Outdoor Air",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00NL",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "cost_summary_section",
+          "display_name": "Cash Flow",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00NN",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "source_energy_section",
+          "display_name": "Site and Source Summary",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00NP",
+          "variable": false,
+          "option_1": true
+        },
+        {
+          "name": "schedules_overview_section",
+          "display_name": "Schedule Overview",
+          "description": "",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "$$hashKey": "uiGrid-00NR",
+          "variable": false,
+          "option_1": true
+        }
+      ],
+      "edit": "",
+      "status": "",
+      "bcl_update": false,
+      "location": "local",
+      "add": "",
+      "open": false,
+      "addedToProject": true,
+      "date": "3/11/2018",
+      "author": "",
+      "type": "ReportingMeasure",
+      "seed": "frp_baseline_generic_sch.osm",
+      "workflow_index": 0,
+      "options": [
+        {
+          "id": "option_1",
+          "arguments": [
+            {
+              "name": "building_summary_section",
+              "value": true
+            },
+            {
+              "name": "annual_overview_section",
+              "value": true
+            },
+            {
+              "name": "monthly_overview_section",
+              "value": true
+            },
+            {
+              "name": "utility_bills_rates_section",
+              "value": true
+            },
+            {
+              "name": "envelope_section_section",
+              "value": true
+            },
+            {
+              "name": "space_type_breakdown_section",
+              "value": true
+            },
+            {
+              "name": "space_type_details_section",
+              "value": true
+            },
+            {
+              "name": "interior_lighting_section",
+              "value": true
+            },
+            {
+              "name": "plug_loads_section",
+              "value": true
+            },
+            {
+              "name": "exterior_light_section",
+              "value": true
+            },
+            {
+              "name": "water_use_section",
+              "value": true
+            },
+            {
+              "name": "hvac_load_profile",
+              "value": true
+            },
+            {
+              "name": "zone_condition_section",
+              "value": true
+            },
+            {
+              "name": "zone_summary_section",
+              "value": true
+            },
+            {
+              "name": "zone_equipment_detail_section",
+              "value": true
+            },
+            {
+              "name": "air_loops_detail_section",
+              "value": true
+            },
+            {
+              "name": "plant_loops_detail_section",
+              "value": true
+            },
+            {
+              "name": "outdoor_air_section",
+              "value": true
+            },
+            {
+              "name": "cost_summary_section",
+              "value": true
+            },
+            {
+              "name": "source_energy_section",
+              "value": true
+            },
+            {
+              "name": "schedules_overview_section",
+              "value": true
+            }
+          ],
+          "name": "OpenStudio Results",
+          "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
+        }
+      ],
+      "instanceId": 0.3213564095117407,
+      "numberOfOptions": 1,
+      "$$hashKey": "object:1414"
+    },
+    {
+      "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_frp_fdd_workflow/measures/ExportTimeSeriesDatatoCSV",
+      "name": "export_time_series_datato_cS_v",
+      "directory": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/fault_measures_2015/ExportTimeSeriesDatatoCSV",
+      "uid": "556af0ff-b31e-4767-959a-5e213063e13b",
+      "uuid": "{556af0ff-b31e-4767-959a-5e213063e13b}",
+      "version_id": "bad6a9f9-30d7-4a5e-b724-46b08d443b87",
+      "version_uuid": "{bad6a9f9-30d7-4a5e-b724-46b08d443b87}",
+      "version_modified": null,
+      "xml_checksum": "2C8A3EEF",
+      "display_name": "ExportTimeSeriesDatatoCSV",
+      "class_name": "ExportTimeSeriesDatatoCSV",
+      "description": "This measure exports time series data to csv for output variables and meters.",
+      "modeler_description": "This measure loops through all available variables, for all available reporting frequencies, in the Eplus sql output file. It drops the time series data into a csv file with human-readable, as well as epoch, timestamps.",
+      "tags": "Reporting.QAQC",
+      "outputs": [],
+      "attributes": [
+        {
+          "name": "Measure Type",
+          "display_name": "Measure Type",
+          "value": "ReportingMeasure"
+        },
+        {
+          "name": "Uses SketchUp API",
+          "display_name": "Uses SketchUp API",
+          "value": false
+        }
+      ],
+      "arguments": [
+        {
+          "specialRowId": "optionDelete",
+          "$$hashKey": "uiGrid-015B",
+          "variable": false,
+          "option_1": "option_1"
+        },
+        {
+          "specialRowId": "optionName",
+          "type": "String",
+          "$$hashKey": "uiGrid-015D",
+          "variable": false,
+          "option_1": "Export Timeseries Data to CSV"
+        },
+        {
+          "specialRowId": "optionDescription",
+          "type": "String",
+          "$$hashKey": "uiGrid-015F",
+          "variable": false,
+          "option_1": "Option 1 Description: This measure exports time series data to csv for output variables and meters."
+        }
+      ],
+      "edit": "",
+      "status": "",
+      "bcl_update": false,
+      "location": "my",
+      "add": "",
+      "open": false,
+      "addedToProject": true,
+      "date": "",
+      "author": "",
+      "type": "ReportingMeasure",
+      "seed": "frp_baseline_generic_sch.osm",
+      "workflow_index": 1,
+      "options": [
+        {
+          "id": "option_1",
+          "arguments": [],
+          "name": "Export Timeseries Data to CSV",
+          "description": "Option 1 Description: This measure exports time series data to csv for output variables and meters."
+        }
+      ],
+      "instanceId": 0.8054696876520511,
+      "numberOfOptions": 1,
+      "$$hashKey": "object:3616"
+    }
+  ],
+  "filesToInclude": [],
+  "serverScripts": {
+    "server_initialization": {
+      "file": null,
+      "arguments": []
+    },
+    "server_finalization": {
+      "file": null,
+      "arguments": []
+    },
+    "worker_initialization": {
+      "file": null,
+      "arguments": []
+    },
+    "worker_finalization": {
+      "file": null,
+      "arguments": []
+    }
+  },
+  "designAlternatives": [
+    {
+      "name": "No Reports",
+      "seedModel": "frp_baseline_generic_sch.osm",
+      "weatherFile": "USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw",
+      "openstudio_results": "None",
+      "export_time_series_datato_cS_v": "None",
+      "$$hashKey": "uiGrid-01BL"
+    },
+    {
+      "name": "All Reports",
+      "seedModel": "frp_baseline_generic_sch.osm",
+      "weatherFile": "USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw",
+      "openstudio_results": "OpenStudio Results",
+      "export_time_series_datato_cS_v": "Export Timeseries Data to CSV",
+      "$$hashKey": "uiGrid-019Z"
+    }
+  ],
+  "analysisID": null,
+  "datapoints": [
+    {
+      "name": "No Reports",
+      "id": "No Reports",
+      "run": false,
+      "modified": false,
+      "selected": false
+    },
+    {
+      "name": "All Reports",
+      "id": "All Reports",
+      "run": false,
+      "modified": false,
+      "selected": false
+    }
+  ]
+}
