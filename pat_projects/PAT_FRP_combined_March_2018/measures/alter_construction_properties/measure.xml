@@ -1,0 +1,81 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>alter_construction_properties</name>
+  <uid>db91f125-e5e0-492a-8284-e407fb3c3c85</uid>
+  <version_id>3005ac43-3929-433f-95d5-12b5ba34e5db</version_id>
+  <version_modified>20180306T163656Z</version_modified>
+  <xml_checksum>2609226D</xml_checksum>
+  <class_name>AlterConstructionProperties</class_name>
+  <display_name>Alter Construction Properties</display_name>
+  <description>This measure will allow you to alter the r value and mass of existing opaque layered constructions in your model</description>
+  <modeler_description>The thicknes of the least conductive material will be increased to increase r value. The thickness of the most dense material will be increased to increase the mass of the wall. Warning should be issued if materials with reasonable properties to cahnge can't be found. </modeler_description>
+  <arguments>
+    <argument>
+      <name>construction</name>
+      <display_name>Choose a Construction to Alter</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>true</model_dependent>
+    </argument>
+    <argument>
+      <name>r_value</name>
+      <display_name>Percentage Increase of R-value for Insulation material in selected construction</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>30</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>Envelope.Opaque</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <filename>alter_construction_properties_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>61FBCB90</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.4.0</identifier>
+        <min_compatible>2.4.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>D206A9B6</checksum>
+    </file>
+  </files>
+</measure>

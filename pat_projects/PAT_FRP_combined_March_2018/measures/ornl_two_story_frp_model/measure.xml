@@ -1,0 +1,525 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>ornl_two_story_frp_model</name>
+  <uid>67cfe500-ee64-40db-acf7-f04bf999950d</uid>
+  <version_id>2c1f9e20-5fdd-4725-aa1f-66445caa33c9</version_id>
+  <version_modified>20180309T224557Z</version_modified>
+  <xml_checksum>55EF43E6</xml_checksum>
+  <class_name>OrnlTwoStoryFrpModel</class_name>
+  <display_name>Ornl Two Story Frp Model</display_name>
+  <description>This measure will make the ORNL Two Story Flexible Research Platrom OpenStudio Model.</description>
+  <modeler_description>This will start with an OSM file in the resoruce directory. Simulation settings, geometry, constructions, and schedules will come in with the IDF. Schedules will need to be converted to Rulset Schedules so they will work with downstream measures. Schedules may need to be overridden from external resource data unique to a specific test configuraiton. EMS will need to be updated, and HVAC systems will need to be rebuilt.
+
+At some point the OSM could become the working model that gets updated and converted to IDF as needed. In that case this meaure be needed. There will be a mostly complete OSM model that just uses measure to adapt operational characteristics as needed.</modeler_description>
+  <arguments>
+    <argument>
+      <name>hvac_mode</name>
+      <display_name>Select HVAC Mode</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Enabled</default_value>
+      <choices>
+        <choice>
+          <value>Enabled</value>
+          <display_name>Enabled</display_name>
+        </choice>
+        <choice>
+          <value>Disabled</value>
+          <display_name>Disabled</display_name>
+        </choice>
+        <choice>
+          <value>Calibration on/off</value>
+          <display_name>Calibration on/off</display_name>
+        </choice>
+        <choice>
+          <value>Calibration on/off alt</value>
+          <display_name>Calibration on/off alt</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>dx_curves</name>
+      <display_name>Select DX Curves</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Lennox KCA120S4</default_value>
+      <choices>
+        <choice>
+          <value>Lennox KCA120S4</value>
+          <display_name>Lennox KCA120S4</display_name>
+        </choice>
+        <choice>
+          <value>Field Data</value>
+          <display_name>Field Data</display_name>
+        </choice>
+        <choice>
+          <value>Lab Data</value>
+          <display_name>Lab Data</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>fan_curves</name>
+      <display_name>Select Fan Curves</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>Original</default_value>
+      <choices>
+        <choice>
+          <value>Original</value>
+          <display_name>Original</display_name>
+        </choice>
+        <choice>
+          <value>Field Data</value>
+          <display_name>Field Data</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>fan_eff</name>
+      <display_name>Fan Efficiency</display_name>
+      <type>Double</type>
+      <units>si values</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.9</default_value>
+    </argument>
+    <argument>
+      <name>fan_pr</name>
+      <display_name>Fan Pressure Rise</display_name>
+      <type>Double</type>
+      <units>si values</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1000</default_value>
+    </argument>
+    <argument>
+      <name>fan_max_flow</name>
+      <display_name>Fan Maximum Flow Rate</display_name>
+      <type>Double</type>
+      <units>si values</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>2.35973721600001</default_value>
+    </argument>
+    <argument>
+      <name>fan_power_at_min</name>
+      <display_name>Fan Power at Minimum Flow Rate</display_name>
+      <type>Double</type>
+      <units>si values</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1.330891789824</default_value>
+    </argument>
+    <argument>
+      <name>dst</name>
+      <display_name>Enable Daylight Savings Time</display_name>
+      <type>Boolean</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>false</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>setpoint_temp_floor</name>
+      <display_name>Floor for Air Loop Supply Setpoint Temperature</display_name>
+      <type>Double</type>
+      <units>C</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12.78</default_value>
+    </argument>
+    <argument>
+      <name>oa_threshold_for_setpoint_floor</name>
+      <display_name>Outdoor Dry Bulb Temperature at or above which the airloop setpoint should reach the floor.</display_name>
+      <type>Double</type>
+      <units>C</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>13.89</default_value>
+    </argument>
+    <argument>
+      <name>setpoint_temp_ceiling</name>
+      <display_name>Ceiling for Air Loop Supply Setpoint Temperature</display_name>
+      <type>Double</type>
+      <units>C</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>20</default_value>
+    </argument>
+    <argument>
+      <name>oa_threshold_for_setpoint_ceiling</name>
+      <display_name>Outdoor Dry Bulb Temperature at or below which the airloop setpoint should reach the ceiling.</display_name>
+      <type>Double</type>
+      <units>C</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>7.7</default_value>
+    </argument>
+    <argument>
+      <name>stp_mgr</name>
+      <display_name>Air Loop Setpoint Strategy.</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>EMS</default_value>
+      <choices>
+        <choice>
+          <value>EMS</value>
+          <display_name>EMS</display_name>
+        </choice>
+        <choice>
+          <value>Scheduled</value>
+          <display_name>Scheduled</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>infil_sch_arg</name>
+      <display_name>Select Infiltration Schedule Behavior</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1/4th during no HVAC test</default_value>
+      <choices>
+        <choice>
+          <value>1/4th from 6am to 6pm</value>
+          <display_name>1/4th from 6am to 6pm</display_name>
+        </choice>
+        <choice>
+          <value>Always On</value>
+          <display_name>Always On</display_name>
+        </choice>
+        <choice>
+          <value>1/4th during no HVAC test</value>
+          <display_name>1/4th during no HVAC test</display_name>
+        </choice>
+        <choice>
+          <value>dynamic_infil</value>
+          <display_name>dynamic_infil</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>infil_redu_day_weekend</name>
+      <display_name>Fractional reduction in schedule for weekend vs. weekday.</display_name>
+      <description>This is only used if Infiltration Schedule Behavior is det to dynamic_infil</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.25</default_value>
+    </argument>
+    <argument>
+      <name>infil_redu_day_ff</name>
+      <display_name>Fractional reduction in schedule for free float vs. weekend.</display_name>
+      <description>This is only used if Infiltration Schedule Behavior is det to dynamic_infil</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.125</default_value>
+    </argument>
+    <argument>
+      <name>infil_redu_night</name>
+      <display_name>Fractional reduction in schedule for night vs. free float</display_name>
+      <description>This is only used if Infiltration Schedule Behavior is det to dynamic_infil</description>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.125</default_value>
+    </argument>
+    <argument>
+      <name>infil_flow_ext_wall_area</name>
+      <display_name>Infiltration Flow per Exterior Wall Area</display_name>
+      <description>Used for all Zones but Room 102 and Room 101 which uses ACH</description>
+      <type>Double</type>
+      <units>CFM/ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.2</default_value>
+    </argument>
+    <argument>
+      <name>infil_102ach</name>
+      <display_name>Air Changes per Hour for Room 102</display_name>
+      <description>Only affects Room 101 abd 102 which have exterior doors</description>
+      <type>Double</type>
+      <units>ACH</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>2</default_value>
+    </argument>
+    <argument>
+      <name>stair_doors_mixing</name>
+      <display_name>Air Changes per Mixing Between Stair doors and adjacent internal spaces</display_name>
+      <description>Value is added between both space 101 and 102, and 201 and 202</description>
+      <type>Double</type>
+      <units>CFM</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.5</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_first_thin_area</name>
+      <display_name>Area of thin internal mass per first story space, except where overriden by arguments below.</display_name>
+      <description>Thin internal mass is modeled as 1/16th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>20</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_first_thick_area</name>
+      <display_name>Area of thick internal mass per first story space, except where overriden by arguments below.</display_name>
+      <description>Thick internal mass is modeled as 1/4th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>5</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_second_thin_area</name>
+      <display_name>Area of thin internal mass per second story space, except where overriden by arguments below.</display_name>
+      <description>Thin internal mass is modeled as 1/16th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>5</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_second_thick_area</name>
+      <display_name>Area of thick internal mass per second story space, except where overriden by arguments below.</display_name>
+      <description>Thick internal mass is modeled as 1/4th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>5</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_plenum_thin_area</name>
+      <display_name>Area of thin internal mass per plenum space.</display_name>
+      <description>Thin internal mass is modeled as 1/16th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>500</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_plenum_thick_area</name>
+      <display_name>Area of thick internal mass per plenum space.</display_name>
+      <description>Thick internal mass is modeled as 1/4th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>50</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_stair_thin_area</name>
+      <display_name>Area of thin internal mass per stair space.</display_name>
+      <description>Thin internal mass is modeled as 1/16th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_stair_thick_area</name>
+      <display_name>Area of thick internal mass per stair space.</display_name>
+      <description>Thick internal mass is modeled as 1/4th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>400</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_room_105_thin_area</name>
+      <display_name>Area of thin internal mass for room 105.</display_name>
+      <description>Thin internal mass is modeled as 1/16th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>350</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_room_105_thick_area</name>
+      <display_name>Area of thick internal mass for room 105.</display_name>
+      <description>Thick internal mass is modeled as 1/4th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>15</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_room_106_thin_area</name>
+      <display_name>Area of thin internal mass for room 106.</display_name>
+      <description>Thin internal mass is modeled as 1/16th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>100</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_room_106_thick_area</name>
+      <display_name>Area of thick internal mass for room 106.</display_name>
+      <description>Thick internal mass is modeled as 1/4th inch metal</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>40</default_value>
+    </argument>
+    <argument>
+      <name>int_mass_multiplier</name>
+      <display_name>Global Internal Mass Multiplier</display_name>
+      <description>For use with calibration a single multiplier applied to values above in area of internal mass</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>add_water_tanks</name>
+      <display_name>Add mass for 4 x 200 gallon non insulated water tanks to Room 105.</display_name>
+      <type>Boolean</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>true</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>shgc_multiplier</name>
+      <display_name>SHGC Multiplier</display_name>
+      <description>Changes default SHGC value entered for Double Pane material used for external windows in the model.</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>ufactor_multiplier</name>
+      <display_name>U Factor Multiplier</display_name>
+      <description>Changes default U Factor value entered for Double Pane material used for external windows in the model.</description>
+      <type>Double</type>
+      <units>ft^2</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>Whole Building.Whole Building Schedules</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Model Articulation</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Calibration</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Use Case</name>
+      <value>Sensitivity Analysis</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <filename>ScheduleTranslator.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>9EDB75CD</checksum>
+    </file>
+    <file>
+      <filename>ornl_two_story_frp_model_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>0450F6DD</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.2.0</identifier>
+        <min_compatible>2.2.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>CF9BF62C</checksum>
+    </file>
+    <file>
+      <filename>FRP2_raw_import_updated_ORNL4.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>C016B1CC</checksum>
+    </file>
+  </files>
+</measure>
