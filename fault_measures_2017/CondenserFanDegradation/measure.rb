@@ -1,30 +1,29 @@
-#see the URL below for information on how to write OpenStudio measures
+# see the URL below for information on how to write OpenStudio measures
 # http://openstudio.nrel.gov/openstudio-measure-writing-guide
 
-#see the URL below for information on using life cycle cost objects in OpenStudio
+# see the URL below for information on using life cycle cost objects in OpenStudio
 # http://openstudio.nrel.gov/openstudio-life-cycle-examples
 
-#see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
+# see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
-require "#{File.dirname(__FILE__)}/resources/TransferCurveParameters"
-require "#{File.dirname(__FILE__)}/resources/ScheduleSearch"
-require "#{File.dirname(__FILE__)}/resources/EnterCoefficients"
+require "#{File.dirname(__FILE__)}/resources/transfercurveparameters"
 require "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdx_CAF"
-require "#{File.dirname(__FILE__)}/resources/FaultDefinitions"
-    
-#define number of parameters in the model
-$q_para_num = 5
-$eir_para_num = 5
+require "#{File.dirname(__FILE__)}/resources/faultdefinitions"
+require "#{File.dirname(__FILE__)}/resources/misc_eplus_func"
+
+# define number of parameters in the model
+$q_para_num = 6
+$eir_para_num = 6
 $faultnow = 'CAF'
+$err_check = false
 $all_coil_selection = '* ALL Coil Selected *'
 
 # start the measure
 class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
-
   # human readable name
   def name
-    return "Condenser Fan Degradation"
+    return 'Condenser Fan Degradation'
   end
 
   # human readable description
@@ -40,7 +39,7 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
   # define the arguments that the user will input
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
-    
+
     ##################################################
     list = OpenStudio::StringVector.new
     list << $all_coil_selection
@@ -54,37 +53,71 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
       twostages.each do |twostage|
       list << twostage.name.to_s
     end
-	
+		
     #make choice arguments for Coil:Cooling:DX:SingleSpeed
     coil_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("coil_choice", list, true)
     coil_choice.setDisplayName("Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select #{$all_coil_selection}")
     coil_choice.setDefaultValue($all_coil_selection)
     args << coil_choice
     ##################################################
-    
-    #choice of schedules for the presence of fault. 0 for no fault and other numbers means fault level
-    #schedule 
-    sch_choice = OpenStudio::Ruleset::OSArgument::makeStringArgument("sch_choice", true)
-    sch_choice.setDisplayName("Enter the name of the schedule of the fault level. If you do not have a schedule, leave this blank.")
-    sch_choice.setDefaultValue("")
-    args << sch_choice  #FUTURE: detect empty string later for users who provide no schedule, and delete schedule_exist
-	
-    #make a double argument for the fault level
-    #it should range between 0 and 0.9. 0 means no degradation
-    #and 0.9 means that percentage drop of COP is 90% and percentage drop of cooling load is also 90%
+
+    # make a double argument for the fault level
     fault_lvl = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("fault_lvl", false)
     fault_lvl.setDisplayName("Fan motor efficiency degradation ratio [-]")
     fault_lvl.setDefaultValue(0.5)  #default fouling level to be 50%
     args << fault_lvl
 	
-    #make a double argument for the fault level
-    #it should range between 0 and 0.9. 0 means no degradation
-    #and 0.9 means that percentage drop of COP is 90% and percentage drop of cooling load is also 90%
-    fan_power_ratio = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("fan_power_ratio", false)
+	fan_power_ratio = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("fan_power_ratio", false)
     fan_power_ratio.setDisplayName("Ratio of condenser fan motor power consumption to combined power consumption of condenser fan and compressor at rated condition.")
     fan_power_ratio.setDefaultValue(0.091747081)  #defaulted calcualted to be 0.0917
     args << fan_power_ratio
-    
+
+	##################################################
+    #Parameters for transient fault modeling
+	
+	#make a double argument for the time required for fault to reach full level 
+    time_constant = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_constant', false)
+    time_constant.setDisplayName('Enter the time required for fault to reach full level [hr]')
+    time_constant.setDefaultValue(0)  #default is zero
+    args << time_constant
+	
+	#make a double argument for the start month
+    start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
+    start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
+    start_month.setDefaultValue(6)  #default is June
+    args << start_month
+	
+	#make a double argument for the start date
+    start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_date', false)
+    start_date.setDisplayName('Enter the date (1-28/30/31) when the fault starts to occur')
+    start_date.setDefaultValue(1)  #default is 1st day of the month
+    args << start_date
+	
+	#make a double argument for the start time
+    start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
+    start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
+    start_time.setDefaultValue(9)  #default is 9am
+    args << start_time
+	
+	#make a double argument for the end month
+    end_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_month', false)
+    end_month.setDisplayName('Enter the month (1-12) when the fault ends')
+    end_month.setDefaultValue(12)  #default is Decebmer
+    args << end_month
+	
+	#make a double argument for the end date
+    end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_date', false)
+    end_date.setDisplayName('Enter the date (1-28/30/31) when the fault ends')
+    end_date.setDefaultValue(31)  #default is last day of the month
+    args << end_date
+	
+	#make a double argument for the end time
+    end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
+    end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
+    end_time.setDefaultValue(23)  #default is 11pm
+    args << end_time
+    ##################################################
+
     return args
   end
 
@@ -92,502 +125,336 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
   def run(workspace, runner, user_arguments)
     super(workspace, runner, user_arguments)
 
-    # use the built-in error checking
-    if !runner.validateUserArguments(arguments(workspace), user_arguments)
-      return false
+    # obtain values
+    coil_choice, fault_lvl, fault_lvl_check = _get_inputs(workspace, runner, user_arguments)
+    unless fault_lvl_check == 'continue'
+      return fault_lvl_check
     end
     
-    #obtain values
-    coil_choice_all = runner.getStringArgumentValue('coil_choice',user_arguments)
-    sch_choice = runner.getStringArgumentValue('sch_choice',user_arguments)
-    fault_lvl = runner.getDoubleArgumentValue('fault_lvl',user_arguments)
-    fan_power_ratio = runner.getDoubleArgumentValue('fan_power_ratio',user_arguments)
-    
-    #create schedule_exist
-    schedule_exist = true
-    if sch_choice.eql?("") || sch_choice.eql?("na") # PAT doesn't like an empty string as string argument
-      schedule_exist = false
-    end
-    
-    if (schedule_exist || fault_lvl != 0) # only continue if the user is running the module
-    
-      runner.registerInitialCondition("Imposing performance degradation on "+coil_choice_all+".")
-      
-      #read data for scheduletypelimits
-      scheduletypelimits = workspace.getObjectsByType("ScheduleTypeLimits".to_IddObjectType)
-      
-      #if a user-defined schedule is used, check if the schedule exists and if the schedule has the correct schedule type limits
-      if schedule_exist
-        
-        #check if the schedule exists
-        bool_schedule, schedule_type_limit, schedule_code = schedule_search(workspace, sch_choice)
-        
-        if not bool_schedule
-          runner.registerError("User-defined schedule "+sch_choice+" does not exist. Exiting......")
-          return false
-        end
-        
-        #check schedule type limit of the schedule, if it is not bounded between 0 and 1, reject it
-        scheduletypelimits.each do |scheduletypelimit|
-          if scheduletypelimit.getString(0).to_s.eql?(schedule_type_limit)
-            if scheduletypelimit.getString(1).to_s.to_f < 0 || scheduletypelimit.getString(1).to_s.to_f > 1
-              runner.registerError("User-defined schedule "+sch_choice+" has a ScheduleTypeLimits outside the range 0 to 1.0. Exiting......")
-              return false
-            end
-            break
-          end
-        end
-        
-      else
-      
-        #if there is no user-defined schedule, check if the fouling level is positive
-        if fault_lvl < 0.0 || fault_lvl > 0.99
-          runner.registerError("Fault level #{fault_lvl} for "+coil_choice_all+" is oustide the range from 0 to 0.99. Exiting......")
-          return false
-        end
-        
-      end
-    
-      #find the DX unit to change
-      no_RTU_changed = true
-      existing_coils = []
-	    
-      ##################################################
-      # find the single speed DX unit to change
-      ##################################################
-      coilcoolingdxsinglespeeds = workspace.getObjectsByType("Coil:Cooling:DX:SingleSpeed".to_IddObjectType)
-      coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
-        if coilcoolingdxsinglespeed.getString(0).to_s.eql?(coil_choice_all) | coil_choice_all.eql?($all_coil_selection)
-          
-          coil_choice = coilcoolingdxsinglespeed.getString(0).to_s
-          no_RTU_changed = false
-		
-	  ##################################################
-	  coiltype = 1 #Coil:Cooling:DX:SingleSpeed
-	  ##################################################
-    
-          sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-          if sh_coil_choice.eql?(nil)
-            sh_coil_choice = coil_choice
-          end
+    ##################################################
+    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
+    ##################################################
+    time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
+	start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
+	start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
+	start_time = runner.getDoubleArgumentValue('start_time',user_arguments).to_s
+	end_month = runner.getDoubleArgumentValue('end_month',user_arguments).to_s
+	end_date = runner.getDoubleArgumentValue('end_date',user_arguments).to_s
+	end_time = runner.getDoubleArgumentValue('end_time',user_arguments).to_s
+	time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
+	dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
+	dts.each do |dt|
+	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
+	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
+	end
+	################################################## 
+    rtu_changed = false
+    existing_coils = []
 
-          #check the type of unit. Raise an error if it is not air-cooled
-          if not coilcoolingdxsinglespeed.getString(20).to_s.eql?("AirCooled")
-            runner.registerError(coil_choice+" is not air cooled. Impossible to impose condenser fan motor efficiency degradation. Exiting......")
-            return false
-          end
-          
-          #create an empty string_objects to be appended into the .idf file
-          string_objects = []
-          
-          #create a faulted schedule. If schedule_exist is 1, create a schedule that the fault exists
-          #all the time. Otherwise, create a schedule that the fault does not happens
-          
-          #check if the Fractional Schedule Type Limit exists and create it if
-          #it doesn't. It's going to be used by the schedule in this script.
-          print_fractional_schedule = true
-          scheduletypelimitname = "Fraction"
-          scheduletypelimits.each do |scheduletypelimit|
-            if scheduletypelimit.getString(0).to_s.eql?(scheduletypelimitname)
-              if not (scheduletypelimit.getString(1).to_s.to_f >= 0 && scheduletypelimit.getString(2).to_s.to_f <= 1 && scheduletypelimit.getString(3).to_s.eql?("Continuous"))
-                #if the existing ScheduleTypeLimits does not satisfy the requirement, generate the ScheduleTypeLimits with a unique name
-                scheduletypelimitname = "Fraction"+sh_coil_choice
-              else
-                print_fractional_schedule = false
-              end
-              break
-            end
-          end
-          if print_fractional_schedule
-            string_objects << "
-              ScheduleTypeLimits,
-                "+scheduletypelimitname+",                             !- Name
-                0,                                      !- Lower Limit Value {BasedOnField A3}
-                1,                                      !- Upper Limit Value {BasedOnField A3}
-                Continuous;                             !- Numeric Type
-            "
-          end
-          
-          #if the schedule does not exist, create a new schedule according to fault_lvl
-          if not schedule_exist
-            #set a unique name for the schedule according to the component and the fault
-            sch_choice = "CAFDegradactionFactor"+sh_coil_choice+"_SCH"
-            
-            #create a Schedule:Compact object with a schedule type limit "Fractional" that are usually 
-            #created in OpenStudio for continuous schedules bounded by 0 and 1
-            string_objects << "
-              Schedule:Constant,
-                "+sch_choice+",         !- Name
-                "+scheduletypelimitname+",                       !- Schedule Type Limits Name
-                #{fault_lvl};                    !- Hourly Value
-            "
-          end
-          
-          #create schedules with zero and one all the time for zero fault scenarios
-          string_objects = no_fault_schedules(workspace, scheduletypelimitname, string_objects)
-          
-          #create energyplus management system code to alter the cooling capacity and EIR of the coil object
-          
-          #introduce code to modify the temperature curve for cooling capacity
-          
-          #obtaining the coefficients in the original EIR curve
-          curve_name = coilcoolingdxsinglespeed.getString(11).to_s
-          curvebiquadratics = workspace.getObjectsByType("Curve:Biquadratic".to_IddObjectType)
-          curve_nameEIR, paraEIR, no_curve = para_biquadratic_limit(curvebiquadratics, curve_name)
-          if no_curve
-            runner.registerError("No Temperature Adjustment Curve for "+coil_choice+" EIR. Exiting......")
-            return false
-          end
-          
-          # obtain the name of an outdoor air node
-          outdoor_node = ""
-          outdoorairnodelists = workspace.getObjectsByType("OutdoorAir:NodeList".to_IddObjectType)
-          outdoorairnodelists.each do |outdoorairnodelist|
-            outdoor_node = outdoorairnodelist.getString(0).to_s  #all are the same
-            break
-          end
-          
-          #write EMS program of the new curve
-          string_objects = main_program_entry(workspace, string_objects, coil_choice, curve_nameEIR, paraEIR, "EIR")
-          
-          #pass the minimum and maximum values of model inputs to ca_q_para and ca_eir_para tio insert them to the subroutines          
-          eir_para = [fan_power_ratio]
-          
-          #write the EMS subroutines
-	  ##################################################
-          string_objects, workspace = caf_adjust_function(workspace, string_objects, coilcoolingdxsinglespeed, "EIR", eir_para, coiltype, [], 11)
-	  ##################################################
-          
-          #write dummy subroutines for other faults, and make sure that it is not current fault
-          $model_names.each do |model_name|
-            $other_faults.each do |other_fault|
-              if not other_fault.eql?("CAF")
-		##################################################
-                string_objects = dummy_fault_sub_add(workspace, string_objects, coilcoolingdxsinglespeed, other_fault, coil_choice, model_name, coiltype, [], 9)
-		##################################################
-              end
-            end
-          end
-          
-          #write EMS sensors for schedules of fault levels
-          string_objects = fault_level_sensor_sch_insert(workspace, string_objects, "CAF", coil_choice, sch_choice)
-          
-          # write variable definition for EMS programs
-          
-          #EMS Sensors to the workspace
-          
-          #check if the sensors are added previously by other fault models
-          pressure_sensor_name = "Pressure"+sh_coil_choice
-          db_sensor_name = "CoilInletDBT"+sh_coil_choice
-          humidity_sensor_name = "CoilInletW"+sh_coil_choice
-          oat_sensor_name = "OAT"+sh_coil_choice
-          pressure_sensor_write = true
-          db_sensor_write = true
-          humidity_sensor_write = true
-          oat_sensor_write = true
-          
-          ems_sensors = workspace.getObjectsByType("EnergyManagementSystem:Sensor".to_IddObjectType)
-          ems_sensors.each do |ems_sensor|
-            sensor_name = ems_sensor.getString(0).to_s
-            if sensor_name.eql?(pressure_sensor_name)
-              pressure_sensor_write = false
-            end
-            if sensor_name.eql?(db_sensor_name)
-              db_sensor_write = false
-            end
-            if sensor_name.eql?(humidity_sensor_name)
-              humidity_sensor_write = false
-            end
-            if sensor_name.eql?(oat_sensor_name)
-              oat_sensor_write = false
-            end
-          end
-          
-          if pressure_sensor_write
-            string_objects << "
-              EnergyManagementSystem:Sensor,
-                Pressure"+sh_coil_choice+",                !- Name
-                "+outdoor_node+",       !- Output:Variable or Output:Meter Index Key Name
-                System Node Pressure;    !- Output:Variable or Output:Meter Name
-            "
-          end
-          
-          if db_sensor_write
-            string_objects << "
-              EnergyManagementSystem:Sensor,
-                CoilInletDBT"+sh_coil_choice+",            !- Name
-                "+coilcoolingdxsinglespeed.getString(7).to_s+",  !- Output:Variable or Output:Meter Index Key Name
-                System Node Temperature; !- Output:Variable or Output:Meter Name
-            "
-          end
-          
-          if humidity_sensor_write
-            string_objects << "
-              EnergyManagementSystem:Sensor,
-                CoilInletW"+sh_coil_choice+",              !- Name
-                "+coilcoolingdxsinglespeed.getString(7).to_s+",  !- Output:Variable or Output:Meter Index Key Name
-                System Node Humidity Ratio;  !- Output:Variable or Output:Meter Name
-            "
-          end
-          
-          if oat_sensor_write
-            string_objects << "
-              EnergyManagementSystem:Sensor,
-                OAT"+sh_coil_choice+",                     !- Name
-                "+outdoor_node+",       !- Output:Variable or Output:Meter Index Key Name
-                System Node Temperature; !- Output:Variable or Output:Meter Name
-            "
-          end
-          
-          # only add Output:EnergyManagementSystem if it does not exist in the code
-          outputemss = workspace.getObjectsByType("Output:EnergyManagementSystem".to_IddObjectType)
-          if outputemss.size == 0
-            string_objects << "
-              Output:EnergyManagementSystem,
-                Verbose,                 !- Actuator Availability Dictionary Reporting
-                Verbose,                 !- Internal Variable Availability Dictionary Reporting
-                ErrorsOnly;                 !- EMS Runtime Language Debug Output Level
-            "
-          end
-          
-          #add all of the strings to workspace to create IDF objects
-          string_objects.each do |string_object|
-            idfObject = OpenStudio::IdfObject::load(string_object)
-            object = idfObject.get
-            wsObject = workspace.addObject(object)
-          end
-        else
-          existing_coils << coilcoolingdxsinglespeed.getString(0).to_s
-        end
-      end
+    ##################################################
+    # find the single speed DX unit to change
+    ##################################################
+    #SINGLE SPEED
+    coilcoolingdxsinglespeeds = get_workspace_objects(workspace, 'Coil:Cooling:DX:SingleSpeed')
+    coilcoolingdxsinglespeeds.each do |coilcoolingdxsinglespeed|
       
-      ##################################################
-      # find the two stage DX unit to change
-      ##################################################
-      coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
-      coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
-	coilperformancedxcoolings = workspace.getObjectsByType(coilcoolingdxtwostagewithhumiditycontrolmode.getString(8).to_s.to_IddObjectType)
-	coilperformancedxcoolings.each do |coilperformancedxcooling|
-  
-          if coilcoolingdxtwostagewithhumiditycontrolmode.getString(0).to_s.eql?(coil_choice_all) | coil_choice_all.eql?($all_coil_selection)
-          
-            coil_choice = coilcoolingdxtwostagewithhumiditycontrolmode.getString(0).to_s
-            no_RTU_changed = false
-		  
-	    coiltype = 2 #Coil:Cooling:DX:TwoStageWithHumidityControlMode
-    
-            sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-            if sh_coil_choice.eql?(nil)
-              sh_coil_choice = coil_choice
-            end
-
-          
-            #create an empty string_objects to be appended into the .idf file
-            string_objects = []
-          
-            #create a faulted schedule. If schedule_exist is 1, create a schedule that the fault exists
-            #all the time. Otherwise, create a schedule that the fault does not happens
-          
-            #check if the Fractional Schedule Type Limit exists and create it if
-            #it doesn't. It's going to be used by the schedule in this script.
-            print_fractional_schedule = true
-            scheduletypelimitname = "Fraction"
-            scheduletypelimits.each do |scheduletypelimit|
-              if scheduletypelimit.getString(0).to_s.eql?(scheduletypelimitname)
-                if not (scheduletypelimit.getString(1).to_s.to_f >= 0 && scheduletypelimit.getString(2).to_s.to_f <= 1 && scheduletypelimit.getString(3).to_s.eql?("Continuous"))
-                  #if the existing ScheduleTypeLimits does not satisfy the requirement, generate the ScheduleTypeLimits with a unique name
-                  scheduletypelimitname = "Fraction"+sh_coil_choice
-                else
-                  print_fractional_schedule = false
-                end
-                break
-              end
-            end
-            if print_fractional_schedule
-              string_objects << "
-                ScheduleTypeLimits,
-                  "+scheduletypelimitname+",                             !- Name
-                  0,                                      !- Lower Limit Value {BasedOnField A3}
-                  1,                                      !- Upper Limit Value {BasedOnField A3}
-                  Continuous;                             !- Numeric Type
-              "
-            end
-          
-            #if the schedule does not exist, create a new schedule according to fault_lvl
-            if not schedule_exist
-              #set a unique name for the schedule according to the component and the fault
-              sch_choice = "CAFDegradactionFactor"+sh_coil_choice+"_SCH"
-            
-              #create a Schedule:Compact object with a schedule type limit "Fractional" that are usually 
-              #created in OpenStudio for continuous schedules bounded by 0 and 1
-              string_objects << "
-                Schedule:Constant,
-                  "+sch_choice+",         !- Name
-                  "+scheduletypelimitname+",                       !- Schedule Type Limits Name
-                  #{fault_lvl};                    !- Hourly Value
-              "
-            end
-          
-            #create schedules with zero and one all the time for zero fault scenarios
-            string_objects = no_fault_schedules(workspace, scheduletypelimitname, string_objects)
-          
-            #create energyplus management system code to alter the cooling capacity and EIR of the coil object
-          
-            #introduce code to modify the temperature curve for cooling capacity
-          
-            #obtaining the coefficients in the original EIR curve
-	    curve_str = pass_string(coilperformancedxcooling, 8)
-	    curvebiquadratics = get_workspace_objects(workspace, 'Curve:Biquadratic')
-            curve_nameEIR, paraEIR, no_curve = para_biquadratic_limit(curvebiquadratics, curve_str)
-		  
-            if no_curve
-              runner.registerError("No Temperature Adjustment Curve for "+coil_choice+" EIR. Exiting......")
-              return false
-            end
-          
-            # obtain the name of an outdoor air node
-            outdoor_node = ""
-            outdoorairnodelists = workspace.getObjectsByType("OutdoorAir:NodeList".to_IddObjectType)
-            outdoorairnodelists.each do |outdoorairnodelist|
-              outdoor_node = outdoorairnodelist.getString(0).to_s  #all are the same
-              break
-            end
-          
-            #write EMS program of the new curve
-            string_objects = main_program_entry(workspace, string_objects, coil_choice, curve_nameEIR, paraEIR, "EIR")
-          
-            #pass the minimum and maximum values of model inputs to ca_q_para and ca_eir_para tio insert them to the subroutines          
-            eir_para = [fan_power_ratio]
-          
-            #write the EMS subroutines
-            string_objects, workspace = caf_adjust_function(workspace, string_objects, coilcoolingdxtwostagewithhumiditycontrolmode, "EIR", eir_para, coiltype, coilperformancedxcooling, 8)
-          
-            #write dummy subroutines for other faults, and make sure that it is not current fault
-            $model_names.each do |model_name|
-              $other_faults.each do |other_fault|
-                if not other_fault.eql?("CAF")
-                  # string_objects = dummy_fault_sub_add(workspace, string_objects, other_fault, coil_choice, model_name)
-		  string_objects = dummy_fault_sub_add(workspace, string_objects, coilcoolingdxtwostagewithhumiditycontrolmode, other_fault, coil_choice, model_name, coiltype, coilperformancedxcooling, 6)
-                end
-              end
-            end
-          
-            #write EMS sensors for schedules of fault levels
-            string_objects = fault_level_sensor_sch_insert(workspace, string_objects, "CAF", coil_choice, sch_choice)
-          
-            # write variable definition for EMS programs
-          
-            #EMS Sensors to the workspace
-          
-            #check if the sensors are added previously by other fault models
-            pressure_sensor_name = "Pressure"+sh_coil_choice
-            db_sensor_name = "CoilInletDBT"+sh_coil_choice
-            humidity_sensor_name = "CoilInletW"+sh_coil_choice
-            oat_sensor_name = "OAT"+sh_coil_choice
-            pressure_sensor_write = true
-            db_sensor_write = true
-            humidity_sensor_write = true
-            oat_sensor_write = true
-          
-            ems_sensors = workspace.getObjectsByType("EnergyManagementSystem:Sensor".to_IddObjectType)
-            ems_sensors.each do |ems_sensor|
-              sensor_name = ems_sensor.getString(0).to_s
-              if sensor_name.eql?(pressure_sensor_name)
-                pressure_sensor_write = false
-              end
-              if sensor_name.eql?(db_sensor_name)
-                db_sensor_write = false
-              end
-              if sensor_name.eql?(humidity_sensor_name)
-                humidity_sensor_write = false
-              end
-              if sensor_name.eql?(oat_sensor_name)
-                 oat_sensor_write = false
-              end
-            end
-          
-            if pressure_sensor_write
-              string_objects << "
-                EnergyManagementSystem:Sensor,
-                  Pressure"+sh_coil_choice+",                !- Name
-                  "+outdoor_node+",       !- Output:Variable or Output:Meter Index Key Name
-                  System Node Pressure;    !- Output:Variable or Output:Meter Name
-              "
-            end
-          
-            if db_sensor_write
-              string_objects << "
-                EnergyManagementSystem:Sensor,
-                  CoilInletDBT"+sh_coil_choice+",            !- Name
-                  "+coilcoolingdxtwostagewithhumiditycontrolmode.getString(2).to_s+",  !- Output:Variable or Output:Meter Index Key Name
-                  System Node Temperature; !- Output:Variable or Output:Meter Name
-              "
-            end
-          
-            if humidity_sensor_write
-              string_objects << "
-                EnergyManagementSystem:Sensor,
-                  CoilInletW"+sh_coil_choice+",              !- Name
-                  "+coilcoolingdxtwostagewithhumiditycontrolmode.getString(2).to_s+",  !- Output:Variable or Output:Meter Index Key Name
-                  System Node Humidity Ratio;  !- Output:Variable or Output:Meter Name
-              "
-            end
-          
-            if oat_sensor_write
-              string_objects << "
-                EnergyManagementSystem:Sensor,
-                  OAT"+sh_coil_choice+",                     !- Name
-                  "+outdoor_node+",       !- Output:Variable or Output:Meter Index Key Name
-                  System Node Temperature; !- Output:Variable or Output:Meter Name
-              "
-            end
-          
-            # only add Output:EnergyManagementSystem if it does not exist in the code
-            outputemss = workspace.getObjectsByType("Output:EnergyManagementSystem".to_IddObjectType)
-            if outputemss.size == 0
-              string_objects << "
-                Output:EnergyManagementSystem,
-                  Verbose,                 !- Actuator Availability Dictionary Reporting
-                  Verbose,                 !- Internal Variable Availability Dictionary Reporting
-                  ErrorsOnly;                 !- EMS Runtime Language Debug Output Level
-              "
-            end
-          
-            #add all of the strings to workspace to create IDF objects
-            string_objects.each do |string_object|
-              idfObject = OpenStudio::IdfObject::load(string_object)
-              object = idfObject.get
-              wsObject = workspace.addObject(object)
-            end
-          else
-            existing_coils << coilcoolingdxtwostagewithhumiditycontrolmode.getString(0).to_s
-          end
-        end
-      end
-      ##################################################
-	    
-      #give an error for the name if no DX unit is changed
-      if no_RTU_changed
-        runner.registerError("Measure CondenserFanDegradation cannot find "+coil_choice_all+". Exiting......")
-        coils_msg = "Only coils "
-        existing_coils.each do |existing_coil|
-          coils_msg = coils_msg+existing_coil+", "
-        end
-        coils_msg = coils_msg+"were found."
-        runner.registerError(coils_msg)
+      coiltype = 1
+      existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
+      next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
+      runner.registerInfo("Found single speed coil named #{coilcoolingdxsinglespeed.getString(0)}")
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+      unless rtu_changed
         return false
       end
+      # break
+    end
+    ##################################################
+    # find the two stage DX unit to change
+    ##################################################
+    #TWO STAGE WITH HUMIDITY CONTROL MODE
+    coilcoolingdxtwostagewithhumiditycontrolmodes = get_workspace_objects(workspace, 'Coil:Cooling:DX:TwoStageWithHumidityControlMode')
+    coilcoolingdxtwostagewithhumiditycontrolmodes.each do |coilcoolingdxtwostagewithhumiditycontrolmode|
+      
+      coiltype = 2
+      existing_coils << pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0)
+      next unless pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
+      runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostagewithhumiditycontrolmode.getString(0)}")
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0), fault_lvl, coilcoolingdxtwostagewithhumiditycontrolmode, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+      unless rtu_changed
+        return false
+      end
+      # break
+      
+      # if need absolute CLI path use code below
+      #cli_path = OpenStudio.getOpenStudioCLI.to_s
+      #runner.registerInfo(cli_path.to_s)
+      #energy_plus_path = cli_path.gsub("bin/openstudio","EnergyPlus/energyplus")
+      #runner.registerInfo(energy_plus_path)
 
-      # report final condition of workspace
-      runner.registerFinalCondition("Imposed performance degradation on "+coil_choice_all+".")
-    else
-      runner.registerAsNotApplicable("CondenserFanDegradation is not running for "+coil_choice_all+". Skipping......")
+      # get weather file
+      epw_path = runner.lastEpwFilePath
+      if epw_path.empty?
+        runner.registerError('Cannot find last epw path.')
+        return false
+      end
+      epw_path = epw_path.get.to_s
+
+      # run simulation design days only
+      workspace.save("dd_sim.idf",true)
+      cmd = "energyplus -w #{epw_path} -D dd_sim.idf"
+      runner.registerInfo(cmd)
+      system(cmd)
+      
+    end
+    ##################################################
+
+    # give an error for the name if no DX unit is changed
+    return _return_err_message_for_not_unit(runner, existing_coils, coil_choice) unless rtu_changed
+
+    # report final condition of workspace
+    return true
+  end
+
+  def _get_inputs(workspace, runner, user_arguments)
+    # use the built-in error checking
+    unless runner.validateUserArguments(arguments(workspace), user_arguments)
+      return '', 0.0, false
     end
 
-    return true
-
+    # function to return inputs stored in user_arguments
+    coil_choice = runner.getStringArgumentValue('coil_choice', user_arguments)
+    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
+    fault_lvl_check = _check_fault_lvl(runner, coil_choice, fault_lvl)
+    return coil_choice, fault_lvl, fault_lvl_check
   end
-  
+
+  def _check_fault_lvl(runner, coil_choice, fault_lvl)
+    # This function checks if the fault level values are valid
+    if fault_lvl < 0.0 || fault_lvl > 1.0
+      runner.registerError("Fault level #{fault_lvl} for #{coil_choice} is outside the range from 0 to 1. Exiting......")
+      return false
+    elsif fault_lvl.abs < 0.001
+      runner.registerAsNotApplicable("CondenserFanDegradation is not running for #{coil_choice}. Skipping......")
+      return true
+    end
+    return 'continue'
+  end
+
+  def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcooling, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+    # check component validity
+    
+    ##################################################
+    if coiltype == 1 #SINGLESPEED
+      unless pass_string(coilcooling, 20).eql?('AirCooled')
+        runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in CondenserFanDegradation. Exiting......")
+        return false
+      end
+    end
+    ##################################################
+
+    # create an empty string_objects to be appended into the .idf file
+    runner.registerInitialCondition("Imposing performance degradation on #{coil_choice}.")
+    sh_coil_choice = name_cut(coil_choice)
+
+    # create a faulted schedule with a new schedule type limit
+    string_objects, sch_choice = _create_schedules_and_typelimits(workspace, coil_choice, fault_lvl, [])
+
+    # create energyplus management system code to alter the EIR of the coil object
+    string_objects, workspace = _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl)
+
+    # write variable definition for EMS programs
+    # EMS Sensors to the workspace
+    # check if the sensors are added previously by other fault models
+    _write_ems_sensors(workspace, runner, coilcooling, sh_coil_choice, string_objects, find_outdoor_node_name(workspace), coiltype)
+	
+	#Fault intensity adjustment factor for dynamic modeling
+	faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, sh_coil_choice)
+
+    return _wrapping_up(runner, workspace, coil_choice, string_objects)
+  end
+
+  def _create_schedules_and_typelimits(workspace, coil_choice, fault_lvl, string_objects)
+    # function to create schedules and corresponding limits
+    # create a faulted schedule with a new schedule type limit
+    sch_choice, scheduletypelimitname = _create_schedule_objects_create_schedule_objects(
+      workspace, coil_choice, fault_lvl, string_objects
+    )
+
+    # create schedules with zero and one all the time for zero fault scenarios
+    string_objects = no_fault_schedules(workspace, scheduletypelimitname, string_objects)
+    return string_objects, sch_choice
+  end
+
+  def _return_err_message_for_not_unit(runner, existing_coils, coil_choice)
+    runner.registerError("Measure CondenserFanDegradation cannot find #{coil_choice}. Exiting......")
+    coils_msg = 'Only coils '
+    existing_coils.each do |existing_coil|
+      coils_msg += (existing_coil + ', ')
+    end
+    coils_msg += 'were found.'
+    runner.registerError(coils_msg)
+    return false
+  end
+
+  def _create_schedule_objects_create_schedule_objects(workspace, coil_choice, fault_lvl, string_objects)
+    # This function creates statements of schedules of fault level. Return name of schedule
+
+    scheduletypelimits = get_workspace_objects(workspace, 'ScheduleTypeLimits')
+    sh_coil_choice = name_cut(coil_choice)
+    scheduletypelimitname = "Fraction#{sh_coil_choice}"
+    sch_choice = "#{$faultnow}DegradactionFactor#{sh_coil_choice}_S#{$faultnow}"
+    string_objects << "
+      ScheduleTypeLimits,
+        #{scheduletypelimitname},                             !- Name
+        0,                                      !- Lower Limit Value {BasedOnField A3}
+        1,                                      !- Upper Limit Value {BasedOnField A3}
+        Continuous;                             !- Numeric Type
+    "
+    string_objects << "
+      Schedule:Constant,
+        #{sch_choice},         !- Name
+        #{scheduletypelimitname},                       !- Schedule Type Limits Name
+        #{fault_lvl};                    !- Hourly Value
+    "
+    return sch_choice, scheduletypelimitname
+  end
+
+  def _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl)
+    # This function writes the original and adjustment curves in EMS
+    string_objects = _write_q_and_eir_curves(workspace, coil_choice, coilcooling, string_objects, runner, coiltype, fault_lvl)
+    string_objects, workspace = _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl)
+    return string_objects, workspace
+  end
+
+  def _write_q_and_eir_curves(workspace, coil_choice, coilcooling, string_objects, runner, coiltype, fault_lvl)
+    # This function appends and returns the string_objects with ems program statements. It also
+    # returns a boolean to indicate if the addition is successful
+
+    # curves generated by OpenStudio. No need to check
+    ##################################################
+    if coiltype == 1 #SINGLESPEED
+      string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 11, runner, coiltype, [], fault_lvl)
+    elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+      coilperformancedxcoolings = workspace.getObjectsByType(coilcooling.getString(8).to_s.to_IddObjectType)
+      coilperformancedxcoolings.each do |coilperformancedxcooling|
+	    string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 8, runner, coiltype, coilperformancedxcooling, fault_lvl)
+      end
+    end
+    ##################################################
+    return string_objects
+  end
+
+  def _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl)
+    # This function writes the adjustment routines of the EIR curves to impose faults
+
+    eir_para = _get_parameters(runner, user_arguments)
+
+    # write the EMS subroutines
+    ##################################################
+    if coiltype == 1 #SINGLESPEED
+      string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'EIR', eir_para, $faultnow, coiltype, [], 11)
+    elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+      coilperformancedxcoolings = workspace.getObjectsByType(coilcooling.getString(8).to_s.to_IddObjectType)
+      coilperformancedxcoolings.each do |coilperformancedxcooling|
+        string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'EIR', eir_para, $faultnow, coiltype, coilperformancedxcooling, 8)
+      end
+    end
+
+    # write dummy subroutines for other faults, and make sure that it is not current fault
+    $model_names.each do |model_name|
+      $other_faults.each do |other_fault|
+	if coiltype == 1 #SINGLESPEED
+      string_objects = dummy_fault_sub_add(workspace, string_objects, coilcooling, other_fault, coil_choice, model_name, coiltype, [], 9) unless other_fault.eql?($faultnow)
+    elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+      coilperformancedxcoolings = workspace.getObjectsByType(coilcooling.getString(8).to_s.to_IddObjectType)
+	  coilperformancedxcoolings.each do |coilperformancedxcooling|
+	    string_objects = dummy_fault_sub_add(workspace, string_objects, coilcooling, other_fault, coil_choice, model_name, coiltype, coilperformancedxcooling, 6) unless other_fault.eql?($faultnow)
+	  end
+	end
+      end
+    end
+    ##################################################
+    return string_objects, workspace
+  end
+
+  def _write_curves(workspace, coil_choice, coilcooling, string_objects, curve_name, curve_index, runner, coiltype, coilperformancedxcooling, fault_lvl)
+    ##################################################
+    if coiltype == 1 #SINGLESPEED
+      curve_str = pass_string(coilcooling, curve_index)
+    elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+      curve_str = pass_string(coilperformancedxcooling, curve_index)
+    end
+    ##################################################
+    curvebiquadratics = get_workspace_objects(workspace, 'Curve:Biquadratic')
+    curve_nameq, paraq, no_curve = para_biquadratic_limit(curvebiquadratics, curve_str)
+
+    if no_curve
+      runner.registerError("No Temperature Adjustment Curve for #{coil_choice} #{curve_name} model. Exiting......")
+      return string_objects, false
+    end
+    ##################################################
+    sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
+    if sh_coil_choice.eql?(nil)
+      sh_coil_choice = coil_choice
+    end
+    sh_curve_name = curve_nameq.clone.gsub!(/[^0-9A-Za-z]/, '')
+    if sh_curve_name.eql?(nil)
+      sh_curve_name = curve_nameq
+    end
+    ##################################################
+    string_objects = main_program_entry(workspace, string_objects, coil_choice, curve_nameq, paraq, curve_name, fault_lvl)
+    return string_objects, true
+  end
+
+  def _get_parameters(runner, user_arguments)
+    # This function returns the parameters for Q and EIR calculation
+    ##################################################
+    fan_power_ratio = runner.getDoubleArgumentValue('fan_power_ratio', user_arguments)
+
+    eir_para = [fan_power_ratio]
+    eir_para.flatten!
+	##################################################
+    return eir_para
+  end
+
+  def _write_ems_sensors(workspace, runner, coilcooling, sh_coil_choice, string_objects, outdoor_node, coiltype)
+    # This function checks if the sensors exist before writing
+    pressure_sensor_name = "Pressure#{sh_coil_choice}"
+    db_sensor_name = "CoilInletDBT#{sh_coil_choice}"
+    humidity_sensor_name = "CoilInletW#{sh_coil_choice}"
+    oat_sensor_name = "OAT#{sh_coil_choice}"
+    
+    ##################################################
+    if coiltype == 1 #SINGLESPEED
+      inlet_node = pass_string(coilcooling, 7)
+    elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
+      inlet_node = pass_string(coilcooling, 2)
+    end
+    ##################################################
+
+    string_objects << ems_sensor_str(pressure_sensor_name, outdoor_node, 'System Node Pressure') unless check_exist_workspace_objects(workspace, pressure_sensor_name, 'EnergyManagementSystem:Sensor')
+    string_objects << ems_sensor_str(db_sensor_name, inlet_node, 'System Node Temperature') unless check_exist_workspace_objects(workspace, db_sensor_name, 'EnergyManagementSystem:Sensor')
+    string_objects << ems_sensor_str(humidity_sensor_name, inlet_node, 'System Node Humidity Ratio') unless check_exist_workspace_objects(workspace, humidity_sensor_name, 'EnergyManagementSystem:Sensor')
+    string_objects << ems_sensor_str(oat_sensor_name, outdoor_node, 'System Node Temperature') unless check_exist_workspace_objects(workspace, oat_sensor_name, 'EnergyManagementSystem:Sensor')
+  end
+
+  def _check_autosize(givenstr)
+    # Thie function checks if the string in givenstr is 'autosize'
+    return givenstr.downcase.eql?('autosize')
+  end
+
+  def _wrapping_up(runner, workspace, coil_choice, string_objects)
+    # This function wraps up the ending part of ems code writing
+
+    # only add Output:EnergyManagementSystem if it does not exist in the code
+    ems_output_writer(workspace, string_objects, err_check = $err_check)
+
+    # add all of the strings to workspace to create IDF objects
+    append_workspace_objects(workspace, string_objects)
+
+    runner.registerFinalCondition("Imposed performance degradation on #{coil_choice}.")
+    return true
+  end
 end
 
 # register the measure to be used by the application

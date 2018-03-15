@@ -1,6 +1,118 @@
 # This ruby script creates EnergyPlus Objects to simulate refrigerant-sidefaults
 # faults in Coil:Cooling:DX:SingleSpeed objects
 
+require "#{File.dirname(__FILE__)}/misc_eplus_func"
+
+def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, sh_coil_choice)
+
+  #append transient fault adjustment factor
+  ##################################################
+  string_objects << "
+    EnergyManagementSystem:Program,
+      AF_P,                    !- Name
+      SET SM = "+start_month+",              !- Program Line 1
+      SET SD = "+start_date+",              !- Program Line 2
+      SET ST = "+start_time+",              !- A4
+      SET EM = "+end_month+",              !- A5
+      SET ED = "+end_date+",             !- A6
+      SET ET = "+end_time+",             !- A7
+      SET tau = "+time_constant+",          !- A8
+      SET dt = "+time_step+",           !- A9
+	  IF tau == 0,
+	    SET tau = 0.001,
+	  ENDIF,
+      SET ActualTime = (DayOfYear-1.0)*24.0 + CurrentTime,  !- A10
+      IF SM == 1,              !- A11
+        SET T_SM = 0,            !- A12
+      ELSEIF SM == 2,          !- A13
+        SET T_SM = 744,          !- A14
+      ELSEIF SM == 3,          !- A15
+        SET T_SM = 1416,         !- A16
+      ELSEIF SM == 4,          !- A17
+        SET T_SM = 2160,         !- A18
+      ELSEIF SM == 5,          !- A19
+        SET T_SM = 2880,         !- A20
+      ELSEIF SM == 6,          !- A21
+        SET T_SM = 3624,         !- A22
+      ELSEIF SM == 7,          !- A23
+        SET T_SM = 4344,         !- A24
+      ELSEIF SM == 8,          !- A25
+        SET T_SM = 5088,         !- A26
+      ELSEIF SM == 9,          !- A27
+        SET T_SM = 5832,         !- A28
+      ELSEIF SM == 10,         !- A29
+        SET T_SM = 6552,         !- A30
+      ELSEIF SM == 11,         !- A31
+        SET T_SM = 7296,         !- A32
+      ELSEIF SM == 12,         !- A33
+        SET T_SM = 8016,         !- A34
+      ENDIF,                   !- A35
+      IF EM == 1,              !- A36
+        SET T_EM = 0,            !- A37
+      ELSEIF EM == 2,          !- A38
+        SET T_EM = 744,          !- A39
+      ELSEIF EM == 3,          !- A40
+        SET T_EM = 1416,         !- A41
+      ELSEIF EM == 4,          !- A42
+        SET T_EM = 2160,         !- A43
+      ELSEIF EM == 5,          !- A44
+        SET T_EM = 2880,         !- A45
+      ELSEIF EM == 6,          !- A46
+        SET T_EM = 3624,         !- A47
+      ELSEIF EM == 7,          !- A48
+        SET T_EM = 4344,         !- A49
+      ELSEIF EM == 8,          !- A50
+        SET T_EM = 5088,         !- A51
+      ELSEIF EM == 9,          !- A52
+        SET T_EM = 5832,         !- A53
+      ELSEIF EM == 10,         !- A54
+        SET T_EM = 6552,         !- A55
+      ELSEIF EM == 11,         !- A56
+        SET T_EM = 7296,         !- A57
+      ELSEIF EM == 12,         !- A58
+        SET T_EM = 8016,         !- A59
+      ENDIF,                   !- A60
+      SET StartTime = T_SM + (SD-1)*24 + ST,  !- A61
+      SET EndTime = T_EM + (ED-1)*24 + ET,  !- A62
+      IF (ActualTime>=StartTime) && (ActualTime<=EndTime),  !- A63
+        SET AF_previous = @TrendValue AF_trend 1,  !- A64			
+        SET AF_current_#{$faultnow}_"+sh_coil_choice+" = AF_previous + dt/tau,  !- A65
+        IF AF_current_#{$faultnow}_"+sh_coil_choice+">1.0,       !- A66
+          SET AF_current_#{$faultnow}_"+sh_coil_choice+" = 1.0,    !- A67
+        ENDIF,                   !- A68
+        IF AF_previous>=1.0,     !- A69
+          SET AF_current_#{$faultnow}_"+sh_coil_choice+" = 1.0,    !- A70
+        ENDIF,                   !- A71
+      ELSE,                    !- A72
+        SET AF_previous = 0.0,   !- A73
+        SET AF_current_#{$faultnow}_"+sh_coil_choice+" = 0.0,    !- A74
+      ENDIF;                   !- A75
+  "
+  
+  string_objects << "
+    EnergyManagementSystem:GlobalVariable,				
+      AF_current_#{$faultnow}_"+sh_coil_choice+";              !- Erl Variable 1 Name
+  "
+			  
+  string_objects << "
+    EnergyManagementSystem:TrendVariable,				
+      AF_Trend,                !- Name
+      AF_current_#{$faultnow}_"+sh_coil_choice+",              !- EMS Variable Name
+      1;                       !- Number of Timesteps to be Logged
+  "
+			
+  string_objects << "
+	EnergyManagementSystem:ProgramCallingManager,
+      AF_PCM,                  !- Name
+      AfterPredictorAfterHVACManagers,  !- EnergyPlus Model Calling Point
+      AF_P;                    !- Program Name 1
+  "
+  ##################################################
+  
+  return string_objects
+  
+end
+
 def no_fault_schedules(workspace, scheduletypelimitname, string_objects)
   # This function creates constant schedules at zero and one throughout the year
   # so that it can be referenced by fault calculation functions when the fault level
@@ -49,7 +161,7 @@ def no_fault_schedules(workspace, scheduletypelimitname, string_objects)
 end
 
 # define function to write EMS main program to alter the temperature curve
-def main_program_entry(workspace, string_objects, coil_choice, curve_name, para, model_name)
+def main_program_entry(workspace, string_objects, coil_choice, curve_name, para, model_name, fault_lvl)
   # This function writes an E+ object that embed the temperature modulation
   # curve in the Coil:Cooling:DX:SingleSpeed object with fault the fault model
   #
@@ -127,12 +239,11 @@ def main_program_entry(workspace, string_objects, coil_choice, curve_name, para,
         SET IVThree = IVOne*IVTwo,  !- <none>
         SET OriCurve = (C1+(C2*IVOne) + (C3*IVOne*IVone) + (C4*IVTwo) + (C5*IVTwo*IVTwo) + (C6*IVThree)),  !- <none>
         SET FAULT_ADJ_RATIO = 1.0, !- <none>
-        SET #{$faultnow}FaultLevel = #{$faultnow}FaultDegrade#{sh_coil_choice},   !- <none>
+        SET #{$faultnow}FaultLevel_#{sh_coil_choice} = #{fault_lvl.to_s}*AF_current_#{$faultnow}_"+sh_coil_choice+",   !- <none>
         RUN #{$faultnow}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}, !- Calling subrountines that adjust the cooling capacity based on fault type
-        SET FAULT_ADJ_RATIO = #{$faultnow}_FAULT_ADJ_RATIO*FAULT_ADJ_RATIO,     !- <none>
+        SET FAULT_ADJ_RATIO = #{$faultnow}_FAULT_ADJ_RATIO_#{sh_coil_choice}*FAULT_ADJ_RATIO,     !- <none>
         SET #{model_name}Curve#{sh_coil_choice}#{sh_curve_name} = (OriCurve*FAULT_ADJ_RATIO);  !- <none>
     "
-
     # create the ProgramCaller, required actuators, etc. that are only required by this program
     string_objects << "
       EnergyManagementSystem:ProgramCallingManager,
@@ -199,14 +310,14 @@ def dummy_fault_sub_add(workspace, string_objects, coilcooling, fault_choice = '
     string_objects << "
       EnergyManagementSystem:Subroutine,
         #{fault_choice}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}, !- Name
-        SET #{fault_choice}_FAULT_ADJ_RATIO = 1.0,  !- <none>
+        SET #{fault_choice}_FAULT_ADJ_RATIO_#{sh_coil_choice} = 1.0,  !- <none>
     "
 
     # add global variables when needed
     write_global_fr = true
     ems_globalvars = workspace.getObjectsByType('EnergyManagementSystem:GlobalVariable'.to_IddObjectType)
     ems_globalvars.each do |ems_globalvar|
-      if ems_globalvar.getString(0).to_s.eql?("#{fault_choice}_FAULT_ADJ_RATIO")
+      if ems_globalvar.getString(0).to_s.eql?("#{fault_choice}_FAULT_ADJ_RATIO_#{sh_coil_choice}")
         write_global_fr = false
       end
     end
@@ -214,7 +325,7 @@ def dummy_fault_sub_add(workspace, string_objects, coilcooling, fault_choice = '
     if write_global_fr
       str_added = "
         EnergyManagementSystem:GlobalVariable,
-          #{fault_choice}_FAULT_ADJ_RATIO;                !- Name
+          #{fault_choice}_FAULT_ADJ_RATIO_#{sh_coil_choice};                !- Name
       "
       unless string_objects.include?(str_added)
         string_objects << str_added
@@ -225,57 +336,16 @@ def dummy_fault_sub_add(workspace, string_objects, coilcooling, fault_choice = '
   return string_objects
 end
 
-def fault_level_sensor_sch_insert(workspace, string_objects, fault_choice = 'CA', coil_choice, sch_choice)
-  # This function appends an EMS sensor to direct the fault level schedule to the EMS program.
-  # If an arbitrary schedule exists before insertion, remove the old one and apply the new one.
+def general_adjust_function(workspace, coil_choice, string_objects, coilcooling, model_name, para, fault_name, coiltype, coilperformancedxcooling, curve_index)
+  # This function appends the program and the required variables that calculate the fault impact ratio
+  # into the EnergyPlus IDF file
 
-  sch_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-  if sch_coil_choice.eql?(nil)
-    sch_coil_choice = coil_choice
-  end
-  sch_obj_name = "#{fault_choice}FaultDegrade#{sch_coil_choice}"
-
-  ems_sensors = workspace.getObjectsByType('EnergyManagementSystem:Sensor'.to_IddObjectType)
-  ems_sensors.each do |ems_sensor|
-    if ems_sensor.getString(0).to_s.eql?(sch_obj_name)
-      removed_sensors = ems_sensor.remove
-      break
-    end
-  end
-
-  string_objects << "
-    EnergyManagementSystem:Sensor,
-      #{sch_obj_name},                !- Name
-      #{sch_choice},       !- Output:Variable or Output:Meter Index Key Name
-      Schedule Value;    !- Output:Variable or Output:Meter Name
-  "
-
-  return string_objects
-end
-
-def caf_adjust_function(workspace, string_objects, coilcooling, model_name, para, coiltype, coilperformancedxcooling, curve_index)
-  # This function creates an Energy Management System Subroutine that calculates the adjustment factor
-  # for EIR of Coil:Cooling:DX:SingleSpeed system that has its condenser fan motor faulted
-  #
-  # string_objects is an array object storing strings formatted as E+ objects. These objects
-  # will be added to the E+ model at the end of the run function in the Measure script calling
-  # this function
-  #
-  # coilcooling is a WorkSpace object directing towards the Coil:Cooling:DX:SingleSpeed
-  # to be fautled
-  #
-  # model_name is a string that defines what should be altered. Q for cooling capacity,
-  # EIR for energy-input-ratio, etc.
-  #
-  # para is an array containing the coefficients for the fault model
-
-  coil_choice = coilcooling.getString(0).to_s
+  ##################################################
   sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
   if sh_coil_choice.eql?(nil)
     sh_coil_choice = coil_choice
   end
   
-  ##################################################
   if coiltype == 1 #SINGLESPEED
 	curve_str = pass_string(coilcooling, curve_index)
   elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
@@ -289,95 +359,64 @@ def caf_adjust_function(workspace, string_objects, coilcooling, model_name, para
   if sh_curve_name.eql?(nil)
     sh_curve_name = curve_name
   end
-  
-  #rated_cop = coilcooling.getDouble(4).to_f
-  if coiltype == 1 #SINGLESPEED
-    rated_cop = coilcooling.getDouble(4).to_f
-  elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
-    rated_cop = coilperformancedxcooling.getDouble(3).to_f
-  end
   ##################################################
 
+  fault_level_name = "#{fault_name}FaultLevel_#{sh_coil_choice}"
+  fir_name = "#{fault_name}_FAULT_ADJ_RATIO_#{sh_coil_choice}"
+  
   final_line = "
     EnergyManagementSystem:Subroutine,
-      CAF_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}, !- Name
-      IF CAFFaultLevel >= 0.99, !- <none>
-      SET CAF_FAULT_ADJ_RATIO = 99.0, !- <none>
+      #{fault_name}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}, !- Name
+	  IF #{fault_level_name}*AF_current_#{$faultnow}_"+sh_coil_choice+" >= 0.99, !- <none>
+      SET #{fir_name} = 99.0, !- <none>
       ELSE, !- <none>
-      SET CAF_FAULT_ADJ_RATIO = CAFFaultLevel/(1.0-CAFFaultLevel),  !- <none>
+      SET #{fir_name} = (#{fault_level_name}*AF_current_#{$faultnow}_"+sh_coil_choice+")/(1.0-(#{fault_level_name}*AF_current_#{$faultnow}_"+sh_coil_choice+")),  !- <none>
       ENDIF,
-      SET CAF_FAULT_ADJ_RATIO = 1.0+CAF_FAULT_ADJ_RATIO*#{para[0]};  !- <none>
+      SET #{fir_name} = 1.0+#{fir_name}*#{para[0]};  !- <none>
     "
 
   # before addition, delete any dummy subrountine with the same name in the workspace
   subroutines = workspace.getObjectsByType('EnergyManagementSystem:Subroutine'.to_IddObjectType)
   subroutines.each do |subroutine|
-    if subroutine.getString(0).to_s.eql?("CAF_ADJUST_#{sh_coil_choice}_#{model_name}")
+    if subroutine.getString(0).to_s.eql?("#{fault_name}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}")
       workspace.removeObject(subroutine.handle)  # should have only one of them
       break
     end
   end
-
   string_objects << final_line
 
   # set up global variables, if needed
-  write_global_ca_fl = true
-  write_global_ca_fr = true
+  write_global_ch_fl = true
+  write_global_ch_fr = true
   ems_globalvars = workspace.getObjectsByType('EnergyManagementSystem:GlobalVariable'.to_IddObjectType)
   ems_globalvars.each do |ems_globalvar|
-    if ems_globalvar.getString(0).to_s.eql?('CAFFaultLevel')
-      write_global_ca_fl = false
+    if ems_globalvar.getString(0).to_s.eql?(fault_level_name)
+      write_global_ch_fl = false
     end
-    if ems_globalvar.getString(0).to_s.eql?('CAF_FAULT_ADJ_RATIO')
-      write_global_ca_fr = false
+    if ems_globalvar.getString(0).to_s.eql?(fir_name)
+      write_global_ch_fr = false
     end
   end
 
-  if write_global_ca_fl
-    str_added = '
+  if write_global_ch_fl
+    str_added = "
       EnergyManagementSystem:GlobalVariable,
-        CAFFaultLevel;                !- Name
-    '
+        #{fault_level_name};                !- Name
+    "
     unless string_objects.include?(str_added)  # only add global variables if they are not added by the same Measure script
       string_objects << str_added
     end
   end
-  if write_global_ca_fr
-    str_added = '
+
+  if write_global_ch_fr
+    str_added = "
       EnergyManagementSystem:GlobalVariable,
-        CAF_FAULT_ADJ_RATIO;                !- Name
-    '
+        #{fir_name};                !- Name
+    "
     unless string_objects.include?(str_added)
       string_objects << str_added
     end
   end
+
   return string_objects, workspace
-end
-
-def pass_string(object, index = 0)
-  # This function passes the string marked by index in the object
-  # If no index is given, default returning the first string
-
-  return object.getString(index).to_s
-end
-
-def get_workspace_objects(workspace, objname)
-  # This function returns the workspace objects falling into the category
-  # indicated by objname
-  return workspace.getObjectsByType(objname.to_IddObjectType)
-end
-
-def para_biquadratic_limit(curvebiquadratics, curve_name)
-  para = []
-  no_curve = true
-  curvebiquadratics.each do |curvebiquadratic|
-    if curvebiquadratic.getString(0).to_s.eql?(curve_name)
-      (1..10).each do |i|
-        para << curvebiquadratic.getString(i).to_s
-      end
-      no_curve = false
-      break
-    end
-  end
-  return curve_name, para, no_curve
 end
