@@ -10,9 +10,10 @@
 require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_T"
 
 $allchoices = '* ALL Controller:OutdoorAir *'
+$faulttype = 'OAT'				   
 
 # start the measure
-class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
+class BiasedEconomizerSensorOAT < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable name
   def name
@@ -165,15 +166,18 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
           #main program differs as the options at controlleroutdoorair differs
           #create a new string for the main program to start appending the required
           #EMS routine to it
-                    
-          main_body = econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, [0.0, out_t_bias])
+          ##################################################
+		  oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
+		  ##################################################        
+		  
+          main_body = econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, [0.0, out_t_bias], oacontrollername)
           
           string_objects << main_body
           
           #append other objects
           strings_objects = econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, controlleroutdoorair)
 		  ##################################################
-		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
 		  ##################################################
           
           #add all of the strings to workspace to create IDF objects
@@ -204,4 +208,4 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
 end
 
 # register the measure to be used by the application
-BiasedEconomizerSensorReturnRH.new.registerWithApplication
+BiasedEconomizerSensorOAT.new.registerWithApplication
