@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fouling</name>
   <uid>7fac3cb7-ed23-454d-ac24-b037d2c8faa4</uid>
-  <version_id>71f39590-e0cb-49c3-9393-55fc49be9638</version_id>
-  <version_modified>20180314T163900Z</version_modified>
+  <version_id>a7fa7516-2c70-480d-8d81-0d82c4dc1fc0</version_id>
+  <version_modified>20180315T142944Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFouling</class_name>
   <display_name>Condenser Fouling</display_name>
@@ -362,12 +362,6 @@
       <checksum>2E414023</checksum>
     </file>
     <file>
-      <filename>faultcalculationcoilcoolingdx.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>62014016</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -376,7 +370,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>83E9052B</checksum>
+      <checksum>C4BA8417</checksum>
+    </file>
+    <file>
+      <filename>faultcalculationcoilcoolingdx.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>A062FAE5</checksum>
     </file>
   </files>
 </measure>
