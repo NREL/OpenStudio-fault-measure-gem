@@ -5,7 +5,7 @@
 
 require_relative 'misc_eplus_func'
 
-def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
 
   #append transient fault adjustment factor
   ##################################################
@@ -78,27 +78,27 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
       SET EndTime = T_EM + (ED-1)*24 + ET,  !- A62
       IF (ActualTime>=StartTime) && (ActualTime<=EndTime),  !- A63
       SET AF_previous = @TrendValue AF_trend 1,  !- A64			
-      SET AF_current = AF_previous + dt/tau,  !- A65			
-      IF AF_current>1.0,       !- A66
-      SET AF_current = 1.0,    !- A67
+      SET AF_current_#{$faulttype}_#{oacontrollername} = AF_previous + dt/tau,  !- A65			
+      IF AF_current_#{$faulttype}_#{oacontrollername}>1.0,       !- A66
+      SET AF_current_#{$faulttype}_#{oacontrollername} = 1.0,    !- A67
       ENDIF,                   !- A68
       IF AF_previous>=1.0,     !- A69
-      SET AF_current = 1.0,    !- A70
+      SET AF_current_#{$faulttype}_#{oacontrollername} = 1.0,    !- A70
       ENDIF,                   !- A71
       ELSE,                    !- A72
       SET AF_previous = 0.0,   !- A73
-      SET AF_current = 0.0,    !- A74
+      SET AF_current_#{$faulttype}_#{oacontrollername} = 0.0,    !- A74
       ENDIF;                   !- A75
   "
   string_objects << "
     EnergyManagementSystem:GlobalVariable,				
-      AF_current;              !- Erl Variable 1 Name
+      AF_current_#{$faulttype}_#{oacontrollername};              !- Erl Variable 1 Name
   "
 			  
   string_objects << "
     EnergyManagementSystem:TrendVariable,				
       AF_Trend,                !- Name
-      AF_current,              !- EMS Variable Name
+      AF_current_#{$faulttype}_#{oacontrollername},              !- EMS Variable Name
       1;                       !- Number of Timesteps to be Logged
   "
 			
@@ -114,7 +114,7 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
   
 end
 
-def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, t_bias=[0, 0])
+def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, t_bias=[0, 0], oacontrollername)
 
   #workspace is the Workspace object in EnergyPlus Measure script
   
@@ -161,7 +161,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   end
   if bias_sensor.eql?("RET")
     main_body = main_body+"
-      SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_T"+ret_str_num+"*AF_current, !- <none>
+      SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_T"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_T, !- <none>
       SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_T, !- <none>
       SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_T, !- <none>
@@ -183,7 +183,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     main_body = main_body+"
 	  SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_T, !- <none>
       SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_T, !- <none>
-      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_T"+oa_str_num+"*AF_current, !- <none>
+      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_T"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_T, !- <none>
       SET PTmp = "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_T, !- <none>
       IF PTmp < DELTASMALL, !- <none>
@@ -202,9 +202,9 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     "
   else  #for bias in both sensors
     main_body = main_body+"
-      SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_T"+ret_str_num+"*AF_current, !- <none>
+      SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_T"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_T, !- <none>
-      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_T"+oa_str_num+"*AF_current, !- <none>
+      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_T"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_T, !- <none>
       SET PTmp = "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_T, !- <none>
       IF PTmp < DELTASMALL, !- <none>
