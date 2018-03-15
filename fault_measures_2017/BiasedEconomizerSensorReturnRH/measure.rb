@@ -10,6 +10,7 @@
 require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_RH"
 
 $allchoices = '* ALL Controller:OutdoorAir *'
+$faulttype = 'RARH'			   
 
 # start the measure
 class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
@@ -165,15 +166,18 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
           #main program differs as the options at controlleroutdoorair differs
           #create a new string for the main program to start appending the required
           #EMS routine to it
-                    
-          main_body = econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, [ret_rh_bias, 0.0])
+          ##################################################
+		  oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
+		  ##################################################   
+		  
+          main_body = econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, [ret_rh_bias, 0.0], oacontrollername)
           
           string_objects << main_body
           
           #append other objects
           strings_objects = econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, controlleroutdoorair)
 		  ##################################################
-		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
 		  ##################################################
           
           #add all of the strings to workspace to create IDF objects

@@ -5,7 +5,7 @@
 
 require_relative 'misc_eplus_func'
 
-def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
 
   #append transient fault adjustment factor
   ##################################################
@@ -78,27 +78,27 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
       SET EndTime = T_EM + (ED-1)*24 + ET,  !- A62
       IF (ActualTime>=StartTime) && (ActualTime<=EndTime),  !- A63
       SET AF_previous = @TrendValue AF_trend 1,  !- A64			
-      SET AF_current = AF_previous + dt/tau,  !- A65			
-      IF AF_current>1.0,       !- A66
-      SET AF_current = 1.0,    !- A67
+      SET AF_current_#{$faulttype}_#{oacontrollername} = AF_previous + dt/tau,  !- A65			
+      IF AF_current_#{$faulttype}_#{oacontrollername}>1.0,       !- A66
+      SET AF_current_#{$faulttype}_#{oacontrollername} = 1.0,    !- A67
       ENDIF,                   !- A68
       IF AF_previous>=1.0,     !- A69
-      SET AF_current = 1.0,    !- A70
+      SET AF_current_#{$faulttype}_#{oacontrollername} = 1.0,    !- A70
       ENDIF,                   !- A71
       ELSE,                    !- A72
       SET AF_previous = 0.0,   !- A73
-      SET AF_current = 0.0,    !- A74
+      SET AF_current_#{$faulttype}_#{oacontrollername} = 0.0,    !- A74
       ENDIF;                   !- A75
   "
   string_objects << "
     EnergyManagementSystem:GlobalVariable,				
-      AF_current;              !- Erl Variable 1 Name
+      AF_current_#{$faulttype}_#{oacontrollername};              !- Erl Variable 1 Name
   "
 			  
   string_objects << "
     EnergyManagementSystem:TrendVariable,				
       AF_Trend,                !- Name
-      AF_current,              !- EMS Variable Name
+      AF_current_#{$faulttype}_#{oacontrollername},              !- EMS Variable Name
       1;                       !- Number of Timesteps to be Logged
   "
 			
@@ -114,7 +114,7 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
   
 end
 
-def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, rh_bias=[0, 0])
+def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, rh_bias=[0, 0], oacontrollername)
 
   #workspace is the Workspace object in EnergyPlus Measure script
   
@@ -174,7 +174,7 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
   end
   if bias_sensor.eql?("RET")
     main_body = main_body+"
-      SET RETRH = RETRH"+ret_str_num+"*AF_current, !- <none>
+      SET RETRH = RETRH"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       IF RETRH < DELTASMALL, !- to avoid negative relative humidity
       SET RETRH = DELTASMALL,
       ENDIF, !- /IF RETRH < DELTASMALL
@@ -193,7 +193,7 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
       SET RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
       SET RETRHO = @RhoAirFnPbTdbW PTmp RETTmp RETHumRat, !- Calculate density before offsetting because density is not used by the controller
       SET OARH = @RhFnTdbWPb OATmp OAHumRat PTmp, !- <none>
-      SET OARH = OARH"+oa_str_num+"*AF_current, !- <none>
+      SET OARH = OARH"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       IF OARH < DELTASMALL, !- to avoid negative relative humidity
       SET OARH = DELTASMALL,
       ENDIF, !- /IF OARH < DELTASMALL
@@ -202,7 +202,7 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
     "
   else  #for bias in both RH sensors
     main_body = main_body+"
-      SET RETRH = RETRH"+ret_str_num+"*AF_current, !- <none>
+      SET RETRH = RETRH"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       IF RETRH < DELTASMALL, !- to avoid negative relative humidity
       SET RETRH = DELTASMALL,
       ENDIF, !- /IF RETRH < DELTASMALL
@@ -210,7 +210,7 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
       SET RETHumRat = @WFnTdbH RETTmp RETENTH, !- Recalculate humidity ratio after the offset
       SET RETRHO = @RhoAirFnPbTdbW PTmp RETTmp RETHumRat, !- Calculate density before offsetting because density is not used by the controller
       SET OARH = @RhFnTdbWPb OATmp OAHumRat PTmp, !- <none>
-      SET OARH = OARH"+oa_str_num+"*AF_current, !- <none>
+      SET OARH = OARH"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       IF OARH < DELTASMALL, !- to avoid negative relative humidity
       SET OARH = DELTASMALL,
       ENDIF, !- /IF OARH < DELTASMALL
