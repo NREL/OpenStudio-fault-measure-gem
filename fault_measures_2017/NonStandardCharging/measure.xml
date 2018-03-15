@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>non_standard_charging</name>
   <uid>af77eb6c-c4c6-4990-bc8b-af916215b967</uid>
-  <version_id>7ebfedb7-6178-4100-b64d-b15f6297a529</version_id>
-  <version_modified>20180314T163900Z</version_modified>
+  <version_id>7db35904-2849-49a1-80bc-aa4e362e0d8d</version_id>
+  <version_modified>20180315T144425Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>NonStandardCharging</class_name>
   <display_name>Nonstandard Charging</display_name>
@@ -400,13 +400,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>8CF802AA</checksum>
+      <checksum>D7522B9A</checksum>
     </file>
     <file>
       <filename>faultcalculationcoilcoolingdx.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>62014016</checksum>
+      <checksum>A062FAE5</checksum>
     </file>
   </files>
 </measure>

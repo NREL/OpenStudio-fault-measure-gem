@@ -354,7 +354,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     _write_ems_sensors(workspace, runner, coilcooling, sh_coil_choice, string_objects, find_outdoor_node_name(workspace), coiltype)
 	
 	#Fault intensity adjustment factor for dynamic modeling
-	faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+	faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, sh_coil_choice) 
 
     return _wrapping_up(runner, workspace, coil_choice, string_objects)
   end

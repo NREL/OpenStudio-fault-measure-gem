@@ -4,9 +4,7 @@
 require "#{File.dirname(__FILE__)}/misc_eplus_func"
 require "#{File.dirname(__FILE__)}/psychrometric"
 
-def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
-
-  # fi = fault_lvl.to_s
+def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, sh_coil_choice)
 
   #append transient fault adjustment factor
   ##################################################
@@ -79,29 +77,28 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
       SET EndTime = T_EM + (ED-1)*24 + ET,  !- A62
       IF (ActualTime>=StartTime) && (ActualTime<=EndTime),  !- A63
         SET AF_previous = @TrendValue AF_trend 1,  !- A64			
-        SET AF_current = AF_previous + dt/tau,  !- A65
-        IF AF_current>1.0,       !- A66
-          SET AF_current = 1.0,    !- A67
+        SET AF_current_#{$faultnow}_"+sh_coil_choice+" = AF_previous + dt/tau,  !- A65
+        IF AF_current_#{$faultnow}_"+sh_coil_choice+">1.0,       !- A66
+          SET AF_current_#{$faultnow}_"+sh_coil_choice+" = 1.0,    !- A67
         ENDIF,                   !- A68
         IF AF_previous>=1.0,     !- A69
-          SET AF_current = 1.0,    !- A70
+          SET AF_current_#{$faultnow}_"+sh_coil_choice+" = 1.0,    !- A70
         ENDIF,                   !- A71
       ELSE,                    !- A72
         SET AF_previous = 0.0,   !- A73
-        SET AF_current = 0.0,    !- A74
+        SET AF_current_#{$faultnow}_"+sh_coil_choice+" = 0.0,    !- A74
       ENDIF;                   !- A75
   "
-  #	  SET FL = "+fi+",
 
   string_objects << "
     EnergyManagementSystem:GlobalVariable,				
-      AF_current;              !- Erl Variable 1 Name
+      AF_current_#{$faultnow}_"+sh_coil_choice+";              !- Erl Variable 1 Name
   "
 			  
   string_objects << "
     EnergyManagementSystem:TrendVariable,				
       AF_Trend,                !- Name
-      AF_current,              !- EMS Variable Name
+      AF_current_#{$faultnow}_"+sh_coil_choice+",              !- EMS Variable Name
       1;                       !- Number of Timesteps to be Logged
   "
 			
@@ -244,9 +241,9 @@ def main_program_entry(workspace, string_objects, coil_choice, curve_name, para,
         SET IVThree = IVOne*IVTwo,  !- <none>
         SET OriCurve = (C1+(C2*IVOne) + (C3*IVOne*IVone) + (C4*IVTwo) + (C5*IVTwo*IVTwo) + (C6*IVThree)),  !- <none>
         SET FAULT_ADJ_RATIO = 1.0, !- <none>
-        SET #{$faultnow}FaultLevel = #{fault_lvl.to_s}*AF_current,   !- <none>
+        SET #{$faultnow}FaultLevel_#{sh_coil_choice} = #{fault_lvl.to_s}*AF_current_#{$faultnow}_"+sh_coil_choice+",   !- <none>
         RUN #{$faultnow}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}, !- Calling subrountines that adjust the cooling capacity based on fault type
-        SET FAULT_ADJ_RATIO = #{$faultnow}_FAULT_ADJ_RATIO*FAULT_ADJ_RATIO,     !- <none>
+        SET FAULT_ADJ_RATIO = #{$faultnow}_FAULT_ADJ_RATIO_#{sh_coil_choice}*FAULT_ADJ_RATIO,     !- <none>
         SET #{model_name}Curve#{sh_coil_choice}#{sh_curve_name} = (OriCurve*FAULT_ADJ_RATIO);  !- <none>
     "
 
@@ -316,14 +313,14 @@ def dummy_fault_sub_add(workspace, string_objects, coilcooling, fault_choice = '
     string_objects << "
       EnergyManagementSystem:Subroutine,
         #{fault_choice}_ADJUST_#{sh_coil_choice}_#{model_name}_#{sh_curve_name}, !- Name
-        SET #{fault_choice}_FAULT_ADJ_RATIO = 1.0,  !- <none>
+        SET #{fault_choice}_FAULT_ADJ_RATIO_#{sh_coil_choice} = 1.0,  !- <none>
     "
 
     # add global variables when needed
     write_global_fr = true
     ems_globalvars = workspace.getObjectsByType('EnergyManagementSystem:GlobalVariable'.to_IddObjectType)
     ems_globalvars.each do |ems_globalvar|
-      if ems_globalvar.getString(0).to_s.eql?("#{fault_choice}_FAULT_ADJ_RATIO")
+      if ems_globalvar.getString(0).to_s.eql?("#{fault_choice}_FAULT_ADJ_RATIO_#{sh_coil_choice}")
         write_global_fr = false
       end
     end
@@ -331,7 +328,7 @@ def dummy_fault_sub_add(workspace, string_objects, coilcooling, fault_choice = '
     if write_global_fr
       str_added = "
         EnergyManagementSystem:GlobalVariable,
-          #{fault_choice}_FAULT_ADJ_RATIO;                !- Name
+          #{fault_choice}_FAULT_ADJ_RATIO_#{sh_coil_choice};                !- Name
       "
       unless string_objects.include?(str_added)
         string_objects << str_added
@@ -373,8 +370,8 @@ def general_adjust_function(workspace, coil_choice, string_objects, coilcooling,
   end
   ##################################################
 
-  fault_level_name = "#{fault_name}FaultLevel"
-  fir_name = "#{fault_name}_FAULT_ADJ_RATIO"
+  fault_level_name = "#{fault_name}FaultLevel_#{sh_coil_choice}"
+  fir_name = "#{fault_name}_FAULT_ADJ_RATIO_#{sh_coil_choice}"
   
   final_line = "
     EnergyManagementSystem:Subroutine,
