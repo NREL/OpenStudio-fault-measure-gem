@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fan_degradation</name>
   <uid>78fd31ab-ff52-4260-b680-c2c75dfd31dc</uid>
-  <version_id>6a673014-3a07-43dc-a71c-331d703fe776</version_id>
-  <version_modified>20180313T173242Z</version_modified>
+  <version_id>281404f8-2ab2-4c16-985e-d2f3ac82f496</version_id>
+  <version_modified>20180315T194023Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFanDegradation</class_name>
   <display_name>Condenser Fan Degradation</display_name>
@@ -25,14 +25,6 @@
       </choices>
     </argument>
     <argument>
-      <name>sch_choice</name>
-      <display_name>Enter the name of the schedule of the fault level. If you do not have a schedule, leave this blank.</display_name>
-      <type>String</type>
-      <required>true</required>
-      <model_dependent>false</model_dependent>
-      <default_value></default_value>
-    </argument>
-    <argument>
       <name>fault_lvl</name>
       <display_name>Fan motor efficiency degradation ratio [-]</display_name>
       <type>Double</type>
@@ -47,6 +39,62 @@
       <required>false</required>
       <model_dependent>false</model_dependent>
       <default_value>0.091747081</default_value>
+    </argument>
+    <argument>
+      <name>time_constant</name>
+      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>start_month</name>
+      <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6</default_value>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>9</default_value>
+    </argument>
+    <argument>
+      <name>end_month</name>
+      <display_name>Enter the month (1-12) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12</default_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>31</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23</default_value>
     </argument>
   </arguments>
   <outputs/>
@@ -78,34 +126,34 @@
   </attributes>
   <files>
     <file>
+      <filename>misc_eplus_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>D73C9CAE</checksum>
+    </file>
+    <file>
       <filename>TransferCurveParameters.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>3B8239ED</checksum>
-    </file>
-    <file>
-      <filename>ScheduleSearch.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>65DA606F</checksum>
-    </file>
-    <file>
-      <filename>EnterCoefficients.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>92E3DF14</checksum>
+      <checksum>627EF985</checksum>
     </file>
     <file>
       <filename>FaultDefinitions.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>4D7B3AB6</checksum>
+      <checksum>6230C9E3</checksum>
     </file>
     <file>
-      <filename>faultcalculationcoilcoolingdx_CAF.rb</filename>
+      <filename>faultdefinitions.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>476E0003</checksum>
+      <checksum>6230C9E3</checksum>
+    </file>
+    <file>
+      <filename>transfercurveparameters.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>627EF985</checksum>
     </file>
     <file>
       <version>
@@ -116,7 +164,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>2B09DCC2</checksum>
+      <checksum>3B414A9E</checksum>
+    </file>
+    <file>
+      <filename>faultcalculationcoilcoolingdx_CAF.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>B017222C</checksum>
     </file>
   </files>
 </measure>
