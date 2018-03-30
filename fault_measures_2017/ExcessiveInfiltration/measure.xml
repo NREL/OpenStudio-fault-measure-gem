@@ -2,16 +2,16 @@
   <schema_version>3.0</schema_version>
   <name>excessive_infiltration</name>
   <uid>d8161857-8b77-4e1a-a76c-ae5deab7c1e0</uid>
-  <version_id>d01efcb2-728a-480e-a727-42aa37ce14ea</version_id>
-  <version_modified>20180313T161759Z</version_modified>
+  <version_id>f3709922-0cc0-486f-b45c-bef958e04d18</version_id>
+  <version_modified>20180330T194846Z</version_modified>
   <xml_checksum>EACB548E</xml_checksum>
   <class_name>ExcessiveInfiltration</class_name>
   <display_name>Excessive Infiltration</display_name>
   <description>Excessive infiltration around the building envelope occurs by the unintentional introduction of outside air into a building, typically through cracks in the building envelope and through use of windows and doors. Infiltration is driven by pressure differences between indoors and outdoors of the building caused by wind and by air buoyancy forces known commonly as the stack effect (ASHRAE Handbook Fundamentals, 2005). Excessive infiltration can affect thermal comfort, indoor air quality, heating and cooling demand, and moisture damage of building envelope components (Emmerich et al., 2005). The fault intensity is defined as the percentage of excessive infiltration around the building envelope compared to the non-faulted condition.</description>
-  <modeler_description>The user input of the percentage of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F/100), where Infil_o is the original value defined in the infiltration object and F is the percentage of excessive infiltration.</modeler_description>
+  <modeler_description>The user input of the percentage of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F/100), where Infil_o is the original value defined in the infiltration object and F is the percentage of excessive infiltration. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
-      <name>space_type</name>
+      <name>thermalzone</name>
       <display_name>Apply the Measure to a Specific Space Type or to the Entire Model.</display_name>
       <type>Choice</type>
       <required>true</required>
@@ -19,7 +19,7 @@
       <default_value>*Entire Building*</default_value>
       <choices>
         <choice>
-          <value>{955c6aa6-a9a3-4d62-87cd-d7d065822bf7}</value>
+          <value>{65378b6f-a11e-4681-8e06-22caf8352a24}</value>
           <display_name>*Entire Building*</display_name>
         </choice>
       </choices>
@@ -31,6 +31,62 @@
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>20</default_value>
+    </argument>
+    <argument>
+      <name>time_constant</name>
+      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>start_month</name>
+      <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6</default_value>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>9</default_value>
+    </argument>
+    <argument>
+      <name>end_month</name>
+      <display_name>Enter the month (1-12) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12</default_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>31</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23</default_value>
     </argument>
   </arguments>
   <outputs/>
@@ -52,6 +108,12 @@
   </attributes>
   <files>
     <file>
+      <filename>faultimplementation.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>F2103B32</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.0.5</identifier>
@@ -60,7 +122,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>8E692341</checksum>
+      <checksum>958CA2AB</checksum>
     </file>
   </files>
 </measure>
