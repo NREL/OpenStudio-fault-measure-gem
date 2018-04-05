@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>thermostat_bias</name>
   <uid>e359373a-ea8b-459d-a4c0-e2e8ae78b840</uid>
-  <version_id>3a0c33d2-03b1-4d1a-92e3-a4b9ef1a8aef</version_id>
-  <version_modified>20180405T144347Z</version_modified>
+  <version_id>e0868a7b-acc7-404a-b0cd-abc9cdf8c2da</version_id>
+  <version_modified>20180405T152007Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ThermostatBias</class_name>
   <display_name>Thermostat Measurement Bias</display_name>
@@ -107,14 +107,6 @@
       <default_value>1</default_value>
     </argument>
     <argument>
-      <name>start_time</name>
-      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
-    </argument>
-    <argument>
       <name>end_month</name>
       <display_name>Fault active end month</display_name>
       <type>Choice</type>
@@ -180,14 +172,6 @@
       <model_dependent>false</model_dependent>
       <default_value>31</default_value>
     </argument>
-    <argument>
-      <name>end_time</name>
-      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>23</default_value>
-    </argument>
   </arguments>
   <outputs/>
   <provenances/>
@@ -238,6 +222,12 @@
       <checksum>1F550A11</checksum>
     </file>
     <file>
+      <filename>global_const.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>C16CED49</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
@@ -246,7 +236,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>80FB7C35</checksum>
+      <checksum>3BBF2E68</checksum>
     </file>
   </files>
 </measure>
