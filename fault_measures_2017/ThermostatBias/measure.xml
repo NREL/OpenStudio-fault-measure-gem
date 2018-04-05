@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>thermostat_bias</name>
   <uid>e359373a-ea8b-459d-a4c0-e2e8ae78b840</uid>
-  <version_id>273de76f-a84b-4f2e-adeb-69a10ae8391f</version_id>
-  <version_modified>20180313T161801Z</version_modified>
+  <version_id>3a0c33d2-03b1-4d1a-92e3-a4b9ef1a8aef</version_id>
+  <version_modified>20180405T144347Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ThermostatBias</class_name>
   <display_name>Thermostat Measurement Bias</display_name>
@@ -27,6 +27,14 @@
     <argument>
       <name>bias_level</name>
       <display_name>Enter the constant setpoint bias level [K] [0=Non faulted case]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>time_constant</name>
+      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
@@ -91,6 +99,22 @@
       </choices>
     </argument>
     <argument>
+      <name>start_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>9</default_value>
+    </argument>
+    <argument>
       <name>end_month</name>
       <display_name>Fault active end month</display_name>
       <type>Choice</type>
@@ -148,6 +172,22 @@
         </choice>
       </choices>
     </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>31</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23</default_value>
+    </argument>
   </arguments>
   <outputs/>
   <provenances/>
@@ -174,12 +214,6 @@
       <checksum>331D0847</checksum>
     </file>
     <file>
-      <filename>global_const.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>C16CED49</checksum>
-    </file>
-    <file>
       <filename>temp_2004_lg_hotel_chicago.osm</filename>
       <filetype>osm</filetype>
       <usage_type>test</usage_type>
@@ -198,6 +232,12 @@
       <checksum>25825DAD</checksum>
     </file>
     <file>
+      <filename>faultimplementation.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>1F550A11</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
@@ -206,7 +246,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>43C2E073</checksum>
+      <checksum>80FB7C35</checksum>
     </file>
   </files>
 </measure>
