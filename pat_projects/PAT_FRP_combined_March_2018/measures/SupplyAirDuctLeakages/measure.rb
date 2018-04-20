@@ -30,6 +30,10 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 
     ##################################################
     list = OpenStudio::StringVector.new
+
+    # add in option for all terminals
+    list << '* ALL Terminals Selected *'
+
     atsdus = workspace.getObjectsByType("AirTerminal:SingleDuct:Uncontrolled".to_IddObjectType)
     atsdus.each do |atsdu|
       list << atsdu.name.to_s
@@ -84,7 +88,7 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     end
 		
     # make choice arguments for fan
-    airterminal_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("airterminal_choice", list, true, true)
+    airterminal_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("airterminal_choice", list, true)
     airterminal_choice.setDisplayName("Select the name of the faulted AirTerminal object")
     airterminal_choice.setDefaultValue(list[0].to_s)
     args << airterminal_choice
@@ -112,6 +116,7 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     airterminal_choice = runner.getStringArgumentValue('airterminal_choice', user_arguments)
     leak_ratio = runner.getDoubleArgumentValue('leak_ratio', user_arguments)
 
+    # todo - this can be removed, not used after udpate to support multiple terminals
     sh_airterminal_choice = airterminal_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
 
     if leak_ratio != 0 # only continue if the system is faulted
@@ -130,14 +135,14 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       # if the AirTerminal object type is AirTerminal:SingleDuct:Uncontrolled, replace it with AirTerminal:SingleDuct:ConstantVolume:Reheat to add the ZoneHVAC:AirDistributionUnit object that is required to impose the leak model. Append the new objects to the model before process it with the fault
       airterminals = workspace.getObjectsByType('AirTerminal:SingleDuct:Uncontrolled'.to_IddObjectType)
       airterminals.each do |airterminal|
-        if airterminal.getString(0).to_s.eql?(airterminal_choice)
+        if airterminal.getString(0).to_s.eql?(airterminal_choice) || airterminal_choice == "* ALL Terminals Selected *"
           # start replacement
           # get the parameters from the original AirTerminal object
           schedule_name = airterminal.getString(1).to_s
           supply_node = airterminal.getString(2).to_s
           defaultflow = airterminal.getString(3).to_s  # can be "Autosize" so leave it as string
           # change the equipment list object type and names under AirTerminal:SingleDuct:Uncontrolled
-          newaduname = "ADU #{sh_airterminal_choice}"
+          newaduname = "ADU #{airterminal.getString(0).clone.gsub!(/[^0-9A-Za-z]/, '')}"
           
           #############################################################################################          
           #equiplistchange = false
@@ -163,7 +168,7 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
           #############################################################################################
           
           # change the AirLoopHVAC:ZoneSplitter object with new node name
-          newnodename = "NodeIn#{sh_airterminal_choice}"  # name of node between the new terminal and the ZoneSplitter object
+          newnodename = "NodeIn#{airterminal.getString(0).clone.gsub!(/[^0-9A-Za-z]/, '')}"  # name of node between the new terminal and the ZoneSplitter object
           zonesplitterchange = false
           zonesplitters = workspace.getObjectsByType('AirLoopHVAC:ZoneSplitter'.to_IddObjectType)
           zonesplitters.each do |zonesplitter|
@@ -184,7 +189,7 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
             return false
           end
           # create new AirTerminal:SingleDuct:ConstantVolume:Reheat, Coil:Heating:Electric and ZoneHVAC:AirDistributionUnit objects
-          newcoilname = "ElecHeatCoil#{sh_airterminal_choice}"
+          newcoilname = "ElecHeatCoil#{airterminal.getString(0).clone.gsub!(/[^0-9A-Za-z]/, '')}"
           string_objects << "
             Coil:Heating:Electric,
               #{newcoilname},                         !- Name
@@ -238,10 +243,10 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       
       #############################################################################################
       airterminals.each do |airterminal|
-        if airterminal.getString(0).to_s.eql?(airterminal_choice)
+        if airterminal.getString(0).to_s.eql?(airterminal_choice) || airterminal_choice == "* ALL Terminals Selected *"
       
           # change the equipment list object type and names under AirTerminal:SingleDuct:Uncontrolled
-          newaduname = "ADU #{sh_airterminal_choice}"
+          newaduname = "ADU #{airterminal.getString(0).clone.gsub!(/[^0-9A-Za-z]/, '')}"
                    
           equiplistchange = false
           equiplists = workspace.getObjectsByType('ZoneHVAC:EquipmentList'.to_IddObjectType)
@@ -272,6 +277,7 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       #############################################################################################
 
       # find the AirTerminal object to change
+      # todo - update to support multiple terminals
       airterminal_changed = false
       adu_changed = false
       ratio_set = false
@@ -313,10 +319,15 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
                           # find the related AirLoopHVAC:ReturnPlenum object
                           returnplenums = workspace.getObjectsByType('AirLoopHVAC:ReturnPlenum'.to_IddObjectType)
                           returnplenums.each do |returnplenum|
-                            if returnplenum.getString(5).to_s.eql?(zoneoutnode)  # check if they are connected
-                              retplen_found = true
-                              break
+
+                            # this adds support for plenums serving more than 1 zone
+                            (returnplenum.numFields - 5).times do |i|
+                              if returnplenum.getString(5 + i).to_s.eql?(zoneoutnode)  # check if they are connected
+                                retplen_found = true
+                                break
+                              end
                             end
+
                           end
                           if retplen_found
                             break
@@ -367,21 +378,22 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       end
 
       # give an error for the name if no RTU is changed
+      # todo - update to support all terminals (temporary fix was to turn errors to warnings and remove return false)
       if !airterminal_changed
-        runner.registerError("Measure SupplyAirDuctLeakages cannot find #{airterminal_choice}. Exiting......")
+        runner.registerWarning("Measure SupplyAirDuctLeakages cannot find #{airterminal_choice}. Exiting......")
         airterminals_msg = 'Only AirTerminals '
         existing_airterminals.each do |existing_airterminal|
           airterminals_msg = "#{airterminals_msg}#{existing_airterminal}, "
         end
         airterminals_msg = "#{airterminals_msg} were found."
-        runner.registerError(airterminals_msg)
-        return false
+        runner.registerWarning(airterminals_msg)
+        #return false
       elsif !adu_changed
-        runner.registerError("Measure SupplyAirDuctLeakages cannot find the ZoneHVAC:AirDistributionUnit that contains #{airterminal_choice}. Exiting......")
-        return false
+        runner.registerWarning("Measure SupplyAirDuctLeakages cannot find the ZoneHVAC:AirDistributionUnit that contains #{airterminal_choice}. Exiting......")
+        #return false
       elsif !ratio_set
-        runner.registerError("Leakage ratio cannot be assigned to #{airterminal_choice} with the ZoneHVAC:AirDistributionUnit object having #{field_num} fields. Exiting......")
-        return false
+        runner.registerWarning("Leakage ratio cannot be assigned to #{airterminal_choice} with the ZoneHVAC:AirDistributionUnit object having #{field_num} fields. Exiting......")
+        #return false
       end
 
       # report final condition of workspace

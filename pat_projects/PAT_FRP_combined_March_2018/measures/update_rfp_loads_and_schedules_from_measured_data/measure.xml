@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>update_rfp_loads_and_schedules_from_measured_data</name>
   <uid>e53d2697-1e13-4969-8ff2-a444e53d6202</uid>
-  <version_id>02f5c0e9-9402-464c-ab5a-aa3576c9f54d</version_id>
-  <version_modified>20180214T144943Z</version_modified>
+  <version_id>bf8789cd-552d-43bf-ae4d-f2029faba4ff</version_id>
+  <version_modified>20180319T203512Z</version_modified>
   <xml_checksum>9DE29E21</xml_checksum>
   <class_name>UpdateRFPLoadsAndSchedulesFromMeasuredData</class_name>
   <display_name>Update RFP Loads and Schedules from Measured Data</display_name>
@@ -74,7 +74,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>9FA426C7</checksum>
+      <checksum>FD5DC087</checksum>
     </file>
   </files>
 </measure>

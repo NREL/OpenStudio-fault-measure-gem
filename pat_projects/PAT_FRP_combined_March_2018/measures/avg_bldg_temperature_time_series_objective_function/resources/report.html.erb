@@ -169,6 +169,11 @@ context.append("g")
     .attr("y", -6)
     .attr("height", height2 + 7);
 
+// set default extent for brush selected (custom code for FRP)
+brush.extent([new Date("January 15 2009 00:00:00"), new Date("January 16 2009 24:00:00")])
+context.select('.brush').call(brush);
+brushed();
+
 // Setup the spacing for the legends
 var legendSpacing = 25;
     

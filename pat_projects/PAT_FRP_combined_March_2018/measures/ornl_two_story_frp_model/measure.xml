@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>ornl_two_story_frp_model</name>
   <uid>67cfe500-ee64-40db-acf7-f04bf999950d</uid>
-  <version_id>2c1f9e20-5fdd-4725-aa1f-66445caa33c9</version_id>
-  <version_modified>20180309T224557Z</version_modified>
+  <version_id>edd86a32-27a1-40b8-ba18-c16096ecfca1</version_id>
+  <version_modified>20180405T190150Z</version_modified>
   <xml_checksum>55EF43E6</xml_checksum>
   <class_name>OrnlTwoStoryFrpModel</class_name>
   <display_name>Ornl Two Story Frp Model</display_name>
@@ -183,6 +183,10 @@ At some point the OSM could become the working model that gets updated and conve
         <choice>
           <value>Scheduled</value>
           <display_name>Scheduled</display_name>
+        </choice>
+        <choice>
+          <value>OA Temp Reset</value>
+          <display_name>OA Temp Reset</display_name>
         </choice>
       </choices>
     </argument>
@@ -502,7 +506,7 @@ At some point the OSM could become the working model that gets updated and conve
       <filename>ornl_two_story_frp_model_test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>0450F6DD</checksum>
+      <checksum>8BA3264E</checksum>
     </file>
     <file>
       <version>
@@ -513,13 +517,13 @@ At some point the OSM could become the working model that gets updated and conve
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>CF9BF62C</checksum>
+      <checksum>6D1FB499</checksum>
     </file>
     <file>
       <filename>FRP2_raw_import_updated_ORNL4.osm</filename>
       <filetype>osm</filetype>
       <usage_type>resource</usage_type>
-      <checksum>C016B1CC</checksum>
+      <checksum>476DB333</checksum>
     </file>
   </files>
 </measure>

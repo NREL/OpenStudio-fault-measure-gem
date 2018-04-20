@@ -1,0 +1,106 @@
+NREL Measure Design Document Text File
+
+
+Measure Name: Space Type and Construction Set Wizard
+Measure Class: SpaceTypeAndConstructionSetWizard
+Tag: Whole Building.Space Types
+Measure Type: ModelMeasure
+OpenStudio Version: 1.13.0
+
+
+Description:
+    'Create space types and or construction sets for the requested building type, climate zone, and target.'
+
+Modeler Description:
+    'The data for this measure comes from the openstudio-standards Ruby Gem. They are no longer created from the same JSON file that was used to make the OpenStudio templates. Optionally this will also set the building default space type and construction set.'
+
+Arguments:
+    building_type = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('building_type', building_type_chs, true)
+    template = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('template', template_chs, true)
+    climate_zone = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('climate_zone', climate_zone_chs, true)
+    create_space_types = OpenStudio::Ruleset::OSArgument::makeBoolArgument("create_space_types",true)
+    create_construction_set = OpenStudio::Ruleset::OSArgument::makeBoolArgument("create_construction_set",true)
+    set_building_defaults = OpenStudio::Ruleset::OSArgument::makeBoolArgument("set_building_defaults",true)
+
+Error Message:
+    runner.registerError("#{building_type} is an unexpected building type.")
+    runner.registerError("Could not add loads for #{space_type.name}. Not expexted for #{template} #{lookup_building_type}")
+    runner.registerError('Could not create default construction set for the building.')
+
+Warning Message:
+    not used for this measure
+
+Info Message:
+    runner.registerInfo("Added space type named #{space_type.name}")
+    runner.registerInfo("Added default construction set named #{bldg_def_const_set.name}")
+    runner.registerInfo("Setting default Space Type for building to #{building.spaceType.get.name}")
+    runner.registerInfo("Setting default Construction Set for building to #{building.defaultConstructionSet.get.name}")
+    runner.registerInfo("Setting #{climate_zone.institution} Climate Zone to #{climate_zone.value}")
+    runner.registerInfo("Setting Standards Building Type to #{building.standardsBuildingType}")
+    runner.registerInfo("Renaming building to #{model.getBuilding.name}")
+
+Not Applicable Message:
+    not used for this measure
+
+Initial Condition:
+    runner.registerInitialCondition("The building started with #{starting_spaceTypes.size} space types and #{starting_constructionSets.size} construction sets.")
+
+Final Condition:
+    runner.registerFinalCondition("The building finished with #{finishing_spaceTypes.size} space types and #{finishing_constructionSets.size} construction sets.")
+
+Code Outline:
+    require 'openstudio-standards'
+
+    # resource files used by measure
+    include OsLib_HelperMethods
+    include OsLib_ModelGeneration
+
+Tests:
+    def test_empty_seed
+    def test_med_off
+    def test_two_story_bar
+    def test_super_market
+    def test_lg_off_pre_1980
+    def test_small_hotel_2007
+
+
+Example Test Log Output:
+    **INITIAL CONDITION**
+    The building started with 0 space types and 0 construction sets.
+    **FINAL CONDITION**
+    The building finished with 4 space types and 1 construction sets.
+    **INFO MESSAGES**
+    Added space type named Retail Back_Space - 90.1-2007
+    Added space type named Retail Entry - 90.1-2007
+    Added space type named Retail Point_of_Sale - 90.1-2007
+    Added space type named Retail Retail - 90.1-2007
+    Added default construction set named 90.1-2007 - Retail - ASHRAE 169-2006-5A
+    Setting default Space Type for building to Retail Retail - 90.1-2007
+    Setting default Construction Set for building to 90.1-2007 - Retail - ASHRAE 169-2006-5A
+    Setting ASHRAE Climate Zone to 5A
+    Setting Standards Building Type to Retail
+    Renaming building to RetailStandalone 90.1-2007 5A
+    **WARNING MESSAGES**
+    **ERROR MESSAGES**
+
+Revision Notes 10/03/2016:
+    Prior to to this commit the measure used the same json file that was used to make the OpenStudio template files and is still used in the Space Type and Construction Set Wizard in the OpenStudio SketchUp Plugin. Insead this measure now gets data for space types and constructions from the openstudio-standards gem. This makes this measure more in line with the DOE prototype buildings and with the Create Baseline Building measure. Some changes between the old and new measure argument choices and behavior are listed below.
+
+    - While the old measure had an "Office" building type, the new measure has SmallOffice, MediumOffice, and LargeOffice building types.
+    - A new building type choice is HighriseApartment
+    - 189.1-2009 has been removed as a template (target standard) choice, while 90.1-2010 and 90.12013 have been added.
+    - In some cases the space types that are generated for a building tpye wll vary based on the template (target standard) that is chosen. Two examples follow
+    - 90.1 2004 and later template choices for LargeOffice have two additional space types that don't exist in older template choices. These space types are Data Center and Main Data Center.
+    - 90.1 2004 and later template choices for SmallHotel have GuestRoom123Occ and GuestRoom123Vac space types while older template choices instead have a GuestRoom space type.
+    - While most building types only use space types pulled from the prototype building, the Office building types have additional space types. The prototype buildings use a whole building space type, although in some of the large office "Whole Building" isn't really whole building since there are a few data center space types. The "Whole Building" space types are generated by the measure for modelers who want to use it with core and perimeter models; but the measure also generates individual un-blended space types for more detailed modeling. These space type choices are the same as the old measure, however some loads and schedules may be different than before.
+    - Some prototype buildings types have elevator internal loads assigned directly to a space, while other prototype building types have elevator loads included in the space type load power density. Modelers should be familar with what is included in the space type power dencity when using these space types.
+    - Heating and Cooling setpoint schedules are generated by this measure but won't be assigned to anything in the model. (this is similar behavior to the older versions of the measure)
+    - Currently InternalMass is not included but it could be added in the future. (same as in the past)
+    - Service Water Heating and Exhaust Fans are not included in space tyes (same as in the past)
+    - Exterior Lighting loads are not produced by this measure (same as in the past)
+    - The measure doesn't alter any mechanical system elements, however it does add SpaceInfiltration and DesignSpecificationOutdoorAir objets to the space types (same as in the past)
+
+
+
+
+

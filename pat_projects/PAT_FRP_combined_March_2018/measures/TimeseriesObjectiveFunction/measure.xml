@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>timeseries_objective_function</name>
   <uid>6804217d-4737-45f3-82df-b81393c29ce3</uid>
-  <version_id>86a824f0-457c-4121-bcaa-a58b0e8f9983</version_id>
-  <version_modified>20180308T200150Z</version_modified>
+  <version_id>d41b5fec-0640-4337-965c-e1515b34d80e</version_id>
+  <version_modified>20180322T191228Z</version_modified>
   <xml_checksum>FFE04372</xml_checksum>
   <class_name>TimeseriesObjectiveFunction</class_name>
   <display_name>TimeSeries Objective Function</display_name>
@@ -397,12 +397,6 @@
   </attributes>
   <files>
     <file>
-      <filename>report.html.erb</filename>
-      <filetype>erb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6CBAC1DE</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>2.1.0</identifier>
@@ -412,6 +406,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>51DBE27A</checksum>
+    </file>
+    <file>
+      <filename>report.html.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>C57A57AD</checksum>
     </file>
   </files>
 </measure>

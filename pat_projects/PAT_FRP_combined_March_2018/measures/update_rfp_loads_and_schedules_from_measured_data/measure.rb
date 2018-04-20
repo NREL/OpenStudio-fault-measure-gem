@@ -192,6 +192,14 @@ class UpdateRFPLoadsAndSchedulesFromMeasuredData < OpenStudio::Ruleset::ModelUse
       elec_equip_w = elec_equip.electricEquipmentDefinition.designLevel.get
       elec_equip.electricEquipmentDefinition.setName("#{space_name} elec equip def")
 
+      # change fraction radiant or lost
+      elec_equip.electricEquipmentDefinition.setFractionRadiant(1.0)
+
+      # just put in fraction lost for testing.
+      #elec_equip.electricEquipmentDefinition.setFractionLost(0.5)
+      #elec_equip.electricEquipmentDefinition.setFractionLost(0.75)
+      #elec_equip.electricEquipmentDefinition.setFractionLost(1.0)
+
       # clone schedule
       runner.registerInfo("Adding rules to clone of #{elec_equip.schedule.get.name} named #{space_name}_elec_equip_sch")
       new_sch = elec_equip.schedule.get.clone(model).to_ScheduleRuleset.get

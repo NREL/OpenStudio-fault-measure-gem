@@ -124,6 +124,7 @@ At some point the OSM could become the working model that gets updated and conve
     choices = OpenStudio::StringVector.new
     choices << "EMS"
     choices << "Scheduled"
+    choices << "OA Temp Reset"
     stp_mgr = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("stp_mgr", choices,true)
     stp_mgr.setDisplayName("Air Loop Setpoint Strategy.")
     stp_mgr.setDefaultValue("EMS")
@@ -372,7 +373,7 @@ At some point the OSM could become the working model that gets updated and conve
     end
 
     #model.swap(oModel.get)
-    # this gives [BUG] Segmentation fault at 0x00000100000061 if I then do model.getSpaces.first.surfaces.size  
+    # this gives [BUG] Segmentation fault at 0x00000100000061 if I then do model.getSpaces.first.surfaces.size
 
     # alternative swap
     # remove existing objects from model
@@ -592,7 +593,7 @@ At some point the OSM could become the working model that gets updated and conve
     sizing_system.setAllOutdoorAirinHeating(false)
     sizing_system.setCentralCoolingDesignSupplyAirHumidityRatio(0.008)
     sizing_system.setCoolingDesignAirFlowMethod('Flow/System')
-    sizing_system.setCoolingDesignAirFlowRate(1.6518160512)
+    sizing_system.setCoolingDesignAirFlowRate(fan_max_flow) # was 1.3518160512
     sizing_system.setHeatingDesignAirFlowMethod('Flow/System')
     sizing_system.setHeatingDesignAirFlowRate(1.51023181824)
     runner.registerInfo("Configuring System Sizing.")
@@ -777,12 +778,12 @@ At some point the OSM could become the working model that gets updated and conve
     oa_outlet_node.setName("RoofTop Mixed Air Outlet")
 
     # gather unqiue zone HVAC equipment characteristics
-    # todo - if plug loads are going to change from test to test, they could be added here as well
     zone_attributes = {}
     zone_attributes["Room 102"] = {
         :reheat_cap => 1000.00000121572,
         :max_air_flow => 0.132145284096,
         :min_air_flow => 9.43894886400002E-02,
+        #:min_air_flow => 0.0462482303, # old val = 9.43894886400002E-02,
         :sizing_clg_dsn_flow_rate => 0.132145284096,
         :sizing_htg_dsn_flow_rate => 5.66336931840001E-02,
         :oa_flow_rate => 2.69010042624001E-02,
@@ -792,6 +793,7 @@ At some point the OSM could become the working model that gets updated and conve
         :reheat_cap => 1000.00000121572,
         :max_air_flow => 0.18877897728,
         :min_air_flow => 5.66336931840001E-02,
+        #:min_air_flow => 0.04247286456, # old val = 5.66336931840001E-02,
         :sizing_clg_dsn_flow_rate => 0.18877897728,
         :sizing_htg_dsn_flow_rate => 5.66336931840001E-02,
         :oa_flow_rate => 2.35973721600001E-02,
@@ -801,6 +803,7 @@ At some point the OSM could become the working model that gets updated and conve
         :reheat_cap => 4999.99999142503,
         :max_air_flow => 0.264290568192001,
         :min_air_flow => 0.174620553984,
+        #:min_air_flow => 0.140160453, # old val = 0.174620553984,
         :sizing_clg_dsn_flow_rate => 0.264290568192001,
         :sizing_htg_dsn_flow_rate => 5.66336931840001E-02,
         :oa_flow_rate => 2.54851619328001E-02,
@@ -810,6 +813,7 @@ At some point the OSM could become the working model that gets updated and conve
         :reheat_cap => 4999.99999142503,
         :max_air_flow => 0.283168465920001,
         :min_air_flow => 0.174620553984,
+        #:min_air_flow => 0.1293062765, # old val = 0.174620553984,
         :sizing_clg_dsn_flow_rate => 0.283168465920001,
         :sizing_htg_dsn_flow_rate => 0.174620553984,
         :oa_flow_rate => 3.25643735808001E-02,
@@ -819,6 +823,7 @@ At some point the OSM could become the working model that gets updated and conve
         :reheat_cap => 4999.99999142503,
         :max_air_flow => 0.283168465920001,
         :min_air_flow => 0.174620553984,
+        #:min_air_flow => 0.130250118, # old val = 0.174620553984,
         :sizing_clg_dsn_flow_rate => 0.283168465920001,
         :sizing_htg_dsn_flow_rate => 0.174620553984,
         :oa_flow_rate => 2.59571093760001E-02,
@@ -828,6 +833,7 @@ At some point the OSM could become the working model that gets updated and conve
         :reheat_cap => 1999.99999950072,
         :max_air_flow => 0.212376349440001,
         :min_air_flow => 9.91089630720002E-02,
+        #:min_air_flow => 0.07597923549, # old val = 9.91089630720002E-02,
         :sizing_clg_dsn_flow_rate => 0.212376349440001,
         :sizing_htg_dsn_flow_rate => 9.91089630720002E-02,
         :oa_flow_rate => 0.0108547911936,
@@ -837,6 +843,7 @@ At some point the OSM could become the working model that gets updated and conve
         :reheat_cap => 1500.00000035822,
         :max_air_flow => 0.1179868608,
         :min_air_flow => 7.07921164800002E-02,
+        #:min_air_flow => 0.05568664464, # old val = 7.07921164800002E-02,
         :sizing_clg_dsn_flow_rate => 0.1179868608,
         :sizing_htg_dsn_flow_rate => 7.07921164800002E-02,
         :oa_flow_rate => 0.0108547911936,
@@ -846,6 +853,7 @@ At some point the OSM could become the working model that gets updated and conve
         :reheat_cap => 4999.99999142503,
         :max_air_flow => 0.283168465920001,
         :min_air_flow => 0.174620553984,
+        #:min_air_flow => 0.1264747522, # old val = 0.174620553984,
         :sizing_clg_dsn_flow_rate => 0.283168465920001,
         :sizing_htg_dsn_flow_rate => 0.174620553984,
         :oa_flow_rate => 0.0136864758528,
@@ -855,6 +863,7 @@ At some point the OSM could become the working model that gets updated and conve
         :reheat_cap => 4999.99999142503,
         :max_air_flow => 0.283168465920001,
         :min_air_flow => 0.174620553984,
+        #:min_air_flow => 0.1283624351, # old val = 0.174620553984,
         :sizing_clg_dsn_flow_rate => 0.297326889216001,
         :sizing_htg_dsn_flow_rate => 0.174620553984,
         :oa_flow_rate => 0.0127425809664,
@@ -864,6 +873,7 @@ At some point the OSM could become the working model that gets updated and conve
         :reheat_cap => 4999.99999142503,
         :max_air_flow => 0.297326889216001,
         :min_air_flow => 0.174620553984,
+        #:min_air_flow => 0.1344974044, # old val = 0.174620553984,
         :sizing_clg_dsn_flow_rate => 0.297326889216001,
         :sizing_htg_dsn_flow_rate => 0.174620553984,
         :oa_flow_rate => 0.0127425809664,
@@ -886,8 +896,13 @@ At some point the OSM could become the working model that gets updated and conve
         vav_terminal.setName("#{zone.name.get.to_s} VAV Reheat")
         vav_terminal.setMaximumAirFlowRate(zone_attributes[zone.name.get.to_s][:max_air_flow])
         vav_terminal.setZoneMinimumAirFlowMethod("FixedFlowRate")
-        vav_terminal.	setFixedMinimumAirFlowRate(zone_attributes[zone.name.get.to_s][:min_air_flow])
+        vav_terminal.setFixedMinimumAirFlowRate(zone_attributes[zone.name.get.to_s][:min_air_flow])
         vav_terminal.setDamperHeatingAction("Reverse")
+
+        # set airflow durring heating to match minimim flow rate of terminal
+        max_flow_per_area_reheat = zone_attributes[zone.name.get.to_s][:min_air_flow] / zone.floorArea.to_f
+        vav_terminal.setMaximumFlowPerZoneFloorAreaDuringReheat(max_flow_per_area_reheat)
+        vav_terminal.setMaximumReheatAirTemperature(40.0)
 
         # add zone to air_loop
         air_loop.addBranchForZone(zone,vav_terminal.to_StraightComponent)
@@ -1014,7 +1029,25 @@ At some point the OSM could become the working model that gets updated and conve
       sat_sch.defaultDaySchedule().addValue(OpenStudio::Time.new(0,24,0,0),sat_c_clg)
       sat_stpt_manager = OpenStudio::Model::SetpointManagerScheduled.new(model,sat_sch)
       sat_stpt_manager.addToNode(supply_outlet_node)
-      runner.registerInfo("Adding scheduled setpoint manager (remove this when EMS is enabled).")
+      runner.registerInfo("Adding scheduled setpoint manager.")
+
+      # removing all EMS
+      model.getEnergyManagementSystemPrograms.each { |i| i.remove }
+      model.getEnergyManagementSystemProgramCallingManagers.each { |i| i.remove }
+      model.getEnergyManagementSystemOutputVariables.each { |i| i.remove }
+      model.getEnergyManagementSystemGlobalVariables.each { |i| i.remove } # all DOAS so remove all
+      model.getEnergyManagementSystemSensors.each { |i| i.remove }
+      model.getEnergyManagementSystemActuators.each { |i| i.remove }
+
+    elsif stp_mgr == "OA Temp Reset"
+
+      sat_stpt_manager = OpenStudio::Model::SetpointManagerOutdoorAirReset.new(model)
+      sat_stpt_manager.setSetpointatOutdoorLowTemperature(setpoint_temp_ceiling)
+      sat_stpt_manager.setOutdoorLowTemperature(oa_threshold_for_setpoint_ceiling)
+      sat_stpt_manager.setSetpointatOutdoorHighTemperature(setpoint_temp_floor)
+      sat_stpt_manager.setOutdoorHighTemperature(oa_threshold_for_setpoint_floor)
+      sat_stpt_manager.addToNode(supply_outlet_node)
+      runner.registerInfo("Adding setpoint manager  OA reset.")
 
       # removing all EMS
       model.getEnergyManagementSystemPrograms.each { |i| i.remove }
@@ -1025,6 +1058,8 @@ At some point the OSM could become the working model that gets updated and conve
       model.getEnergyManagementSystemActuators.each { |i| i.remove }
 
     else
+
+      # note: replacing EMS with SetpointManagerOutdoorAirReset so I can more easiy use an economizer.
 
       # >> add in missing EMS information
       # add EMS variable name to OS:EnergyManagementSystem:OutputVariable)
