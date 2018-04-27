@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>presence_of_non_condensable</name>
   <uid>2ff0e29b-c218-422e-b3af-a656eb6f95f7</uid>
-  <version_id>971d3e93-963d-4d49-804e-45525fbe7335</version_id>
-  <version_modified>20180315T144425Z</version_modified>
+  <version_id>a606f73a-7c66-4d18-993a-aaff97dcae6d</version_id>
+  <version_modified>20180427T140504Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>PresenceOfNonCondensable</class_name>
   <display_name>Presence Of Noncondensable</display_name>
@@ -362,12 +362,6 @@
       <checksum>2E414023</checksum>
     </file>
     <file>
-      <filename>faultcalculationcoilcoolingdx.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>A062FAE5</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -377,6 +371,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>4A3D2F6A</checksum>
+    </file>
+    <file>
+      <filename>faultcalculationcoilcoolingdx.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>53C09372</checksum>
     </file>
   </files>
 </measure>
