@@ -2,7 +2,7 @@
 require 'csv'
 
 # load in csv file
-file_name = "FRP2-2_DataWeather_Aug_Sep_2017.csv"
+file_name = "FRP2-2_DataWeather_Aug_Sep_2017_clean.csv"
 csv_data = CSV.read(file_name)
 puts "#{file_name} has #{csv_data.size} rows."
 
@@ -17,11 +17,21 @@ rows_per_set = 60
 # avg - values are averaged
 # sum - values are summed
 # azimuth - average azimuth is calculated
-# todo - come up with avarage azimith from collection of values (also not included direction values when speed is 0)
-col_rules = ["na","clear","avg","avg","avg","avg","avg","avg","avg","na","na","avg","sum","avg","azimuth","clear","na"]
+
+# approach perscribed by ornl was last value for temps and hr, avg for air pressure
+#col_rules = ["last","time","avg","avg","avg","avg","avg","avg","avg","last","last","avg","sum","avg","azimuth","clear","last"]
+
+# changes made from perscribed path
+# set air pressure to avg matching temp and humidity inputs
+# shifted the date/time to the first vs. last row from each averging group
+col_rules = ["date","time","last","last","last","last","last","last","last","last","last","last","sum","last","azimuth","clear","last"]
+#col_rules = ["date","time","avg","avg","avg","avg","avg","avg","avg","avg","avg","avg","sum","avg","azimuth","clear","avg"]
+
+# todo - coud be nice to avg 30 minutes before and after the time, or maybe even jsut 7 minutes each side to get 15min window
+# todo - or update this to use 15 minute timestep maching simulation so no weather file interpolation.
 
 # write a new CSV file
-file_out_name = "reduced.csv"
+file_out_name = "FRP2-2_DataWeather_Aug_Sep_2017_clean_reduced.csv"
 CSV.open(file_out_name, "wb") do |csv|
 	csv_data[0..header].each do |row|
 		csv << row
@@ -42,13 +52,27 @@ CSV.open(file_out_name, "wb") do |csv|
 				set_array << 0.0 # adding pace holder values
 			end
 		end
-		csv_data[current_row..(current_row+rows_per_set-1)].each do |row|
+		csv_data[current_row..(current_row+rows_per_set-1)].each_with_index do |row,j|
+
+			# separate date and time
+			space_index = row[0].to_s.index(" ")
+			date = row[0].to_s[0..space_index-1]
+			time = row[0].to_s[space_index+1..row[0].size]
 
 			row.each_with_index do |col,i|
-				if col_rules[i] == "na"
+				if col_rules[i] == "last"
 					set_array[i] = col # everything is overwritten and last value sticks
 				elsif col_rules[i] == "clear"
 					set_array[i] = "" # pass an empty string in
+				elsif col_rules[i] == "first"
+					# only set date once for the first row
+					if j == 0 then set_array[i] = col end
+				elsif col_rules[i] == "date"
+					# only set date once for the first row
+					if j == 0 then set_array[i] = date end
+				elsif col_rules[i] == "time"
+					# only set date once for the first row
+					if j == 0 then set_array[i] = time end
 				elsif col_rules[i] == "sum"
 					set_array[i] += col.to_f
 				elsif col_rules[i] == "azimuth"
@@ -89,4 +113,4 @@ CSV.open(file_out_name, "wb") do |csv|
 end
 
 # report out size of reduced csv
-puts "reduced.csv has #{CSV.read(file_out_name).size} rows."
+puts "reduced.csv has #{CSV.read(file_out_name).size} rows."	

@@ -3,7 +3,7 @@
   "projectDir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling",
   "analysisName": "PAT_FRP_condenser_fouling",
   "seed": "frp_baseline_typical_sch.osm",
-  "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017CST.epw",
+  "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
   "analysis_type": "Manual",
   "remoteSettings": {
     "open": true,
@@ -354,7 +354,7 @@
           "description": "Option 2 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
         }
       ],
-      "instanceId": 0.6928881743635416,
+      "instanceId": 0.22933149146077914,
       "numberOfOptions": 1,
       "$$hashKey": "object:1225",
       "skip": false,
@@ -493,7 +493,7 @@
           "default_value": "2015-7-25",
           "$$hashKey": "uiGrid-00DV",
           "variable": false,
-          "option_1": "2016-1-1",
+          "option_1": "2016-8-11",
           "display_name_short": "start_date",
           "inputs": {
             "relationship": null,
@@ -524,7 +524,7 @@
           "default_value": "2015-7-26",
           "$$hashKey": "uiGrid-00DX",
           "variable": false,
-          "option_1": "2016-12-31",
+          "option_1": "2016-9-29",
           "display_name_short": "end_date",
           "inputs": {
             "relationship": null,
@@ -630,11 +630,11 @@
             },
             {
               "name": "start_date",
-              "value": "2016-1-1"
+              "value": "2016-8-11"
             },
             {
               "name": "end_date",
-              "value": "2016-12-31"
+              "value": "2016-9-29"
             },
             {
               "name": "daylightsavings",
@@ -649,7 +649,7 @@
           "description": "Option 1 Description: Set Run Period Object"
         }
       ],
-      "instanceId": 0.6285177954768653,
+      "instanceId": 0.7035862216176572,
       "numberOfOptions": 1,
       "$$hashKey": "object:1226",
       "skip": true,
@@ -816,7 +816,7 @@
           "description": "Option 1 Description: This is addressing issue with forward translation of OpenStudio Schedule Rulesets to Schedule Week in EnergyPlus. The start day of week for this logic appears to  apply that day of week to January 1st, however when the simulation is runEnergyPlus uses that as the day of the week for the RunPeriod, which for example may be July 25th, not January first. If I just change the start date."
         }
       ],
-      "instanceId": 0.11163712326187336,
+      "instanceId": 0.2230485387511696,
       "numberOfOptions": 1,
       "$$hashKey": "object:365085",
       "skip": false,
@@ -1031,7 +1031,7 @@
           "description": "Option 2 Description: Simulate supply air duct leakage from VAV into Return Plenum."
         }
       ],
-      "instanceId": 0.26888301683591687,
+      "instanceId": 0.8374181618710839,
       "numberOfOptions": 1,
       "$$hashKey": "object:136454",
       "outputMeasure": false,
@@ -1827,7 +1827,7 @@
       "bcl_update": false,
       "location": "local",
       "add": "",
-      "open": false,
+      "open": true,
       "addedToProject": true,
       "date": "10/27/2017",
       "author": "",
@@ -1927,7 +1927,7 @@
           "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
         }
       ],
-      "instanceId": 0.6146842365461569,
+      "instanceId": 0.5800533260387042,
       "numberOfOptions": 1,
       "$$hashKey": "object:1238",
       "skip": false,
@@ -2872,7 +2872,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.8338793284415917,
+      "instanceId": 0.7299556739150197,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": false,
@@ -3855,7 +3855,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.9856505067179331,
+      "instanceId": 0.8575424887436331,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": false,
@@ -4838,7 +4838,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.7661929836191492,
+      "instanceId": 0.9696855408542231,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": false,
@@ -5821,7 +5821,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.09051683265571686,
+      "instanceId": 0.15743207030272677,
       "numberOfOptions": 1,
       "unlockStatus": false,
       "skip": false,
@@ -6804,7 +6804,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.4929310192980718,
+      "instanceId": 0.9721398100794023,
       "numberOfOptions": 1,
       "unlockStatus": false,
       "skip": false,
@@ -7787,7 +7787,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.538724288188217,
+      "instanceId": 0.3763453314983798,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": false,
@@ -8770,7 +8770,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.21216319954475504,
+      "instanceId": 0.3955687299941921,
       "numberOfOptions": 1,
       "unlockStatus": false,
       "skip": false,
@@ -9753,7 +9753,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.4827656539777141,
+      "instanceId": 0.691137437700245,
       "numberOfOptions": 1,
       "unlockStatus": false,
       "skip": false,
@@ -10636,7 +10636,7 @@
       "bcl_update": false,
       "location": "my",
       "add": "",
-      "open": false,
+      "open": true,
       "addedToProject": true,
       "date": "3/22/2018",
       "author": "",
@@ -10736,7 +10736,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.05160060181868098,
+      "instanceId": 0.12664243951716836,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": true,
@@ -10813,7 +10813,7 @@
     {
       "name": "updated schedules",
       "seedModel": "frp_baseline_typical_sch.osm",
-      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017CST.epw",
+      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
       "update_rfp_loads_and_schedules_from_measured_data": "schedules from measured data",
       "run_period": "custom run period",
       "change_run_period_start_day_of_week": "Change Start Day of Week",
@@ -10831,7 +10831,7 @@
       "$$hashKey": "uiGrid-0DWV"
     }
   ],
-  "analysisID": "",
+  "analysisID": null,
   "datapoints": [
     {
       "name": "updated schedules",
