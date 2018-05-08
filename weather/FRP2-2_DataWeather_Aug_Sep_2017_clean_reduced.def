@@ -14,7 +14,7 @@ Comments1='Generated from FRP2-2_DataWeather weather data'
 /
 
 &wthdata
-NumInHour=1
+NumInHour=4
 InputFileType='Custom'
 InFormat='Delimited'
 DelimiterChar=','

@@ -354,7 +354,7 @@
           "description": "Option 2 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
         }
       ],
-      "instanceId": 0.22933149146077914,
+      "instanceId": 0.31033075354687045,
       "numberOfOptions": 1,
       "$$hashKey": "object:1225",
       "skip": false,
@@ -649,7 +649,7 @@
           "description": "Option 1 Description: Set Run Period Object"
         }
       ],
-      "instanceId": 0.7035862216176572,
+      "instanceId": 0.28742975635645074,
       "numberOfOptions": 1,
       "$$hashKey": "object:1226",
       "skip": true,
@@ -816,7 +816,7 @@
           "description": "Option 1 Description: This is addressing issue with forward translation of OpenStudio Schedule Rulesets to Schedule Week in EnergyPlus. The start day of week for this logic appears to  apply that day of week to January 1st, however when the simulation is runEnergyPlus uses that as the day of the week for the RunPeriod, which for example may be July 25th, not January first. If I just change the start date."
         }
       ],
-      "instanceId": 0.2230485387511696,
+      "instanceId": 0.9422652692145141,
       "numberOfOptions": 1,
       "$$hashKey": "object:365085",
       "skip": false,
@@ -1031,7 +1031,7 @@
           "description": "Option 2 Description: Simulate supply air duct leakage from VAV into Return Plenum."
         }
       ],
-      "instanceId": 0.8374181618710839,
+      "instanceId": 0.6014604799439032,
       "numberOfOptions": 1,
       "$$hashKey": "object:136454",
       "outputMeasure": false,
@@ -1827,7 +1827,7 @@
       "bcl_update": false,
       "location": "local",
       "add": "",
-      "open": true,
+      "open": false,
       "addedToProject": true,
       "date": "10/27/2017",
       "author": "",
@@ -1927,7 +1927,7 @@
           "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
         }
       ],
-      "instanceId": 0.5800533260387042,
+      "instanceId": 0.794863851792684,
       "numberOfOptions": 1,
       "$$hashKey": "object:1238",
       "skip": false,
@@ -2872,7 +2872,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.7299556739150197,
+      "instanceId": 0.9232452186094195,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": false,
@@ -3855,7 +3855,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.8575424887436331,
+      "instanceId": 0.7202305458210745,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": false,
@@ -4838,7 +4838,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.9696855408542231,
+      "instanceId": 0.2671013142954419,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": false,
@@ -5821,7 +5821,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.15743207030272677,
+      "instanceId": 0.6244300500458562,
       "numberOfOptions": 1,
       "unlockStatus": false,
       "skip": false,
@@ -6804,7 +6804,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.9721398100794023,
+      "instanceId": 0.42782243190805014,
       "numberOfOptions": 1,
       "unlockStatus": false,
       "skip": false,
@@ -7787,7 +7787,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.3763453314983798,
+      "instanceId": 0.08063397343554124,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": false,
@@ -8770,7 +8770,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.3955687299941921,
+      "instanceId": 0.9043045369290033,
       "numberOfOptions": 1,
       "unlockStatus": false,
       "skip": false,
@@ -9753,7 +9753,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.691137437700245,
+      "instanceId": 0.8510084175112647,
       "numberOfOptions": 1,
       "unlockStatus": false,
       "skip": false,
@@ -10636,7 +10636,7 @@
       "bcl_update": false,
       "location": "my",
       "add": "",
-      "open": true,
+      "open": false,
       "addedToProject": true,
       "date": "3/22/2018",
       "author": "",
@@ -10736,7 +10736,7 @@
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.12664243951716836,
+      "instanceId": 0.8783360646694813,
       "numberOfOptions": 1,
       "unlockStatus": true,
       "skip": true,
@@ -10831,14 +10831,6 @@
       "$$hashKey": "uiGrid-0DWV"
     }
   ],
-  "analysisID": null,
-  "datapoints": [
-    {
-      "name": "updated schedules",
-      "id": "updated schedules",
-      "run": false,
-      "modified": false,
-      "selected": false
-    }
-  ]
+  "analysisID": "2fba7ef6-a027-47a0-ad6d-77656f1671b5",
+  "datapoints": []
 }

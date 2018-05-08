@@ -10,7 +10,7 @@ puts "#{file_name} has #{csv_data.size} rows."
 header = 3
 
 # number of rows to be combined
-rows_per_set = 60
+rows_per_set = 15
 
 # na - no change to value
 # clear - value is removed
@@ -24,8 +24,12 @@ rows_per_set = 60
 # changes made from perscribed path
 # set air pressure to avg matching temp and humidity inputs
 # shifted the date/time to the first vs. last row from each averging group
-col_rules = ["date","time","last","last","last","last","last","last","last","last","last","last","sum","last","azimuth","clear","last"]
-#col_rules = ["date","time","avg","avg","avg","avg","avg","avg","avg","avg","avg","avg","sum","avg","azimuth","clear","avg"]
+
+# last gave best fit for hourly (with date and time coming from first)
+#col_rules = ["date","time","last","last","last","last","last","last","last","last","last","last","sum","last","azimuth","clear","last"]
+
+# avg gave best fit for 15 minute timestep (with date and time coming from first)
+col_rules = ["date","time","avg","avg","avg","avg","avg","avg","avg","avg","avg","avg","sum","avg","azimuth","clear","avg"]
 
 # todo - coud be nice to avg 30 minutes before and after the time, or maybe even jsut 7 minutes each side to get 15min window
 # todo - or update this to use 15 minute timestep maching simulation so no weather file interpolation.
