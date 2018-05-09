@@ -8663,30 +8663,21 @@ OS:Schedule:Day,
   Schedule Day 761,                       !- Name
   {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
-  6,                                      !- Hour 1
-  0,                                      !- Minute 1
+  7,                                      !- Hour 1
+  15,                                     !- Minute 1
   31.7000007629395,                       !- Value Until Time 1
-  6,                                      !- Hour 2
-  15,                                     !- Minute 2
-  31.7000007629395,                       !- Value Until Time 2
-  6,                                      !- Hour 3
+  8,                                      !- Hour 2
+  0,                                      !- Minute 2
+  30.1288967132568,                       !- Value Until Time 2
+  8,                                      !- Hour 3
   30,                                     !- Minute 3
-  31.2688217163086,                       !- Value Until Time 3
-  6,                                      !- Hour 4
+  28.1747417449951,                       !- Value Until Time 3
+  21,                                     !- Hour 4
   45,                                     !- Minute 4
-  30.1288967132568,                       !- Value Until Time 4
-  7,                                      !- Hour 5
+  27.5233554840088,                       !- Value Until Time 4
+  24,                                     !- Hour 5
   0,                                      !- Minute 5
-  29.4775123596191,                       !- Value Until Time 5
-  7,                                      !- Hour 6
-  15,                                     !- Minute 6
-  28.1747417449951,                       !- Value Until Time 6
-  18,                                     !- Hour 7
-  0,                                      !- Minute 7
-  27.5233554840088,                       !- Value Until Time 7
-  24,                                     !- Hour 8
-  0,                                      !- Minute 8
-  31.7000007629395;                       !- Value Until Time 8
+  31.7000007629395;                       !- Value Until Time 5
 
 OS:Schedule:Rule,
   {e7576329-238b-4f65-be9f-c98dd0835ac5}, !- Handle
@@ -9247,40 +9238,11 @@ OS:Schedule:Day,
   FanAvailSched Default Schedule,         !- Name
   {8fad75d8-a002-4cca-b9ac-863d8f49397b}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
-  24,                                     !- Hour 1
-  0,                                      !- Minute 1
-  0;                                      !- Value Until Time 1
-
-OS:Schedule:Rule,
-  {ffcb8c27-054b-4c25-968b-c63371fb671d}, !- Handle
-  FanAvailSched Rule 1,                   !- Name
-  {036552e7-457e-41eb-b499-5e591604b7a0}, !- Schedule Ruleset Name
-  0,                                      !- Rule Order
-  {63970994-e179-440a-9de0-d4f2ed1c5fc3}, !- Day Schedule Name
-  Yes,                                    !- Apply Sunday
-  Yes,                                    !- Apply Monday
-  Yes,                                    !- Apply Tuesday
-  Yes,                                    !- Apply Wednesday
-  Yes,                                    !- Apply Thursday
-  Yes,                                    !- Apply Friday
-  Yes,                                    !- Apply Saturday
-  ,                                       !- Apply Holiday
-  DateRange,                              !- Date Specification Type
-  1,                                      !- Start Month
-  1,                                      !- Start Day
-  12,                                     !- End Month
-  31;                                     !- End Day
-
-OS:Schedule:Day,
-  {63970994-e179-440a-9de0-d4f2ed1c5fc3}, !- Handle
-  FanAvailSched Rule 1 Day Schedule,      !- Name
-  {8fad75d8-a002-4cca-b9ac-863d8f49397b}, !- Schedule Type Limits Name
-  ,                                       !- Interpolate to Timestep
   6,                                      !- Hour 1
-  0,                                      !- Minute 1
+  38,                                     !- Minute 1
   0,                                      !- Value Until Time 1
-  18,                                     !- Hour 2
-  0,                                      !- Minute 2
+  21,                                     !- Hour 2
+  46,                                     !- Minute 2
   1,                                      !- Value Until Time 2
   24,                                     !- Hour 3
   0,                                      !- Minute 3
@@ -9801,13 +9763,13 @@ OS:Schedule:Day,
   ,                                       !- Interpolate to Timestep
   6,                                      !- Hour 1
   0,                                      !- Minute 1
-  31.7,                                   !- Value Until Time 1
-  18,                                     !- Hour 2
+  31.7000007629395,                       !- Value Until Time 1
+  20,                                     !- Hour 2
   0,                                      !- Minute 2
-  23.9,                                   !- Value Until Time 2
+  23.9000015258789,                       !- Value Until Time 2
   24,                                     !- Hour 3
   0,                                      !- Minute 3
-  31.7;                                   !- Value Until Time 3
+  31.7000007629395;                       !- Value Until Time 3
 
 OS:Schedule:Day,
   {d4db71d1-8f77-4246-97c1-17cbb9bae06f}, !- Handle
@@ -12073,7 +12035,7 @@ OS:SetpointManager:OutdoorAirReset,
   Temperature,                            !- Control Variable
   21,                                     !- Setpoint at Outdoor Low Temperature {C}
   7.7,                                    !- Outdoor Low Temperature {C}
-  13.5,                                   !- Setpoint at Outdoor High Temperature {C}
+  12.5,                                   !- Setpoint at Outdoor High Temperature {C}
   13.89,                                  !- Outdoor High Temperature {C}
   {ffb79d06-7068-4fc2-82a1-5d601da7ea9a}, !- Setpoint Node or NodeList Name
   ,                                       !- Schedule Name
