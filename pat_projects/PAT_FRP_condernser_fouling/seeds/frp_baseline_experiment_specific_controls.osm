@@ -12570,59 +12570,30 @@ OS:Schedule:Day,
   Schedule Day 769,                       !- Name
   {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
-  6,                                      !- Hour 1
+  7,                                      !- Hour 1
   0,                                      !- Minute 1
-  31.4038608736103,                       !- Value Until Time 1
-  6,                                      !- Hour 2
+  31.4038600921631,                       !- Value Until Time 1
+  7,                                      !- Hour 2
   15,                                     !- Minute 2
-  31.4038608736103,                       !- Value Until Time 2
-  6,                                      !- Hour 3
+  31.4038600921631,                       !- Value Until Time 2
+  7,                                      !- Hour 3
   30,                                     !- Minute 3
-  30.9726818269793,                       !- Value Until Time 3
-  6,                                      !- Hour 4
+  30.9726829528809,                       !- Value Until Time 3
+  7,                                      !- Hour 4
   45,                                     !- Minute 4
-  29.8327568239275,                       !- Value Until Time 4
-  7,                                      !- Hour 5
+  29.8327560424805,                       !- Value Until Time 4
+  8,                                      !- Hour 5
   0,                                      !- Minute 5
-  29.1813724702898,                       !- Value Until Time 5
-  7,                                      !- Hour 6
+  29.1813716888428,                       !- Value Until Time 5
+  8,                                      !- Hour 6
   15,                                     !- Minute 6
-  27.8786018556659,                       !- Value Until Time 6
-  18,                                     !- Hour 7
-  0,                                      !- Minute 7
-  27.2272155946795,                       !- Value Until Time 7
+  27.8786010742188,                       !- Value Until Time 6
+  21,                                     !- Hour 7
+  45,                                     !- Minute 7
+  27.2272148132324,                       !- Value Until Time 7
   24,                                     !- Hour 8
   0,                                      !- Minute 8
-  31.4038608736103;                       !- Value Until Time 8
-
-OS:Schedule:Rule,
-  {9438e207-e9fb-4ea9-a97d-326c8986b293}, !- Handle
-  Schedule Rule 19,                       !- Name
-  {cd3d076a-24a3-44be-8410-80a5906afddb}, !- Schedule Ruleset Name
-  0,                                      !- Rule Order
-  {4edc0380-a22e-444f-92ba-0fffc1bcf740}, !- Day Schedule Name
-  Yes,                                    !- Apply Sunday
-  Yes,                                    !- Apply Monday
-  Yes,                                    !- Apply Tuesday
-  Yes,                                    !- Apply Wednesday
-  Yes,                                    !- Apply Thursday
-  Yes,                                    !- Apply Friday
-  Yes,                                    !- Apply Saturday
-  ,                                       !- Apply Holiday
-  DateRange,                              !- Date Specification Type
-  8,                                      !- Start Month
-  9,                                      !- Start Day
-  8,                                      !- End Month
-  10;                                     !- End Day
-
-OS:Schedule:Day,
-  {4edc0380-a22e-444f-92ba-0fffc1bcf740}, !- Handle
-  Schedule Day 770,                       !- Name
-  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
-  ,                                       !- Interpolate to Timestep
-  24,                                     !- Hour 1
-  0,                                      !- Minute 1
-  32.4038608736103;                       !- Value Until Time 1
+  31.4038600921631;                       !- Value Until Time 8
 
 OS:Schedule:Ruleset,
   {9bd9b41e-573a-499b-93ab-f18203441945}, !- Handle
@@ -12635,30 +12606,30 @@ OS:Schedule:Day,
   Schedule Day 771,                       !- Name
   {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
-  6,                                      !- Hour 1
+  7,                                      !- Hour 1
   0,                                      !- Minute 1
-  14.1419752095897,                       !- Value Until Time 1
-  6,                                      !- Hour 2
+  14.141975402832,                        !- Value Until Time 1
+  7,                                      !- Hour 2
   15,                                     !- Minute 2
-  14.1419752095897,                       !- Value Until Time 2
-  6,                                      !- Hour 3
+  14.141975402832,                        !- Value Until Time 2
+  7,                                      !- Hour 3
   30,                                     !- Minute 3
-  15.4289310430247,                       !- Value Until Time 3
-  6,                                      !- Hour 4
+  15.4289312362671,                       !- Value Until Time 3
+  7,                                      !- Hour 4
   45,                                     !- Minute 4
-  16.7317016576488,                       !- Value Until Time 4
-  7,                                      !- Hour 5
+  16.7317028045654,                       !- Value Until Time 4
+  8,                                      !- Hour 5
   0,                                      !- Minute 5
-  17.8716247533519,                       !- Value Until Time 5
-  7,                                      !- Hour 6
+  17.8716259002686,                       !- Value Until Time 5
+  8,                                      !- Hour 6
   15,                                     !- Minute 6
-  19.0115497564036,                       !- Value Until Time 6
-  18,                                     !- Hour 7
-  0,                                      !- Minute 7
-  20.2519767736156,                       !- Value Until Time 7
+  19.0115489959717,                       !- Value Until Time 6
+  21,                                     !- Hour 7
+  45,                                     !- Minute 7
+  20.2519779205322,                       !- Value Until Time 7
   24,                                     !- Hour 8
   0,                                      !- Minute 8
-  14.1419752095897;                       !- Value Until Time 8
+  14.141975402832;                        !- Value Until Time 8
 
 OS:Schedule:Rule,
   {1575a583-6779-4885-ba51-a04351f472ea}, !- Handle
