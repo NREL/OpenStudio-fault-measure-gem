@@ -253,7 +253,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "option_2": "option_2"
+          "option_2": "option_2",
+          "option_3": "option_3",
+          "option_4": "option_4"
         },
         {
           "specialRowId": "optionName",
@@ -274,7 +276,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "option_2": "schedules from measured data"
+          "option_2": "Baseline schedules from measured data",
+          "option_3": "Low fault schedules",
+          "option_4": "high fault schedules"
         },
         {
           "specialRowId": "optionDescription",
@@ -295,7 +299,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "option_2": "Option 2 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
+          "option_2": "Option 2 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates",
+          "option_3": "Option 3 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates",
+          "option_4": "Option 4 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
         },
         {
           "name": "csv_name",
@@ -306,7 +312,7 @@
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
           "$$hashKey": "uiGrid-00DL",
-          "variable": false,
+          "variable": true,
           "display_name_short": "csv_name",
           "inputs": {
             "relationship": null,
@@ -323,10 +329,12 @@
             "showWarningIcon": false
           },
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
-          "option_2": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_4": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         }
       ],
       "edit": "",
@@ -350,12 +358,34 @@
               "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
             }
           ],
-          "name": "schedules from measured data",
+          "name": "Baseline schedules from measured data",
           "description": "Option 2 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            }
+          ],
+          "name": "Low fault schedules",
+          "description": "Option 3 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
+        },
+        {
+          "id": "option_4",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            }
+          ],
+          "name": "high fault schedules",
+          "description": "Option 4 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
         }
       ],
-      "instanceId": 0.31033075354687045,
-      "numberOfOptions": 1,
+      "instanceId": 0.9073324411130133,
+      "numberOfOptions": 3,
       "$$hashKey": "object:1225",
       "skip": false,
       "showWarningText": false,
@@ -649,7 +679,7 @@
           "description": "Option 1 Description: Set Run Period Object"
         }
       ],
-      "instanceId": 0.28742975635645074,
+      "instanceId": 0.041640246484649035,
       "numberOfOptions": 1,
       "$$hashKey": "object:1226",
       "skip": true,
@@ -816,7 +846,7 @@
           "description": "Option 1 Description: This is addressing issue with forward translation of OpenStudio Schedule Rulesets to Schedule Week in EnergyPlus. The start day of week for this logic appears to  apply that day of week to January 1st, however when the simulation is runEnergyPlus uses that as the day of the week for the RunPeriod, which for example may be July 25th, not January first. If I just change the start date."
         }
       ],
-      "instanceId": 0.9422652692145141,
+      "instanceId": 0.6078425183165976,
       "numberOfOptions": 1,
       "$$hashKey": "object:365085",
       "skip": false,
@@ -1031,7 +1061,7 @@
           "description": "Option 2 Description: Simulate supply air duct leakage from VAV into Return Plenum."
         }
       ],
-      "instanceId": 0.6014604799439032,
+      "instanceId": 0.1562482546590349,
       "numberOfOptions": 1,
       "$$hashKey": "object:136454",
       "outputMeasure": false,
@@ -1927,7 +1957,7 @@
           "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
         }
       ],
-      "instanceId": 0.794863851792684,
+      "instanceId": 0.3409030174585477,
       "numberOfOptions": 1,
       "$$hashKey": "object:1238",
       "skip": false,
@@ -2029,7 +2059,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGG"
+          "$$hashKey": "uiGrid-3QGG",
+          "option_2": "option_2",
+          "option_3": "option_3"
         },
         {
           "specialRowId": "optionName",
@@ -2050,7 +2082,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGI"
+          "$$hashKey": "uiGrid-3QGI",
+          "option_2": "low fault RTU exit",
+          "option_3": "high fault RTU exit"
         },
         {
           "specialRowId": "optionDescription",
@@ -2071,7 +2105,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGK"
+          "$$hashKey": "uiGrid-3QGK",
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
         {
           "name": "csv_name",
@@ -2081,11 +2117,11 @@
           "required": true,
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
-          "variable": false,
+          "variable": true,
           "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
           "display_name_short": "csv_name",
           "inputs": {
@@ -2102,7 +2138,9 @@
             "default_value": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGM"
+          "$$hashKey": "uiGrid-3QGM",
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         },
         {
           "name": "csv_time_header",
@@ -2133,7 +2171,9 @@
             "default_value": "TIMESTAMP",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGO"
+          "$$hashKey": "uiGrid-3QGO",
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP"
         },
         {
           "name": "csv_var",
@@ -2164,7 +2204,9 @@
             "default_value": "T_Sup_tot_Avg",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGQ"
+          "$$hashKey": "uiGrid-3QGQ",
+          "option_2": "T_Sup_tot_Avg",
+          "option_3": "T_Sup_tot_Avg"
         },
         {
           "name": "convert_data",
@@ -2215,7 +2257,9 @@
             "default_value": "F to C",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGS"
+          "$$hashKey": "uiGrid-3QGS",
+          "option_2": "F to C",
+          "option_3": "F to C"
         },
         {
           "name": "csv_var_dn",
@@ -2246,7 +2290,9 @@
             "default_value": "T_Sup_tot_Avg",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGU"
+          "$$hashKey": "uiGrid-3QGU",
+          "option_2": "T_Sup_tot_Avg",
+          "option_3": "T_Sup_tot_Avg"
         },
         {
           "name": "year",
@@ -2277,7 +2323,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGW"
+          "$$hashKey": "uiGrid-3QGW",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "seconds",
@@ -2308,7 +2356,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QGY"
+          "$$hashKey": "uiGrid-3QGY",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "key_value",
@@ -2339,7 +2389,9 @@
             "default_value": "ROOFTOP SUPPLY FAN OUTLET",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QH0"
+          "$$hashKey": "uiGrid-3QH0",
+          "option_2": "ROOFTOP SUPPLY FAN OUTLET",
+          "option_3": "ROOFTOP SUPPLY FAN OUTLET"
         },
         {
           "name": "timeseries_name",
@@ -2370,7 +2422,9 @@
             "default_value": "System Node Temperature",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QH2"
+          "$$hashKey": "uiGrid-3QH2",
+          "option_2": "System Node Temperature",
+          "option_3": "System Node Temperature"
         },
         {
           "name": "reporting_frequency",
@@ -2423,7 +2477,9 @@
             "default_value": "Timestep",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QH4"
+          "$$hashKey": "uiGrid-3QH4",
+          "option_2": "Timestep",
+          "option_3": "Timestep"
         },
         {
           "name": "environment_period",
@@ -2454,7 +2510,9 @@
             "default_value": "Run Period 1",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QH6"
+          "$$hashKey": "uiGrid-3QH6",
+          "option_2": "custom run period",
+          "option_3": "custom run period"
         },
         {
           "name": "norm",
@@ -2485,7 +2543,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QH8"
+          "$$hashKey": "uiGrid-3QH8",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "scale",
@@ -2516,7 +2576,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QHA"
+          "$$hashKey": "uiGrid-3QHA",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "find_avail",
@@ -2547,7 +2609,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QHC"
+          "$$hashKey": "uiGrid-3QHC",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "algorithm_download",
@@ -2578,7 +2642,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QHE"
+          "$$hashKey": "uiGrid-3QHE",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_flag",
@@ -2609,7 +2675,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QHG"
+          "$$hashKey": "uiGrid-3QHG",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_name",
@@ -2640,7 +2708,9 @@
             "default_value": "RTU Exit Temp",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QHI"
+          "$$hashKey": "uiGrid-3QHI",
+          "option_2": "RTU Exit",
+          "option_3": "RTU Exit"
         },
         {
           "name": "verbose_messages",
@@ -2671,7 +2741,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QHK"
+          "$$hashKey": "uiGrid-3QHK",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "warning_messages",
@@ -2702,7 +2774,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QHM"
+          "$$hashKey": "uiGrid-3QHM",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "add_first_zero_for_plots",
@@ -2733,7 +2807,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QHO"
+          "$$hashKey": "uiGrid-3QHO",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "add_last_zero_for_plots",
@@ -2764,7 +2840,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-3QHQ"
+          "$$hashKey": "uiGrid-3QHQ",
+          "option_2": false,
+          "option_3": false
         }
       ],
       "edit": "",
@@ -2870,10 +2948,192 @@
           ],
           "name": "RTU Exit",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "T_Sup_tot_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "F to C"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "T_Sup_tot_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "ROOFTOP SUPPLY FAN OUTLET"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "System Node Temperature"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "RTU Exit"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault RTU exit",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "T_Sup_tot_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "F to C"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "T_Sup_tot_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "ROOFTOP SUPPLY FAN OUTLET"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "System Node Temperature"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "RTU Exit"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault RTU exit",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.9232452186094195,
-      "numberOfOptions": 1,
+      "instanceId": 0.05232731582726036,
+      "numberOfOptions": 3,
       "unlockStatus": true,
       "skip": false,
       "showWarningText": false,
@@ -3012,7 +3272,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AOY"
+          "$$hashKey": "uiGrid-0AOY",
+          "option_2": "option_2",
+          "option_3": "option_3"
         },
         {
           "specialRowId": "optionName",
@@ -3033,7 +3295,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AP0"
+          "$$hashKey": "uiGrid-0AP0",
+          "option_2": "low fault RTU enter",
+          "option_3": "high fault RTU enter"
         },
         {
           "specialRowId": "optionDescription",
@@ -3054,7 +3318,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AP2"
+          "$$hashKey": "uiGrid-0AP2",
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
         {
           "name": "csv_name",
@@ -3064,11 +3330,11 @@
           "required": true,
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
-          "variable": false,
+          "variable": true,
           "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
           "display_name_short": "csv_name",
           "inputs": {
@@ -3085,7 +3351,9 @@
             "default_value": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AP4"
+          "$$hashKey": "uiGrid-0AP4",
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         },
         {
           "name": "csv_time_header",
@@ -3116,7 +3384,9 @@
             "default_value": "TIMESTAMP",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AP6"
+          "$$hashKey": "uiGrid-0AP6",
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP"
         },
         {
           "name": "csv_var",
@@ -3147,7 +3417,9 @@
             "default_value": "T_Ret_Avg",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AP8"
+          "$$hashKey": "uiGrid-0AP8",
+          "option_2": "T_Ret_Avg",
+          "option_3": "T_Ret_Avg"
         },
         {
           "name": "convert_data",
@@ -3198,7 +3470,9 @@
             "default_value": "F to C",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APA"
+          "$$hashKey": "uiGrid-0APA",
+          "option_2": "F to C",
+          "option_3": "F to C"
         },
         {
           "name": "csv_var_dn",
@@ -3229,7 +3503,9 @@
             "default_value": "T_Ret_Avg",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APC"
+          "$$hashKey": "uiGrid-0APC",
+          "option_2": "T_Ret_Avg",
+          "option_3": "T_Ret_Avg"
         },
         {
           "name": "year",
@@ -3260,7 +3536,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APE"
+          "$$hashKey": "uiGrid-0APE",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "seconds",
@@ -3291,7 +3569,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APG"
+          "$$hashKey": "uiGrid-0APG",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "key_value",
@@ -3322,7 +3602,9 @@
             "default_value": "ROOFTOP MIXED AIR OUTLET",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0API"
+          "$$hashKey": "uiGrid-0API",
+          "option_2": "ROOFTOP MIXED AIR OUTLET",
+          "option_3": "ROOFTOP MIXED AIR OUTLET"
         },
         {
           "name": "timeseries_name",
@@ -3353,7 +3635,9 @@
             "default_value": "System Node Temperature",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APK"
+          "$$hashKey": "uiGrid-0APK",
+          "option_2": "System Node Temperature",
+          "option_3": "System Node Temperature"
         },
         {
           "name": "reporting_frequency",
@@ -3406,7 +3690,9 @@
             "default_value": "Timestep",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APM"
+          "$$hashKey": "uiGrid-0APM",
+          "option_2": "Timestep",
+          "option_3": "Timestep"
         },
         {
           "name": "environment_period",
@@ -3437,7 +3723,9 @@
             "default_value": "Run Period 1",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APO"
+          "$$hashKey": "uiGrid-0APO",
+          "option_2": "custom run period",
+          "option_3": "custom run period"
         },
         {
           "name": "norm",
@@ -3468,7 +3756,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APQ"
+          "$$hashKey": "uiGrid-0APQ",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "scale",
@@ -3499,7 +3789,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APS"
+          "$$hashKey": "uiGrid-0APS",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "find_avail",
@@ -3530,7 +3822,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APU"
+          "$$hashKey": "uiGrid-0APU",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "algorithm_download",
@@ -3561,7 +3855,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APW"
+          "$$hashKey": "uiGrid-0APW",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_flag",
@@ -3592,7 +3888,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0APY"
+          "$$hashKey": "uiGrid-0APY",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_name",
@@ -3623,7 +3921,9 @@
             "default_value": "RTU Enter Temp",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AQ0"
+          "$$hashKey": "uiGrid-0AQ0",
+          "option_2": "RTU Enter",
+          "option_3": "RTU Enter"
         },
         {
           "name": "verbose_messages",
@@ -3654,7 +3954,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AQ2"
+          "$$hashKey": "uiGrid-0AQ2",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "warning_messages",
@@ -3685,7 +3987,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AQ4"
+          "$$hashKey": "uiGrid-0AQ4",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "add_first_zero_for_plots",
@@ -3716,7 +4020,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AQ6"
+          "$$hashKey": "uiGrid-0AQ6",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "add_last_zero_for_plots",
@@ -3747,7 +4053,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0AQ8"
+          "$$hashKey": "uiGrid-0AQ8",
+          "option_2": false,
+          "option_3": false
         }
       ],
       "edit": "",
@@ -3853,10 +4161,192 @@
           ],
           "name": "RTU Enter",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "T_Ret_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "F to C"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "T_Ret_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "ROOFTOP MIXED AIR OUTLET"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "System Node Temperature"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "RTU Enter"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault RTU enter",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "T_Ret_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "F to C"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "T_Ret_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "ROOFTOP MIXED AIR OUTLET"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "System Node Temperature"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "RTU Enter"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault RTU enter",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.7202305458210745,
-      "numberOfOptions": 1,
+      "instanceId": 0.1985469476672037,
+      "numberOfOptions": 3,
       "unlockStatus": true,
       "skip": false,
       "showWarningText": false,
@@ -3995,7 +4485,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHA"
+          "$$hashKey": "uiGrid-0DHA",
+          "option_2": "option_2",
+          "option_3": "option_3"
         },
         {
           "specialRowId": "optionName",
@@ -4016,7 +4508,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHC"
+          "$$hashKey": "uiGrid-0DHC",
+          "option_2": "low fault cooling consumption",
+          "option_3": "high fault cooling consumption"
         },
         {
           "specialRowId": "optionDescription",
@@ -4037,7 +4531,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHE"
+          "$$hashKey": "uiGrid-0DHE",
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
         {
           "name": "csv_name",
@@ -4047,11 +4543,11 @@
           "required": true,
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
-          "variable": false,
+          "variable": true,
           "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
           "display_name_short": "csv_name",
           "inputs": {
@@ -4068,7 +4564,9 @@
             "default_value": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHG"
+          "$$hashKey": "uiGrid-0DHG",
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         },
         {
           "name": "csv_time_header",
@@ -4099,7 +4597,9 @@
             "default_value": "TIMESTAMP",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHI"
+          "$$hashKey": "uiGrid-0DHI",
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP"
         },
         {
           "name": "csv_var",
@@ -4130,7 +4630,9 @@
             "default_value": "Cooling_Tot_electric",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHK"
+          "$$hashKey": "uiGrid-0DHK",
+          "option_2": "Cooling_Tot_electric",
+          "option_3": "Cooling_Tot_electric"
         },
         {
           "name": "convert_data",
@@ -4181,7 +4683,9 @@
             "default_value": "WH to J",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHM"
+          "$$hashKey": "uiGrid-0DHM",
+          "option_2": "WH to J",
+          "option_3": "WH to J"
         },
         {
           "name": "csv_var_dn",
@@ -4212,7 +4716,9 @@
             "default_value": "Cooling_Tot_electric",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHO"
+          "$$hashKey": "uiGrid-0DHO",
+          "option_2": "Cooling_Tot_electric",
+          "option_3": "Cooling_Tot_electric"
         },
         {
           "name": "year",
@@ -4243,7 +4749,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHQ"
+          "$$hashKey": "uiGrid-0DHQ",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "seconds",
@@ -4274,7 +4782,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHS"
+          "$$hashKey": "uiGrid-0DHS",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "key_value",
@@ -4305,7 +4815,9 @@
             "default_value": "Rooftop Cooling Coil",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHU"
+          "$$hashKey": "uiGrid-0DHU",
+          "option_2": "Rooftop Cooling Coil",
+          "option_3": "Rooftop Cooling Coil"
         },
         {
           "name": "timeseries_name",
@@ -4336,7 +4848,9 @@
             "default_value": "Cooling Coil Electric Energy",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHW"
+          "$$hashKey": "uiGrid-0DHW",
+          "option_2": "Cooling Coil Electric Energy",
+          "option_3": "Cooling Coil Electric Energy"
         },
         {
           "name": "reporting_frequency",
@@ -4389,7 +4903,9 @@
             "default_value": "Timestep",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DHY"
+          "$$hashKey": "uiGrid-0DHY",
+          "option_2": "Timestep",
+          "option_3": "Timestep"
         },
         {
           "name": "environment_period",
@@ -4420,7 +4936,9 @@
             "default_value": "Run Period 1",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DI0"
+          "$$hashKey": "uiGrid-0DI0",
+          "option_2": "custom run period",
+          "option_3": "custom run period"
         },
         {
           "name": "norm",
@@ -4451,7 +4969,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DI2"
+          "$$hashKey": "uiGrid-0DI2",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "scale",
@@ -4482,7 +5002,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DI4"
+          "$$hashKey": "uiGrid-0DI4",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "find_avail",
@@ -4513,7 +5035,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DI6"
+          "$$hashKey": "uiGrid-0DI6",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "algorithm_download",
@@ -4544,7 +5068,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DI8"
+          "$$hashKey": "uiGrid-0DI8",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_flag",
@@ -4575,7 +5101,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DIA"
+          "$$hashKey": "uiGrid-0DIA",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_name",
@@ -4606,7 +5134,9 @@
             "default_value": "Cooling Consumption",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DIC"
+          "$$hashKey": "uiGrid-0DIC",
+          "option_2": "Cooling Consumption",
+          "option_3": "Cooling Consumption"
         },
         {
           "name": "verbose_messages",
@@ -4637,7 +5167,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DIE"
+          "$$hashKey": "uiGrid-0DIE",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "warning_messages",
@@ -4668,7 +5200,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DIG"
+          "$$hashKey": "uiGrid-0DIG",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "add_first_zero_for_plots",
@@ -4699,7 +5233,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DII"
+          "$$hashKey": "uiGrid-0DII",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "add_last_zero_for_plots",
@@ -4730,7 +5266,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0DIK"
+          "$$hashKey": "uiGrid-0DIK",
+          "option_2": false,
+          "option_3": false
         }
       ],
       "edit": "",
@@ -4836,10 +5374,192 @@
           ],
           "name": "Cooling Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "Cooling_Tot_electric"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "Cooling_Tot_electric"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "Rooftop Cooling Coil"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Cooling Coil Electric Energy"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Cooling Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault cooling consumption",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "Cooling_Tot_electric"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "Cooling_Tot_electric"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "Rooftop Cooling Coil"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Cooling Coil Electric Energy"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Cooling Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault cooling consumption",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.2671013142954419,
-      "numberOfOptions": 1,
+      "instanceId": 0.47283176496893464,
+      "numberOfOptions": 3,
       "unlockStatus": true,
       "skip": false,
       "showWarningText": false,
@@ -4978,7 +5698,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MOM"
+          "$$hashKey": "uiGrid-0MOM",
+          "option_2": "option_2",
+          "option_3": "option_3"
         },
         {
           "specialRowId": "optionName",
@@ -4999,7 +5721,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MOO"
+          "$$hashKey": "uiGrid-0MOO",
+          "option_2": "low fault heating",
+          "option_3": "high fault heating"
         },
         {
           "specialRowId": "optionDescription",
@@ -5020,7 +5744,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MOQ"
+          "$$hashKey": "uiGrid-0MOQ",
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
         {
           "name": "csv_name",
@@ -5030,11 +5756,11 @@
           "required": true,
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
-          "variable": false,
+          "variable": true,
           "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
           "display_name_short": "csv_name",
           "inputs": {
@@ -5051,7 +5777,9 @@
             "default_value": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MOS"
+          "$$hashKey": "uiGrid-0MOS",
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         },
         {
           "name": "csv_time_header",
@@ -5082,7 +5810,9 @@
             "default_value": "TIMESTAMP",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MOU"
+          "$$hashKey": "uiGrid-0MOU",
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP"
         },
         {
           "name": "csv_var",
@@ -5113,7 +5843,9 @@
             "default_value": "Heating_Tot_electric",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MOW"
+          "$$hashKey": "uiGrid-0MOW",
+          "option_2": "Heating_Tot_electric",
+          "option_3": "Heating_Tot_electric"
         },
         {
           "name": "convert_data",
@@ -5164,7 +5896,9 @@
             "default_value": "WH to J",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MOY"
+          "$$hashKey": "uiGrid-0MOY",
+          "option_2": "WH to J",
+          "option_3": "WH to J"
         },
         {
           "name": "csv_var_dn",
@@ -5195,7 +5929,9 @@
             "default_value": "Heating_Tot_electric",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MP0"
+          "$$hashKey": "uiGrid-0MP0",
+          "option_2": "Heating_Tot_electric",
+          "option_3": "Heating_Tot_electric"
         },
         {
           "name": "year",
@@ -5226,7 +5962,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MP2"
+          "$$hashKey": "uiGrid-0MP2",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "seconds",
@@ -5257,7 +5995,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MP4"
+          "$$hashKey": "uiGrid-0MP4",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "key_value",
@@ -5288,7 +6028,9 @@
             "default_value": "no_key",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MP6"
+          "$$hashKey": "uiGrid-0MP6",
+          "option_2": "no_key",
+          "option_3": "no_key"
         },
         {
           "name": "timeseries_name",
@@ -5319,7 +6061,9 @@
             "default_value": "Heating:Electricity",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MP8"
+          "$$hashKey": "uiGrid-0MP8",
+          "option_2": "Heating:Electricity",
+          "option_3": "Heating:Electricity"
         },
         {
           "name": "reporting_frequency",
@@ -5372,7 +6116,9 @@
             "default_value": "Timestep",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPA"
+          "$$hashKey": "uiGrid-0MPA",
+          "option_2": "Timestep",
+          "option_3": "Timestep"
         },
         {
           "name": "environment_period",
@@ -5403,7 +6149,9 @@
             "default_value": "Run Period 1",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPC"
+          "$$hashKey": "uiGrid-0MPC",
+          "option_2": "custom run period",
+          "option_3": "custom run period"
         },
         {
           "name": "norm",
@@ -5434,7 +6182,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPE"
+          "$$hashKey": "uiGrid-0MPE",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "scale",
@@ -5465,7 +6215,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPG"
+          "$$hashKey": "uiGrid-0MPG",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "find_avail",
@@ -5496,7 +6248,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPI"
+          "$$hashKey": "uiGrid-0MPI",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "algorithm_download",
@@ -5527,7 +6281,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPK"
+          "$$hashKey": "uiGrid-0MPK",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "plot_flag",
@@ -5558,7 +6314,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPM"
+          "$$hashKey": "uiGrid-0MPM",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_name",
@@ -5589,7 +6347,9 @@
             "default_value": "Heating Consumption",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPO"
+          "$$hashKey": "uiGrid-0MPO",
+          "option_2": "Heating Consumption",
+          "option_3": "Heating Consumption"
         },
         {
           "name": "verbose_messages",
@@ -5620,7 +6380,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPQ"
+          "$$hashKey": "uiGrid-0MPQ",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "warning_messages",
@@ -5651,7 +6413,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPS"
+          "$$hashKey": "uiGrid-0MPS",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "add_first_zero_for_plots",
@@ -5682,7 +6446,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPU"
+          "$$hashKey": "uiGrid-0MPU",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "add_last_zero_for_plots",
@@ -5713,7 +6479,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0MPW"
+          "$$hashKey": "uiGrid-0MPW",
+          "option_2": false,
+          "option_3": false
         }
       ],
       "edit": "",
@@ -5819,10 +6587,192 @@
           ],
           "name": "Heating Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "Heating_Tot_electric"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "Heating_Tot_electric"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "no_key"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Heating:Electricity"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": false
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Heating Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault heating",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "Heating_Tot_electric"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "Heating_Tot_electric"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "no_key"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Heating:Electricity"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": false
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Heating Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault heating",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.6244300500458562,
-      "numberOfOptions": 1,
+      "instanceId": 0.3640040068517145,
+      "numberOfOptions": 3,
       "unlockStatus": false,
       "skip": false,
       "showWarningText": false,
@@ -5961,7 +6911,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OWX"
+          "$$hashKey": "uiGrid-0OWX",
+          "option_3": "option_3",
+          "option_4": "option_4"
         },
         {
           "specialRowId": "optionName",
@@ -5982,7 +6934,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OWZ"
+          "$$hashKey": "uiGrid-0OWZ",
+          "option_3": "low fault total",
+          "option_4": "high fault total"
         },
         {
           "specialRowId": "optionDescription",
@@ -6003,7 +6957,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OX1"
+          "$$hashKey": "uiGrid-0OX1",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data",
+          "option_4": "Option 4 Description: Creates Objective Function from Timeseries Data"
         },
         {
           "name": "csv_name",
@@ -6013,11 +6969,11 @@
           "required": true,
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
-          "variable": false,
+          "variable": true,
           "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
           "display_name_short": "csv_name",
           "inputs": {
@@ -6034,7 +6990,9 @@
             "default_value": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OX3"
+          "$$hashKey": "uiGrid-0OX3",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_4": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         },
         {
           "name": "csv_time_header",
@@ -6065,7 +7023,9 @@
             "default_value": "TIMESTAMP",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OX5"
+          "$$hashKey": "uiGrid-0OX5",
+          "option_3": "TIMESTAMP",
+          "option_4": "TIMESTAMP"
         },
         {
           "name": "csv_var",
@@ -6096,7 +7056,9 @@
             "default_value": "WH_Total_electric",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OX7"
+          "$$hashKey": "uiGrid-0OX7",
+          "option_3": "WH_Total_electric",
+          "option_4": "WH_Total_electric"
         },
         {
           "name": "convert_data",
@@ -6147,7 +7109,9 @@
             "default_value": "WH to J",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OX9"
+          "$$hashKey": "uiGrid-0OX9",
+          "option_3": "WH to J",
+          "option_4": "WH to J"
         },
         {
           "name": "csv_var_dn",
@@ -6178,7 +7142,9 @@
             "default_value": "WH_Total_electric",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXB"
+          "$$hashKey": "uiGrid-0OXB",
+          "option_3": "WH_Total_electric",
+          "option_4": "WH_Total_electric"
         },
         {
           "name": "year",
@@ -6209,7 +7175,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXD"
+          "$$hashKey": "uiGrid-0OXD",
+          "option_3": true,
+          "option_4": true
         },
         {
           "name": "seconds",
@@ -6240,7 +7208,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXF"
+          "$$hashKey": "uiGrid-0OXF",
+          "option_3": false,
+          "option_4": false
         },
         {
           "name": "key_value",
@@ -6271,7 +7241,9 @@
             "default_value": "no_key",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXH"
+          "$$hashKey": "uiGrid-0OXH",
+          "option_3": "no_key",
+          "option_4": "no_key"
         },
         {
           "name": "timeseries_name",
@@ -6302,7 +7274,9 @@
             "default_value": "Electricity:Facility",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXJ"
+          "$$hashKey": "uiGrid-0OXJ",
+          "option_3": "Electricity:Facility",
+          "option_4": "Electricity:Facility"
         },
         {
           "name": "reporting_frequency",
@@ -6355,7 +7329,9 @@
             "default_value": "Timestep",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXL"
+          "$$hashKey": "uiGrid-0OXL",
+          "option_3": "Timestep",
+          "option_4": "Timestep"
         },
         {
           "name": "environment_period",
@@ -6386,7 +7362,9 @@
             "default_value": "Run Period 1",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXN"
+          "$$hashKey": "uiGrid-0OXN",
+          "option_3": "custom run period",
+          "option_4": "custom run period"
         },
         {
           "name": "norm",
@@ -6417,7 +7395,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXP"
+          "$$hashKey": "uiGrid-0OXP",
+          "option_3": 1,
+          "option_4": 1
         },
         {
           "name": "scale",
@@ -6448,7 +7428,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXR"
+          "$$hashKey": "uiGrid-0OXR",
+          "option_3": 1,
+          "option_4": 1
         },
         {
           "name": "find_avail",
@@ -6479,7 +7461,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXT"
+          "$$hashKey": "uiGrid-0OXT",
+          "option_3": true,
+          "option_4": true
         },
         {
           "name": "algorithm_download",
@@ -6510,7 +7494,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXV"
+          "$$hashKey": "uiGrid-0OXV",
+          "option_3": true,
+          "option_4": true
         },
         {
           "name": "plot_flag",
@@ -6541,7 +7527,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXX"
+          "$$hashKey": "uiGrid-0OXX",
+          "option_3": true,
+          "option_4": true
         },
         {
           "name": "plot_name",
@@ -6572,7 +7560,9 @@
             "default_value": "Total Consumption",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OXZ"
+          "$$hashKey": "uiGrid-0OXZ",
+          "option_3": "Total Consumption",
+          "option_4": "Total Consumption"
         },
         {
           "name": "verbose_messages",
@@ -6603,7 +7593,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OY1"
+          "$$hashKey": "uiGrid-0OY1",
+          "option_3": false,
+          "option_4": false
         },
         {
           "name": "warning_messages",
@@ -6634,7 +7626,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OY3"
+          "$$hashKey": "uiGrid-0OY3",
+          "option_3": true,
+          "option_4": true
         },
         {
           "name": "add_first_zero_for_plots",
@@ -6665,7 +7659,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OY5"
+          "$$hashKey": "uiGrid-0OY5",
+          "option_3": false,
+          "option_4": false
         },
         {
           "name": "add_last_zero_for_plots",
@@ -6696,7 +7692,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0OY7"
+          "$$hashKey": "uiGrid-0OY7",
+          "option_3": false,
+          "option_4": false
         }
       ],
       "edit": "",
@@ -6802,10 +7800,192 @@
           ],
           "name": "Total Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "WH_Total_electric"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "WH_Total_electric"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "no_key"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Electricity:Facility"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Total Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault total",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_4",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "WH_Total_electric"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "WH_Total_electric"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "no_key"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Electricity:Facility"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Total Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault total",
+          "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.42782243190805014,
-      "numberOfOptions": 1,
+      "instanceId": 0.3003177346422736,
+      "numberOfOptions": 3,
       "unlockStatus": false,
       "skip": false,
       "showWarningText": false,
@@ -6944,7 +8124,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7B"
+          "$$hashKey": "uiGrid-0R7B",
+          "option_2": "option_2",
+          "option_3": "option_3"
         },
         {
           "specialRowId": "optionName",
@@ -6965,7 +8147,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7D"
+          "$$hashKey": "uiGrid-0R7D",
+          "option_2": "low fault lighting",
+          "option_3": "high fault lighting"
         },
         {
           "specialRowId": "optionDescription",
@@ -6986,7 +8170,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7F"
+          "$$hashKey": "uiGrid-0R7F",
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
         {
           "name": "csv_name",
@@ -6996,11 +8182,11 @@
           "required": true,
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
-          "variable": false,
+          "variable": true,
           "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
           "display_name_short": "csv_name",
           "inputs": {
@@ -7017,7 +8203,9 @@
             "default_value": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7H"
+          "$$hashKey": "uiGrid-0R7H",
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         },
         {
           "name": "csv_time_header",
@@ -7048,7 +8236,9 @@
             "default_value": "TIMESTAMP",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7J"
+          "$$hashKey": "uiGrid-0R7J",
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP"
         },
         {
           "name": "csv_var",
@@ -7079,7 +8269,9 @@
             "default_value": "Lights_Tot",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7L"
+          "$$hashKey": "uiGrid-0R7L",
+          "option_2": "Lights_Tot",
+          "option_3": "Lights_Tot"
         },
         {
           "name": "convert_data",
@@ -7130,7 +8322,9 @@
             "default_value": "WH to J",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7N"
+          "$$hashKey": "uiGrid-0R7N",
+          "option_2": "WH to J",
+          "option_3": "WH to J"
         },
         {
           "name": "csv_var_dn",
@@ -7161,7 +8355,9 @@
             "default_value": "Lights_Tot",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7P"
+          "$$hashKey": "uiGrid-0R7P",
+          "option_2": "Lights_Tot",
+          "option_3": "Lights_Tot"
         },
         {
           "name": "year",
@@ -7192,7 +8388,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7R"
+          "$$hashKey": "uiGrid-0R7R",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "seconds",
@@ -7223,7 +8421,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7T"
+          "$$hashKey": "uiGrid-0R7T",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "key_value",
@@ -7254,7 +8454,9 @@
             "default_value": "no_key",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7V"
+          "$$hashKey": "uiGrid-0R7V",
+          "option_2": "no_key",
+          "option_3": "no_key"
         },
         {
           "name": "timeseries_name",
@@ -7285,7 +8487,9 @@
             "default_value": "InteriorLights:Electricity",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7X"
+          "$$hashKey": "uiGrid-0R7X",
+          "option_2": "InteriorLights:Electricity",
+          "option_3": "InteriorLights:Electricity"
         },
         {
           "name": "reporting_frequency",
@@ -7338,7 +8542,9 @@
             "default_value": "Timestep",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R7Z"
+          "$$hashKey": "uiGrid-0R7Z",
+          "option_2": "Timestep",
+          "option_3": "Timestep"
         },
         {
           "name": "environment_period",
@@ -7369,7 +8575,9 @@
             "default_value": "Run Period 1",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R81"
+          "$$hashKey": "uiGrid-0R81",
+          "option_2": "custom run period",
+          "option_3": "custom run period"
         },
         {
           "name": "norm",
@@ -7400,7 +8608,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R83"
+          "$$hashKey": "uiGrid-0R83",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "scale",
@@ -7431,7 +8641,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R85"
+          "$$hashKey": "uiGrid-0R85",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "find_avail",
@@ -7462,7 +8674,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R87"
+          "$$hashKey": "uiGrid-0R87",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "algorithm_download",
@@ -7493,7 +8707,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R89"
+          "$$hashKey": "uiGrid-0R89",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "plot_flag",
@@ -7524,7 +8740,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R8B"
+          "$$hashKey": "uiGrid-0R8B",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_name",
@@ -7555,7 +8773,9 @@
             "default_value": "Lighting Consumption",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R8D"
+          "$$hashKey": "uiGrid-0R8D",
+          "option_2": "Lighting Consumption",
+          "option_3": "Lighting Consumption"
         },
         {
           "name": "verbose_messages",
@@ -7586,7 +8806,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R8F"
+          "$$hashKey": "uiGrid-0R8F",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "warning_messages",
@@ -7617,7 +8839,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R8H"
+          "$$hashKey": "uiGrid-0R8H",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "add_first_zero_for_plots",
@@ -7648,7 +8872,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R8J"
+          "$$hashKey": "uiGrid-0R8J",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "add_last_zero_for_plots",
@@ -7679,7 +8905,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0R8L"
+          "$$hashKey": "uiGrid-0R8L",
+          "option_2": false,
+          "option_3": false
         }
       ],
       "edit": "",
@@ -7785,10 +9013,192 @@
           ],
           "name": "Lighting Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "Lights_Tot"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "Lights_Tot"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "no_key"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "InteriorLights:Electricity"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": false
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Lighting Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault lighting",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "Lights_Tot"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "Lights_Tot"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "no_key"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "InteriorLights:Electricity"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": false
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Lighting Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault lighting",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.08063397343554124,
-      "numberOfOptions": 1,
+      "instanceId": 0.5512652197464945,
+      "numberOfOptions": 3,
       "unlockStatus": true,
       "skip": false,
       "showWarningText": false,
@@ -7927,7 +9337,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TJS"
+          "$$hashKey": "uiGrid-0TJS",
+          "option_2": "option_2",
+          "option_3": "option_3"
         },
         {
           "specialRowId": "optionName",
@@ -7948,7 +9360,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TJU"
+          "$$hashKey": "uiGrid-0TJU",
+          "option_2": "low fault equip",
+          "option_3": "high fault equip"
         },
         {
           "specialRowId": "optionDescription",
@@ -7969,7 +9383,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TJW"
+          "$$hashKey": "uiGrid-0TJW",
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
         {
           "name": "csv_name",
@@ -7979,11 +9395,11 @@
           "required": true,
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
-          "variable": false,
+          "variable": true,
           "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
           "display_name_short": "csv_name",
           "inputs": {
@@ -8000,7 +9416,9 @@
             "default_value": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TJY"
+          "$$hashKey": "uiGrid-0TJY",
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         },
         {
           "name": "csv_time_header",
@@ -8031,7 +9449,9 @@
             "default_value": "TIMESTAMP",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TK0"
+          "$$hashKey": "uiGrid-0TK0",
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP"
         },
         {
           "name": "csv_var",
@@ -8062,7 +9482,9 @@
             "default_value": "Plugloads_Tot",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TK2"
+          "$$hashKey": "uiGrid-0TK2",
+          "option_2": "Plugloads_Tot",
+          "option_3": "Plugloads_Tot"
         },
         {
           "name": "convert_data",
@@ -8113,7 +9535,9 @@
             "default_value": "WH to J",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TK4"
+          "$$hashKey": "uiGrid-0TK4",
+          "option_2": "WH to J",
+          "option_3": "WH to J"
         },
         {
           "name": "csv_var_dn",
@@ -8144,7 +9568,9 @@
             "default_value": "Plugloads_Tot",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TK6"
+          "$$hashKey": "uiGrid-0TK6",
+          "option_2": "Plugloads_Tot",
+          "option_3": "Plugloads_Tot"
         },
         {
           "name": "year",
@@ -8175,7 +9601,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TK8"
+          "$$hashKey": "uiGrid-0TK8",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "seconds",
@@ -8206,7 +9634,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKA"
+          "$$hashKey": "uiGrid-0TKA",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "key_value",
@@ -8237,7 +9667,9 @@
             "default_value": "no_key",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKC"
+          "$$hashKey": "uiGrid-0TKC",
+          "option_2": "no_key",
+          "option_3": "no_key"
         },
         {
           "name": "timeseries_name",
@@ -8268,7 +9700,9 @@
             "default_value": "InteriorEquipment:Electricity",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKE"
+          "$$hashKey": "uiGrid-0TKE",
+          "option_2": "InteriorEquipment:Electricity",
+          "option_3": "InteriorEquipment:Electricity"
         },
         {
           "name": "reporting_frequency",
@@ -8321,7 +9755,9 @@
             "default_value": "Timestep",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKG"
+          "$$hashKey": "uiGrid-0TKG",
+          "option_2": "Timestep",
+          "option_3": "Timestep"
         },
         {
           "name": "environment_period",
@@ -8352,7 +9788,9 @@
             "default_value": "Run Period 1",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKI"
+          "$$hashKey": "uiGrid-0TKI",
+          "option_2": "custom run period",
+          "option_3": "custom run period"
         },
         {
           "name": "norm",
@@ -8383,7 +9821,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKK"
+          "$$hashKey": "uiGrid-0TKK",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "scale",
@@ -8414,7 +9854,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKM"
+          "$$hashKey": "uiGrid-0TKM",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "find_avail",
@@ -8445,7 +9887,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKO"
+          "$$hashKey": "uiGrid-0TKO",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "algorithm_download",
@@ -8476,7 +9920,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKQ"
+          "$$hashKey": "uiGrid-0TKQ",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_flag",
@@ -8507,7 +9953,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKS"
+          "$$hashKey": "uiGrid-0TKS",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_name",
@@ -8538,7 +9986,9 @@
             "default_value": "Elec Equip Consumption",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKU"
+          "$$hashKey": "uiGrid-0TKU",
+          "option_2": "Equipment Consumption",
+          "option_3": "Equipment Consumption"
         },
         {
           "name": "verbose_messages",
@@ -8569,7 +10019,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKW"
+          "$$hashKey": "uiGrid-0TKW",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "warning_messages",
@@ -8600,7 +10052,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TKY"
+          "$$hashKey": "uiGrid-0TKY",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "add_first_zero_for_plots",
@@ -8631,7 +10085,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TL0"
+          "$$hashKey": "uiGrid-0TL0",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "add_last_zero_for_plots",
@@ -8662,7 +10118,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-0TL2"
+          "$$hashKey": "uiGrid-0TL2",
+          "option_2": false,
+          "option_3": false
         }
       ],
       "edit": "",
@@ -8768,10 +10226,192 @@
           ],
           "name": "Equipment Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "Plugloads_Tot"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "Plugloads_Tot"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "no_key"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "InteriorEquipment:Electricity"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Equipment Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault equip",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "Plugloads_Tot"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "Plugloads_Tot"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "no_key"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "InteriorEquipment:Electricity"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Equipment Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault equip",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.9043045369290033,
-      "numberOfOptions": 1,
+      "instanceId": 0.1919256671044418,
+      "numberOfOptions": 3,
       "unlockStatus": false,
       "skip": false,
       "showWarningText": false,
@@ -8910,7 +10550,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DEI"
+          "$$hashKey": "uiGrid-1DEI",
+          "option_2": "option_2",
+          "option_3": "option_3"
         },
         {
           "specialRowId": "optionName",
@@ -8931,7 +10573,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DEK"
+          "$$hashKey": "uiGrid-1DEK",
+          "option_2": "low fault fan",
+          "option_3": "high fault fan"
         },
         {
           "specialRowId": "optionDescription",
@@ -8952,7 +10596,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DEM"
+          "$$hashKey": "uiGrid-1DEM",
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
         {
           "name": "csv_name",
@@ -8962,11 +10608,11 @@
           "required": true,
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
-          "variable": false,
+          "variable": true,
           "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
           "display_name_short": "csv_name",
           "inputs": {
@@ -8983,7 +10629,9 @@
             "default_value": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DEO"
+          "$$hashKey": "uiGrid-1DEO",
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         },
         {
           "name": "csv_time_header",
@@ -9014,7 +10662,9 @@
             "default_value": "TIMESTAMP",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DEQ"
+          "$$hashKey": "uiGrid-1DEQ",
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP"
         },
         {
           "name": "csv_var",
@@ -9045,7 +10695,9 @@
             "default_value": "WH_RTU_EvapFan_Tot",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DES"
+          "$$hashKey": "uiGrid-1DES",
+          "option_2": "WH_RTU_EvapFan_Tot",
+          "option_3": "WH_RTU_EvapFan_Tot"
         },
         {
           "name": "convert_data",
@@ -9096,7 +10748,9 @@
             "default_value": "WH to J",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DEU"
+          "$$hashKey": "uiGrid-1DEU",
+          "option_2": "WH to J",
+          "option_3": "WH to J"
         },
         {
           "name": "csv_var_dn",
@@ -9127,7 +10781,9 @@
             "default_value": "WH_RTU_EvapFan_Tot",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DEW"
+          "$$hashKey": "uiGrid-1DEW",
+          "option_2": "WH_RTU_EvapFan_Tot",
+          "option_3": "WH_RTU_EvapFan_Tot"
         },
         {
           "name": "year",
@@ -9158,7 +10814,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DEY"
+          "$$hashKey": "uiGrid-1DEY",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "seconds",
@@ -9189,7 +10847,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DF0"
+          "$$hashKey": "uiGrid-1DF0",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "key_value",
@@ -9220,7 +10880,9 @@
             "default_value": "ROOFTOP SUPPLY FAN",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DF2"
+          "$$hashKey": "uiGrid-1DF2",
+          "option_2": "ROOFTOP SUPPLY FAN",
+          "option_3": "ROOFTOP SUPPLY FAN"
         },
         {
           "name": "timeseries_name",
@@ -9251,7 +10913,9 @@
             "default_value": "Fan Electric Energy",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DF4"
+          "$$hashKey": "uiGrid-1DF4",
+          "option_2": "Fan Electric Energy",
+          "option_3": "Fan Electric Energy"
         },
         {
           "name": "reporting_frequency",
@@ -9304,7 +10968,9 @@
             "default_value": "Timestep",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DF6"
+          "$$hashKey": "uiGrid-1DF6",
+          "option_2": "Timestep",
+          "option_3": "Timestep"
         },
         {
           "name": "environment_period",
@@ -9335,7 +11001,9 @@
             "default_value": "Run Period 1",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DF8"
+          "$$hashKey": "uiGrid-1DF8",
+          "option_2": "custom run period",
+          "option_3": "custom run period"
         },
         {
           "name": "norm",
@@ -9366,7 +11034,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFA"
+          "$$hashKey": "uiGrid-1DFA",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "scale",
@@ -9397,7 +11067,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFC"
+          "$$hashKey": "uiGrid-1DFC",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "find_avail",
@@ -9428,7 +11100,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFE"
+          "$$hashKey": "uiGrid-1DFE",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "algorithm_download",
@@ -9459,7 +11133,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFG"
+          "$$hashKey": "uiGrid-1DFG",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_flag",
@@ -9490,7 +11166,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFI"
+          "$$hashKey": "uiGrid-1DFI",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_name",
@@ -9521,7 +11199,9 @@
             "default_value": "Fan Consumption",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFK"
+          "$$hashKey": "uiGrid-1DFK",
+          "option_2": "Fan Consumption",
+          "option_3": "Fan Consumption"
         },
         {
           "name": "verbose_messages",
@@ -9552,7 +11232,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFM"
+          "$$hashKey": "uiGrid-1DFM",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "warning_messages",
@@ -9583,7 +11265,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFO"
+          "$$hashKey": "uiGrid-1DFO",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "add_first_zero_for_plots",
@@ -9614,7 +11298,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFQ"
+          "$$hashKey": "uiGrid-1DFQ",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "add_last_zero_for_plots",
@@ -9645,7 +11331,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1DFS"
+          "$$hashKey": "uiGrid-1DFS",
+          "option_2": false,
+          "option_3": false
         }
       ],
       "edit": "",
@@ -9751,10 +11439,192 @@
           ],
           "name": "Fan Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "WH_RTU_EvapFan_Tot"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "WH_RTU_EvapFan_Tot"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "ROOFTOP SUPPLY FAN"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Fan Electric Energy"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Fan Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault fan",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "WH_RTU_EvapFan_Tot"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "WH_RTU_EvapFan_Tot"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "ROOFTOP SUPPLY FAN"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Fan Electric Energy"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Fan Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault fan",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.8510084175112647,
-      "numberOfOptions": 1,
+      "instanceId": 0.8336416696923996,
+      "numberOfOptions": 3,
       "unlockStatus": false,
       "skip": false,
       "showWarningText": false,
@@ -9893,7 +11763,9 @@
             "default_value": null,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W0Z"
+          "$$hashKey": "uiGrid-1W0Z",
+          "option_2": "option_2",
+          "option_3": "option_3"
         },
         {
           "specialRowId": "optionName",
@@ -9914,7 +11786,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W11"
+          "$$hashKey": "uiGrid-1W11",
+          "option_2": "low fault OA",
+          "option_3": "high fault OA"
         },
         {
           "specialRowId": "optionDescription",
@@ -9935,7 +11809,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W13"
+          "$$hashKey": "uiGrid-1W13",
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
         {
           "name": "csv_name",
@@ -9945,11 +11821,11 @@
           "required": true,
           "model_dependent": false,
           "default_value": "../../../lib/resources/mtr.csv",
-          "variable": false,
+          "variable": true,
           "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "units": "",
-          "minimum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am.csv",
-          "maximum": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am.csv",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
           "mode": null,
           "display_name_short": "csv_name",
           "inputs": {
@@ -9966,7 +11842,9 @@
             "default_value": "../../../lib/resources/NoRTU_NREL_st_12am.csv",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W15"
+          "$$hashKey": "uiGrid-1W15",
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
         },
         {
           "name": "csv_time_header",
@@ -9997,7 +11875,9 @@
             "default_value": "TIMESTAMP",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W17"
+          "$$hashKey": "uiGrid-1W17",
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP"
         },
         {
           "name": "csv_var",
@@ -10028,7 +11908,9 @@
             "default_value": "T_Room_205_Avg",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W19"
+          "$$hashKey": "uiGrid-1W19",
+          "option_2": "T_out_Avg",
+          "option_3": "T_out_Avg"
         },
         {
           "name": "convert_data",
@@ -10079,7 +11961,9 @@
             "default_value": "F to C",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1B"
+          "$$hashKey": "uiGrid-1W1B",
+          "option_2": "F to C",
+          "option_3": "F to C"
         },
         {
           "name": "csv_var_dn",
@@ -10110,7 +11994,9 @@
             "default_value": "T_Room_205_Avg",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1D"
+          "$$hashKey": "uiGrid-1W1D",
+          "option_2": "T_out_Avg",
+          "option_3": "T_out_Avg"
         },
         {
           "name": "year",
@@ -10141,7 +12027,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1F"
+          "$$hashKey": "uiGrid-1W1F",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "seconds",
@@ -10172,7 +12060,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1H"
+          "$$hashKey": "uiGrid-1W1H",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "key_value",
@@ -10203,7 +12093,9 @@
             "default_value": "Room 205",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1J"
+          "$$hashKey": "uiGrid-1W1J",
+          "option_2": "Environment",
+          "option_3": "Environment"
         },
         {
           "name": "timeseries_name",
@@ -10234,7 +12126,9 @@
             "default_value": "Zone Mean Air Temperature",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1L"
+          "$$hashKey": "uiGrid-1W1L",
+          "option_2": "Site Outdoor Air Drybulb Temperature",
+          "option_3": "Site Outdoor Air Drybulb Temperature"
         },
         {
           "name": "reporting_frequency",
@@ -10287,7 +12181,9 @@
             "default_value": "Timestep",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1N"
+          "$$hashKey": "uiGrid-1W1N",
+          "option_2": "Timestep",
+          "option_3": "Timestep"
         },
         {
           "name": "environment_period",
@@ -10318,7 +12214,9 @@
             "default_value": "NoRtu",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1P"
+          "$$hashKey": "uiGrid-1W1P",
+          "option_2": "custom run period",
+          "option_3": "custom run period"
         },
         {
           "name": "norm",
@@ -10349,7 +12247,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1R"
+          "$$hashKey": "uiGrid-1W1R",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "scale",
@@ -10380,7 +12280,9 @@
             "default_value": 1,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1T"
+          "$$hashKey": "uiGrid-1W1T",
+          "option_2": 1,
+          "option_3": 1
         },
         {
           "name": "find_avail",
@@ -10411,7 +12313,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1V"
+          "$$hashKey": "uiGrid-1W1V",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "algorithm_download",
@@ -10442,7 +12346,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1X"
+          "$$hashKey": "uiGrid-1W1X",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_flag",
@@ -10473,7 +12379,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W1Z"
+          "$$hashKey": "uiGrid-1W1Z",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "plot_name",
@@ -10504,7 +12412,9 @@
             "default_value": "T_Room_205_Avg",
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W21"
+          "$$hashKey": "uiGrid-1W21",
+          "option_2": "Outdoor Air Temperature",
+          "option_3": "Outdoor Air Temperature"
         },
         {
           "name": "verbose_messages",
@@ -10535,7 +12445,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W23"
+          "$$hashKey": "uiGrid-1W23",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "warning_messages",
@@ -10566,7 +12478,9 @@
             "default_value": true,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W25"
+          "$$hashKey": "uiGrid-1W25",
+          "option_2": true,
+          "option_3": true
         },
         {
           "name": "add_first_zero_for_plots",
@@ -10597,7 +12511,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W27"
+          "$$hashKey": "uiGrid-1W27",
+          "option_2": false,
+          "option_3": false
         },
         {
           "name": "add_last_zero_for_plots",
@@ -10628,7 +12544,9 @@
             "default_value": false,
             "showWarningIcon": false
           },
-          "$$hashKey": "uiGrid-1W29"
+          "$$hashKey": "uiGrid-1W29",
+          "option_2": false,
+          "option_3": false
         }
       ],
       "edit": "",
@@ -10734,10 +12652,192 @@
           ],
           "name": "Outdoor Air Temperature",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "F to C"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "Environment"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Site Outdoor Air Drybulb Temperature"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Outdoor Air Temperature"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault OA",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "F to C"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "Environment"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Site Outdoor Air Drybulb Temperature"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Outdoor Air Temperature"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault OA",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.8783360646694813,
-      "numberOfOptions": 1,
+      "instanceId": 0.13452929009412684,
+      "numberOfOptions": 3,
       "unlockStatus": true,
       "skip": true,
       "showWarningText": false,
@@ -10811,26 +12911,88 @@
   },
   "designAlternatives": [
     {
-      "name": "updated schedules",
+      "name": "condenser fouling baseline",
       "seedModel": "frp_baseline_typical_sch.osm",
       "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
-      "update_rfp_loads_and_schedules_from_measured_data": "schedules from measured data",
+      "update_rfp_loads_and_schedules_from_measured_data": "Baseline schedules from measured data",
       "run_period": "custom run period",
       "change_run_period_start_day_of_week": "Change Start Day of Week",
       "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
       "openstudio_results": "OpenStudio Results",
       "rtu_exit": "RTU Exit",
       "rtu_enter": "RTU Enter",
-      "cooling_consumption": "None",
-      "heating_consumption": "None",
-      "total_consumption": "None",
-      "lighting_consumption": "None",
-      "equipment_consumption": "None",
+      "cooling_consumption": "Cooling Consumption",
+      "heating_consumption": "Heating Consumption",
+      "total_consumption": "Total Consumption",
+      "lighting_consumption": "Lighting Consumption",
+      "equipment_consumption": "Equipment Consumption",
       "fan_consumption": "Fan Consumption",
       "outdoor_air_temp": "Outdoor Air Temperature",
       "$$hashKey": "uiGrid-0DWV"
+    },
+    {
+      "name": "condenser fouling 28 percent fault",
+      "seedModel": "frp_baseline_typical_sch.osm",
+      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
+      "update_rfp_loads_and_schedules_from_measured_data": "Low fault schedules",
+      "run_period": "custom run period",
+      "change_run_period_start_day_of_week": "Change Start Day of Week",
+      "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
+      "openstudio_results": "OpenStudio Results",
+      "rtu_exit": "low fault RTU exit",
+      "rtu_enter": "low fault RTU enter",
+      "cooling_consumption": "low fault cooling consumption",
+      "heating_consumption": "low fault heating",
+      "total_consumption": "low fault total",
+      "lighting_consumption": "Lighting Consumption",
+      "equipment_consumption": "low fault equip",
+      "fan_consumption": "low fault fan",
+      "outdoor_air_temp": "low fault OA",
+      "$$hashKey": "uiGrid-0API"
+    },
+    {
+      "name": "condenser fouling 58 percent fault",
+      "seedModel": "frp_baseline_typical_sch.osm",
+      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
+      "update_rfp_loads_and_schedules_from_measured_data": "high fault schedules",
+      "run_period": "custom run period",
+      "change_run_period_start_day_of_week": "Change Start Day of Week",
+      "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
+      "openstudio_results": "OpenStudio Results",
+      "rtu_exit": "high fault RTU exit",
+      "rtu_enter": "high fault RTU enter",
+      "cooling_consumption": "high fault cooling consumption",
+      "heating_consumption": "Heating Consumption",
+      "total_consumption": "high fault total",
+      "lighting_consumption": "high fault lighting",
+      "equipment_consumption": "high fault equip",
+      "fan_consumption": "high fault fan",
+      "outdoor_air_temp": "high fault OA",
+      "$$hashKey": "uiGrid-0XRT"
     }
   ],
-  "analysisID": "2fba7ef6-a027-47a0-ad6d-77656f1671b5",
-  "datapoints": []
+  "analysisID": null,
+  "datapoints": [
+    {
+      "name": "condenser fouling baseline",
+      "id": "condenser fouling baseline",
+      "run": false,
+      "modified": false,
+      "selected": false
+    },
+    {
+      "name": "condenser fouling 28 percent fault",
+      "id": "condenser fouling 28 percent fault",
+      "run": false,
+      "modified": false,
+      "selected": false
+    },
+    {
+      "name": "condenser fouling 58 percent fault",
+      "id": "condenser fouling 58 percent fault",
+      "run": false,
+      "modified": false,
+      "selected": false
+    }
+  ]
 }

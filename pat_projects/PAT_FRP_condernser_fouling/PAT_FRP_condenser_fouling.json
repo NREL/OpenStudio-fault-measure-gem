@@ -21,17 +21,73 @@
           "version_uuid": "bf8789cd-552d-43bf-ae4d-f2029faba4ff",
           "description": "For calibration to measured data update selected loads and load schedules to match measured data for specific dates",
           "taxonomy": "Envelope.Form",
-          "arguments": [
+          "arguments": [],
+          "variables": [
             {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
               "display_name": "Path to CSV file for the metered data",
-              "display_name_short": "csv_name",
-              "name": "csv_name",
-              "value_type": "string",
-              "default_value": "../../../lib/resources/mtr.csv",
-              "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
             }
           ],
-          "variables": [],
           "workflow_index": 0
         },
         {
@@ -170,7 +226,15 @@
                     "values_and_weights": [
                       {
                         "value": 0.0121705692534106,
-                        "weight": 1
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": 0.0121705692534106,
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": 0.0121705692534106,
+                        "weight": 0.3333333333333333
                       }
                     ]
                   },
@@ -226,7 +290,15 @@
                     "values_and_weights": [
                       {
                         "value": 0.119758221206572,
-                        "weight": 1
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": 0.119758221206572,
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": 0.119758221206572,
+                        "weight": 0.3333333333333333
                       }
                     ]
                   },
@@ -464,14 +536,6 @@
           "taxonomy": "Reporting.QAQC",
           "arguments": [
             {
-              "display_name": "Path to CSV file for the metered data",
-              "display_name_short": "csv_name",
-              "name": "csv_name",
-              "value_type": "string",
-              "default_value": "../../../lib/resources/mtr.csv",
-              "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
-            },
-            {
               "display_name": "CSV Time Header",
               "display_name_short": "csv_time_header",
               "name": "csv_time_header",
@@ -632,7 +696,72 @@
               "value": false
             }
           ],
-          "variables": [],
+          "variables": [
+            {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
+              "display_name": "Path to CSV file for the metered data",
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
+            }
+          ],
           "workflow_index": 5
         },
         {
@@ -652,14 +781,6 @@
           "description": "Creates Objective Function from Timeseries Data",
           "taxonomy": "Reporting.QAQC",
           "arguments": [
-            {
-              "display_name": "Path to CSV file for the metered data",
-              "display_name_short": "csv_name",
-              "name": "csv_name",
-              "value_type": "string",
-              "default_value": "../../../lib/resources/mtr.csv",
-              "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
-            },
             {
               "display_name": "CSV Time Header",
               "display_name_short": "csv_time_header",
@@ -821,8 +942,1303 @@
               "value": false
             }
           ],
-          "variables": [],
+          "variables": [
+            {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
+              "display_name": "Path to CSV file for the metered data",
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
+            }
+          ],
           "workflow_index": 6
+        },
+        {
+          "name": "cooling_consumption",
+          "display_name": "Cooling Consumption",
+          "measure_type": "ReportingMeasure",
+          "measure_definition_class_name": "TimeseriesObjectiveFunction",
+          "measure_definition_directory": "./measures/TimeseriesObjectiveFunction",
+          "measure_definition_directory_local": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
+          "measure_definition_display_name": "Cooling Consumption",
+          "measure_definition_name": "cooling_consumption",
+          "measure_definition_name_xml": null,
+          "measure_definition_uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "measure_definition_version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "description": "Creates Objective Function from Timeseries Data",
+          "taxonomy": "Reporting.QAQC",
+          "arguments": [
+            {
+              "display_name": "CSV Time Header",
+              "display_name_short": "csv_time_header",
+              "name": "csv_time_header",
+              "value_type": "string",
+              "default_value": "Date/Time",
+              "value": "TIMESTAMP"
+            },
+            {
+              "display_name": "CSV variable name",
+              "display_name_short": "csv_var",
+              "name": "csv_var",
+              "value_type": "string",
+              "default_value": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+              "value": "Cooling_Tot_electric"
+            },
+            {
+              "display_name": "Convert Units",
+              "display_name_short": "convert_data",
+              "name": "convert_data",
+              "value_type": "string",
+              "default_value": "None",
+              "value": "WH to J"
+            },
+            {
+              "display_name": "CSV variable display name",
+              "display_name_short": "csv_var_dn",
+              "name": "csv_var_dn",
+              "value_type": "string",
+              "default_value": "Cooling_Tot_electric",
+              "value": "Cooling_Tot_electric"
+            },
+            {
+              "display_name": "Year in csv data timestamp",
+              "display_name_short": "year",
+              "name": "year",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Seconds in csv data timestamp",
+              "display_name_short": "seconds",
+              "name": "seconds",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": false
+            },
+            {
+              "display_name": "SQL key value",
+              "display_name_short": "key_value",
+              "name": "key_value",
+              "value_type": "string",
+              "default_value": "Rooftop Cooling Coil",
+              "value": "Rooftop Cooling Coil"
+            },
+            {
+              "display_name": "TimeSeries Name",
+              "display_name_short": "timeseries_name",
+              "name": "timeseries_name",
+              "value_type": "string",
+              "default_value": "Facility Total Electric Demand Power",
+              "value": "Cooling Coil Electric Energy"
+            },
+            {
+              "display_name": "Reporting Frequency",
+              "display_name_short": "reporting_frequency",
+              "name": "reporting_frequency",
+              "value_type": "string",
+              "default_value": "Timestep",
+              "value": "Timestep"
+            },
+            {
+              "display_name": "Environment Period",
+              "display_name_short": "environment_period",
+              "name": "environment_period",
+              "value_type": "string",
+              "default_value": "RUN PERIOD 1",
+              "value": "custom run period"
+            },
+            {
+              "display_name": "Norm of the difference of csv and sql",
+              "display_name_short": "norm",
+              "name": "norm",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Scale factor to apply to the difference",
+              "display_name_short": "scale",
+              "name": "scale",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Find Available data in the SQL file",
+              "display_name_short": "find_avail",
+              "name": "find_avail",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "algorithm_download",
+              "display_name_short": "algorithm_download",
+              "name": "algorithm_download",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": true
+            },
+            {
+              "display_name": "plot_flag timeseries data",
+              "display_name_short": "plot_flag",
+              "name": "plot_flag",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Plot name",
+              "display_name_short": "plot_name",
+              "name": "plot_name",
+              "value_type": "string",
+              "default_value": "Cooling Consumption",
+              "value": "Cooling Consumption"
+            },
+            {
+              "display_name": "verbose_messages",
+              "display_name_short": "verbose_messages",
+              "name": "verbose_messages",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "warning_messages",
+              "display_name_short": "warning_messages",
+              "name": "warning_messages",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "add_first_zero_for_plots",
+              "display_name_short": "add_first_zero_for_plots",
+              "name": "add_first_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "add_last_zero_for_plots",
+              "display_name_short": "add_last_zero_for_plots",
+              "name": "add_last_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            }
+          ],
+          "variables": [
+            {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
+              "display_name": "Path to CSV file for the metered data",
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
+            }
+          ],
+          "workflow_index": 7
+        },
+        {
+          "name": "heating_consumption",
+          "display_name": "Heating Consumption",
+          "measure_type": "ReportingMeasure",
+          "measure_definition_class_name": "TimeseriesObjectiveFunction",
+          "measure_definition_directory": "./measures/TimeseriesObjectiveFunction",
+          "measure_definition_directory_local": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
+          "measure_definition_display_name": "Heating Consumption",
+          "measure_definition_name": "heating_consumption",
+          "measure_definition_name_xml": null,
+          "measure_definition_uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "measure_definition_version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "description": "Creates Objective Function from Timeseries Data",
+          "taxonomy": "Reporting.QAQC",
+          "arguments": [
+            {
+              "display_name": "CSV Time Header",
+              "display_name_short": "csv_time_header",
+              "name": "csv_time_header",
+              "value_type": "string",
+              "default_value": "Date/Time",
+              "value": "TIMESTAMP"
+            },
+            {
+              "display_name": "CSV variable name",
+              "display_name_short": "csv_var",
+              "name": "csv_var",
+              "value_type": "string",
+              "default_value": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+              "value": "Heating_Tot_electric"
+            },
+            {
+              "display_name": "Convert Units",
+              "display_name_short": "convert_data",
+              "name": "convert_data",
+              "value_type": "string",
+              "default_value": "None",
+              "value": "WH to J"
+            },
+            {
+              "display_name": "CSV variable display name",
+              "display_name_short": "csv_var_dn",
+              "name": "csv_var_dn",
+              "value_type": "string",
+              "default_value": "Heating_Tot_electric",
+              "value": "Heating_Tot_electric"
+            },
+            {
+              "display_name": "Year in csv data timestamp",
+              "display_name_short": "year",
+              "name": "year",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Seconds in csv data timestamp",
+              "display_name_short": "seconds",
+              "name": "seconds",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": false
+            },
+            {
+              "display_name": "SQL key value",
+              "display_name_short": "key_value",
+              "name": "key_value",
+              "value_type": "string",
+              "default_value": "no_key",
+              "value": "no_key"
+            },
+            {
+              "display_name": "TimeSeries Name",
+              "display_name_short": "timeseries_name",
+              "name": "timeseries_name",
+              "value_type": "string",
+              "default_value": "Facility Total Electric Demand Power",
+              "value": "Heating:Electricity"
+            },
+            {
+              "display_name": "Reporting Frequency",
+              "display_name_short": "reporting_frequency",
+              "name": "reporting_frequency",
+              "value_type": "string",
+              "default_value": "Timestep",
+              "value": "Timestep"
+            },
+            {
+              "display_name": "Environment Period",
+              "display_name_short": "environment_period",
+              "name": "environment_period",
+              "value_type": "string",
+              "default_value": "RUN PERIOD 1",
+              "value": "custom run period"
+            },
+            {
+              "display_name": "Norm of the difference of csv and sql",
+              "display_name_short": "norm",
+              "name": "norm",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Scale factor to apply to the difference",
+              "display_name_short": "scale",
+              "name": "scale",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Find Available data in the SQL file",
+              "display_name_short": "find_avail",
+              "name": "find_avail",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "algorithm_download",
+              "display_name_short": "algorithm_download",
+              "name": "algorithm_download",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "plot_flag timeseries data",
+              "display_name_short": "plot_flag",
+              "name": "plot_flag",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Plot name",
+              "display_name_short": "plot_name",
+              "name": "plot_name",
+              "value_type": "string",
+              "default_value": "Heating Consumption",
+              "value": "Heating Consumption"
+            },
+            {
+              "display_name": "verbose_messages",
+              "display_name_short": "verbose_messages",
+              "name": "verbose_messages",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "warning_messages",
+              "display_name_short": "warning_messages",
+              "name": "warning_messages",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "add_first_zero_for_plots",
+              "display_name_short": "add_first_zero_for_plots",
+              "name": "add_first_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "add_last_zero_for_plots",
+              "display_name_short": "add_last_zero_for_plots",
+              "name": "add_last_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            }
+          ],
+          "variables": [
+            {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
+              "display_name": "Path to CSV file for the metered data",
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
+            }
+          ],
+          "workflow_index": 8
+        },
+        {
+          "name": "total_consumption",
+          "display_name": "Total Consumption",
+          "measure_type": "ReportingMeasure",
+          "measure_definition_class_name": "TimeseriesObjectiveFunction",
+          "measure_definition_directory": "./measures/TimeseriesObjectiveFunction",
+          "measure_definition_directory_local": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
+          "measure_definition_display_name": "Total Consumption",
+          "measure_definition_name": "total_consumption",
+          "measure_definition_name_xml": null,
+          "measure_definition_uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "measure_definition_version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "description": "Creates Objective Function from Timeseries Data",
+          "taxonomy": "Reporting.QAQC",
+          "arguments": [
+            {
+              "display_name": "CSV Time Header",
+              "display_name_short": "csv_time_header",
+              "name": "csv_time_header",
+              "value_type": "string",
+              "default_value": "Date/Time",
+              "value": "TIMESTAMP"
+            },
+            {
+              "display_name": "CSV variable name",
+              "display_name_short": "csv_var",
+              "name": "csv_var",
+              "value_type": "string",
+              "default_value": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+              "value": "WH_Total_electric"
+            },
+            {
+              "display_name": "Convert Units",
+              "display_name_short": "convert_data",
+              "name": "convert_data",
+              "value_type": "string",
+              "default_value": "None",
+              "value": "WH to J"
+            },
+            {
+              "display_name": "CSV variable display name",
+              "display_name_short": "csv_var_dn",
+              "name": "csv_var_dn",
+              "value_type": "string",
+              "default_value": "WH_Total_electric",
+              "value": "WH_Total_electric"
+            },
+            {
+              "display_name": "Year in csv data timestamp",
+              "display_name_short": "year",
+              "name": "year",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Seconds in csv data timestamp",
+              "display_name_short": "seconds",
+              "name": "seconds",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": false
+            },
+            {
+              "display_name": "SQL key value",
+              "display_name_short": "key_value",
+              "name": "key_value",
+              "value_type": "string",
+              "default_value": "no_key",
+              "value": "no_key"
+            },
+            {
+              "display_name": "TimeSeries Name",
+              "display_name_short": "timeseries_name",
+              "name": "timeseries_name",
+              "value_type": "string",
+              "default_value": "Facility Total Electric Demand Power",
+              "value": "Electricity:Facility"
+            },
+            {
+              "display_name": "Reporting Frequency",
+              "display_name_short": "reporting_frequency",
+              "name": "reporting_frequency",
+              "value_type": "string",
+              "default_value": "Timestep",
+              "value": "Timestep"
+            },
+            {
+              "display_name": "Environment Period",
+              "display_name_short": "environment_period",
+              "name": "environment_period",
+              "value_type": "string",
+              "default_value": "RUN PERIOD 1",
+              "value": "custom run period"
+            },
+            {
+              "display_name": "Norm of the difference of csv and sql",
+              "display_name_short": "norm",
+              "name": "norm",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Scale factor to apply to the difference",
+              "display_name_short": "scale",
+              "name": "scale",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Find Available data in the SQL file",
+              "display_name_short": "find_avail",
+              "name": "find_avail",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "algorithm_download",
+              "display_name_short": "algorithm_download",
+              "name": "algorithm_download",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": true
+            },
+            {
+              "display_name": "plot_flag timeseries data",
+              "display_name_short": "plot_flag",
+              "name": "plot_flag",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Plot name",
+              "display_name_short": "plot_name",
+              "name": "plot_name",
+              "value_type": "string",
+              "default_value": "Total Consumption",
+              "value": "Total Consumption"
+            },
+            {
+              "display_name": "verbose_messages",
+              "display_name_short": "verbose_messages",
+              "name": "verbose_messages",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "warning_messages",
+              "display_name_short": "warning_messages",
+              "name": "warning_messages",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "add_first_zero_for_plots",
+              "display_name_short": "add_first_zero_for_plots",
+              "name": "add_first_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "add_last_zero_for_plots",
+              "display_name_short": "add_last_zero_for_plots",
+              "name": "add_last_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            }
+          ],
+          "variables": [
+            {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
+              "display_name": "Path to CSV file for the metered data",
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
+            }
+          ],
+          "workflow_index": 9
+        },
+        {
+          "name": "lighting_consumption",
+          "display_name": "Lighting Consumption",
+          "measure_type": "ReportingMeasure",
+          "measure_definition_class_name": "TimeseriesObjectiveFunction",
+          "measure_definition_directory": "./measures/TimeseriesObjectiveFunction",
+          "measure_definition_directory_local": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
+          "measure_definition_display_name": "Lighting Consumption",
+          "measure_definition_name": "lighting_consumption",
+          "measure_definition_name_xml": null,
+          "measure_definition_uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "measure_definition_version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "description": "Creates Objective Function from Timeseries Data",
+          "taxonomy": "Reporting.QAQC",
+          "arguments": [
+            {
+              "display_name": "CSV Time Header",
+              "display_name_short": "csv_time_header",
+              "name": "csv_time_header",
+              "value_type": "string",
+              "default_value": "Date/Time",
+              "value": "TIMESTAMP"
+            },
+            {
+              "display_name": "CSV variable name",
+              "display_name_short": "csv_var",
+              "name": "csv_var",
+              "value_type": "string",
+              "default_value": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+              "value": "Lights_Tot"
+            },
+            {
+              "display_name": "Convert Units",
+              "display_name_short": "convert_data",
+              "name": "convert_data",
+              "value_type": "string",
+              "default_value": "None",
+              "value": "WH to J"
+            },
+            {
+              "display_name": "CSV variable display name",
+              "display_name_short": "csv_var_dn",
+              "name": "csv_var_dn",
+              "value_type": "string",
+              "default_value": "Lights_Tot",
+              "value": "Lights_Tot"
+            },
+            {
+              "display_name": "Year in csv data timestamp",
+              "display_name_short": "year",
+              "name": "year",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Seconds in csv data timestamp",
+              "display_name_short": "seconds",
+              "name": "seconds",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": false
+            },
+            {
+              "display_name": "SQL key value",
+              "display_name_short": "key_value",
+              "name": "key_value",
+              "value_type": "string",
+              "default_value": "no_key",
+              "value": "no_key"
+            },
+            {
+              "display_name": "TimeSeries Name",
+              "display_name_short": "timeseries_name",
+              "name": "timeseries_name",
+              "value_type": "string",
+              "default_value": "Facility Total Electric Demand Power",
+              "value": "InteriorLights:Electricity"
+            },
+            {
+              "display_name": "Reporting Frequency",
+              "display_name_short": "reporting_frequency",
+              "name": "reporting_frequency",
+              "value_type": "string",
+              "default_value": "Timestep",
+              "value": "Timestep"
+            },
+            {
+              "display_name": "Environment Period",
+              "display_name_short": "environment_period",
+              "name": "environment_period",
+              "value_type": "string",
+              "default_value": "RUN PERIOD 1",
+              "value": "custom run period"
+            },
+            {
+              "display_name": "Norm of the difference of csv and sql",
+              "display_name_short": "norm",
+              "name": "norm",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Scale factor to apply to the difference",
+              "display_name_short": "scale",
+              "name": "scale",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Find Available data in the SQL file",
+              "display_name_short": "find_avail",
+              "name": "find_avail",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "algorithm_download",
+              "display_name_short": "algorithm_download",
+              "name": "algorithm_download",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "plot_flag timeseries data",
+              "display_name_short": "plot_flag",
+              "name": "plot_flag",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Plot name",
+              "display_name_short": "plot_name",
+              "name": "plot_name",
+              "value_type": "string",
+              "default_value": "Lighting Consumption",
+              "value": "Lighting Consumption"
+            },
+            {
+              "display_name": "verbose_messages",
+              "display_name_short": "verbose_messages",
+              "name": "verbose_messages",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "warning_messages",
+              "display_name_short": "warning_messages",
+              "name": "warning_messages",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "add_first_zero_for_plots",
+              "display_name_short": "add_first_zero_for_plots",
+              "name": "add_first_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "add_last_zero_for_plots",
+              "display_name_short": "add_last_zero_for_plots",
+              "name": "add_last_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            }
+          ],
+          "variables": [
+            {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
+              "display_name": "Path to CSV file for the metered data",
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
+            }
+          ],
+          "workflow_index": 10
+        },
+        {
+          "name": "equipment_consumption",
+          "display_name": "Equipment Consumption",
+          "measure_type": "ReportingMeasure",
+          "measure_definition_class_name": "TimeseriesObjectiveFunction",
+          "measure_definition_directory": "./measures/TimeseriesObjectiveFunction",
+          "measure_definition_directory_local": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
+          "measure_definition_display_name": "Equipment Consumption",
+          "measure_definition_name": "equipment_consumption",
+          "measure_definition_name_xml": null,
+          "measure_definition_uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "measure_definition_version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "uuid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "version_uuid": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+          "description": "Creates Objective Function from Timeseries Data",
+          "taxonomy": "Reporting.QAQC",
+          "arguments": [
+            {
+              "display_name": "CSV Time Header",
+              "display_name_short": "csv_time_header",
+              "name": "csv_time_header",
+              "value_type": "string",
+              "default_value": "Date/Time",
+              "value": "TIMESTAMP"
+            },
+            {
+              "display_name": "CSV variable name",
+              "display_name_short": "csv_var",
+              "name": "csv_var",
+              "value_type": "string",
+              "default_value": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+              "value": "Plugloads_Tot"
+            },
+            {
+              "display_name": "Convert Units",
+              "display_name_short": "convert_data",
+              "name": "convert_data",
+              "value_type": "string",
+              "default_value": "None",
+              "value": "WH to J"
+            },
+            {
+              "display_name": "CSV variable display name",
+              "display_name_short": "csv_var_dn",
+              "name": "csv_var_dn",
+              "value_type": "string",
+              "default_value": "Plugloads_Tot",
+              "value": "Plugloads_Tot"
+            },
+            {
+              "display_name": "Year in csv data timestamp",
+              "display_name_short": "year",
+              "name": "year",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Seconds in csv data timestamp",
+              "display_name_short": "seconds",
+              "name": "seconds",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": false
+            },
+            {
+              "display_name": "SQL key value",
+              "display_name_short": "key_value",
+              "name": "key_value",
+              "value_type": "string",
+              "default_value": "no_key",
+              "value": "no_key"
+            },
+            {
+              "display_name": "TimeSeries Name",
+              "display_name_short": "timeseries_name",
+              "name": "timeseries_name",
+              "value_type": "string",
+              "default_value": "Facility Total Electric Demand Power",
+              "value": "InteriorEquipment:Electricity"
+            },
+            {
+              "display_name": "Reporting Frequency",
+              "display_name_short": "reporting_frequency",
+              "name": "reporting_frequency",
+              "value_type": "string",
+              "default_value": "Timestep",
+              "value": "Timestep"
+            },
+            {
+              "display_name": "Environment Period",
+              "display_name_short": "environment_period",
+              "name": "environment_period",
+              "value_type": "string",
+              "default_value": "RUN PERIOD 1",
+              "value": "custom run period"
+            },
+            {
+              "display_name": "Norm of the difference of csv and sql",
+              "display_name_short": "norm",
+              "name": "norm",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Scale factor to apply to the difference",
+              "display_name_short": "scale",
+              "name": "scale",
+              "value_type": "double",
+              "default_value": 1,
+              "value": 1
+            },
+            {
+              "display_name": "Find Available data in the SQL file",
+              "display_name_short": "find_avail",
+              "name": "find_avail",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "algorithm_download",
+              "display_name_short": "algorithm_download",
+              "name": "algorithm_download",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": true
+            },
+            {
+              "display_name": "plot_flag timeseries data",
+              "display_name_short": "plot_flag",
+              "name": "plot_flag",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "Plot name",
+              "display_name_short": "plot_name",
+              "name": "plot_name",
+              "value_type": "string",
+              "default_value": "Equipment Consumption",
+              "value": "Equipment Consumption"
+            },
+            {
+              "display_name": "verbose_messages",
+              "display_name_short": "verbose_messages",
+              "name": "verbose_messages",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "warning_messages",
+              "display_name_short": "warning_messages",
+              "name": "warning_messages",
+              "value_type": "boolean",
+              "default_value": true,
+              "value": true
+            },
+            {
+              "display_name": "add_first_zero_for_plots",
+              "display_name_short": "add_first_zero_for_plots",
+              "name": "add_first_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            },
+            {
+              "display_name": "add_last_zero_for_plots",
+              "display_name_short": "add_last_zero_for_plots",
+              "name": "add_last_zero_for_plots",
+              "value_type": "boolean",
+              "default_value": false,
+              "value": false
+            }
+          ],
+          "variables": [
+            {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
+              "display_name": "Path to CSV file for the metered data",
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
+            }
+          ],
+          "workflow_index": 11
         },
         {
           "name": "fan_consumption",
@@ -841,14 +2257,6 @@
           "description": "Creates Objective Function from Timeseries Data",
           "taxonomy": "Reporting.QAQC",
           "arguments": [
-            {
-              "display_name": "Path to CSV file for the metered data",
-              "display_name_short": "csv_name",
-              "name": "csv_name",
-              "value_type": "string",
-              "default_value": "../../../lib/resources/mtr.csv",
-              "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
-            },
             {
               "display_name": "CSV Time Header",
               "display_name_short": "csv_time_header",
@@ -1010,8 +2418,73 @@
               "value": false
             }
           ],
-          "variables": [],
-          "workflow_index": 7
+          "variables": [
+            {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
+              "display_name": "Path to CSV file for the metered data",
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
+            }
+          ],
+          "workflow_index": 12
         },
         {
           "name": "outdoor_air_temp",
@@ -1030,14 +2503,6 @@
           "description": "Creates Objective Function from Timeseries Data",
           "taxonomy": "Reporting.QAQC",
           "arguments": [
-            {
-              "display_name": "Path to CSV file for the metered data",
-              "display_name_short": "csv_name",
-              "name": "csv_name",
-              "value_type": "string",
-              "default_value": "../../../lib/resources/mtr.csv",
-              "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
-            },
             {
               "display_name": "CSV Time Header",
               "display_name_short": "csv_time_header",
@@ -1199,8 +2664,73 @@
               "value": false
             }
           ],
-          "variables": [],
-          "workflow_index": 8
+          "variables": [
+            {
+              "argument": {
+                "display_name": "Path to CSV file for the metered data",
+                "display_name_short": "csv_name",
+                "name": "csv_name",
+                "value_type": "string",
+                "default_value": "../../../lib/resources/mtr.csv",
+                "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+              },
+              "display_name": "Path to CSV file for the metered data",
+              "display_name_short": "Path to CSV file for the metered data",
+              "variable_type": "variable",
+              "units": "",
+              "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+              "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "relation_to_output": null,
+              "static_value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+              "uuid": "",
+              "version_uuid": "",
+              "variable": true,
+              "uncertainty_description": {
+                "type": "discrete",
+                "attributes": [
+                  {
+                    "name": "discrete",
+                    "values_and_weights": [
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+                        "weight": 0.3333333333333333
+                      },
+                      {
+                        "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+                        "weight": 0.3333333333333333
+                      }
+                    ]
+                  },
+                  {
+                    "name": "lower_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+                  },
+                  {
+                    "name": "upper_bounds",
+                    "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+                  },
+                  {
+                    "name": "modes",
+                    "value": null
+                  },
+                  {
+                    "name": "delta_x",
+                    "value": null
+                  },
+                  {
+                    "name": "stddev",
+                    "value": null
+                  }
+                ]
+              },
+              "workflow_index": 0
+            }
+          ],
+          "workflow_index": 13
         }
       ],
       "algorithm": {
@@ -1209,12 +2739,12 @@
       "analysis_type": null,
       "design_alternatives": [
         {
-          "name": "updated schedules",
+          "name": "condenser fouling baseline",
           "options": [
             {
               "measure_name": "update_rfp_loads_and_schedules_from_measured_data",
               "workflow_index": 0,
-              "name": "schedules from measured data",
+              "name": "Baseline schedules from measured data",
               "description": "Option 2 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
             },
             {
@@ -1254,16 +2784,224 @@
               "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
             },
             {
-              "measure_name": "fan_consumption",
+              "measure_name": "cooling_consumption",
               "workflow_index": 7,
+              "name": "Cooling Consumption",
+              "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "heating_consumption",
+              "workflow_index": 8,
+              "name": "Heating Consumption",
+              "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "total_consumption",
+              "workflow_index": 9,
+              "name": "Total Consumption",
+              "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "lighting_consumption",
+              "workflow_index": 10,
+              "name": "Lighting Consumption",
+              "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "equipment_consumption",
+              "workflow_index": 11,
+              "name": "Equipment Consumption",
+              "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "fan_consumption",
+              "workflow_index": 12,
               "name": "Fan Consumption",
               "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
             },
             {
               "measure_name": "outdoor_air_temp",
-              "workflow_index": 8,
+              "workflow_index": 13,
               "name": "Outdoor Air Temperature",
               "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+            }
+          ]
+        },
+        {
+          "name": "condenser fouling 28 percent fault",
+          "options": [
+            {
+              "measure_name": "update_rfp_loads_and_schedules_from_measured_data",
+              "workflow_index": 0,
+              "name": "Low fault schedules",
+              "description": "Option 3 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
+            },
+            {
+              "measure_name": "run_period",
+              "workflow_index": 1,
+              "name": "custom run period",
+              "description": "Option 1 Description: Set Run Period Object"
+            },
+            {
+              "measure_name": "change_run_period_start_day_of_week",
+              "workflow_index": 2,
+              "name": "Change Start Day of Week",
+              "description": "Option 1 Description: This is addressing issue with forward translation of OpenStudio Schedule Rulesets to Schedule Week in EnergyPlus. The start day of week for this logic appears to  apply that day of week to January 1st, however when the simulation is runEnergyPlus uses that as the day of the week for the RunPeriod, which for example may be July 25th, not January first. If I just change the start date."
+            },
+            {
+              "measure_name": "duct_leakage_through_zone_hvac_air_distribution_unit",
+              "workflow_index": 3,
+              "name": "duct leakage",
+              "description": "Option 1 Description: Simulate supply air duct leakage from VAV into Return Plenum."
+            },
+            {
+              "measure_name": "openstudio_results",
+              "workflow_index": 4,
+              "name": "OpenStudio Results",
+              "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
+            },
+            {
+              "measure_name": "rtu_exit",
+              "workflow_index": 5,
+              "name": "low fault RTU exit",
+              "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "rtu_enter",
+              "workflow_index": 6,
+              "name": "low fault RTU enter",
+              "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "cooling_consumption",
+              "workflow_index": 7,
+              "name": "low fault cooling consumption",
+              "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "heating_consumption",
+              "workflow_index": 8,
+              "name": "low fault heating",
+              "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "total_consumption",
+              "workflow_index": 9,
+              "name": "low fault total",
+              "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "lighting_consumption",
+              "workflow_index": 10,
+              "name": "Lighting Consumption",
+              "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "equipment_consumption",
+              "workflow_index": 11,
+              "name": "low fault equip",
+              "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "fan_consumption",
+              "workflow_index": 12,
+              "name": "low fault fan",
+              "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "outdoor_air_temp",
+              "workflow_index": 13,
+              "name": "low fault OA",
+              "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+            }
+          ]
+        },
+        {
+          "name": "condenser fouling 58 percent fault",
+          "options": [
+            {
+              "measure_name": "update_rfp_loads_and_schedules_from_measured_data",
+              "workflow_index": 0,
+              "name": "high fault schedules",
+              "description": "Option 4 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
+            },
+            {
+              "measure_name": "run_period",
+              "workflow_index": 1,
+              "name": "custom run period",
+              "description": "Option 1 Description: Set Run Period Object"
+            },
+            {
+              "measure_name": "change_run_period_start_day_of_week",
+              "workflow_index": 2,
+              "name": "Change Start Day of Week",
+              "description": "Option 1 Description: This is addressing issue with forward translation of OpenStudio Schedule Rulesets to Schedule Week in EnergyPlus. The start day of week for this logic appears to  apply that day of week to January 1st, however when the simulation is runEnergyPlus uses that as the day of the week for the RunPeriod, which for example may be July 25th, not January first. If I just change the start date."
+            },
+            {
+              "measure_name": "duct_leakage_through_zone_hvac_air_distribution_unit",
+              "workflow_index": 3,
+              "name": "duct leakage",
+              "description": "Option 1 Description: Simulate supply air duct leakage from VAV into Return Plenum."
+            },
+            {
+              "measure_name": "openstudio_results",
+              "workflow_index": 4,
+              "name": "OpenStudio Results",
+              "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
+            },
+            {
+              "measure_name": "rtu_exit",
+              "workflow_index": 5,
+              "name": "high fault RTU exit",
+              "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "rtu_enter",
+              "workflow_index": 6,
+              "name": "high fault RTU enter",
+              "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "cooling_consumption",
+              "workflow_index": 7,
+              "name": "high fault cooling consumption",
+              "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "heating_consumption",
+              "workflow_index": 8,
+              "name": "Heating Consumption",
+              "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "total_consumption",
+              "workflow_index": 9,
+              "name": "high fault total",
+              "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "lighting_consumption",
+              "workflow_index": 10,
+              "name": "high fault lighting",
+              "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "equipment_consumption",
+              "workflow_index": 11,
+              "name": "high fault equip",
+              "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "fan_consumption",
+              "workflow_index": 12,
+              "name": "high fault fan",
+              "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+            },
+            {
+              "measure_name": "outdoor_air_temp",
+              "workflow_index": 13,
+              "name": "high fault OA",
+              "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
             }
           ]
         }
