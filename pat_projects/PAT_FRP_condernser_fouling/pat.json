@@ -399,8 +399,13 @@
           "description": "Option 5 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.5697817783649375,
       "numberOfOptions": 4,
+=======
+      "instanceId": 0.863778474545341,
+      "numberOfOptions": 3,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "$$hashKey": "object:1225",
       "skip": false,
       "showWarningText": false,
@@ -694,7 +699,11 @@
           "description": "Option 1 Description: Set Run Period Object"
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.5386971531444413,
+=======
+      "instanceId": 0.7542681669646798,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "numberOfOptions": 1,
       "$$hashKey": "object:1226",
       "skip": true,
@@ -861,7 +870,11 @@
           "description": "Option 1 Description: This is addressing issue with forward translation of OpenStudio Schedule Rulesets to Schedule Week in EnergyPlus. The start day of week for this logic appears to  apply that day of week to January 1st, however when the simulation is runEnergyPlus uses that as the day of the week for the RunPeriod, which for example may be July 25th, not January first. If I just change the start date."
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.3261519176065719,
+=======
+      "instanceId": 0.625650855982141,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "numberOfOptions": 1,
       "$$hashKey": "object:365085",
       "skip": false,
@@ -1076,7 +1089,11 @@
           "description": "Option 2 Description: Simulate supply air duct leakage from VAV into Return Plenum."
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.30642026297974456,
+=======
+      "instanceId": 0.1664186097550462,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "numberOfOptions": 1,
       "$$hashKey": "object:136454",
       "outputMeasure": false,
@@ -1858,9 +1875,14 @@
           "description": "Option 2 Description: Condenser fouling occurs when litter, dirt, or dust accumulates on or between the fins of a condenser of an air conditioner located in the outdoor environment. The blockage reduces the airflow across the condenser and increases the condensing temperature in the refrigerant circuit. The elevated temperature increases the pressure difference across the compressor and reduces the equipment efficiency. This measure simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of reduction in condenser coil airflow at full load."
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.013411995875455496,
+=======
+      "instanceId": 0.8013041376235333,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "numberOfOptions": 2,
-      "$$hashKey": "object:11340"
+      "$$hashKey": "object:11340",
+      "outputMeasure": false
     },
     {
       "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/861c42ba-2105-49e6-b727-9fc3567f4834",
@@ -2751,7 +2773,11 @@
           "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.01055415919611491,
+=======
+      "instanceId": 0.26391931073658803,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "numberOfOptions": 1,
       "$$hashKey": "object:1238",
       "skip": false,
@@ -4041,8 +4067,13 @@
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.33152016757987157,
       "numberOfOptions": 4,
+=======
+      "instanceId": 0.8377969433772274,
+      "numberOfOptions": 3,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "unlockStatus": true,
       "skip": false,
       "showWarningText": false,
@@ -5369,8 +5400,13 @@
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.2680151411481,
       "numberOfOptions": 4,
+=======
+      "instanceId": 0.8915628323055267,
+      "numberOfOptions": 3,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "unlockStatus": true,
       "skip": false,
       "showWarningText": false,
@@ -6697,8 +6733,13 @@
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.48179595806285747,
       "numberOfOptions": 4,
+=======
+      "instanceId": 0.05405831304838049,
+      "numberOfOptions": 3,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "unlockStatus": true,
       "skip": false,
       "showWarningText": false,
@@ -6839,8 +6880,12 @@
           },
           "option_2": "option_2",
           "option_3": "option_3",
+<<<<<<< HEAD
           "option_4": "option_4",
           "$$hashKey": "uiGrid-0WIP"
+=======
+          "$$hashKey": "uiGrid-0PJ5"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "specialRowId": "optionName",
@@ -6863,8 +6908,12 @@
           },
           "option_2": "low fault cooling capacity",
           "option_3": "high fault cooling capacity",
+<<<<<<< HEAD
           "option_4": "alt baseline capacity",
           "$$hashKey": "uiGrid-0WIR"
+=======
+          "$$hashKey": "uiGrid-0PJ7"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "specialRowId": "optionDescription",
@@ -6887,8 +6936,12 @@
           },
           "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
           "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data",
+<<<<<<< HEAD
           "option_4": "Option 4 Description: Creates Objective Function from Timeseries Data",
           "$$hashKey": "uiGrid-0WIT"
+=======
+          "$$hashKey": "uiGrid-0PJ9"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_name",
@@ -6921,8 +6974,12 @@
           },
           "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
           "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+<<<<<<< HEAD
           "option_4": "../../../lib/resources/Master_Condenser_Fouling_baseline_alt_0902.csv",
           "$$hashKey": "uiGrid-0WIV"
+=======
+          "$$hashKey": "uiGrid-0PJB"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_time_header",
@@ -6955,8 +7012,12 @@
           },
           "option_2": "TIMESTAMP",
           "option_3": "TIMESTAMP",
+<<<<<<< HEAD
           "option_4": "TIMESTAMP",
           "$$hashKey": "uiGrid-0WIX"
+=======
+          "$$hashKey": "uiGrid-0PJD"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_var",
@@ -6989,8 +7050,12 @@
           },
           "option_2": "Gross_Cooling_Cap",
           "option_3": "Gross_Cooling_Cap",
+<<<<<<< HEAD
           "option_4": "Gross_Cooling_Cap",
           "$$hashKey": "uiGrid-0WIZ"
+=======
+          "$$hashKey": "uiGrid-0PJF"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "convert_data",
@@ -7043,8 +7108,12 @@
           },
           "option_2": "None",
           "option_3": "None",
+<<<<<<< HEAD
           "option_4": "None",
           "$$hashKey": "uiGrid-0WJ1"
+=======
+          "$$hashKey": "uiGrid-0PJH"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_var_dn",
@@ -7077,8 +7146,12 @@
           },
           "option_2": "Gross_Cooling_Cap",
           "option_3": "Gross_Cooling_Cap",
+<<<<<<< HEAD
           "option_4": "Gross_Cooling_Cap",
           "$$hashKey": "uiGrid-0WJ3"
+=======
+          "$$hashKey": "uiGrid-0PJJ"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "year",
@@ -7111,8 +7184,12 @@
           },
           "option_2": true,
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "$$hashKey": "uiGrid-0WJ5"
+=======
+          "$$hashKey": "uiGrid-0PJL"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "seconds",
@@ -7145,8 +7222,12 @@
           },
           "option_2": false,
           "option_3": false,
+<<<<<<< HEAD
           "option_4": false,
           "$$hashKey": "uiGrid-0WJ7"
+=======
+          "$$hashKey": "uiGrid-0PJN"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "key_value",
@@ -7179,8 +7260,12 @@
           },
           "option_2": "Rooftop Cooling Coil",
           "option_3": "Rooftop Cooling Coil",
+<<<<<<< HEAD
           "option_4": "Rooftop Cooling Coil",
           "$$hashKey": "uiGrid-0WJ9"
+=======
+          "$$hashKey": "uiGrid-0PJP"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "timeseries_name",
@@ -7213,8 +7298,12 @@
           },
           "option_2": "Cooling Coil Total Cooling Rate",
           "option_3": "Cooling Coil Total Cooling Rate",
+<<<<<<< HEAD
           "option_4": "Cooling Coil Total Cooling Rate",
           "$$hashKey": "uiGrid-0WJB"
+=======
+          "$$hashKey": "uiGrid-0PJR"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "reporting_frequency",
@@ -7269,8 +7358,12 @@
           },
           "option_2": "Timestep",
           "option_3": "Timestep",
+<<<<<<< HEAD
           "option_4": "Timestep",
           "$$hashKey": "uiGrid-0WJD"
+=======
+          "$$hashKey": "uiGrid-0PJT"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "environment_period",
@@ -7303,8 +7396,12 @@
           },
           "option_2": "custom run period",
           "option_3": "custom run period",
+<<<<<<< HEAD
           "option_4": "custom run period",
           "$$hashKey": "uiGrid-0WJF"
+=======
+          "$$hashKey": "uiGrid-0PJV"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "norm",
@@ -7337,8 +7434,12 @@
           },
           "option_2": 1,
           "option_3": 1,
+<<<<<<< HEAD
           "option_4": 1,
           "$$hashKey": "uiGrid-0WJH"
+=======
+          "$$hashKey": "uiGrid-0PJX"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "scale",
@@ -7371,8 +7472,12 @@
           },
           "option_2": 1,
           "option_3": 1,
+<<<<<<< HEAD
           "option_4": 1,
           "$$hashKey": "uiGrid-0WJJ"
+=======
+          "$$hashKey": "uiGrid-0PJZ"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "find_avail",
@@ -7405,8 +7510,12 @@
           },
           "option_2": true,
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "$$hashKey": "uiGrid-0WJL"
+=======
+          "$$hashKey": "uiGrid-0PK1"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "algorithm_download",
@@ -7439,8 +7548,12 @@
           },
           "option_2": true,
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "$$hashKey": "uiGrid-0WJN"
+=======
+          "$$hashKey": "uiGrid-0PK3"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "plot_flag",
@@ -7473,8 +7586,12 @@
           },
           "option_2": true,
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "$$hashKey": "uiGrid-0WJP"
+=======
+          "$$hashKey": "uiGrid-0PK5"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "plot_name",
@@ -7507,8 +7624,12 @@
           },
           "option_2": "Cooling Capacity",
           "option_3": "Cooling Capacity",
+<<<<<<< HEAD
           "option_4": "Cooling Capacity",
           "$$hashKey": "uiGrid-0WJR"
+=======
+          "$$hashKey": "uiGrid-0PK7"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "verbose_messages",
@@ -7541,8 +7662,12 @@
           },
           "option_2": false,
           "option_3": false,
+<<<<<<< HEAD
           "option_4": false,
           "$$hashKey": "uiGrid-0WJT"
+=======
+          "$$hashKey": "uiGrid-0PK9"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "warning_messages",
@@ -7575,8 +7700,12 @@
           },
           "option_2": true,
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "$$hashKey": "uiGrid-0WJV"
+=======
+          "$$hashKey": "uiGrid-0PKB"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "add_first_zero_for_plots",
@@ -7609,8 +7738,12 @@
           },
           "option_2": false,
           "option_3": false,
+<<<<<<< HEAD
           "option_4": false,
           "$$hashKey": "uiGrid-0WJX"
+=======
+          "$$hashKey": "uiGrid-0PKD"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "add_last_zero_for_plots",
@@ -7643,8 +7776,12 @@
           },
           "option_2": false,
           "option_3": false,
+<<<<<<< HEAD
           "option_4": false,
           "$$hashKey": "uiGrid-0WJZ"
+=======
+          "$$hashKey": "uiGrid-0PKF"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         }
       ],
       "edit": "",
@@ -8025,8 +8162,13 @@
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.24354338252171615,
       "numberOfOptions": 4,
+=======
+      "instanceId": 0.27950121360392477,
+      "numberOfOptions": 3,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "unlockStatus": true,
       "skip": false,
       "showWarningText": false,
@@ -8068,7 +8210,11 @@
           "obj_function_group": 2
         }
       ],
+<<<<<<< HEAD
       "$$hashKey": "object:124843"
+=======
+      "$$hashKey": "object:125872"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
     },
     {
       "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
@@ -8165,8 +8311,12 @@
           },
           "$$hashKey": "uiGrid-0MOM",
           "option_2": "option_2",
+<<<<<<< HEAD
           "option_3": "option_3",
           "option_4": "option_4"
+=======
+          "option_3": "option_3"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "specialRowId": "optionName",
@@ -8189,8 +8339,12 @@
           },
           "$$hashKey": "uiGrid-0MOO",
           "option_2": "low fault heating",
+<<<<<<< HEAD
           "option_3": "high fault heating",
           "option_4": "alt baseline heating"
+=======
+          "option_3": "high fault heating"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "specialRowId": "optionDescription",
@@ -8213,8 +8367,12 @@
           },
           "$$hashKey": "uiGrid-0MOQ",
           "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+<<<<<<< HEAD
           "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data",
           "option_4": "Option 4 Description: Creates Objective Function from Timeseries Data"
+=======
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_name",
@@ -8247,8 +8405,12 @@
           },
           "$$hashKey": "uiGrid-0MOS",
           "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+<<<<<<< HEAD
           "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
           "option_4": "../../../lib/resources/Master_Condenser_Fouling_baseline_alt_0902.csv"
+=======
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_time_header",
@@ -8281,8 +8443,12 @@
           },
           "$$hashKey": "uiGrid-0MOU",
           "option_2": "TIMESTAMP",
+<<<<<<< HEAD
           "option_3": "TIMESTAMP",
           "option_4": "TIMESTAMP"
+=======
+          "option_3": "TIMESTAMP"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_var",
@@ -8315,8 +8481,12 @@
           },
           "$$hashKey": "uiGrid-0MOW",
           "option_2": "Heating_Tot_electric",
+<<<<<<< HEAD
           "option_3": "Heating_Tot_electric",
           "option_4": "Heating_Tot_electric"
+=======
+          "option_3": "Heating_Tot_electric"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "convert_data",
@@ -8369,8 +8539,12 @@
           },
           "$$hashKey": "uiGrid-0MOY",
           "option_2": "WH to J",
+<<<<<<< HEAD
           "option_3": "WH to J",
           "option_4": "WH to J"
+=======
+          "option_3": "WH to J"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_var_dn",
@@ -8403,8 +8577,12 @@
           },
           "$$hashKey": "uiGrid-0MP0",
           "option_2": "Heating_Tot_electric",
+<<<<<<< HEAD
           "option_3": "Heating_Tot_electric",
           "option_4": "Heating_Tot_electric"
+=======
+          "option_3": "Heating_Tot_electric"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "year",
@@ -8437,8 +8615,12 @@
           },
           "$$hashKey": "uiGrid-0MP2",
           "option_2": true,
+<<<<<<< HEAD
           "option_3": true,
           "option_4": true
+=======
+          "option_3": true
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "seconds",
@@ -8471,8 +8653,12 @@
           },
           "$$hashKey": "uiGrid-0MP4",
           "option_2": false,
+<<<<<<< HEAD
           "option_3": false,
           "option_4": false
+=======
+          "option_3": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "key_value",
@@ -8505,8 +8691,12 @@
           },
           "$$hashKey": "uiGrid-0MP6",
           "option_2": "no_key",
+<<<<<<< HEAD
           "option_3": "no_key",
           "option_4": "no_key"
+=======
+          "option_3": "no_key"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "timeseries_name",
@@ -8539,8 +8729,12 @@
           },
           "$$hashKey": "uiGrid-0MP8",
           "option_2": "Heating:Electricity",
+<<<<<<< HEAD
           "option_3": "Heating:Electricity",
           "option_4": "Heating:Electricity"
+=======
+          "option_3": "Heating:Electricity"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "reporting_frequency",
@@ -8595,8 +8789,12 @@
           },
           "$$hashKey": "uiGrid-0MPA",
           "option_2": "Timestep",
+<<<<<<< HEAD
           "option_3": "Timestep",
           "option_4": "Timestep"
+=======
+          "option_3": "Timestep"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "environment_period",
@@ -8629,8 +8827,12 @@
           },
           "$$hashKey": "uiGrid-0MPC",
           "option_2": "custom run period",
+<<<<<<< HEAD
           "option_3": "custom run period",
           "option_4": "custom run period"
+=======
+          "option_3": "custom run period"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "norm",
@@ -8663,8 +8865,12 @@
           },
           "$$hashKey": "uiGrid-0MPE",
           "option_2": 1,
+<<<<<<< HEAD
           "option_3": 1,
           "option_4": 1
+=======
+          "option_3": 1
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "scale",
@@ -8697,8 +8903,12 @@
           },
           "$$hashKey": "uiGrid-0MPG",
           "option_2": 1,
+<<<<<<< HEAD
           "option_3": 1,
           "option_4": 1
+=======
+          "option_3": 1
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "find_avail",
@@ -8731,8 +8941,12 @@
           },
           "$$hashKey": "uiGrid-0MPI",
           "option_2": true,
+<<<<<<< HEAD
           "option_3": true,
           "option_4": true
+=======
+          "option_3": true
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "algorithm_download",
@@ -8765,8 +8979,12 @@
           },
           "$$hashKey": "uiGrid-0MPK",
           "option_2": false,
+<<<<<<< HEAD
           "option_3": false,
           "option_4": false
+=======
+          "option_3": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "plot_flag",
@@ -8799,8 +9017,12 @@
           },
           "$$hashKey": "uiGrid-0MPM",
           "option_2": true,
+<<<<<<< HEAD
           "option_3": true,
           "option_4": true
+=======
+          "option_3": true
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "plot_name",
@@ -8833,8 +9055,12 @@
           },
           "$$hashKey": "uiGrid-0MPO",
           "option_2": "Heating Consumption",
+<<<<<<< HEAD
           "option_3": "Heating Consumption",
           "option_4": "Heating Consumption"
+=======
+          "option_3": "Heating Consumption"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "verbose_messages",
@@ -8867,8 +9093,12 @@
           },
           "$$hashKey": "uiGrid-0MPQ",
           "option_2": false,
+<<<<<<< HEAD
           "option_3": false,
           "option_4": false
+=======
+          "option_3": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "warning_messages",
@@ -8901,8 +9131,12 @@
           },
           "$$hashKey": "uiGrid-0MPS",
           "option_2": true,
+<<<<<<< HEAD
           "option_3": true,
           "option_4": true
+=======
+          "option_3": true
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "add_first_zero_for_plots",
@@ -8935,8 +9169,12 @@
           },
           "$$hashKey": "uiGrid-0MPU",
           "option_2": false,
+<<<<<<< HEAD
           "option_3": false,
           "option_4": false
+=======
+          "option_3": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "add_last_zero_for_plots",
@@ -8969,8 +9207,12 @@
           },
           "$$hashKey": "uiGrid-0MPW",
           "option_2": false,
+<<<<<<< HEAD
           "option_3": false,
           "option_4": false
+=======
+          "option_3": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         }
       ],
       "edit": "",
@@ -9139,6 +9381,7 @@
             {
               "name": "algorithm_download",
               "value": false
+<<<<<<< HEAD
             },
             {
               "name": "plot_flag",
@@ -9194,6 +9437,8 @@
             {
               "name": "year",
               "value": true
+=======
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
             },
             {
               "name": "seconds",
@@ -9256,11 +9501,16 @@
               "value": false
             }
           ],
+<<<<<<< HEAD
           "name": "high fault heating",
           "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+=======
+          "name": "low fault heating",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
-          "id": "option_4",
+          "id": "option_3",
           "arguments": [
             {
               "name": "csv_name",
@@ -9347,12 +9597,21 @@
               "value": false
             }
           ],
+<<<<<<< HEAD
           "name": "alt baseline heating",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
       "instanceId": 0.458269212558605,
       "numberOfOptions": 4,
+=======
+          "name": "high fault heating",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+        }
+      ],
+      "instanceId": 0.6261897552919764,
+      "numberOfOptions": 3,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "unlockStatus": false,
       "skip": false,
       "showWarningText": false,
@@ -9493,8 +9752,12 @@
           },
           "$$hashKey": "uiGrid-0OWX",
           "option_3": "option_3",
+<<<<<<< HEAD
           "option_4": "option_4",
           "option_5": "option_5"
+=======
+          "option_4": "option_4"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "specialRowId": "optionName",
@@ -9517,8 +9780,12 @@
           },
           "$$hashKey": "uiGrid-0OWZ",
           "option_3": "low fault total",
+<<<<<<< HEAD
           "option_4": "high fault total",
           "option_5": "alt baseline total"
+=======
+          "option_4": "high fault total"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "specialRowId": "optionDescription",
@@ -9541,8 +9808,12 @@
           },
           "$$hashKey": "uiGrid-0OX1",
           "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data",
+<<<<<<< HEAD
           "option_4": "Option 4 Description: Creates Objective Function from Timeseries Data",
           "option_5": "Option 5 Description: Creates Objective Function from Timeseries Data"
+=======
+          "option_4": "Option 4 Description: Creates Objective Function from Timeseries Data"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_name",
@@ -9575,8 +9846,12 @@
           },
           "$$hashKey": "uiGrid-0OX3",
           "option_3": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+<<<<<<< HEAD
           "option_4": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
           "option_5": "../../../lib/resources/Master_Condenser_Fouling_baseline_alt_0902.csv"
+=======
+          "option_4": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_time_header",
@@ -9609,8 +9884,12 @@
           },
           "$$hashKey": "uiGrid-0OX5",
           "option_3": "TIMESTAMP",
+<<<<<<< HEAD
           "option_4": "TIMESTAMP",
           "option_5": "TIMESTAMP"
+=======
+          "option_4": "TIMESTAMP"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_var",
@@ -9643,8 +9922,12 @@
           },
           "$$hashKey": "uiGrid-0OX7",
           "option_3": "WH_Total_electric",
+<<<<<<< HEAD
           "option_4": "WH_Total_electric",
           "option_5": "WH_Total_electric"
+=======
+          "option_4": "WH_Total_electric"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "convert_data",
@@ -9697,8 +9980,12 @@
           },
           "$$hashKey": "uiGrid-0OX9",
           "option_3": "WH to J",
+<<<<<<< HEAD
           "option_4": "WH to J",
           "option_5": "WH to J"
+=======
+          "option_4": "WH to J"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_var_dn",
@@ -9731,8 +10018,12 @@
           },
           "$$hashKey": "uiGrid-0OXB",
           "option_3": "WH_Total_electric",
+<<<<<<< HEAD
           "option_4": "WH_Total_electric",
           "option_5": "WH_Total_electric"
+=======
+          "option_4": "WH_Total_electric"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "year",
@@ -9765,8 +10056,12 @@
           },
           "$$hashKey": "uiGrid-0OXD",
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "option_5": true
+=======
+          "option_4": true
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "seconds",
@@ -9799,8 +10094,12 @@
           },
           "$$hashKey": "uiGrid-0OXF",
           "option_3": false,
+<<<<<<< HEAD
           "option_4": false,
           "option_5": false
+=======
+          "option_4": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "key_value",
@@ -9833,8 +10132,12 @@
           },
           "$$hashKey": "uiGrid-0OXH",
           "option_3": "no_key",
+<<<<<<< HEAD
           "option_4": "no_key",
           "option_5": "no_key"
+=======
+          "option_4": "no_key"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "timeseries_name",
@@ -9867,8 +10170,12 @@
           },
           "$$hashKey": "uiGrid-0OXJ",
           "option_3": "Electricity:Facility",
+<<<<<<< HEAD
           "option_4": "Electricity:Facility",
           "option_5": "Electricity:Facility"
+=======
+          "option_4": "Electricity:Facility"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "reporting_frequency",
@@ -9923,8 +10230,12 @@
           },
           "$$hashKey": "uiGrid-0OXL",
           "option_3": "Timestep",
+<<<<<<< HEAD
           "option_4": "Timestep",
           "option_5": "Timestep"
+=======
+          "option_4": "Timestep"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "environment_period",
@@ -9957,8 +10268,12 @@
           },
           "$$hashKey": "uiGrid-0OXN",
           "option_3": "custom run period",
+<<<<<<< HEAD
           "option_4": "custom run period",
           "option_5": "custom run period"
+=======
+          "option_4": "custom run period"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "norm",
@@ -9991,8 +10306,12 @@
           },
           "$$hashKey": "uiGrid-0OXP",
           "option_3": 1,
+<<<<<<< HEAD
           "option_4": 1,
           "option_5": 1
+=======
+          "option_4": 1
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "scale",
@@ -10025,8 +10344,12 @@
           },
           "$$hashKey": "uiGrid-0OXR",
           "option_3": 1,
+<<<<<<< HEAD
           "option_4": 1,
           "option_5": 1
+=======
+          "option_4": 1
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "find_avail",
@@ -10059,8 +10382,12 @@
           },
           "$$hashKey": "uiGrid-0OXT",
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "option_5": true
+=======
+          "option_4": true
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "algorithm_download",
@@ -10093,8 +10420,12 @@
           },
           "$$hashKey": "uiGrid-0OXV",
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "option_5": true
+=======
+          "option_4": true
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "plot_flag",
@@ -10127,8 +10458,12 @@
           },
           "$$hashKey": "uiGrid-0OXX",
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "option_5": true
+=======
+          "option_4": true
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "plot_name",
@@ -10161,8 +10496,12 @@
           },
           "$$hashKey": "uiGrid-0OXZ",
           "option_3": "Total Consumption",
+<<<<<<< HEAD
           "option_4": "Total Consumption",
           "option_5": "Total Consumption"
+=======
+          "option_4": "Total Consumption"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "verbose_messages",
@@ -10195,8 +10534,12 @@
           },
           "$$hashKey": "uiGrid-0OY1",
           "option_3": false,
+<<<<<<< HEAD
           "option_4": false,
           "option_5": false
+=======
+          "option_4": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "warning_messages",
@@ -10229,8 +10572,12 @@
           },
           "$$hashKey": "uiGrid-0OY3",
           "option_3": true,
+<<<<<<< HEAD
           "option_4": true,
           "option_5": true
+=======
+          "option_4": true
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "add_first_zero_for_plots",
@@ -10263,8 +10610,12 @@
           },
           "$$hashKey": "uiGrid-0OY5",
           "option_3": false,
+<<<<<<< HEAD
           "option_4": false,
           "option_5": false
+=======
+          "option_4": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "add_last_zero_for_plots",
@@ -10297,8 +10648,12 @@
           },
           "$$hashKey": "uiGrid-0OY7",
           "option_3": false,
+<<<<<<< HEAD
           "option_4": false,
           "option_5": false
+=======
+          "option_4": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         }
       ],
       "edit": "",
@@ -10558,6 +10913,7 @@
             {
               "name": "algorithm_download",
               "value": true
+<<<<<<< HEAD
             },
             {
               "name": "plot_flag",
@@ -10617,6 +10973,8 @@
             {
               "name": "seconds",
               "value": false
+=======
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
             },
             {
               "name": "key_value",
@@ -10675,12 +11033,21 @@
               "value": false
             }
           ],
+<<<<<<< HEAD
           "name": "alt baseline total",
           "description": "Option 5 Description: Creates Objective Function from Timeseries Data"
         }
       ],
       "instanceId": 0.7249338062245025,
       "numberOfOptions": 4,
+=======
+          "name": "high fault total",
+          "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
+        }
+      ],
+      "instanceId": 0.10691645748566891,
+      "numberOfOptions": 3,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "unlockStatus": false,
       "skip": false,
       "showWarningText": false,
@@ -10845,8 +11212,12 @@
           },
           "$$hashKey": "uiGrid-0R7D",
           "option_2": "low fault lighting",
+<<<<<<< HEAD
           "option_3": "high fault lighting",
           "option_4": "alt baseline lighting"
+=======
+          "option_3": "high fault lighting"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "specialRowId": "optionDescription",
@@ -10971,8 +11342,12 @@
           },
           "$$hashKey": "uiGrid-0R7L",
           "option_2": "Lights_Tot",
+<<<<<<< HEAD
           "option_3": "Lights_Tot",
           "option_4": "Lights_Tot"
+=======
+          "option_3": "Lights_Tot"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "convert_data",
@@ -11059,8 +11434,12 @@
           },
           "$$hashKey": "uiGrid-0R7P",
           "option_2": "Lights_Tot",
+<<<<<<< HEAD
           "option_3": "Lights_Tot",
           "option_4": "Lights_Tot"
+=======
+          "option_3": "Lights_Tot"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "year",
@@ -11195,8 +11574,12 @@
           },
           "$$hashKey": "uiGrid-0R7X",
           "option_2": "InteriorLights:Electricity",
+<<<<<<< HEAD
           "option_3": "InteriorLights:Electricity",
           "option_4": "InteriorLights:Electricity"
+=======
+          "option_3": "InteriorLights:Electricity"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "reporting_frequency",
@@ -11421,8 +11804,12 @@
           },
           "$$hashKey": "uiGrid-0R89",
           "option_2": false,
+<<<<<<< HEAD
           "option_3": false,
           "option_4": false
+=======
+          "option_3": false
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "plot_flag",
@@ -11489,8 +11876,12 @@
           },
           "$$hashKey": "uiGrid-0R8D",
           "option_2": "Lighting Consumption",
+<<<<<<< HEAD
           "option_3": "Lighting Consumption",
           "option_4": "Lighting Consumption"
+=======
+          "option_3": "Lighting Consumption"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "verbose_messages",
@@ -12007,8 +12398,13 @@
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.04078803433103273,
       "numberOfOptions": 4,
+=======
+      "instanceId": 0.3404513748308451,
+      "numberOfOptions": 3,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "unlockStatus": true,
       "skip": false,
       "showWarningText": false,
@@ -12173,8 +12569,12 @@
           },
           "$$hashKey": "uiGrid-0TJU",
           "option_2": "low fault equip",
+<<<<<<< HEAD
           "option_3": "high fault equip",
           "option_4": "alt baseline equip"
+=======
+          "option_3": "high fault equip"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "specialRowId": "optionDescription",
@@ -12299,8 +12699,12 @@
           },
           "$$hashKey": "uiGrid-0TK2",
           "option_2": "Plugloads_Tot",
+<<<<<<< HEAD
           "option_3": "Plugloads_Tot",
           "option_4": "Plugloads_Tot"
+=======
+          "option_3": "Plugloads_Tot"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "convert_data",
@@ -12387,8 +12791,12 @@
           },
           "$$hashKey": "uiGrid-0TK6",
           "option_2": "Plugloads_Tot",
+<<<<<<< HEAD
           "option_3": "Plugloads_Tot",
           "option_4": "Plugloads_Tot"
+=======
+          "option_3": "Plugloads_Tot"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "year",
@@ -12489,8 +12897,12 @@
           },
           "$$hashKey": "uiGrid-0TKC",
           "option_2": "no_key",
+<<<<<<< HEAD
           "option_3": "no_key",
           "option_4": "no_key"
+=======
+          "option_3": "no_key"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "timeseries_name",
@@ -12523,8 +12935,12 @@
           },
           "$$hashKey": "uiGrid-0TKE",
           "option_2": "InteriorEquipment:Electricity",
+<<<<<<< HEAD
           "option_3": "InteriorEquipment:Electricity",
           "option_4": "InteriorEquipment:Electricity"
+=======
+          "option_3": "InteriorEquipment:Electricity"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "reporting_frequency",
@@ -12817,8 +13233,12 @@
           },
           "$$hashKey": "uiGrid-0TKU",
           "option_2": "Equipment Consumption",
+<<<<<<< HEAD
           "option_3": "Equipment Consumption",
           "option_4": "Equipment Consumption"
+=======
+          "option_3": "Equipment Consumption"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "verbose_messages",
@@ -13335,8 +13755,13 @@
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
+<<<<<<< HEAD
       "instanceId": 0.21500623965648202,
       "numberOfOptions": 4,
+=======
+      "instanceId": 0.33219767688139834,
+      "numberOfOptions": 3,
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
       "unlockStatus": false,
       "skip": false,
       "showWarningText": false,
@@ -13501,8 +13926,12 @@
           },
           "$$hashKey": "uiGrid-1DEK",
           "option_2": "low fault fan",
+<<<<<<< HEAD
           "option_3": "high fault fan",
           "option_4": "alt baseline fan"
+=======
+          "option_3": "high fault fan"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "specialRowId": "optionDescription",
@@ -13627,8 +14056,12 @@
           },
           "$$hashKey": "uiGrid-1DES",
           "option_2": "WH_RTU_EvapFan_Tot",
+<<<<<<< HEAD
           "option_3": "WH_RTU_EvapFan_Tot",
           "option_4": "WH_RTU_EvapFan_Tot"
+=======
+          "option_3": "WH_RTU_EvapFan_Tot"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "convert_data",
@@ -13681,8 +14114,12 @@
           },
           "$$hashKey": "uiGrid-1DEU",
           "option_2": "WH to J",
+<<<<<<< HEAD
           "option_3": "WH to J",
           "option_4": "WH to J"
+=======
+          "option_3": "WH to J"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "csv_var_dn",
@@ -13715,8 +14152,12 @@
           },
           "$$hashKey": "uiGrid-1DEW",
           "option_2": "WH_RTU_EvapFan_Tot",
+<<<<<<< HEAD
           "option_3": "WH_RTU_EvapFan_Tot",
           "option_4": "WH_RTU_EvapFan_Tot"
+=======
+          "option_3": "WH_RTU_EvapFan_Tot"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "year",
@@ -13817,8 +14258,12 @@
           },
           "$$hashKey": "uiGrid-1DF2",
           "option_2": "ROOFTOP SUPPLY FAN",
+<<<<<<< HEAD
           "option_3": "ROOFTOP SUPPLY FAN",
           "option_4": "ROOFTOP SUPPLY FAN"
+=======
+          "option_3": "ROOFTOP SUPPLY FAN"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "timeseries_name",
@@ -13851,8 +14296,12 @@
           },
           "$$hashKey": "uiGrid-1DF4",
           "option_2": "Fan Electric Energy",
+<<<<<<< HEAD
           "option_3": "Fan Electric Energy",
           "option_4": "Fan Electric Energy"
+=======
+          "option_3": "Fan Electric Energy"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "reporting_frequency",
@@ -14145,8 +14594,12 @@
           },
           "$$hashKey": "uiGrid-1DFK",
           "option_2": "Fan Consumption",
+<<<<<<< HEAD
           "option_3": "Fan Consumption",
           "option_4": "Fan Consumption"
+=======
+          "option_3": "Fan Consumption"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
           "name": "verbose_messages",
@@ -14290,7 +14743,7 @@
       "bcl_update": false,
       "location": "my",
       "add": "",
-      "open": false,
+      "open": true,
       "addedToProject": true,
       "date": "3/22/2018",
       "author": "",
@@ -14403,6 +14856,8 @@
             {
               "name": "csv_var",
               "value": "WH_RTU_EvapFan_Tot"
+<<<<<<< HEAD
+=======
             },
             {
               "name": "convert_data",
@@ -14494,6 +14949,7 @@
             {
               "name": "csv_var",
               "value": "WH_RTU_EvapFan_Tot"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
             },
             {
               "name": "convert_data",
@@ -14568,6 +15024,100 @@
               "value": false
             }
           ],
+<<<<<<< HEAD
+          "name": "low fault fan",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "WH_RTU_EvapFan_Tot"
+            },
+            {
+              "name": "convert_data",
+              "value": "WH to J"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "WH_RTU_EvapFan_Tot"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "ROOFTOP SUPPLY FAN"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Fan Electric Energy"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Fan Consumption"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+=======
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
           "name": "high fault fan",
           "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
@@ -21924,6 +22474,7 @@
           "$$hashKey": "object:137742"
         }
       ],
+<<<<<<< HEAD
       "result_files": [
         {
           "_id": {
@@ -26957,16 +27508,299 @@
         {
           "name": "low fault lighting",
           "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+=======
+      "instanceId": 0.5205330317862324,
+      "numberOfOptions": 3,
+      "unlockStatus": false,
+      "skip": false,
+      "showWarningText": false,
+      "outputMeasure": true,
+      "userDefinedOutputs": [],
+      "analysisOutputs": [
+        {
+          "name": "cvrmse",
+          "display_name": "cvrmse_fan",
+          "short_name": "cvrmse_fan",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false,
+          "checked": true,
+          "visualize": "true",
+          "objective_function": "true",
+          "measure_name": "fan_consumption",
+          "measure_class_name": "TimeseriesObjectiveFunction",
+          "measure_uid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "target_value": "0",
+          "weighting_factor": 1,
+          "obj_function_group": 1,
+          "$$hashKey": "uiGrid-0QA5"
         },
         {
-          "name": "low fault equip",
-          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+          "name": "nmbe",
+          "display_name": "nmbe_fan",
+          "short_name": "nmbe_fan",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false,
+          "checked": true,
+          "visualize": "true",
+          "objective_function": "true",
+          "measure_name": "fan_consumption",
+          "measure_class_name": "TimeseriesObjectiveFunction",
+          "measure_uid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "target_value": "0",
+          "weighting_factor": 3,
+          "obj_function_group": 2,
+          "$$hashKey": "uiGrid-0QA7"
+        }
+      ],
+      "$$hashKey": "object:167604"
+    },
+    {
+      "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
+      "name": "fan_consumption_2",
+      "directory": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
+      "uid": "6804217d-4737-45f3-82df-b81393c29ce3",
+      "uuid": "{6804217d-4737-45f3-82df-b81393c29ce3}",
+      "version_id": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+      "version_uuid": "{9fab7d8a-00fc-413d-b37f-2377ad1771b9}",
+      "version_modified": "20180322T191111Z",
+      "xml_checksum": "FFE04372",
+      "display_name": "Fan Airflow Standard Volume",
+      "class_name": "TimeseriesObjectiveFunction",
+      "description": "Creates Objective Function from Timeseries Data",
+      "modeler_description": "Creates Objective Function from Timeseries Data.  The measure applies a Norm at each timestep between the difference of CSV metered data and SQL model data. A timeseries plot can also be created.  Possible outputs are 'cvrmse', 'nmbe', 'simdata' = sum of the simulated data, 'csvdata' = sum of metered data, 'diff' = P Norm between the metered and simulated data if Norm is 1 or 2, else its just the Difference.",
+      "tags": "Reporting.QAQC",
+      "outputs": [
+        {
+          "name": "diff",
+          "display_name": "diff",
+          "short_name": "diff",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
         },
         {
-          "name": "low fault fan",
-          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+          "name": "simdata",
+          "display_name": "simdata",
+          "short_name": "simdata",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
         },
         {
+          "name": "csvdata",
+          "display_name": "csvdata",
+          "short_name": "csvdata",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "cvrmse",
+          "display_name": "cvrmse",
+          "short_name": "cvrmse",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "nmbe",
+          "display_name": "nmbe",
+          "short_name": "nmbe",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        }
+      ],
+      "attributes": [
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "OpenStudio Application"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Parametric Analysis Tool"
+        },
+        {
+          "name": "Measure Type",
+          "display_name": "Measure Type",
+          "value": "ReportingMeasure"
+        }
+      ],
+      "arguments": [
+        {
+          "specialRowId": "optionDelete",
+          "variable": false,
+          "option_1": "option_1",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": null,
+            "minimum": null,
+            "mean": null,
+            "deltaX": null,
+            "stdDev": null,
+            "default_value": null,
+            "showWarningIcon": false
+          },
+          "option_2": "option_2",
+          "option_3": "option_3",
+          "$$hashKey": "uiGrid-0XNF"
+        },
+        {
+          "specialRowId": "optionName",
+          "type": "String",
+          "variable": false,
+          "option_1": "Fan Consumption",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "",
+            "showWarningIcon": false
+          },
+          "option_2": "low fault fan",
+          "option_3": "high fault fan",
+          "$$hashKey": "uiGrid-0XNH"
+        },
+        {
+          "specialRowId": "optionDescription",
+          "type": "String",
+          "variable": false,
+          "option_1": "Option 1 Description: Creates Objective Function from Timeseries Data",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "",
+            "showWarningIcon": false
+          },
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data",
+          "$$hashKey": "uiGrid-0XNJ"
+        },
+        {
+          "name": "csv_name",
+          "display_name": "Path to CSV file for the metered data",
+          "description": "Path to CSV file including file name.",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "../../../lib/resources/mtr.csv",
+          "variable": true,
+          "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+          "units": "",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+          "mode": null,
+          "display_name_short": "csv_name",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "../../../lib/resources/mtr.csv",
+            "minimum": "../../../lib/resources/mtr.csv",
+            "mean": "../../../lib/resources/mtr.csv",
+            "deltaX": "../../../lib/resources/mtr.csv",
+            "stdDev": "../../../lib/resources/mtr.csv",
+            "default_value": "../../../lib/resources/FRP2_HVAC_15m_NREL_adj_rtu_fan_st_12am days removed.csv",
+            "showWarningIcon": false
+          },
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv",
+          "$$hashKey": "uiGrid-0XNL"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
+        },
+        {
+          "name": "csv_time_header",
+          "display_name": "CSV Time Header",
+          "description": "CSV Time Header Value. Used to determine the timestamp column in the CSV file",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "Date/Time",
+          "variable": false,
+          "option_1": "TIMESTAMP",
+          "units": "",
+          "minimum": "TIMESTAMP",
+          "maximum": "TIMESTAMP",
+          "mode": null,
+          "display_name_short": "csv_time_header",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "Date/Time",
+            "minimum": "Date/Time",
+            "mean": "Date/Time",
+            "deltaX": "Date/Time",
+            "stdDev": "Date/Time",
+            "default_value": "TIMESTAMP",
+            "showWarningIcon": false
+          },
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP",
+          "$$hashKey": "uiGrid-0XNN"
+        },
+        {
+          "name": "csv_var",
+          "display_name": "CSV variable name",
+          "description": "CSV variable name. Used to determine the variable column in the CSV file",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+          "variable": false,
+          "option_1": "AirSCFM_RTU_Tot_Avg",
+          "units": "",
+          "minimum": "WH_RTU_EvapFan_Tot",
+          "maximum": "WH_RTU_EvapFan_Tot",
+          "mode": null,
+          "display_name_short": "csv_var",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "minimum": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "mean": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "deltaX": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "stdDev": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "default_value": "WH_RTU_EvapFan_Tot",
+            "showWarningIcon": false
+          },
+          "option_2": "AirSCFM_RTU_Tot_Avg",
+          "option_3": "AirSCFM_RTU_Tot_Avg",
+          "$$hashKey": "uiGrid-0XNP"
+        },
+        {
+<<<<<<< HEAD
           "name": "low fault fan",
           "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
         },
@@ -27109,9 +27943,57 @@
                 "name": "csv_name",
                 "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
               }
+=======
+          "name": "convert_data",
+          "display_name": "Convert Units",
+          "description": "Convert Units in Metered Data",
+          "type": "Choice",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "None",
+          "choice_values": [
+            "F to C",
+            "WH to J",
+            "CFM to m3/s",
+            "PSI to Pa",
+            "None"
+          ],
+          "choice_display_names": [
+            "F to C",
+            "WH to J",
+            "CFM to m3/s",
+            "PSI to Pa",
+            "None"
+          ],
+          "variable": false,
+          "option_1": "CFM to m3/s",
+          "units": "",
+          "minimum": "WH to J",
+          "maximum": "WH to J",
+          "mode": null,
+          "display_name_short": "convert_data",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [
+              "F to C",
+              "WH to J",
+              "CFM to m3/s",
+              "PSI to Pa",
+              "None"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
             ],
-            "step_warnings": []
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "None",
+            "minimum": "None",
+            "mean": "None",
+            "deltaX": "None",
+            "stdDev": "None",
+            "default_value": "WH to J",
+            "showWarningIcon": false
           },
+<<<<<<< HEAD
           "$$hashKey": "object:143168"
         },
         {
@@ -35964,9 +36846,229 @@
                 "units": "",
                 "value": 0.02715124678552579
               }
-            ],
-            "step_warnings": []
+=======
+          "option_2": "CFM to m3/s",
+          "option_3": "CFM to m3/s",
+          "$$hashKey": "uiGrid-0XNR"
+        },
+        {
+          "name": "csv_var_dn",
+          "display_name": "CSV variable display name",
+          "description": "CSV variable display name. Not yet Implemented",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "",
+          "variable": false,
+          "option_1": "AirSCFM_RTU_Tot_Avg",
+          "units": "",
+          "minimum": "WH_RTU_EvapFan_Tot",
+          "maximum": "WH_RTU_EvapFan_Tot",
+          "mode": null,
+          "display_name_short": "csv_var_dn",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "WH_RTU_EvapFan_Tot",
+            "showWarningIcon": false
           },
+          "option_2": "AirSCFM_RTU_Tot_Avg",
+          "option_3": "AirSCFM_RTU_Tot_Avg",
+          "$$hashKey": "uiGrid-0XNT"
+        },
+        {
+          "name": "year",
+          "display_name": "Year in csv data timestamp",
+          "description": "Is the Year in the csv data timestamp => mm:dd:yy or mm:dd (true/false)",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": true,
+          "maximum": true,
+          "mode": 1,
+          "display_name_short": "year",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": true,
+            "showWarningIcon": false
+          },
+          "option_2": true,
+          "option_3": true,
+          "$$hashKey": "uiGrid-0XNV"
+        },
+        {
+          "name": "seconds",
+          "display_name": "Seconds in csv data timestamp",
+          "description": "Is the Seconds in the csv data timestamp => hh:mm:ss or hh:mm (true/false)",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": false,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "seconds",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "option_2": false,
+          "option_3": false,
+          "$$hashKey": "uiGrid-0XNX"
+        },
+        {
+          "name": "key_value",
+          "display_name": "SQL key value",
+          "description": "SQL key value for the SQL query to find the variable in the SQL file",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "",
+          "variable": false,
+          "option_1": "RoofTop Supply Fan Outlet",
+          "units": "",
+          "minimum": "ROOFTOP SUPPLY FAN",
+          "maximum": "ROOFTOP SUPPLY FAN",
+          "mode": null,
+          "display_name_short": "key_value",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "ROOFTOP SUPPLY FAN",
+            "showWarningIcon": false
+          },
+          "option_2": "RoofTop Supply Fan Outlet",
+          "option_3": "RoofTop Supply Fan Outlet",
+          "$$hashKey": "uiGrid-0XNZ"
+        },
+        {
+          "name": "timeseries_name",
+          "display_name": "TimeSeries Name",
+          "description": "TimeSeries Name for the SQL query to find the variable in the SQL file",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "Facility Total Electric Demand Power",
+          "variable": false,
+          "option_1": "System Node Standard Density Volume Flow Rate",
+          "units": "",
+          "minimum": "Fan Electric Energy",
+          "maximum": "Fan Electric Energy",
+          "mode": null,
+          "display_name_short": "timeseries_name",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "Facility Total Electric Demand Power",
+            "minimum": "Facility Total Electric Demand Power",
+            "mean": "Facility Total Electric Demand Power",
+            "deltaX": "Facility Total Electric Demand Power",
+            "stdDev": "Facility Total Electric Demand Power",
+            "default_value": "Fan Electric Energy",
+            "showWarningIcon": false
+          },
+          "option_2": "System Node Standard Density Volume Flow Rate",
+          "option_3": "System Node Standard Density Volume Flow Rate",
+          "$$hashKey": "uiGrid-0XO1"
+        },
+        {
+          "name": "reporting_frequency",
+          "display_name": "Reporting Frequency",
+          "description": "Reporting Frequency for SQL Query",
+          "type": "Choice",
+          "required": true,
+          "model_dependent": false,
+          "choice_values": [
+            "Detailed",
+            "Timestep",
+            "Hourly",
+            "Daily",
+            "Monthly",
+            "RunPeriod"
+          ],
+          "choice_display_names": [
+            "Detailed",
+            "Timestep",
+            "Hourly",
+            "Daily",
+            "Monthly",
+            "RunPeriod"
+          ],
+          "variable": false,
+          "option_1": "Timestep",
+          "units": "",
+          "minimum": "Timestep",
+          "maximum": "Timestep",
+          "mode": null,
+          "display_name_short": "reporting_frequency",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [
+              "Detailed",
+              "Timestep",
+              "Hourly",
+              "Daily",
+              "Monthly",
+              "RunPeriod"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
+            ],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "Detailed",
+            "minimum": "Detailed",
+            "mean": "Detailed",
+            "deltaX": "Detailed",
+            "stdDev": "Detailed",
+            "default_value": "Timestep",
+            "showWarningIcon": false
+          },
+<<<<<<< HEAD
           "$$hashKey": "object:145905"
         }
       ],
@@ -36281,28 +37383,179 @@
         {
           "name": "Change Start Day of Week",
           "description": "Option 1 Description: This is addressing issue with forward translation of OpenStudio Schedule Rulesets to Schedule Week in EnergyPlus. The start day of week for this logic appears to  apply that day of week to January 1st, however when the simulation is runEnergyPlus uses that as the day of the week for the RunPeriod, which for example may be July 25th, not January first. If I just change the start date."
+=======
+          "option_2": "Timestep",
+          "option_3": "Timestep",
+          "$$hashKey": "uiGrid-0XO3"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
-          "name": "duct leakage",
-          "description": "Option 1 Description: Simulate supply air duct leakage from VAV into Return Plenum."
+          "name": "environment_period",
+          "display_name": "Environment Period",
+          "description": "Environment Period for SQL query",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "RUN PERIOD 1",
+          "variable": false,
+          "option_1": "custom run period",
+          "units": "",
+          "minimum": "Run Period 1",
+          "maximum": "Run Period 1",
+          "mode": null,
+          "display_name_short": "environment_period",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "RUN PERIOD 1",
+            "minimum": "RUN PERIOD 1",
+            "mean": "RUN PERIOD 1",
+            "deltaX": "RUN PERIOD 1",
+            "stdDev": "RUN PERIOD 1",
+            "default_value": "Run Period 1",
+            "showWarningIcon": false
+          },
+          "option_2": "custom run period",
+          "option_3": "custom run period",
+          "$$hashKey": "uiGrid-0XO5"
         },
         {
-          "name": "low fault 28 percent",
-          "description": "Option 1 Description: Condenser fouling occurs when litter, dirt, or dust accumulates on or between the fins of a condenser of an air conditioner located in the outdoor environment. The blockage reduces the airflow across the condenser and increases the condensing temperature in the refrigerant circuit. The elevated temperature increases the pressure difference across the compressor and reduces the equipment efficiency. This measure simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of reduction in condenser coil airflow at full load."
+          "name": "norm",
+          "display_name": "Norm of the difference of csv and sql",
+          "description": "Norm of the difference of csv and sql. 1 is absolute value. 2 is euclidean distance. 3 is raw difference.",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 1,
+          "variable": false,
+          "option_1": 1,
+          "units": "",
+          "minimum": 1,
+          "maximum": 1,
+          "mode": 1,
+          "display_name_short": "norm",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": 1,
+            "minimum": 1,
+            "mean": 1,
+            "deltaX": 1,
+            "stdDev": 1,
+            "default_value": 1,
+            "showWarningIcon": false
+          },
+          "option_2": 1,
+          "option_3": 1,
+          "$$hashKey": "uiGrid-0XO7"
         },
         {
-          "name": "OpenStudio Results",
-          "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
+          "name": "scale",
+          "display_name": "Scale factor to apply to the difference",
+          "description": "Scale factor to apply to the difference (1 is no scale)",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 1,
+          "variable": false,
+          "option_1": 1,
+          "units": "",
+          "minimum": 1,
+          "maximum": 1,
+          "mode": 1,
+          "display_name_short": "scale",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": 1,
+            "minimum": 1,
+            "mean": 1,
+            "deltaX": 1,
+            "stdDev": 1,
+            "default_value": 1,
+            "showWarningIcon": false
+          },
+          "option_2": 1,
+          "option_3": 1,
+          "$$hashKey": "uiGrid-0XO9"
         },
         {
-          "name": "low fault RTU exit",
-          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+          "name": "find_avail",
+          "display_name": "Find Available data in the SQL file",
+          "description": "Will RegisterInfo all the 'EnvPeriod', 'ReportingFrequencies', 'VariableNames', 'KeyValues' in the SQL file.  Useful for debugging SQL issues.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": true,
+          "maximum": true,
+          "mode": 1,
+          "display_name_short": "find_avail",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": true,
+            "showWarningIcon": false
+          },
+          "option_2": true,
+          "option_3": true,
+          "$$hashKey": "uiGrid-0XOB"
         },
         {
-          "name": "low fault RTU enter",
-          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+          "name": "algorithm_download",
+          "display_name": "algorithm_download",
+          "description": "Make JSON data available for algorithm_download (true/false)",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": false,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "algorithm_download",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": false,
+            "minimum": false,
+            "mean": false,
+            "deltaX": false,
+            "stdDev": false,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "option_2": true,
+          "option_3": true,
+          "$$hashKey": "uiGrid-0XOD"
         },
         {
+<<<<<<< HEAD
           "name": "low fault cooling consumption",
           "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
         },
@@ -36325,12 +37578,75 @@
         {
           "name": "low fault equip",
           "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+=======
+          "name": "plot_flag",
+          "display_name": "plot_flag timeseries data",
+          "description": "Create plot of timeseries data (true/false)",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": true,
+          "maximum": true,
+          "mode": 1,
+          "display_name_short": "plot_flag",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": true,
+            "showWarningIcon": false
+          },
+          "option_2": true,
+          "option_3": true,
+          "$$hashKey": "uiGrid-0XOF"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
         },
         {
-          "name": "low fault fan",
-          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+          "name": "plot_name",
+          "display_name": "Plot name",
+          "description": "Name to include in reporting file name.",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "",
+          "variable": false,
+          "option_1": "Fan Airflow Standard Volume",
+          "units": "",
+          "minimum": "Fan Consumption",
+          "maximum": "Fan Consumption",
+          "mode": null,
+          "display_name_short": "plot_name",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "Fan Consumption",
+            "showWarningIcon": false
+          },
+          "option_2": "Fan Airflow Standard Volume",
+          "option_3": "Fan Airflow Standard Volume",
+          "$$hashKey": "uiGrid-0XOH"
         },
         {
+<<<<<<< HEAD
           "name": "low fault fan",
           "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
         },
@@ -45892,11 +47208,1864 @@
           "updated_at": "2018-05-11T14:56:17.413Z",
           "$$hashKey": "object:151405",
           "downloaded": true
+=======
+          "name": "verbose_messages",
+          "display_name": "verbose_messages",
+          "description": "verbose messages.  Useful for debugging but MAJOR Performance Hit.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": false,
+          "variable": false,
+          "option_1": false,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "verbose_messages",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": false,
+            "minimum": false,
+            "mean": false,
+            "deltaX": false,
+            "stdDev": false,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "option_2": false,
+          "option_3": false,
+          "$$hashKey": "uiGrid-0XOJ"
+        },
+        {
+          "name": "warning_messages",
+          "display_name": "warning_messages",
+          "description": "Warn on missing data.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": true,
+          "maximum": true,
+          "mode": 1,
+          "display_name_short": "warning_messages",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": true,
+            "showWarningIcon": false
+          },
+          "option_2": true,
+          "option_3": true,
+          "$$hashKey": "uiGrid-0XOL"
+        },
+        {
+          "name": "add_first_zero_for_plots",
+          "display_name": "add_first_zero_for_plots",
+          "description": "Add a point of zero value to the plot at the beginning of the runperiod.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": false,
+          "variable": false,
+          "option_1": false,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "add_first_zero_for_plots",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": false,
+            "minimum": false,
+            "mean": false,
+            "deltaX": false,
+            "stdDev": false,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "option_2": false,
+          "option_3": false,
+          "$$hashKey": "uiGrid-0XON"
+        },
+        {
+          "name": "add_last_zero_for_plots",
+          "display_name": "add_last_zero_for_plots",
+          "description": "Add a point of zero value to the plot at the end of the runperiod.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": false,
+          "variable": false,
+          "option_1": false,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "add_last_zero_for_plots",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": false,
+            "minimum": false,
+            "mean": false,
+            "deltaX": false,
+            "stdDev": false,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "option_2": false,
+          "option_3": false,
+          "$$hashKey": "uiGrid-0XOP"
         }
       ],
-      "downloaded_reports": true,
-      "downloaded_osm": true,
-      "downloaded_results": true
+      "edit": "",
+      "status": "",
+      "bcl_update": false,
+      "location": "my",
+      "add": "",
+      "open": true,
+      "addedToProject": true,
+      "date": "3/22/2018",
+      "author": "",
+      "type": "ReportingMeasure",
+      "seed": "frp_baseline_experiment_specific_controls.osm",
+      "workflow_index": 15,
+      "options": [
+        {
+          "id": "option_1",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "AirSCFM_RTU_Tot_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "CFM to m3/s"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "AirSCFM_RTU_Tot_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "RoofTop Supply Fan Outlet"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "System Node Standard Density Volume Flow Rate"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Fan Airflow Standard Volume"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "Fan Consumption",
+          "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "AirSCFM_RTU_Tot_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "CFM to m3/s"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "AirSCFM_RTU_Tot_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "RoofTop Supply Fan Outlet"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "System Node Standard Density Volume Flow Rate"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Fan Airflow Standard Volume"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault fan",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "AirSCFM_RTU_Tot_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "CFM to m3/s"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "AirSCFM_RTU_Tot_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "RoofTop Supply Fan Outlet"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "System Node Standard Density Volume Flow Rate"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Fan Airflow Standard Volume"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault fan",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+        }
+      ],
+      "instanceId": 0.320156086967327,
+      "numberOfOptions": 3,
+      "unlockStatus": true,
+      "skip": false,
+      "showWarningText": false,
+      "outputMeasure": true,
+      "userDefinedOutputs": [],
+      "analysisOutputs": [
+        {
+          "name": "cvrmse",
+          "display_name": "cvrmse_fan",
+          "short_name": "cvrmse_fan",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false,
+          "checked": true,
+          "visualize": "true",
+          "objective_function": "true",
+          "measure_name": "fan_consumption",
+          "measure_class_name": "TimeseriesObjectiveFunction",
+          "measure_uid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "target_value": "0",
+          "weighting_factor": 1,
+          "obj_function_group": 1
+        },
+        {
+          "name": "nmbe",
+          "display_name": "nmbe_fan",
+          "short_name": "nmbe_fan",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false,
+          "checked": true,
+          "visualize": "true",
+          "objective_function": "true",
+          "measure_name": "fan_consumption",
+          "measure_class_name": "TimeseriesObjectiveFunction",
+          "measure_uid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "target_value": "0",
+          "weighting_factor": 3,
+          "obj_function_group": 2
+        }
+      ],
+      "$$hashKey": "object:150279"
+    },
+    {
+      "measure_dir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
+      "name": "outdoor_air_temp",
+      "directory": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling/measures/TimeseriesObjectiveFunction",
+      "uid": "6804217d-4737-45f3-82df-b81393c29ce3",
+      "uuid": "{6804217d-4737-45f3-82df-b81393c29ce3}",
+      "version_id": "9fab7d8a-00fc-413d-b37f-2377ad1771b9",
+      "version_uuid": "{9fab7d8a-00fc-413d-b37f-2377ad1771b9}",
+      "version_modified": "20180322T191111Z",
+      "xml_checksum": "FFE04372",
+      "display_name": "Outdoor Temperature",
+      "class_name": "TimeseriesObjectiveFunction",
+      "description": "Creates Objective Function from Timeseries Data",
+      "modeler_description": "Creates Objective Function from Timeseries Data.  The measure applies a Norm at each timestep between the difference of CSV metered data and SQL model data. A timeseries plot can also be created.  Possible outputs are 'cvrmse', 'nmbe', 'simdata' = sum of the simulated data, 'csvdata' = sum of metered data, 'diff' = P Norm between the metered and simulated data if Norm is 1 or 2, else its just the Difference.",
+      "tags": "Reporting.QAQC",
+      "outputs": [
+        {
+          "name": "diff",
+          "display_name": "diff",
+          "short_name": "diff",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "simdata",
+          "display_name": "simdata",
+          "short_name": "simdata",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "csvdata",
+          "display_name": "csvdata",
+          "short_name": "csvdata",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "cvrmse",
+          "display_name": "cvrmse",
+          "short_name": "cvrmse",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        },
+        {
+          "name": "nmbe",
+          "display_name": "nmbe",
+          "short_name": "nmbe",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false
+        }
+      ],
+      "attributes": [
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "OpenStudio Application"
+        },
+        {
+          "name": "Intended Software Tool",
+          "display_name": "Intended Software Tool",
+          "value": "Parametric Analysis Tool"
+        },
+        {
+          "name": "Measure Type",
+          "display_name": "Measure Type",
+          "value": "ReportingMeasure"
+>>>>>>> 65693ad1e88ed4b54a7d9b30e8b7fe59e228a068
+        }
+      ],
+      "arguments": [
+        {
+          "specialRowId": "optionDelete",
+          "variable": false,
+          "option_1": "option_1",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": null,
+            "minimum": null,
+            "mean": null,
+            "deltaX": null,
+            "stdDev": null,
+            "default_value": null,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W0Z",
+          "option_2": "option_2",
+          "option_3": "option_3"
+        },
+        {
+          "specialRowId": "optionName",
+          "type": "String",
+          "variable": false,
+          "option_1": "Outdoor Air Temperature",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W11",
+          "option_2": "low fault OA",
+          "option_3": "high fault OA"
+        },
+        {
+          "specialRowId": "optionDescription",
+          "type": "String",
+          "variable": false,
+          "option_1": "Option 1 Description: Creates Objective Function from Timeseries Data",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W13",
+          "option_2": "Option 2 Description: Creates Objective Function from Timeseries Data",
+          "option_3": "Option 3 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "name": "csv_name",
+          "display_name": "Path to CSV file for the metered data",
+          "description": "Path to CSV file including file name.",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "../../../lib/resources/mtr.csv",
+          "variable": true,
+          "option_1": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+          "units": "",
+          "minimum": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "maximum": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv",
+          "mode": null,
+          "display_name_short": "csv_name",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "../../../lib/resources/mtr.csv",
+            "minimum": "../../../lib/resources/mtr.csv",
+            "mean": "../../../lib/resources/mtr.csv",
+            "deltaX": "../../../lib/resources/mtr.csv",
+            "stdDev": "../../../lib/resources/mtr.csv",
+            "default_value": "../../../lib/resources/NoRTU_NREL_st_12am.csv",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W15",
+          "option_2": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv",
+          "option_3": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+        },
+        {
+          "name": "csv_time_header",
+          "display_name": "CSV Time Header",
+          "description": "CSV Time Header Value. Used to determine the timestamp column in the CSV file",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "Date/Time",
+          "variable": false,
+          "option_1": "TIMESTAMP",
+          "units": "",
+          "minimum": "TIMESTAMP",
+          "maximum": "TIMESTAMP",
+          "mode": null,
+          "display_name_short": "csv_time_header",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "Date/Time",
+            "minimum": "Date/Time",
+            "mean": "Date/Time",
+            "deltaX": "Date/Time",
+            "stdDev": "Date/Time",
+            "default_value": "TIMESTAMP",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W17",
+          "option_2": "TIMESTAMP",
+          "option_3": "TIMESTAMP"
+        },
+        {
+          "name": "csv_var",
+          "display_name": "CSV variable name",
+          "description": "CSV variable name. Used to determine the variable column in the CSV file",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+          "variable": false,
+          "option_1": "T_out_Avg",
+          "units": "",
+          "minimum": "T_out_Avg",
+          "maximum": "T_out_Avg",
+          "mode": null,
+          "display_name_short": "csv_var",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "minimum": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "mean": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "deltaX": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "stdDev": "Whole Building:Facility Total Electric Demand Power [W](TimeStep)",
+            "default_value": "T_Room_205_Avg",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W19",
+          "option_2": "T_out_Avg",
+          "option_3": "T_out_Avg"
+        },
+        {
+          "name": "convert_data",
+          "display_name": "Convert Units",
+          "description": "Convert Units in Metered Data",
+          "type": "Choice",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "None",
+          "choice_values": [
+            "F to C",
+            "WH to J",
+            "CFM to m3/s",
+            "PSI to Pa",
+            "None"
+          ],
+          "choice_display_names": [
+            "F to C",
+            "WH to J",
+            "CFM to m3/s",
+            "PSI to Pa",
+            "None"
+          ],
+          "variable": false,
+          "option_1": "F to C",
+          "units": "",
+          "minimum": "F to C",
+          "maximum": "F to C",
+          "mode": null,
+          "display_name_short": "convert_data",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [
+              "F to C",
+              "WH to J",
+              "CFM to m3/s",
+              "PSI to Pa",
+              "None"
+            ],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "None",
+            "minimum": "None",
+            "mean": "None",
+            "deltaX": "None",
+            "stdDev": "None",
+            "default_value": "F to C",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1B",
+          "option_2": "F to C",
+          "option_3": "F to C"
+        },
+        {
+          "name": "csv_var_dn",
+          "display_name": "CSV variable display name",
+          "description": "CSV variable display name. Not yet Implemented",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "",
+          "variable": false,
+          "option_1": "T_out_Avg",
+          "units": "",
+          "minimum": "T_out_Avg",
+          "maximum": "T_out_Avg",
+          "mode": null,
+          "display_name_short": "csv_var_dn",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "T_Room_205_Avg",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1D",
+          "option_2": "T_out_Avg",
+          "option_3": "T_out_Avg"
+        },
+        {
+          "name": "year",
+          "display_name": "Year in csv data timestamp",
+          "description": "Is the Year in the csv data timestamp => mm:dd:yy or mm:dd (true/false)",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": true,
+          "maximum": true,
+          "mode": 1,
+          "display_name_short": "year",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": true,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1F",
+          "option_2": true,
+          "option_3": true
+        },
+        {
+          "name": "seconds",
+          "display_name": "Seconds in csv data timestamp",
+          "description": "Is the Seconds in the csv data timestamp => hh:mm:ss or hh:mm (true/false)",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": false,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "seconds",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1H",
+          "option_2": false,
+          "option_3": false
+        },
+        {
+          "name": "key_value",
+          "display_name": "SQL key value",
+          "description": "SQL key value for the SQL query to find the variable in the SQL file",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "",
+          "variable": false,
+          "option_1": "Environment",
+          "units": "",
+          "minimum": "Environment",
+          "maximum": "Environment",
+          "mode": null,
+          "display_name_short": "key_value",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "Room 205",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1J",
+          "option_2": "Environment",
+          "option_3": "Environment"
+        },
+        {
+          "name": "timeseries_name",
+          "display_name": "TimeSeries Name",
+          "description": "TimeSeries Name for the SQL query to find the variable in the SQL file",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "Facility Total Electric Demand Power",
+          "variable": false,
+          "option_1": "Site Outdoor Air Drybulb Temperature",
+          "units": "",
+          "minimum": "Site Outdoor Air Drybulb Temperature",
+          "maximum": "Site Outdoor Air Drybulb Temperature",
+          "mode": null,
+          "display_name_short": "timeseries_name",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "Facility Total Electric Demand Power",
+            "minimum": "Facility Total Electric Demand Power",
+            "mean": "Facility Total Electric Demand Power",
+            "deltaX": "Facility Total Electric Demand Power",
+            "stdDev": "Facility Total Electric Demand Power",
+            "default_value": "Zone Mean Air Temperature",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1L",
+          "option_2": "Site Outdoor Air Drybulb Temperature",
+          "option_3": "Site Outdoor Air Drybulb Temperature"
+        },
+        {
+          "name": "reporting_frequency",
+          "display_name": "Reporting Frequency",
+          "description": "Reporting Frequency for SQL Query",
+          "type": "Choice",
+          "required": true,
+          "model_dependent": false,
+          "choice_values": [
+            "Detailed",
+            "Timestep",
+            "Hourly",
+            "Daily",
+            "Monthly",
+            "RunPeriod"
+          ],
+          "choice_display_names": [
+            "Detailed",
+            "Timestep",
+            "Hourly",
+            "Daily",
+            "Monthly",
+            "RunPeriod"
+          ],
+          "variable": false,
+          "option_1": "Timestep",
+          "units": "",
+          "minimum": "Timestep",
+          "maximum": "Timestep",
+          "mode": null,
+          "display_name_short": "reporting_frequency",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [
+              "Detailed",
+              "Timestep",
+              "Hourly",
+              "Daily",
+              "Monthly",
+              "RunPeriod"
+            ],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "Detailed",
+            "minimum": "Detailed",
+            "mean": "Detailed",
+            "deltaX": "Detailed",
+            "stdDev": "Detailed",
+            "default_value": "Timestep",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1N",
+          "option_2": "Timestep",
+          "option_3": "Timestep"
+        },
+        {
+          "name": "environment_period",
+          "display_name": "Environment Period",
+          "description": "Environment Period for SQL query",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "RUN PERIOD 1",
+          "variable": false,
+          "option_1": "custom run period",
+          "units": "",
+          "minimum": "Run Period 1",
+          "maximum": "Run Period 1",
+          "mode": null,
+          "display_name_short": "environment_period",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "RUN PERIOD 1",
+            "minimum": "RUN PERIOD 1",
+            "mean": "RUN PERIOD 1",
+            "deltaX": "RUN PERIOD 1",
+            "stdDev": "RUN PERIOD 1",
+            "default_value": "NoRtu",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1P",
+          "option_2": "custom run period",
+          "option_3": "custom run period"
+        },
+        {
+          "name": "norm",
+          "display_name": "Norm of the difference of csv and sql",
+          "description": "Norm of the difference of csv and sql. 1 is absolute value. 2 is euclidean distance. 3 is raw difference.",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 1,
+          "variable": false,
+          "option_1": 1,
+          "units": "",
+          "minimum": 1,
+          "maximum": 1,
+          "mode": 1,
+          "display_name_short": "norm",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": 1,
+            "minimum": 1,
+            "mean": 1,
+            "deltaX": 1,
+            "stdDev": 1,
+            "default_value": 1,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1R",
+          "option_2": 1,
+          "option_3": 1
+        },
+        {
+          "name": "scale",
+          "display_name": "Scale factor to apply to the difference",
+          "description": "Scale factor to apply to the difference (1 is no scale)",
+          "type": "Double",
+          "required": true,
+          "model_dependent": false,
+          "default_value": 1,
+          "variable": false,
+          "option_1": 1,
+          "units": "",
+          "minimum": 1,
+          "maximum": 1,
+          "mode": 1,
+          "display_name_short": "scale",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": 1,
+            "minimum": 1,
+            "mean": 1,
+            "deltaX": 1,
+            "stdDev": 1,
+            "default_value": 1,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1T",
+          "option_2": 1,
+          "option_3": 1
+        },
+        {
+          "name": "find_avail",
+          "display_name": "Find Available data in the SQL file",
+          "description": "Will RegisterInfo all the 'EnvPeriod', 'ReportingFrequencies', 'VariableNames', 'KeyValues' in the SQL file.  Useful for debugging SQL issues.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": true,
+          "maximum": true,
+          "mode": 1,
+          "display_name_short": "find_avail",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": true,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1V",
+          "option_2": true,
+          "option_3": true
+        },
+        {
+          "name": "algorithm_download",
+          "display_name": "algorithm_download",
+          "description": "Make JSON data available for algorithm_download (true/false)",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": false,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "algorithm_download",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": false,
+            "minimum": false,
+            "mean": false,
+            "deltaX": false,
+            "stdDev": false,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1X",
+          "option_2": true,
+          "option_3": true
+        },
+        {
+          "name": "plot_flag",
+          "display_name": "plot_flag timeseries data",
+          "description": "Create plot of timeseries data (true/false)",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": true,
+          "maximum": true,
+          "mode": 1,
+          "display_name_short": "plot_flag",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": true,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W1Z",
+          "option_2": true,
+          "option_3": true
+        },
+        {
+          "name": "plot_name",
+          "display_name": "Plot name",
+          "description": "Name to include in reporting file name.",
+          "type": "String",
+          "required": true,
+          "model_dependent": false,
+          "default_value": "",
+          "variable": false,
+          "option_1": "Outdoor Air Temperature",
+          "units": "",
+          "minimum": "Outdoor Air Temperature",
+          "maximum": "Outdoor Air Temperature",
+          "mode": null,
+          "display_name_short": "plot_name",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": "",
+            "minimum": "",
+            "mean": "",
+            "deltaX": "",
+            "stdDev": "",
+            "default_value": "T_Room_205_Avg",
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W21",
+          "option_2": "Outdoor Air Temperature",
+          "option_3": "Outdoor Air Temperature"
+        },
+        {
+          "name": "verbose_messages",
+          "display_name": "verbose_messages",
+          "description": "verbose messages.  Useful for debugging but MAJOR Performance Hit.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": false,
+          "variable": false,
+          "option_1": false,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "verbose_messages",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": false,
+            "minimum": false,
+            "mean": false,
+            "deltaX": false,
+            "stdDev": false,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W23",
+          "option_2": false,
+          "option_3": false
+        },
+        {
+          "name": "warning_messages",
+          "display_name": "warning_messages",
+          "description": "Warn on missing data.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": true,
+          "variable": false,
+          "option_1": true,
+          "units": "",
+          "minimum": true,
+          "maximum": true,
+          "mode": 1,
+          "display_name_short": "warning_messages",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": true,
+            "minimum": true,
+            "mean": true,
+            "deltaX": true,
+            "stdDev": true,
+            "default_value": true,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W25",
+          "option_2": true,
+          "option_3": true
+        },
+        {
+          "name": "add_first_zero_for_plots",
+          "display_name": "add_first_zero_for_plots",
+          "description": "Add a point of zero value to the plot at the beginning of the runperiod.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": false,
+          "variable": false,
+          "option_1": false,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "add_first_zero_for_plots",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": false,
+            "minimum": false,
+            "mean": false,
+            "deltaX": false,
+            "stdDev": false,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W27",
+          "option_2": false,
+          "option_3": false
+        },
+        {
+          "name": "add_last_zero_for_plots",
+          "display_name": "add_last_zero_for_plots",
+          "description": "Add a point of zero value to the plot at the end of the runperiod.",
+          "type": "Boolean",
+          "required": true,
+          "model_dependent": false,
+          "default_value": false,
+          "variable": false,
+          "option_1": false,
+          "units": "",
+          "minimum": false,
+          "maximum": false,
+          "mode": 0,
+          "display_name_short": "add_last_zero_for_plots",
+          "inputs": {
+            "relationship": null,
+            "choiceDisplayNames": [],
+            "variableSetting": "Argument",
+            "distribution": "Uniform",
+            "discreteVariables": [],
+            "maximum": false,
+            "minimum": false,
+            "mean": false,
+            "deltaX": false,
+            "stdDev": false,
+            "default_value": false,
+            "showWarningIcon": false
+          },
+          "$$hashKey": "uiGrid-1W29",
+          "option_2": false,
+          "option_3": false
+        }
+      ],
+      "edit": "",
+      "status": "",
+      "bcl_update": false,
+      "location": "my",
+      "add": "",
+      "open": false,
+      "addedToProject": true,
+      "date": "3/22/2018",
+      "author": "",
+      "type": "ReportingMeasure",
+      "seed": "frp_baseline_experiment_specific_controls.osm",
+      "workflow_index": 16,
+      "options": [
+        {
+          "id": "option_1",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "F to C"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "Environment"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Site Outdoor Air Drybulb Temperature"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Outdoor Air Temperature"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "Outdoor Air Temperature",
+          "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_2",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_28pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "F to C"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "Environment"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Site Outdoor Air Drybulb Temperature"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Outdoor Air Temperature"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "low fault OA",
+          "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
+        },
+        {
+          "id": "option_3",
+          "arguments": [
+            {
+              "name": "csv_name",
+              "value": "../../../lib/resources/Master_Condenser_Fouling_58pct.csv"
+            },
+            {
+              "name": "csv_time_header",
+              "value": "TIMESTAMP"
+            },
+            {
+              "name": "csv_var",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "convert_data",
+              "value": "F to C"
+            },
+            {
+              "name": "csv_var_dn",
+              "value": "T_out_Avg"
+            },
+            {
+              "name": "year",
+              "value": true
+            },
+            {
+              "name": "seconds",
+              "value": false
+            },
+            {
+              "name": "key_value",
+              "value": "Environment"
+            },
+            {
+              "name": "timeseries_name",
+              "value": "Site Outdoor Air Drybulb Temperature"
+            },
+            {
+              "name": "reporting_frequency",
+              "value": "Timestep"
+            },
+            {
+              "name": "environment_period",
+              "value": "custom run period"
+            },
+            {
+              "name": "norm",
+              "value": 1
+            },
+            {
+              "name": "scale",
+              "value": 1
+            },
+            {
+              "name": "find_avail",
+              "value": true
+            },
+            {
+              "name": "algorithm_download",
+              "value": true
+            },
+            {
+              "name": "plot_flag",
+              "value": true
+            },
+            {
+              "name": "plot_name",
+              "value": "Outdoor Air Temperature"
+            },
+            {
+              "name": "verbose_messages",
+              "value": false
+            },
+            {
+              "name": "warning_messages",
+              "value": true
+            },
+            {
+              "name": "add_first_zero_for_plots",
+              "value": false
+            },
+            {
+              "name": "add_last_zero_for_plots",
+              "value": false
+            }
+          ],
+          "name": "high fault OA",
+          "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
+        }
+      ],
+      "instanceId": 0.07690706957968763,
+      "numberOfOptions": 3,
+      "unlockStatus": true,
+      "skip": true,
+      "showWarningText": false,
+      "outputMeasure": true,
+      "userDefinedOutputs": [],
+      "analysisOutputs": [
+        {
+          "name": "cvrmse",
+          "display_name": "cvrmse_oa_t",
+          "short_name": "cvrmse_oa_t",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false,
+          "checked": true,
+          "visualize": "true",
+          "objective_function": "false",
+          "measure_name": "outdoor_air_temp",
+          "measure_class_name": "TimeseriesObjectiveFunction",
+          "measure_uid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "target_value": "0",
+          "weighting_factor": 0.122,
+          "obj_function_group": 1,
+          "$$hashKey": "uiGrid-0QAD"
+        },
+        {
+          "name": "nmbe",
+          "display_name": "nmbe_oa_t",
+          "short_name": "nmbe_oa_t",
+          "description": "",
+          "type": "Double",
+          "model_dependent": false,
+          "checked": true,
+          "visualize": "true",
+          "objective_function": "false",
+          "measure_name": "outdoor_air_temp",
+          "measure_class_name": "TimeseriesObjectiveFunction",
+          "measure_uid": "6804217d-4737-45f3-82df-b81393c29ce3",
+          "target_value": "0",
+          "weighting_factor": 0.122,
+          "obj_function_group": 2,
+          "$$hashKey": "uiGrid-0QAF"
+        }
+      ],
+      "$$hashKey": "object:230939"
+    }
+  ],
+  "filesToInclude": [
+    {
+      "dirToInclude": "../fault_test_files_raw",
+      "unpackDirName": "resources",
+      "$$hashKey": "object:25077"
+    }
+  ],
+  "serverScripts": {
+    "server_initialization": {
+      "file": null,
+      "arguments": []
+    },
+    "server_finalization": {
+      "file": null,
+      "arguments": []
+    },
+    "worker_initialization": {
+      "file": null,
+      "arguments": []
+    },
+    "worker_finalization": {
+      "file": null,
+      "arguments": []
+    }
+  },
+  "designAlternatives": [
+    {
+      "name": "condenser fouling baseline",
+      "seedModel": "frp_baseline_experiment_specific_controls.osm",
+      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
+      "update_rfp_loads_and_schedules_from_measured_data": "Baseline schedules from measured data",
+      "run_period": "custom run period",
+      "change_run_period_start_day_of_week": "Change Start Day of Week",
+      "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
+      "openstudio_results": "OpenStudio Results",
+      "rtu_exit": "RTU Exit",
+      "rtu_enter": "RTU Enter",
+      "cooling_consumption": "Cooling Consumption",
+      "heating_consumption": "Heating Consumption",
+      "total_consumption": "Total Consumption",
+      "lighting_consumption": "Lighting Consumption",
+      "equipment_consumption": "Equipment Consumption",
+      "fan_consumption": "Fan Consumption",
+      "outdoor_air_temp": "Outdoor Air Temperature",
+      "$$hashKey": "uiGrid-0DWV",
+      "condenser_fouling": "None",
+      "cooling_consumption_2": "Cooling Capacity",
+      "fan_consumption_2": "Fan Consumption"
+    },
+    {
+      "name": "condenser fouling 28 percent fault without measure",
+      "seedModel": "frp_baseline_experiment_specific_controls.osm",
+      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
+      "update_rfp_loads_and_schedules_from_measured_data": "Low fault schedules",
+      "run_period": "custom run period",
+      "change_run_period_start_day_of_week": "Change Start Day of Week",
+      "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
+      "openstudio_results": "OpenStudio Results",
+      "rtu_exit": "low fault RTU exit",
+      "rtu_enter": "low fault RTU enter",
+      "cooling_consumption": "low fault cooling consumption",
+      "heating_consumption": "low fault heating",
+      "total_consumption": "low fault total",
+      "lighting_consumption": "Lighting Consumption",
+      "equipment_consumption": "low fault equip",
+      "fan_consumption": "low fault fan",
+      "outdoor_air_temp": "low fault OA",
+      "$$hashKey": "uiGrid-0API",
+      "condenser_fouling": "None",
+      "cooling_consumption_2": "low fault cooling capacity",
+      "fan_consumption_2": "low fault fan"
+    },
+    {
+      "name": "condenser fouling 58 percent fault without measure",
+      "seedModel": "frp_baseline_experiment_specific_controls.osm",
+      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
+      "update_rfp_loads_and_schedules_from_measured_data": "high fault schedules",
+      "run_period": "custom run period",
+      "change_run_period_start_day_of_week": "Change Start Day of Week",
+      "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
+      "openstudio_results": "OpenStudio Results",
+      "rtu_exit": "high fault RTU exit",
+      "rtu_enter": "high fault RTU enter",
+      "cooling_consumption": "high fault cooling consumption",
+      "heating_consumption": "Heating Consumption",
+      "total_consumption": "high fault total",
+      "lighting_consumption": "high fault lighting",
+      "equipment_consumption": "high fault equip",
+      "fan_consumption": "high fault fan",
+      "outdoor_air_temp": "high fault OA",
+      "$$hashKey": "uiGrid-0XRT",
+      "condenser_fouling": "None",
+      "cooling_consumption_2": "high fault cooling capacity",
+      "fan_consumption_2": "high fault fan"
+    },
+    {
+      "name": "condenser fouling 28 percent fault with measure",
+      "seedModel": "frp_baseline_experiment_specific_controls.osm",
+      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
+      "update_rfp_loads_and_schedules_from_measured_data": "Low fault schedules",
+      "run_period": "custom run period",
+      "change_run_period_start_day_of_week": "Change Start Day of Week",
+      "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
+      "openstudio_results": "OpenStudio Results",
+      "rtu_exit": "low fault RTU exit",
+      "rtu_enter": "low fault RTU enter",
+      "cooling_consumption": "low fault cooling consumption",
+      "heating_consumption": "low fault heating",
+      "total_consumption": "low fault total",
+      "lighting_consumption": "Lighting Consumption",
+      "equipment_consumption": "low fault equip",
+      "fan_consumption": "low fault fan",
+      "outdoor_air_temp": "low fault OA",
+      "condenser_fouling": "low fault 28 percent",
+      "$$hashKey": "uiGrid-078L",
+      "cooling_consumption_2": "low fault cooling capacity",
+      "fan_consumption_2": "low fault fan"
+    },
+    {
+      "name": "condenser fouling 58 percent fault with measure",
+      "seedModel": "frp_baseline_experiment_specific_controls.osm",
+      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
+      "update_rfp_loads_and_schedules_from_measured_data": "high fault schedules",
+      "run_period": "custom run period",
+      "change_run_period_start_day_of_week": "Change Start Day of Week",
+      "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
+      "openstudio_results": "OpenStudio Results",
+      "rtu_exit": "high fault RTU exit",
+      "rtu_enter": "high fault RTU enter",
+      "cooling_consumption": "high fault cooling consumption",
+      "heating_consumption": "Heating Consumption",
+      "total_consumption": "high fault total",
+      "lighting_consumption": "high fault lighting",
+      "equipment_consumption": "high fault equip",
+      "fan_consumption": "high fault fan",
+      "outdoor_air_temp": "high fault OA",
+      "condenser_fouling": "low fault 58 percent",
+      "$$hashKey": "uiGrid-07AB",
+      "cooling_consumption_2": "high fault cooling capacity",
+      "fan_consumption_2": "high fault fan"
+    }
+  ],
+  "analysisID": null,
+  "datapoints": [
+    {
+      "name": "condenser fouling baseline",
+      "id": "condenser fouling baseline",
+      "run": false,
+      "modified": false,
+      "selected": false
+    },
+    {
+      "name": "condenser fouling 28 percent fault without measure",
+      "id": "condenser fouling 28 percent fault without measure",
+      "run": false,
+      "modified": false,
+      "selected": false
+    },
+    {
+      "name": "condenser fouling 58 percent fault without measure",
+      "id": "condenser fouling 58 percent fault without measure",
+      "run": false,
+      "modified": false,
+      "selected": false
+    },
+    {
+      "name": "condenser fouling 28 percent fault with measure",
+      "id": "condenser fouling 28 percent fault with measure",
+      "run": false,
+      "modified": false,
+      "selected": false
+    },
+    {
+      "name": "condenser fouling 58 percent fault with measure",
+      "id": "condenser fouling 58 percent fault with measure",
+      "run": false,
+      "modified": false,
+      "selected": false
     }
   ]
 }
