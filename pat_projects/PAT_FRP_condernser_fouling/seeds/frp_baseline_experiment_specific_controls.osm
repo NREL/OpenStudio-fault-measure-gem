@@ -9239,10 +9239,10 @@ OS:Schedule:Day,
   {8fad75d8-a002-4cca-b9ac-863d8f49397b}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
   6,                                      !- Hour 1
-  38,                                     !- Minute 1
+  45,                                     !- Minute 1
   0,                                      !- Value Until Time 1
   21,                                     !- Hour 2
-  46,                                     !- Minute 2
+  43,                                     !- Minute 2
   1,                                      !- Value Until Time 2
   24,                                     !- Hour 3
   0,                                      !- Minute 3
@@ -10417,11 +10417,11 @@ OS:Fan:VariableVolume,
   RoofTop Supply Fan,                     !- Name
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   0.9,                                    !- Fan Efficiency
-  1000,                                   !- Pressure Rise {Pa}
+  825,                                    !- Pressure Rise {Pa}
   2.35,                                   !- Maximum Flow Rate {m3/s}
   FixedFlowRate,                          !- Fan Power Minimum Flow Rate Input Method
   0,                                      !- Fan Power Minimum Flow Fraction
-  1.41,                                   !- Fan Power Minimum Air Flow Rate {m3/s}
+  2.35,                                   !- Fan Power Minimum Air Flow Rate {m3/s}
   0.9,                                    !- Motor Efficiency
   1,                                      !- Motor In Airstream Fraction
   0.2823,                                 !- Fan Power Coefficient 1
@@ -11022,18 +11022,18 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {9f5d0968-e5d6-4178-a16d-72f3d8c23784}, !- Air Inlet Node Name
   0.132145284096,                         !- Maximum Air Flow Rate {m3/s}
-  FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
+  Scheduled,                              !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.0943894886400002,                     !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {63db632b-d1fa-4f7f-82c8-bed138d55b47}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {08af0f59-4d09-4fe5-bf54-5291e27c65c9}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.0059194044343745,                     !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.132145284096,                         !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -11104,18 +11104,18 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {de3ae018-2447-4769-83b3-477df2676ce2}, !- Air Inlet Node Name
   0.18877897728,                          !- Maximum Air Flow Rate {m3/s}
-  FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
+  Scheduled,                              !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.0566336931840001,                     !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {bf37620b-f2df-4c7e-a7dd-4ed481dd986f}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {8e04adec-57e9-4597-bbd4-5f2d9eb408ed}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.00248365776369398,                    !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.18877897728,                          !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -11191,19 +11191,19 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   Room 104 VAV Reheat,                    !- Name
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {f6ab4ea8-163d-4957-83d1-766be3a14b9c}, !- Air Inlet Node Name
-  0.264290568192001,                      !- Maximum Air Flow Rate {m3/s}
-  FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
+  0.264290568192,                         !- Maximum Air Flow Rate {m3/s}
+  Scheduled,                              !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.174620553984,                         !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {b8b565ff-939a-424b-abce-951999eb0232}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {77eda7ea-c8ad-486d-ab2c-de87a0bae3ca}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.00495102070681203,                    !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.264290568192,                         !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -11279,19 +11279,19 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   Room 105 VAV Reheat,                    !- Name
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {1e72a638-fcad-4a4b-ac8c-f4953e13ffcf}, !- Air Inlet Node Name
-  0.283168465920001,                      !- Maximum Air Flow Rate {m3/s}
-  FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
+  0.28316846592,                          !- Maximum Air Flow Rate {m3/s}
+  Scheduled,                              !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.174620553984,                         !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {4c472e06-ebff-4ccd-b35f-07e1da3875ab}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {4690c711-a964-4893-9442-895beed17746}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.00495102070681203,                    !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.28316846592,                          !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -11367,19 +11367,19 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   Room 106 VAV Reheat,                    !- Name
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {424a968b-d73a-4f53-b024-0d450596aa7e}, !- Air Inlet Node Name
-  0.283168465920001,                      !- Maximum Air Flow Rate {m3/s}
-  FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
+  0.28316846592,                          !- Maximum Air Flow Rate {m3/s}
+  Scheduled,                              !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.174620553984,                         !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {157f8a9d-aa6d-45a9-b24b-ae656f7a94bb}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {0f1b3768-72d5-435f-9db4-ad81c1be58db}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.00495102070681203,                    !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.28316846592,                          !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -11455,19 +11455,19 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   Room 202 VAV Reheat,                    !- Name
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {1e262695-83bc-4935-9eda-0843ce67c11d}, !- Air Inlet Node Name
-  0.212376349440001,                      !- Maximum Air Flow Rate {m3/s}
+  0.21237634944,                          !- Maximum Air Flow Rate {m3/s}
   FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.0991089630720002,                     !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {a065745f-4ca1-4314-83b6-590aca981cda}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {8f84124e-b2e8-4855-a175-7632ff562c4e}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.00362617316589558,                    !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.21237634944,                          !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -11544,18 +11544,18 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {c5aceef4-520c-46f6-bf27-f112c5283248}, !- Air Inlet Node Name
   0.1179868608,                           !- Maximum Air Flow Rate {m3/s}
-  FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
+  Scheduled,                              !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.0707921164800002,                     !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {7bd3a9ef-b37d-4374-a449-bd8ab6f2e8a5}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {ee22afff-4c47-4c68-83b5-6eee3543c7a3}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.00620072332730563,                    !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.1179868608,                           !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -11631,19 +11631,19 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   Room 204 VAV Reheat,                    !- Name
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {752701fc-3b84-4ccb-a7ff-e6b24a7f69cf}, !- Air Inlet Node Name
-  0.283168465920001,                      !- Maximum Air Flow Rate {m3/s}
-  FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
+  0.28316846592,                          !- Maximum Air Flow Rate {m3/s}
+  Scheduled,                              !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.174620553984,                         !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {a621aa69-02a6-411c-86b5-66a9410524e7}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {6f3acb3b-72ae-4c5a-a83d-373ec5f88a64}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.00495102070681203,                    !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.28316846592,                          !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -11719,19 +11719,19 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   Room 205 VAV Reheat,                    !- Name
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {b5cac31f-4bd0-475b-a20f-b94f483baced}, !- Air Inlet Node Name
-  0.283168465920001,                      !- Maximum Air Flow Rate {m3/s}
-  FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
+  0.28316846592,                          !- Maximum Air Flow Rate {m3/s}
+  Scheduled,                              !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.174620553984,                         !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {76784dae-6936-4a07-8cec-8ffc7f193947}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {32da015a-3bd7-47d3-ba75-ba4feea25882}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.00495102070681203,                    !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.28316846592,                          !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -11807,19 +11807,19 @@ OS:AirTerminal:SingleDuct:VAV:Reheat,
   Room 206 VAV Reheat,                    !- Name
   {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Availability Schedule Name
   {502fa455-9972-4b29-9d39-07986bf56be3}, !- Air Inlet Node Name
-  0.297326889216001,                      !- Maximum Air Flow Rate {m3/s}
-  FixedFlowRate,                          !- Zone Minimum Air Flow Input Method
+  0.297326889216,                         !- Maximum Air Flow Rate {m3/s}
+  Scheduled,                              !- Zone Minimum Air Flow Input Method
   0.3,                                    !- Constant Minimum Air Flow Fraction
   0.174620553984,                         !- Fixed Minimum Air Flow Rate {m3/s}
-  ,                                       !- Minimum Air Flow Fraction Schedule Name
+  {8a4bf29f-0033-4a4f-845a-64d0a8c6ff50}, !- Minimum Air Flow Fraction Schedule Name
   {fa179d5f-03f0-4050-9ffb-fb5d69d61047}, !- Reheat Coil Name
   AutoSize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
   0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
   {bc682c21-91d5-4295-a1a2-319ea45f2a95}, !- Air Outlet Node Name
   0.001,                                  !- Convergence Tolerance
   Reverse,                                !- Damper Heating Action
-  0.00495102070681203,                    !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
-  AutoSize,                               !- Maximum Flow Fraction During Reheat
+  0.297326889216,                         !- Maximum Flow per Zone Floor Area During Reheat {m3/s-m2}
+  Autosize,                               !- Maximum Flow Fraction During Reheat
   40,                                     !- Maximum Reheat Air Temperature {C}
   No;                                     !- Control For Outdoor Air
 
@@ -12571,29 +12571,29 @@ OS:Schedule:Day,
   {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
   6,                                      !- Hour 1
-  0,                                      !- Minute 1
-  31.4038608736103,                       !- Value Until Time 1
+  30,                                     !- Minute 1
+  31.4038600921631,                       !- Value Until Time 1
   6,                                      !- Hour 2
-  15,                                     !- Minute 2
-  31.4038608736103,                       !- Value Until Time 2
-  6,                                      !- Hour 3
-  30,                                     !- Minute 3
-  30.9726818269793,                       !- Value Until Time 3
-  6,                                      !- Hour 4
-  45,                                     !- Minute 4
-  29.8327568239275,                       !- Value Until Time 4
+  45,                                     !- Minute 2
+  31.4038600921631,                       !- Value Until Time 2
+  7,                                      !- Hour 3
+  0,                                      !- Minute 3
+  30.9726829528809,                       !- Value Until Time 3
+  7,                                      !- Hour 4
+  15,                                     !- Minute 4
+  29.8327560424805,                       !- Value Until Time 4
   7,                                      !- Hour 5
-  0,                                      !- Minute 5
-  29.1813724702898,                       !- Value Until Time 5
+  30,                                     !- Minute 5
+  29.1813716888428,                       !- Value Until Time 5
   7,                                      !- Hour 6
-  15,                                     !- Minute 6
-  27.8786018556659,                       !- Value Until Time 6
-  18,                                     !- Hour 7
-  0,                                      !- Minute 7
-  27.2272155946795,                       !- Value Until Time 7
+  45,                                     !- Minute 6
+  27.8786010742188,                       !- Value Until Time 6
+  21,                                     !- Hour 7
+  45,                                     !- Minute 7
+  27.2272148132324,                       !- Value Until Time 7
   24,                                     !- Hour 8
   0,                                      !- Minute 8
-  31.4038608736103;                       !- Value Until Time 8
+  31.4038600921631;                       !- Value Until Time 8
 
 OS:Schedule:Rule,
   {9438e207-e9fb-4ea9-a97d-326c8986b293}, !- Handle
@@ -12636,29 +12636,29 @@ OS:Schedule:Day,
   {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
   ,                                       !- Interpolate to Timestep
   6,                                      !- Hour 1
-  0,                                      !- Minute 1
-  14.1419752095897,                       !- Value Until Time 1
+  30,                                     !- Minute 1
+  14.141975402832,                        !- Value Until Time 1
   6,                                      !- Hour 2
-  15,                                     !- Minute 2
-  14.1419752095897,                       !- Value Until Time 2
-  6,                                      !- Hour 3
-  30,                                     !- Minute 3
-  15.4289310430247,                       !- Value Until Time 3
-  6,                                      !- Hour 4
-  45,                                     !- Minute 4
-  16.7317016576488,                       !- Value Until Time 4
+  45,                                     !- Minute 2
+  16.5,                                   !- Value Until Time 2
+  7,                                      !- Hour 3
+  0,                                      !- Minute 3
+  17,                                     !- Value Until Time 3
+  7,                                      !- Hour 4
+  15,                                     !- Minute 4
+  17.5,                                   !- Value Until Time 4
   7,                                      !- Hour 5
-  0,                                      !- Minute 5
-  17.8716247533519,                       !- Value Until Time 5
+  30,                                     !- Minute 5
+  18,                                     !- Value Until Time 5
   7,                                      !- Hour 6
-  15,                                     !- Minute 6
-  19.0115497564036,                       !- Value Until Time 6
-  18,                                     !- Hour 7
-  0,                                      !- Minute 7
-  20.2519767736156,                       !- Value Until Time 7
+  45,                                     !- Minute 6
+  19.5,                                   !- Value Until Time 6
+  21,                                     !- Hour 7
+  45,                                     !- Minute 7
+  20.2519779205322,                       !- Value Until Time 7
   24,                                     !- Hour 8
   0,                                      !- Minute 8
-  14.1419752095897;                       !- Value Until Time 8
+  14.141975402832;                        !- Value Until Time 8
 
 OS:Schedule:Rule,
   {1575a583-6779-4885-ba51-a04351f472ea}, !- Handle

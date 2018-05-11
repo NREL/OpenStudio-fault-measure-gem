@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+svg {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+.xline {
+  stroke-width: 1;
+  fill: none;
+  clip-path: url(#clip);
+}
+
+</style>
+<title>Heating Consumption</title>
+<link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.3.9/d3.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</head>
+<body>
+<div id="timeseriesplot" class="container">
+  <h1 id="plottitle">Timeseries Plot</h1>
+</div>
+<script>
+
+var allSeries = [{"name":" Simulated","type":"Heating:Electricity","color":"blue","units":"J","displayname":"Heating Consumption","data":[{"y":0.0,"time":"2009/08/29 00:00:00"},{"y":0.0,"time":"2009/08/29 00:15:00"},{"y":0.0,"time":"2009/08/29 00:30:00"},{"y":0.0,"time":"2009/08/29 00:45:00"},{"y":0.0,"time":"2009/08/29 01:00:00"},{"y":0.0,"time":"2009/08/29 01:15:00"},{"y":0.0,"time":"2009/08/29 01:30:00"},{"y":0.0,"time":"2009/08/29 01:45:00"},{"y":0.0,"time":"2009/08/29 02:00:00"},{"y":0.0,"time":"2009/08/29 02:15:00"},{"y":0.0,"time":"2009/08/29 02:30:00"},{"y":0.0,"time":"2009/08/29 02:45:00"},{"y":0.0,"time":"2009/08/29 03:00:00"},{"y":0.0,"time":"2009/08/29 03:15:00"},{"y":0.0,"time":"2009/08/29 03:30:00"},{"y":0.0,"time":"2009/08/29 03:45:00"},{"y":0.0,"time":"2009/08/29 04:00:00"},{"y":0.0,"time":"2009/08/29 04:15:00"},{"y":0.0,"time":"2009/08/29 04:30:00"},{"y":0.0,"time":"2009/08/29 04:45:00"},{"y":0.0,"time":"2009/08/29 05:00:00"},{"y":0.0,"time":"2009/08/29 05:15:00"},{"y":0.0,"time":"2009/08/29 05:30:00"},{"y":0.0,"time":"2009/08/29 05:45:00"},{"y":0.0,"time":"2009/08/29 06:00:00"},{"y":0.0,"time":"2009/08/29 06:15:00"},{"y":0.0,"time":"2009/08/29 06:30:00"},{"y":0.0,"time":"2009/08/29 06:45:00"},{"y":490177.183484,"time":"2009/08/29 07:00:00"},{"y":88775.137024,"time":"2009/08/29 07:15:00"},{"y":144292.082436,"time":"2009/08/29 07:30:00"},{"y":5233628.637602,"time":"2009/08/29 07:45:00"},{"y":9122726.763585,"time":"2009/08/29 08:00:00"},{"y":7950429.610246,"time":"2009/08/29 08:15:00"},{"y":7236944.421177,"time":"2009/08/29 08:30:00"},{"y":6455165.487486,"time":"2009/08/29 08:45:00"},{"y":5981938.575101,"time":"2009/08/29 09:00:00"},{"y":5199697.562359,"time":"2009/08/29 09:15:00"},{"y":4525795.582819,"time":"2009/08/29 09:30:00"},{"y":4079623.39632,"time":"2009/08/29 09:45:00"},{"y":3880397.134363,"time":"2009/08/29 10:00:00"},{"y":3577184.753058,"time":"2009/08/29 10:15:00"},{"y":3289508.285175,"time":"2009/08/29 10:30:00"},{"y":3053799.481469,"time":"2009/08/29 10:45:00"},{"y":2848078.003373,"time":"2009/08/29 11:00:00"},{"y":2725185.487561,"time":"2009/08/29 11:15:00"},{"y":2558203.67881,"time":"2009/08/29 11:30:00"},{"y":2449570.228801,"time":"2009/08/29 11:45:00"},{"y":2312927.237184,"time":"2009/08/29 12:00:00"},{"y":2190156.198521,"time":"2009/08/29 12:15:00"},{"y":1979293.637106,"time":"2009/08/29 12:30:00"},{"y":1866739.20623,"time":"2009/08/29 12:45:00"},{"y":1951639.426003,"time":"2009/08/29 13:00:00"},{"y":1776448.678119,"time":"2009/08/29 13:15:00"},{"y":1621701.122421,"time":"2009/08/29 13:30:00"},{"y":1447119.402787,"time":"2009/08/29 13:45:00"},{"y":1404771.916031,"time":"2009/08/29 14:00:00"},{"y":1165131.396985,"time":"2009/08/29 14:15:00"},{"y":1000529.435988,"time":"2009/08/29 14:30:00"},{"y":972296.143951,"time":"2009/08/29 14:45:00"},{"y":947372.010093,"time":"2009/08/29 15:00:00"},{"y":927410.516262,"time":"2009/08/29 15:15:00"},{"y":908550.895559,"time":"2009/08/29 15:30:00"},{"y":885122.174523,"time":"2009/08/29 15:45:00"},{"y":875767.232208,"time":"2009/08/29 16:00:00"},{"y":863218.666374,"time":"2009/08/29 16:15:00"},{"y":845082.073926,"time":"2009/08/29 16:30:00"},{"y":840735.045593,"time":"2009/08/29 16:45:00"},{"y":841307.567349,"time":"2009/08/29 17:00:00"},{"y":890387.681102,"time":"2009/08/29 17:15:00"},{"y":867578.09689,"time":"2009/08/29 17:30:00"},{"y":977209.174559,"time":"2009/08/29 17:45:00"},{"y":1068684.861042,"time":"2009/08/29 18:00:00"},{"y":1317971.529264,"time":"2009/08/29 18:15:00"},{"y":1382938.091295,"time":"2009/08/29 18:30:00"},{"y":1500791.223878,"time":"2009/08/29 18:45:00"},{"y":1728442.336842,"time":"2009/08/29 19:00:00"},{"y":2155248.12203,"time":"2009/08/29 19:15:00"},{"y":3353597.214552,"time":"2009/08/29 19:30:00"},{"y":4490803.452879,"time":"2009/08/29 19:45:00"},{"y":5290298.271482,"time":"2009/08/29 20:00:00"},{"y":5928449.069022,"time":"2009/08/29 20:15:00"},{"y":6372330.792988,"time":"2009/08/29 20:30:00"},{"y":6311460.309659,"time":"2009/08/29 20:45:00"},{"y":6839103.715187,"time":"2009/08/29 21:00:00"},{"y":7321033.433216,"time":"2009/08/29 21:15:00"},{"y":8175297.780571,"time":"2009/08/29 21:30:00"},{"y":0.0,"time":"2009/08/29 21:45:00"},{"y":0.0,"time":"2009/08/29 22:00:00"},{"y":0.0,"time":"2009/08/29 22:15:00"},{"y":0.0,"time":"2009/08/29 22:30:00"},{"y":0.0,"time":"2009/08/29 22:45:00"},{"y":0.0,"time":"2009/08/29 23:00:00"},{"y":0.0,"time":"2009/08/29 23:15:00"},{"y":0.0,"time":"2009/08/29 23:30:00"},{"y":0.0,"time":"2009/08/29 23:45:00"}],"cvrmse":85.268965,"nmbe":-20.785643},{"name":" Metered","type":"Heating:Electricity","color":"red","units":"J","displayname":"Heating Consumption","data":[{"y":77158.836,"time":"2009/08/29 00:00:00"},{"y":77117.256,"time":"2009/08/29 00:15:00"},{"y":77241.924,"time":"2009/08/29 00:30:00"},{"y":77408.136,"time":"2009/08/29 00:45:00"},{"y":77200.38,"time":"2009/08/29 01:00:00"},{"y":77241.96,"time":"2009/08/29 01:15:00"},{"y":76867.956,"time":"2009/08/29 01:30:00"},{"y":76867.956,"time":"2009/08/29 01:45:00"},{"y":77449.716,"time":"2009/08/29 02:00:00"},{"y":76992.624,"time":"2009/08/29 02:15:00"},{"y":76701.744,"time":"2009/08/29 02:30:00"},{"y":77200.416,"time":"2009/08/29 02:45:00"},{"y":76743.324,"time":"2009/08/29 03:00:00"},{"y":76951.08,"time":"2009/08/29 03:15:00"},{"y":77325.048,"time":"2009/08/29 03:30:00"},{"y":76826.412,"time":"2009/08/29 03:45:00"},{"y":77449.716,"time":"2009/08/29 04:00:00"},{"y":76826.412,"time":"2009/08/29 04:15:00"},{"y":76867.992,"time":"2009/08/29 04:30:00"},{"y":76535.568,"time":"2009/08/29 04:45:00"},{"y":77491.26,"time":"2009/08/29 05:00:00"},{"y":76701.78,"time":"2009/08/29 05:15:00"},{"y":76743.324,"time":"2009/08/29 05:30:00"},{"y":76743.324,"time":"2009/08/29 05:45:00"},{"y":76369.356,"time":"2009/08/29 06:00:00"},{"y":76951.08,"time":"2009/08/29 06:15:00"},{"y":76286.268,"time":"2009/08/29 06:30:00"},{"y":90288.54,"time":"2009/08/29 06:45:00"},{"y":114927.48,"time":"2009/08/29 07:00:00"},{"y":115176.816,"time":"2009/08/29 07:15:00"},{"y":114927.48,"time":"2009/08/29 07:30:00"},{"y":708553.548,"time":"2009/08/29 07:45:00"},{"y":2728181.52,"time":"2009/08/29 08:00:00"},{"y":3137480.496,"time":"2009/08/29 08:15:00"},{"y":3221329.644,"time":"2009/08/29 08:30:00"},{"y":3852662.076,"time":"2009/08/29 08:45:00"},{"y":3685437.936,"time":"2009/08/29 09:00:00"},{"y":2777479.632,"time":"2009/08/29 09:15:00"},{"y":3134168.604,"time":"2009/08/29 09:30:00"},{"y":3197978.388,"time":"2009/08/29 09:45:00"},{"y":3137971.032,"time":"2009/08/29 10:00:00"},{"y":3116766.132,"time":"2009/08/29 10:15:00"},{"y":3038603.904,"time":"2009/08/29 10:30:00"},{"y":2619890.532,"time":"2009/08/29 10:45:00"},{"y":2212390.26,"time":"2009/08/29 11:00:00"},{"y":1941724.188,"time":"2009/08/29 11:15:00"},{"y":1728149.544,"time":"2009/08/29 11:30:00"},{"y":1462219.4844,"time":"2009/08/29 11:45:00"},{"y":1289456.964,"time":"2009/08/29 12:00:00"},{"y":1910428.668,"time":"2009/08/29 12:15:00"},{"y":1295344.656,"time":"2009/08/29 12:30:00"},{"y":1037369.016,"time":"2009/08/29 12:45:00"},{"y":885383.712,"time":"2009/08/29 13:00:00"},{"y":1439591.148,"time":"2009/08/29 13:15:00"},{"y":1529499.096,"time":"2009/08/29 13:30:00"},{"y":1203588.144,"time":"2009/08/29 13:45:00"},{"y":1273144.464,"time":"2009/08/29 14:00:00"},{"y":1020603.564,"time":"2009/08/29 14:15:00"},{"y":1098344.628,"time":"2009/08/29 14:30:00"},{"y":890300.304,"time":"2009/08/29 14:45:00"},{"y":983702.016,"time":"2009/08/29 15:00:00"},{"y":676731.888,"time":"2009/08/29 15:15:00"},{"y":828556.884,"time":"2009/08/29 15:30:00"},{"y":1022757.372,"time":"2009/08/29 15:45:00"},{"y":1162817.64,"time":"2009/08/29 16:00:00"},{"y":1116441.864,"time":"2009/08/29 16:15:00"},{"y":752957.82,"time":"2009/08/29 16:30:00"},{"y":770699.952,"time":"2009/08/29 16:45:00"},{"y":852544.944,"time":"2009/08/29 17:00:00"},{"y":1074540.636,"time":"2009/08/29 17:15:00"},{"y":849166.056,"time":"2009/08/29 17:30:00"},{"y":651763.224,"time":"2009/08/29 17:45:00"},{"y":1124719.956,"time":"2009/08/29 18:00:00"},{"y":1407211.596,"time":"2009/08/29 18:15:00"},{"y":2138746.464,"time":"2009/08/29 18:30:00"},{"y":1743482.592,"time":"2009/08/29 18:45:00"},{"y":2905623.54,"time":"2009/08/29 19:00:00"},{"y":2831147.748,"time":"2009/08/29 19:15:00"},{"y":3456629.604,"time":"2009/08/29 19:30:00"},{"y":3878772.264,"time":"2009/08/29 19:45:00"},{"y":6041882.196,"time":"2009/08/29 20:00:00"},{"y":5974988.652,"time":"2009/08/29 20:15:00"},{"y":6148897.596,"time":"2009/08/29 20:30:00"},{"y":5654245.428,"time":"2009/08/29 20:45:00"},{"y":5168967.552,"time":"2009/08/29 21:00:00"},{"y":7840928.196,"time":"2009/08/29 21:15:00"},{"y":9136239.48,"time":"2009/08/29 21:30:00"},{"y":4557309.48,"time":"2009/08/29 21:45:00"},{"y":78280.704,"time":"2009/08/29 22:00:00"},{"y":76867.92,"time":"2009/08/29 22:15:00"},{"y":77532.768,"time":"2009/08/29 22:30:00"},{"y":77532.768,"time":"2009/08/29 22:45:00"},{"y":77823.648,"time":"2009/08/29 23:00:00"},{"y":77117.256,"time":"2009/08/29 23:15:00"},{"y":76909.536,"time":"2009/08/29 23:30:00"},{"y":77117.292,"time":"2009/08/29 23:45:00"}],"cvrmse":85.268965,"nmbe":-20.785643}];
+
+// Set the overall plot heading
+if (allSeries[0].displayname != "") $("#plottitle").text(allSeries[0].displayname);
+else $("#plottitle").text(allSeries[0].type);
+
+// Define size and margins of chart
+var margin = {top: 10, right: 350, bottom: 100, left: 100},
+    margin2 = {top: 430, right: 350, bottom: 20, left: 100},
+    width = 1500 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom,
+    height2 = 500 - margin2.top - margin2.bottom;
+
+var parseDate = d3.time.format("%b %Y").parse;
+
+// Determine the bounds of the chart
+var x_min = new Date('January 1, 3000 00:00:00');
+var x_max = new Date('January 1, 1900 00:00:00');
+var y_min = Number.POSITIVE_INFINITY;
+var y_max = Number.NEGATIVE_INFINITY;
+$.each(allSeries, function(index, all_series) {
+  var series = allSeries[index];
+  
+  this_x_min = d3.min(series.data.map(function(d) { return new Date(d.time); }))
+  this_x_max = d3.max(series.data.map(function(d) { return new Date(d.time); }))
+  this_y_min = d3.min(series.data.map(function(d) { return d.y; }))
+  this_y_max = d3.max(series.data.map(function(d) { return d.y; }))
+  
+  if (this_x_min < x_min) x_min = this_x_min;
+  if (this_x_max > x_max) x_max = this_x_max;
+  if (this_y_min < y_min) y_min = this_y_min;
+  if (this_y_max > y_max) y_max = this_y_max;  
+  
+});
+// Log the bounds for debugging 
+console.log("x_min = " + x_min)
+console.log("x_max = " + x_max)
+console.log("y_min = " + y_min)
+console.log("y_max = " + y_max)  
+
+// Increase the y max by a little for readability
+y_max = y_max + ((y_max - y_min) * 0.25);
+  
+// Horizontal axis scale
+var x_extent = [this.x_min, this.x_max];
+
+// Vertical axis scale
+var y_extent = [this.y_min, this.y_max];
+
+// Create the x and y scales (width on page) for both chart areas    
+var x = d3.time.scale().range([0, width]),
+    x2 = d3.time.scale().range([0, width]),
+    y = d3.scale.linear().range([height, 0]),
+    y2 = d3.scale.linear().range([height2, 0]);
+  
+// Create the x and y domains (extent of the data) for both chart areas  
+x.domain(x_extent);
+y.domain(y_extent);
+x2.domain(x.domain());
+y2.domain(y.domain());  
+  
+// Create and position axes
+var xAxis = d3.svg.axis().scale(x).orient("bottom"),
+    xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
+    yAxis = d3.svg.axis().scale(y).tickFormat(d3.format(".2e")).orient("left"),
+    yAxis2 = d3.svg.axis().scale(y2).orient("left");
+
+// Create the selector 
+var brush = d3.svg.brush()
+    .x(x2)
+    .on("brush", brushed);
+
+// Function to create lines in the focus area    
+var line = d3.svg.line()
+    .x(function(d) { return x(new Date(d.time)); })
+    .y(function(d) { return y(d.y); });
+
+// Function to create lines in the context area    
+var line2 = d3.svg.line()
+    .x(function(d) { return x2(new Date(d.time)); })
+    .y(function(d) { return y2(d.y); });    
+
+// Create the overall SVG    
+var svg = d3.select("#timeseriesplot").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom);
+
+svg.append("defs").append("clipPath")
+    .attr("id", "clip")
+  .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+// Draw the focus section (main plot)    
+var focus = svg.append("g")
+    .attr("class", "focus")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Draw the focus x and y axes
+focusaxis = focus.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis);
+  
+focusaxis.append("text")
+      .text(allSeries[0].type + " [" + allSeries[0].units + "]")
+      .attr("transform", "rotate (-90, 0, 0) translate(" + (height / 5) + "," + (-1*(margin.left / 2 + 20)) + ")"); // TODO dynamically account for width of axis label to center
+
+focus.append("g")
+  .attr("class", "y axis")
+  .call(yAxis);   
+       
+// Draw the context section (selector)
+var context = svg.append("g")
+  .attr("class", "context")
+  .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+// Draw the context x axis 
+context.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height2 + ")")
+  .call(xAxis2); 
+  
+// Draw the brush selector for the context  
+context.append("g")
+    .attr("class", "x brush")
+    .call(brush)
+  .selectAll("rect")
+    .attr("y", -6)
+    .attr("height", height2 + 7);
+
+// set default extent for brush selected (custom code for FRP)
+brush.extent([new Date("January 15 2009 00:00:00"), new Date("January 16 2009 24:00:00")])
+context.select('.brush').call(brush);
+brushed();
+
+// Setup the spacing for the legends
+var legendSpacing = 25;
+    
+// Create a legend for the data series
+var primlegend = focus.append("g")
+  .attr("class", "w axis")
+  .attr("transform", "translate(" + (width + 10) + ",0)");
+
+// TODO make series toggle-able
+primlegend.append("text").text("Series Names")
+  //.style("cursor", " pointer")
+  .attr("y", legendSpacing * 1)
+  .attr("class", "noselect");
+    
+// Define the color scale
+var c20 = d3.scale.category20();
+c20.domain([1, allSeries.length]);   
+    
+// Plot each series
+var i = 1;
+$.each(allSeries, function(index, all_series) {
+  var series = allSeries[index];
+  
+  // Generate a color
+  var lineColor = series.color  
+  
+  // Plot on the focus
+  focus.append("path")
+  .datum(series.data)
+  .attr("class", "xline")
+  .attr("d", line)
+  .style("stroke", lineColor);
+  
+  // Plot on the context
+  // Note that line2 uses the x2 and y2 scales
+  context.append("path")
+  .datum(series.data)
+  .attr("class", "xline")
+  .attr("d", line2)
+  .style("stroke", lineColor);
+  
+  // Add the series name to the legend
+  primlegend.append("text").text(series.name + " [" + series.units + "]")
+    .style("cursor", " pointer")
+    .attr("y", legendSpacing * (i + 1))
+    .attr("class", "noselect")
+    .style("fill", lineColor);    
+  
+  i += 1;
+  
+});
+
+  // Add the series cvrmse to the legend
+  primlegend.append("text").text("CVRMSE:" + allSeries[0].cvrmse)
+    .attr("y", legendSpacing * (i + 1))
+    .attr("class", "noselect");  
+i += 1;
+
+  // Add the series nmbe to the legend
+  primlegend.append("text").text("NMBE:" + allSeries[0].nmbe)
+    .attr("y", legendSpacing * (i + 1))
+    .attr("class", "noselect"); 
+i += 1;
+
+// Define what to do when the selector is moved around
+function brushed() {
+  console.log("Brushed")
+  x.domain(brush.empty() ? x2.domain() : brush.extent());
+  focus.selectAll(".xline").attr("d", line);
+  focus.selectAll(".x.axis").call(xAxis);
+}
+
+</script>
