@@ -1,7 +1,7 @@
 {
   "projectName": "PAT_FRP_condernser_fouling",
   "projectDir": "/Users/dgoldwas/Documents/GitHub/NREL/OpenStudio-fault-models/pat_projects/PAT_FRP_condernser_fouling",
-  "analysisName": "PAT_FRP_condenser_fouling adjusted terminal flow rate",
+  "analysisName": "PAT_FRP_condenser_fouling 0902 baseline",
   "seed": "frp_baseline_experiment_specific_controls.osm",
   "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
   "analysis_type": "Manual",
@@ -277,10 +277,10 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "option_2": "Baseline schedules from measured data",
+          "option_2": "alt baseline 0901",
           "option_3": "Low fault schedules",
           "option_4": "high fault schedules",
-          "option_5": "alt baseline 0902"
+          "option_5": "baseline 0902"
         },
         {
           "specialRowId": "optionDescription",
@@ -362,7 +362,7 @@
               "value": "../../../lib/resources/Master_Condenser_Fouling_baseline.csv"
             }
           ],
-          "name": "Baseline schedules from measured data",
+          "name": "alt baseline 0901",
           "description": "Option 2 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
         },
         {
@@ -395,11 +395,11 @@
               "value": "../../../lib/resources/Master_Condenser_Fouling_baseline_alt_0902.csv"
             }
           ],
-          "name": "alt baseline 0902",
+          "name": "baseline 0902",
           "description": "Option 5 Description: For calibration to measured data update selected loads and load schedules to match measured data for specific dates"
         }
       ],
-      "instanceId": 0.39412364116048293,
+      "instanceId": 0.626051247966636,
       "numberOfOptions": 4,
       "$$hashKey": "object:1225",
       "skip": false,
@@ -694,7 +694,7 @@
           "description": "Option 1 Description: Set Run Period Object"
         }
       ],
-      "instanceId": 0.28386612802068867,
+      "instanceId": 0.7775496872482144,
       "numberOfOptions": 1,
       "$$hashKey": "object:1226",
       "skip": true,
@@ -861,7 +861,7 @@
           "description": "Option 1 Description: This is addressing issue with forward translation of OpenStudio Schedule Rulesets to Schedule Week in EnergyPlus. The start day of week for this logic appears to  apply that day of week to January 1st, however when the simulation is runEnergyPlus uses that as the day of the week for the RunPeriod, which for example may be July 25th, not January first. If I just change the start date."
         }
       ],
-      "instanceId": 0.826760163542615,
+      "instanceId": 0.445005319118728,
       "numberOfOptions": 1,
       "$$hashKey": "object:365085",
       "skip": false,
@@ -1076,7 +1076,7 @@
           "description": "Option 2 Description: Simulate supply air duct leakage from VAV into Return Plenum."
         }
       ],
-      "instanceId": 0.9300926167765238,
+      "instanceId": 0.45776484431689135,
       "numberOfOptions": 1,
       "$$hashKey": "object:136454",
       "outputMeasure": false,
@@ -1858,7 +1858,7 @@
           "description": "Option 2 Description: Condenser fouling occurs when litter, dirt, or dust accumulates on or between the fins of a condenser of an air conditioner located in the outdoor environment. The blockage reduces the airflow across the condenser and increases the condensing temperature in the refrigerant circuit. The elevated temperature increases the pressure difference across the compressor and reduces the equipment efficiency. This measure simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of reduction in condenser coil airflow at full load."
         }
       ],
-      "instanceId": 0.8353538881561462,
+      "instanceId": 0.900485683433002,
       "numberOfOptions": 2,
       "$$hashKey": "object:11340"
     },
@@ -2751,7 +2751,7 @@
           "description": "Option 1 Description: This measure creates high level tables and charts pulling both from model inputs and EnergyPlus results. It has building level information as well as detail on space types, thermal zones, HVAC systems, envelope characteristics, and economics. Click the heading above a chart to view a table of the chart data."
         }
       ],
-      "instanceId": 0.9861566693611798,
+      "instanceId": 0.2609165033017684,
       "numberOfOptions": 1,
       "$$hashKey": "object:1238",
       "skip": false,
@@ -2862,7 +2862,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "RTU Exit",
+          "option_1": "DO NOT USE 0901 RTU Exit",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -2880,7 +2880,7 @@
           "$$hashKey": "uiGrid-3QGI",
           "option_2": "low fault RTU exit",
           "option_3": "high fault RTU exit",
-          "option_4": "alt baseline RTU exit"
+          "option_4": "baseline 0902 RTU exit"
         },
         {
           "specialRowId": "optionDescription",
@@ -3764,7 +3764,7 @@
               "value": false
             }
           ],
-          "name": "RTU Exit",
+          "name": "DO NOT USE 0901 RTU Exit",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -4037,11 +4037,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline RTU exit",
+          "name": "baseline 0902 RTU exit",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.1025083146149901,
+      "instanceId": 0.35527801328027686,
       "numberOfOptions": 4,
       "unlockStatus": true,
       "skip": false,
@@ -4190,7 +4190,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "RTU Enter",
+          "option_1": "DO NOT USE 0901  RTU Enter",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -4208,7 +4208,7 @@
           "$$hashKey": "uiGrid-0AP0",
           "option_2": "low fault RTU enter",
           "option_3": "high fault RTU enter",
-          "option_4": "alt baseline rtu enter"
+          "option_4": "baseline 0902 RTU enter"
         },
         {
           "specialRowId": "optionDescription",
@@ -5092,7 +5092,7 @@
               "value": false
             }
           ],
-          "name": "RTU Enter",
+          "name": "DO NOT USE 0901  RTU Enter",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -5365,11 +5365,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline rtu enter",
+          "name": "baseline 0902 RTU enter",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.1801110478392718,
+      "instanceId": 0.4755562979553163,
       "numberOfOptions": 4,
       "unlockStatus": true,
       "skip": false,
@@ -5518,7 +5518,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "Cooling Consumption",
+          "option_1": "DO NOT USE 0901  Cooling Consumption",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -5536,7 +5536,7 @@
           "$$hashKey": "uiGrid-0DHC",
           "option_2": "low fault cooling consumption",
           "option_3": "high fault cooling consumption",
-          "option_4": "alt baseline cooling"
+          "option_4": "baseline 0902 cooling consumption"
         },
         {
           "specialRowId": "optionDescription",
@@ -6420,7 +6420,7 @@
               "value": false
             }
           ],
-          "name": "Cooling Consumption",
+          "name": "DO NOT USE 0901  Cooling Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -6693,11 +6693,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline cooling",
+          "name": "baseline 0902 cooling consumption",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.1059335580673022,
+      "instanceId": 0.7056065109838714,
       "numberOfOptions": 4,
       "unlockStatus": true,
       "skip": false,
@@ -6846,7 +6846,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "Cooling Capacity",
+          "option_1": "DO NOT USE 0901 Cooling Capacity",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -6863,7 +6863,7 @@
           },
           "option_2": "low fault cooling capacity",
           "option_3": "high fault cooling capacity",
-          "option_4": "alt baseline capacity",
+          "option_4": "baseline 0902 cooling capacity",
           "$$hashKey": "uiGrid-0WIR"
         },
         {
@@ -7748,7 +7748,7 @@
               "value": false
             }
           ],
-          "name": "Cooling Capacity",
+          "name": "DO NOT USE 0901 Cooling Capacity",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -8021,11 +8021,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline capacity",
+          "name": "baseline 0902 cooling capacity",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.17537465777550754,
+      "instanceId": 0.09642894547240188,
       "numberOfOptions": 4,
       "unlockStatus": true,
       "skip": false,
@@ -8172,7 +8172,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "Heating Consumption",
+          "option_1": "DO NOT USE 0901 Heating Consumption",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -8190,7 +8190,7 @@
           "$$hashKey": "uiGrid-0MOO",
           "option_2": "low fault heating",
           "option_3": "high fault heating",
-          "option_4": "alt baseline heating"
+          "option_4": "baseline 0902 heating"
         },
         {
           "specialRowId": "optionDescription",
@@ -8743,7 +8743,7 @@
           "model_dependent": false,
           "default_value": false,
           "variable": false,
-          "option_1": false,
+          "option_1": true,
           "units": "",
           "minimum": false,
           "maximum": false,
@@ -8764,9 +8764,9 @@
             "showWarningIcon": false
           },
           "$$hashKey": "uiGrid-0MPK",
-          "option_2": false,
-          "option_3": false,
-          "option_4": false
+          "option_2": true,
+          "option_3": true,
+          "option_4": true
         },
         {
           "name": "plot_flag",
@@ -9047,7 +9047,7 @@
             },
             {
               "name": "algorithm_download",
-              "value": false
+              "value": true
             },
             {
               "name": "plot_flag",
@@ -9074,7 +9074,7 @@
               "value": false
             }
           ],
-          "name": "Heating Consumption",
+          "name": "DO NOT USE 0901 Heating Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -9138,7 +9138,7 @@
             },
             {
               "name": "algorithm_download",
-              "value": false
+              "value": true
             },
             {
               "name": "plot_flag",
@@ -9229,7 +9229,7 @@
             },
             {
               "name": "algorithm_download",
-              "value": false
+              "value": true
             },
             {
               "name": "plot_flag",
@@ -9320,7 +9320,7 @@
             },
             {
               "name": "algorithm_download",
-              "value": false
+              "value": true
             },
             {
               "name": "plot_flag",
@@ -9347,11 +9347,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline heating",
+          "name": "baseline 0902 heating",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.42197485336774876,
+      "instanceId": 0.35742640217381494,
       "numberOfOptions": 4,
       "unlockStatus": false,
       "skip": false,
@@ -9500,7 +9500,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "Total Consumption",
+          "option_1": "DO NOT USE 0901 Total Consumption",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -9518,7 +9518,7 @@
           "$$hashKey": "uiGrid-0OWZ",
           "option_3": "low fault total",
           "option_4": "high fault total",
-          "option_5": "alt baseline total"
+          "option_5": "baseline 0902 total"
         },
         {
           "specialRowId": "optionDescription",
@@ -10402,7 +10402,7 @@
               "value": false
             }
           ],
-          "name": "Total Consumption",
+          "name": "DO NOT USE 0901 Total Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -10675,11 +10675,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline total",
+          "name": "baseline 0902 total",
           "description": "Option 5 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.06654990464088906,
+      "instanceId": 0.7194203828516681,
       "numberOfOptions": 4,
       "unlockStatus": false,
       "skip": false,
@@ -10828,7 +10828,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "Lighting Consumption",
+          "option_1": "DO NOT USE 0901 Lighting Consumption",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -10846,7 +10846,7 @@
           "$$hashKey": "uiGrid-0R7D",
           "option_2": "low fault lighting",
           "option_3": "high fault lighting",
-          "option_4": "alt baseline lighting"
+          "option_4": "baseline 0902 lighting"
         },
         {
           "specialRowId": "optionDescription",
@@ -11399,7 +11399,7 @@
           "model_dependent": false,
           "default_value": false,
           "variable": false,
-          "option_1": false,
+          "option_1": true,
           "units": "",
           "minimum": false,
           "maximum": false,
@@ -11420,9 +11420,9 @@
             "showWarningIcon": false
           },
           "$$hashKey": "uiGrid-0R89",
-          "option_2": false,
-          "option_3": false,
-          "option_4": false
+          "option_2": true,
+          "option_3": true,
+          "option_4": true
         },
         {
           "name": "plot_flag",
@@ -11703,7 +11703,7 @@
             },
             {
               "name": "algorithm_download",
-              "value": false
+              "value": true
             },
             {
               "name": "plot_flag",
@@ -11730,7 +11730,7 @@
               "value": false
             }
           ],
-          "name": "Lighting Consumption",
+          "name": "DO NOT USE 0901 Lighting Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -11794,7 +11794,7 @@
             },
             {
               "name": "algorithm_download",
-              "value": false
+              "value": true
             },
             {
               "name": "plot_flag",
@@ -11885,7 +11885,7 @@
             },
             {
               "name": "algorithm_download",
-              "value": false
+              "value": true
             },
             {
               "name": "plot_flag",
@@ -11976,7 +11976,7 @@
             },
             {
               "name": "algorithm_download",
-              "value": false
+              "value": true
             },
             {
               "name": "plot_flag",
@@ -12003,11 +12003,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline lighting",
+          "name": "baseline 0902 lighting",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.44518146843550443,
+      "instanceId": 0.22739048581660448,
       "numberOfOptions": 4,
       "unlockStatus": true,
       "skip": false,
@@ -12156,7 +12156,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "Equipment Consumption",
+          "option_1": "DO NOT USE 0901 Equipment Consumption",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -12174,7 +12174,7 @@
           "$$hashKey": "uiGrid-0TJU",
           "option_2": "low fault equip",
           "option_3": "high fault equip",
-          "option_4": "alt baseline equip"
+          "option_4": "baseline 0902 equip"
         },
         {
           "specialRowId": "optionDescription",
@@ -13058,7 +13058,7 @@
               "value": false
             }
           ],
-          "name": "Equipment Consumption",
+          "name": "DO NOT USE 0901 Equipment Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -13331,11 +13331,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline equip",
+          "name": "baseline 0902 equip",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.07852557665029192,
+      "instanceId": 0.5257893704960792,
       "numberOfOptions": 4,
       "unlockStatus": false,
       "skip": false,
@@ -13484,7 +13484,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "Fan Consumption",
+          "option_1": "DO NOT USE 0901 Fan Consumption",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -13502,7 +13502,7 @@
           "$$hashKey": "uiGrid-1DEK",
           "option_2": "low fault fan",
           "option_3": "high fault fan",
-          "option_4": "alt baseline fan"
+          "option_4": "baseline 0902 fan"
         },
         {
           "specialRowId": "optionDescription",
@@ -14386,7 +14386,7 @@
               "value": false
             }
           ],
-          "name": "Fan Consumption",
+          "name": "DO NOT USE 0901 Fan Consumption",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -14659,11 +14659,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline fan",
+          "name": "baseline 0902 fan",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.35276202249938327,
+      "instanceId": 0.9187750061085438,
       "numberOfOptions": 4,
       "unlockStatus": false,
       "skip": false,
@@ -14812,7 +14812,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "Fan Consumption",
+          "option_1": "DO NOT USE 0901 Std Airflow Volume",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -14827,9 +14827,9 @@
             "default_value": "",
             "showWarningIcon": false
           },
-          "option_2": "low fault fan",
-          "option_3": "high fault fan",
-          "option_4": "alt baseline fan",
+          "option_2": "low fault Std Airflow Volume ",
+          "option_3": "high fault Std Airflow Volume",
+          "option_4": "baseline 0902 Std Airflow Volume",
           "$$hashKey": "uiGrid-0N5S"
         },
         {
@@ -15714,7 +15714,7 @@
               "value": false
             }
           ],
-          "name": "Fan Consumption",
+          "name": "DO NOT USE 0901 Std Airflow Volume",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -15805,7 +15805,7 @@
               "value": false
             }
           ],
-          "name": "low fault fan",
+          "name": "low fault Std Airflow Volume ",
           "description": "Option 2 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -15896,7 +15896,7 @@
               "value": false
             }
           ],
-          "name": "high fault fan",
+          "name": "high fault Std Airflow Volume",
           "description": "Option 3 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -15987,11 +15987,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline fan",
+          "name": "baseline 0902 Std Airflow Volume",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.017426579601307557,
+      "instanceId": 0.8552936947224665,
       "numberOfOptions": 4,
       "unlockStatus": true,
       "skip": false,
@@ -16138,7 +16138,7 @@
           "specialRowId": "optionName",
           "type": "String",
           "variable": false,
-          "option_1": "Outdoor Air Temperature",
+          "option_1": "DO NOT USE 0901 Outdoor Air Temperature",
           "inputs": {
             "relationship": null,
             "choiceDisplayNames": [],
@@ -16156,7 +16156,7 @@
           "$$hashKey": "uiGrid-1W11",
           "option_2": "low fault OA",
           "option_3": "high fault OA",
-          "option_4": "alt baseline 0902"
+          "option_4": "baseline 0902 OA"
         },
         {
           "specialRowId": "optionDescription",
@@ -17040,7 +17040,7 @@
               "value": false
             }
           ],
-          "name": "Outdoor Air Temperature",
+          "name": "DO NOT USE 0901 Outdoor Air Temperature",
           "description": "Option 1 Description: Creates Objective Function from Timeseries Data"
         },
         {
@@ -17313,11 +17313,11 @@
               "value": false
             }
           ],
-          "name": "alt baseline 0902",
+          "name": "baseline 0902 OA",
           "description": "Option 4 Description: Creates Objective Function from Timeseries Data"
         }
       ],
-      "instanceId": 0.20854049302927802,
+      "instanceId": 0.8973598533229037,
       "numberOfOptions": 4,
       "unlockStatus": true,
       "skip": true,
@@ -17392,50 +17392,50 @@
   },
   "designAlternatives": [
     {
-      "name": "condenser fouling baseline 0901",
+      "name": "condenser fouling baseline 0902",
       "seedModel": "frp_baseline_experiment_specific_controls.osm",
       "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
-      "update_rfp_loads_and_schedules_from_measured_data": "Baseline schedules from measured data",
+      "update_rfp_loads_and_schedules_from_measured_data": "baseline 0902",
       "run_period": "custom run period",
       "change_run_period_start_day_of_week": "Change Start Day of Week",
       "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
       "openstudio_results": "OpenStudio Results",
-      "rtu_exit": "RTU Exit",
-      "rtu_enter": "RTU Enter",
-      "cooling_consumption": "Cooling Consumption",
-      "heating_consumption": "Heating Consumption",
-      "total_consumption": "Total Consumption",
-      "lighting_consumption": "Lighting Consumption",
-      "equipment_consumption": "Equipment Consumption",
-      "fan_consumption": "Fan Consumption",
-      "outdoor_air_temp": "Outdoor Air Temperature",
-      "$$hashKey": "uiGrid-0DWV",
-      "condenser_fouling": "None",
-      "fan_consumption_2": "Fan Consumption",
-      "cooling_consumption_2": "Cooling Capacity"
-    },
-    {
-      "name": "condenser fouling baseline alt 0902",
-      "seedModel": "frp_baseline_experiment_specific_controls.osm",
-      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
-      "update_rfp_loads_and_schedules_from_measured_data": "alt baseline 0902",
-      "run_period": "custom run period",
-      "change_run_period_start_day_of_week": "Change Start Day of Week",
-      "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
-      "openstudio_results": "OpenStudio Results",
-      "rtu_exit": "alt baseline RTU exit",
-      "rtu_enter": "alt baseline rtu enter",
-      "cooling_consumption": "alt baseline cooling",
-      "heating_consumption": "alt baseline heating",
-      "total_consumption": "alt baseline total",
-      "lighting_consumption": "alt baseline lighting",
-      "equipment_consumption": "alt baseline equip",
-      "fan_consumption": "alt baseline fan",
-      "outdoor_air_temp": "alt baseline 0902",
+      "rtu_exit": "baseline 0902 RTU exit",
+      "rtu_enter": "baseline 0902 RTU enter",
+      "cooling_consumption": "baseline 0902 cooling consumption",
+      "heating_consumption": "baseline 0902 heating",
+      "total_consumption": "baseline 0902 total",
+      "lighting_consumption": "baseline 0902 lighting",
+      "equipment_consumption": "baseline 0902 equip",
+      "fan_consumption": "baseline 0902 fan",
+      "outdoor_air_temp": "baseline 0902 OA",
       "condenser_fouling": "None",
       "$$hashKey": "uiGrid-0HHQ",
-      "fan_consumption_2": "alt baseline fan",
-      "cooling_consumption_2": "alt baseline capacity"
+      "fan_consumption_2": "baseline 0902 Std Airflow Volume",
+      "cooling_consumption_2": "baseline 0902 cooling capacity"
+    },
+    {
+      "name": "condenser fouling baseline alt 0901",
+      "seedModel": "frp_baseline_experiment_specific_controls.osm",
+      "weatherFile": "FRP2-2_DataWeather_Aug_Sep_2017_clean_reducedCST.epw",
+      "update_rfp_loads_and_schedules_from_measured_data": "alt baseline 0901",
+      "run_period": "custom run period",
+      "change_run_period_start_day_of_week": "Change Start Day of Week",
+      "duct_leakage_through_zone_hvac_air_distribution_unit": "duct leakage",
+      "openstudio_results": "OpenStudio Results",
+      "rtu_exit": "DO NOT USE 0901 RTU Exit",
+      "rtu_enter": "DO NOT USE 0901  RTU Enter",
+      "cooling_consumption": "DO NOT USE 0901  Cooling Consumption",
+      "heating_consumption": "DO NOT USE 0901 Heating Consumption",
+      "total_consumption": "DO NOT USE 0901 Total Consumption",
+      "lighting_consumption": "DO NOT USE 0901 Lighting Consumption",
+      "equipment_consumption": "DO NOT USE 0901 Equipment Consumption",
+      "fan_consumption": "DO NOT USE 0901 Fan Consumption",
+      "outdoor_air_temp": "DO NOT USE 0901 Outdoor Air Temperature",
+      "condenser_fouling": "None",
+      "fan_consumption_2": "DO NOT USE 0901 Std Airflow Volume",
+      "cooling_consumption_2": "DO NOT USE 0901 Cooling Capacity",
+      "$$hashKey": "uiGrid-0RYS"
     },
     {
       "name": "condenser fouling 28 percent fault without measure",
@@ -17456,9 +17456,9 @@
       "fan_consumption": "low fault fan",
       "outdoor_air_temp": "low fault OA",
       "condenser_fouling": "None",
-      "fan_consumption_2": "low fault fan",
-      "$$hashKey": "uiGrid-0QEZ",
-      "cooling_consumption_2": "low fault cooling capacity"
+      "fan_consumption_2": "low fault Std Airflow Volume ",
+      "cooling_consumption_2": "low fault cooling capacity",
+      "$$hashKey": "uiGrid-0S10"
     },
     {
       "name": "condenser fouling 58 percent fault without measure",
@@ -17479,9 +17479,9 @@
       "fan_consumption": "high fault fan",
       "outdoor_air_temp": "high fault OA",
       "condenser_fouling": "None",
-      "fan_consumption_2": "high fault fan",
-      "$$hashKey": "uiGrid-0QEX",
-      "cooling_consumption_2": "high fault cooling capacity"
+      "fan_consumption_2": "high fault Std Airflow Volume",
+      "cooling_consumption_2": "high fault cooling capacity",
+      "$$hashKey": "uiGrid-0S0Y"
     },
     {
       "name": "condenser fouling 28 percent fault with measure",
@@ -17502,9 +17502,9 @@
       "fan_consumption": "low fault fan",
       "outdoor_air_temp": "low fault OA",
       "condenser_fouling": "low fault 28 percent",
-      "fan_consumption_2": "low fault fan",
-      "$$hashKey": "uiGrid-0QEV",
-      "cooling_consumption_2": "low fault cooling capacity"
+      "fan_consumption_2": "low fault Std Airflow Volume ",
+      "cooling_consumption_2": "low fault cooling capacity",
+      "$$hashKey": "uiGrid-0S0W"
     },
     {
       "name": "condenser fouling 58 percent fault with measure",
@@ -17525,23 +17525,23 @@
       "fan_consumption": "high fault fan",
       "outdoor_air_temp": "high fault OA",
       "condenser_fouling": "low fault 58 percent",
-      "fan_consumption_2": "high fault fan",
-      "$$hashKey": "uiGrid-0QET",
-      "cooling_consumption_2": "high fault cooling capacity"
+      "fan_consumption_2": "high fault Std Airflow Volume",
+      "cooling_consumption_2": "high fault cooling capacity",
+      "$$hashKey": "uiGrid-0S0U"
     }
   ],
   "analysisID": null,
   "datapoints": [
     {
-      "name": "condenser fouling baseline 0901",
-      "id": "condenser fouling baseline 0901",
+      "name": "condenser fouling baseline 0902",
+      "id": "condenser fouling baseline 0902",
       "run": false,
       "modified": false,
       "selected": true
     },
     {
-      "name": "condenser fouling baseline alt 0902",
-      "id": "condenser fouling baseline alt 0902",
+      "name": "condenser fouling baseline alt 0901",
+      "id": "condenser fouling baseline alt 0901",
       "run": false,
       "modified": false,
       "selected": true
