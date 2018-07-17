@@ -7,8 +7,6 @@
 #see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
-require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_T"
-
 $allchoices = '* ALL Controller:OutdoorAir *'
 
 # start the measure
@@ -104,6 +102,8 @@ class BiasedEconomizerSensorReturnT < OpenStudio::Ruleset::WorkspaceUserScript
   # define what happens when the measure is run
   def run(workspace, runner, user_arguments)
     super(workspace, runner, user_arguments)
+
+    load "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_T.rb"
 
     # use the built-in error checking
     if !runner.validateUserArguments(arguments(workspace), user_arguments)

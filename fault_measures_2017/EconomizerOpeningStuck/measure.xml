@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>economizer_opening_stuck</name>
   <uid>2a4a6312-c5d6-40e6-a8a0-cbd552a5949b</uid>
-  <version_id>174fec6c-48dc-47e5-9189-b3bd176e6f17</version_id>
-  <version_modified>20180313T161759Z</version_modified>
+  <version_id>847bbb71-8c77-4c9d-896f-efda53267c6c</version_id>
+  <version_modified>20180323T193238Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>EconomizerOpeningStuck</class_name>
   <display_name>Economizer Opening Stuck</display_name>
@@ -41,13 +41,6 @@
           <display_name>false</display_name>
         </choice>
       </choices>
-    </argument>
-    <argument>
-      <name>sch_choice</name>
-      <display_name>Choice of fault presence schedule:</display_name>
-      <type>Choice</type>
-      <required>true</required>
-      <model_dependent>false</model_dependent>
     </argument>
     <argument>
       <name>damper_pos</name>
@@ -97,7 +90,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>AF8356BD</checksum>
+      <checksum>479BA0B1</checksum>
     </file>
   </files>
 </measure>

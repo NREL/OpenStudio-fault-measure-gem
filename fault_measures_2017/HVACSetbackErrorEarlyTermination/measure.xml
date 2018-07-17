@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_early_termination</name>
   <uid>d6a0f476-5b23-4273-ae00-93e55fa5f917</uid>
-  <version_id>43237199-80ac-47c2-99a4-fd3b755748f6</version_id>
-  <version_modified>20180313T161759Z</version_modified>
+  <version_id>9cf010e4-e874-43d4-9424-10090c8db7f5</version_id>
+  <version_modified>20180524T000242Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorEarlyTermination</class_name>
   <display_name>HVAC Setback Error: Early Termination</display_name>
@@ -239,19 +239,7 @@
       <filename>ExtendMorningThermostatSetpointWeek_Test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
-      <checksum>F5472387</checksum>
-    </file>
-    <file>
-      <filename>fdd_thermostat.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6E98A224</checksum>
-    </file>
-    <file>
-      <filename>misc_run_week_extmorninghr.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>15EB38B6</checksum>
+      <checksum>F9B02DA6</checksum>
     </file>
     <file>
       <version>
@@ -262,7 +250,19 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>515E69BC</checksum>
+      <checksum>3709636D</checksum>
+    </file>
+    <file>
+      <filename>fdd_thermostat_hvac.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>6B132892</checksum>
+    </file>
+    <file>
+      <filename>misc_run_week_extmorninghr.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>1A94E458</checksum>
     </file>
   </files>
 </measure>

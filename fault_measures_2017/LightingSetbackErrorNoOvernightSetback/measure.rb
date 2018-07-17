@@ -17,6 +17,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 
 # resource file modules
 include OsLib_FDD
+include OsLib_FDD_light
 
 # start the measure
 class LightingSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript

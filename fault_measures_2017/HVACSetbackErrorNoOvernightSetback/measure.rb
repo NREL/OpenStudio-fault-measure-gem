@@ -15,6 +15,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 
 # resource file modules
 include OsLib_FDD
+include OsLib_FDD_hvac
 
 # start the measure
 class HVACSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
@@ -106,7 +107,7 @@ class HVACSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
       thermalzones = obtainzone('zone', model, runner, user_arguments)
 
       # create empty has to poulate when loop through zones
-      setpoint_values = create_initial_final_setpoint_values_hash
+      setpoint_values = create_initial_final_setpoint_values_hash_alt
 
       # apply fault
       thermalzones.each do |thermalzone|

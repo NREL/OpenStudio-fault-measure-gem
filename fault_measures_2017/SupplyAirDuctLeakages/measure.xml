@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>supply_air_duct_leakages</name>
   <uid>8d568a70-080d-4f27-97f5-5210ff639652</uid>
-  <version_id>79d05bdb-1f47-4293-8363-88e80bc04275</version_id>
-  <version_modified>20180509T075856Z</version_modified>
+  <version_id>c4740003-6633-445a-9fa1-02bb613b6fa2</version_id>
+  <version_modified>20180313T161801Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>SupplyAirDuctLeakages</class_name>
   <display_name>Supply Air Duct Leakages</display_name>
@@ -63,19 +63,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>22CAB33C</checksum>
-    </file>
-    <file>
-      <filename>frp_baseline_generic_sch.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>E2264D50</checksum>
-    </file>
-    <file>
-      <filename>measure_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>58210784</checksum>
+      <checksum>2ADDED32</checksum>
     </file>
   </files>
 </measure>

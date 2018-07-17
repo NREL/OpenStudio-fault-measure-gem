@@ -55,7 +55,7 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
     args << schedule_exist
     
     #choice of schedules for the presence of fault. 0 for no fault and other numbers means fault    
-    args << fractional_schedule_choice(model)
+    #args << fractional_schedule_choice(model)
 	
     #make a double argument for the damper position
     #it should range between 0 and 1. 0 means completely closed damper
@@ -80,9 +80,10 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
     #obtain values
     econ_choice = runner.getStringArgumentValue('econ_choice',user_arguments)
     schedule_exist = runner.getBoolArgumentValue('schedule_exist',user_arguments)
-    sch_choice = runner.getStringArgumentValue('sch_choice',user_arguments)
+    #sch_choice = runner.getStringArgumentValue('sch_choice',user_arguments)
+    sch_choice = nil
     damper_pos = runner.getDoubleArgumentValue('damper_pos',user_arguments)
-    
+
     #check if the damper position is between 0 and 1
     if damper_pos == -1.0
       runner.registerInfo("Damper position at #{damper_pos}. Skipping the model......")

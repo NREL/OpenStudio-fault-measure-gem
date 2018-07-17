@@ -7,13 +7,7 @@
 # see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
-require "#{File.dirname(__FILE__)}/resources/transfercurveparameters"
-require "#{File.dirname(__FILE__)}/resources/schedulesearch"
-require "#{File.dirname(__FILE__)}/resources/entercoefficients"
-require "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdx"
-require "#{File.dirname(__FILE__)}/resources/faultdefinitions"
-require "#{File.dirname(__FILE__)}/resources/misc_eplus_func"
-require "#{File.dirname(__FILE__)}/resources/psychrometric"
+load "#{File.dirname(__FILE__)}/resources/entercoefficients.rb"
 
 # define number of parameters in the model
 $q_para_num = 6
@@ -36,7 +30,7 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description of workspace approach
   def modeler_description
-    return "Thirty two user inputs (DX coil where the fault occurs / Ratio of liquid line restriction fault / rated cooling capacity / rated sensible heat ratio / rated volumetric flow rate / minimum-maximum evaporator air inlet wet-bulb temperature / minimum-maximum condenser air inlet dry-bulb temperature / minimum/maximum rated COP / percentage change of UA with increase of fault level / time required for fault to reach full level / fault starting month / fault starting date / fault starting time / fault ending month / fault ending date / fault ending time) can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
+    return "Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation."
   end
 
   # define the arguments that the user will input
@@ -138,51 +132,6 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
     bf_para.setDisplayName('Percentage change of UA with increase of fault level level (% of UA/% of fault level)')
     bf_para.setDefaultValue(-1.32)  # default change of bypass factor level with fault level in %
     args << bf_para
-	##################################################
-    #Parameters for transient fault modeling
-	
-	#make a double argument for the time required for fault to reach full level 
-    time_constant = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_constant', false)
-    time_constant.setDisplayName('Enter the time required for fault to reach full level [hr]')
-    time_constant.setDefaultValue(0)  #default is zero
-    args << time_constant
-	
-	#make a double argument for the start month
-    start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
-    start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
-    start_month.setDefaultValue(6)  #default is June
-    args << start_month
-	
-	#make a double argument for the start date
-    start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_date', false)
-    start_date.setDisplayName('Enter the date (1-28/30/31) when the fault starts to occur')
-    start_date.setDefaultValue(1)  #default is 1st day of the month
-    args << start_date
-	
-	#make a double argument for the start time
-    start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
-    start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
-    start_time.setDefaultValue(9)  #default is 9am
-    args << start_time
-	
-	#make a double argument for the end month
-    end_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_month', false)
-    end_month.setDisplayName('Enter the month (1-12) when the fault ends')
-    end_month.setDefaultValue(12)  #default is Decebmer
-    args << end_month
-	
-	#make a double argument for the end date
-    end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_date', false)
-    end_date.setDisplayName('Enter the date (1-28/30/31) when the fault ends')
-    end_date.setDefaultValue(31)  #default is last day of the month
-    args << end_date
-	
-	#make a double argument for the end time
-    end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
-    end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
-    end_time.setDefaultValue(23)  #default is 11pm
-    args << end_time
-    ##################################################											   
 
     return args
   end
@@ -190,6 +139,13 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
   # define what happens when the measure is run
   def run(workspace, runner, user_arguments)
     super(workspace, runner, user_arguments)
+
+    load "#{File.dirname(__FILE__)}/resources/transfercurveparameters.rb"
+    load "#{File.dirname(__FILE__)}/resources/schedulesearch.rb"
+    load "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdx.rb"
+    load "#{File.dirname(__FILE__)}/resources/faultdefinitions.rb"
+    load "#{File.dirname(__FILE__)}/resources/misc_eplus_func.rb"
+    load "#{File.dirname(__FILE__)}/resources/psychrometric.rb"
 
     # obtain values
     coil_choice, fault_lvl, fault_lvl_check = _get_inputs(workspace, runner, user_arguments)
@@ -201,20 +157,7 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
     bf_para = runner.getDoubleArgumentValue('bf_para', user_arguments)
     fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
     ##################################################
-    time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
-	start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
-	start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
-	start_time = runner.getDoubleArgumentValue('start_time',user_arguments).to_s
-	end_month = runner.getDoubleArgumentValue('end_month',user_arguments).to_s
-	end_date = runner.getDoubleArgumentValue('end_date',user_arguments).to_s
-	end_time = runner.getDoubleArgumentValue('end_time',user_arguments).to_s
-	time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
-	dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
-	dts.each do |dt|
-	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
-	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
-	end
-	##################################################
+
     rtu_changed = false
     existing_coils = []
     
@@ -235,7 +178,7 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
       existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
       next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
       runner.registerInfo("Found single speed coil named #{coilcoolingdxsinglespeed.getString(0)}")
-      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed, coiltype)
       unless rtu_changed
         return false
       end
@@ -261,7 +204,7 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
       existing_coils << pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0)
       next unless pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
       runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostagewithhumiditycontrolmode.getString(0)}")
-      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0), fault_lvl, coilcoolingdxtwostagewithhumiditycontrolmode, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0), fault_lvl, coilcoolingdxtwostagewithhumiditycontrolmode, coiltype)
       unless rtu_changed
         return false
       end
@@ -322,7 +265,7 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
     return 'continue'
   end
 
-  def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcooling, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+  def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcooling, coiltype)
     # check component validity
 
     ##################################################
@@ -344,15 +287,20 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
     # create energyplus management system code to alter the cooling capacity and EIR of the coil object
     # introduce code to modify the temperature curve for cooling capacity
     # obtaining the coefficients in the original Q curve
-    string_objects, workspace = _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl)
+    string_objects, workspace = _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype)
+
+    # write EMS sensors for schedules of fault levels
+    string_objects = fault_level_sensor_sch_insert(workspace, string_objects, $faultnow, coil_choice, sch_choice)
 
     # write variable definition for EMS programs
     # EMS Sensors to the workspace
     # check if the sensors are added previously by other fault models
     _write_ems_sensors(workspace, runner, coilcooling, sh_coil_choice, string_objects, find_outdoor_node_name(workspace), coiltype)
-	
-	#Fault intensity adjustment factor for dynamic modeling
-	faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, sh_coil_choice) 
+
+    # create EMS for adjusting the bypass factor according to the fault level
+    # stored in the form of rated SHR
+    # check if cooling capacity and volumetric airflow are rated or manual
+    # _configure_shr(runner, user_arguments, coilcooling, fault_lvl, coil_choice, string_objects)
 
     return _wrapping_up(runner, workspace, coil_choice, string_objects)
   end
@@ -403,27 +351,27 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
     return sch_choice, scheduletypelimitname
   end
 
-  def _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl)
+  def _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype)
     # This function writes the original and adjustment curves in EMS
-    string_objects = _write_q_and_eir_curves(workspace, coil_choice, coilcooling, string_objects, runner, coiltype, fault_lvl)
+    string_objects = _write_q_and_eir_curves(workspace, coil_choice, coilcooling, string_objects, runner, coiltype)
     string_objects, workspace = _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype)
     return string_objects, workspace
   end
 
-  def _write_q_and_eir_curves(workspace, coil_choice, coilcooling, string_objects, runner, coiltype, fault_lvl)
+  def _write_q_and_eir_curves(workspace, coil_choice, coilcooling, string_objects, runner, coiltype)
     # This function appends and returns the string_objects with ems program statements. It also
     # returns a boolean to indicate if the addition is successful
 
     # curves generated by OpenStudio. No need to check
     ##################################################
     if coiltype == 1 #SINGLESPEED
-      string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'Q', 9, runner, coiltype, [], fault_lvl)
-      string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 11, runner, coiltype, [], fault_lvl)
+      string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'Q', 9, runner, coiltype, [])
+      string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 11, runner, coiltype, [])
     elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
       coilperformancedxcoolings = workspace.getObjectsByType(coilcooling.getString(8).to_s.to_IddObjectType)
       coilperformancedxcoolings.each do |coilperformancedxcooling|
-	string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'Q', 6, runner, coiltype, coilperformancedxcooling, fault_lvl)
-	string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 8, runner, coiltype, coilperformancedxcooling, fault_lvl)
+	string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'Q', 6, runner, coiltype, coilperformancedxcooling)
+	string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 8, runner, coiltype, coilperformancedxcooling)
       end
     end
     ##################################################
@@ -466,7 +414,7 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
     return string_objects, workspace
   end
 
-  def _write_curves(workspace, coil_choice, coilcooling, string_objects, curve_name, curve_index, runner, coiltype, coilperformancedxcooling, fault_lvl)
+  def _write_curves(workspace, coil_choice, coilcooling, string_objects, curve_name, curve_index, runner, coiltype, coilperformancedxcooling)
     ##################################################
     if coiltype == 1 #SINGLESPEED
       curve_str = pass_string(coilcooling, curve_index)
@@ -491,7 +439,7 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
       sh_curve_name = curve_nameq
     end
     ##################################################
-    string_objects = main_program_entry(workspace, string_objects, coil_choice, curve_nameq, paraq, curve_name, fault_lvl)
+    string_objects = main_program_entry(workspace, string_objects, coil_choice, curve_nameq, paraq, curve_name)
     return string_objects, true
   end
 

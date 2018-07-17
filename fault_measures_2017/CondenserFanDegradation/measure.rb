@@ -7,11 +7,6 @@
 # see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
-require "#{File.dirname(__FILE__)}/resources/transfercurveparameters"
-require "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdx_CAF"
-require "#{File.dirname(__FILE__)}/resources/faultdefinitions"
-require "#{File.dirname(__FILE__)}/resources/misc_eplus_func"
-
 # define number of parameters in the model
 $q_para_num = 6
 $eir_para_num = 6
@@ -124,6 +119,11 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
   # define what happens when the measure is run
   def run(workspace, runner, user_arguments)
     super(workspace, runner, user_arguments)
+
+    load "#{File.dirname(__FILE__)}/resources/transfercurveparameters.rb"
+    load "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdx_CAF.rb"
+    load "#{File.dirname(__FILE__)}/resources/faultdefinitions.rb"
+    load "#{File.dirname(__FILE__)}/resources/misc_eplus_func.rb"
 
     # obtain values
     coil_choice, fault_lvl, fault_lvl_check = _get_inputs(workspace, runner, user_arguments)
