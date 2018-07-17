@@ -10,7 +10,6 @@
 require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_DuctLeakage"
 
 $allchoices = '* ALL Controller:OutdoorAir *'
-$faulttype = 'DL'
 
 # start the measure
 class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
@@ -164,17 +163,14 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
           #main program differs as the options at controlleroutdoorair differs
           #create a new string for the main program to start appending the required
           #EMS routine to it
-		  ##################################################
-		  oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-		  ################################################## 
                     
-          main_body = econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, oacontrollername)
+          main_body = econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio)
           string_objects << main_body
            
           #append other objects
           strings_objects = econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
 		  ##################################################
-		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
+		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
 		  ##################################################
 
           #add all of the strings to workspace to create IDF objects

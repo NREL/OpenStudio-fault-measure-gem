@@ -1,4 +1,4 @@
-module OsLib_FDD
+module OsLib_FDD_light
 
   # global variable for ending date and ending time of the day
   
@@ -556,27 +556,27 @@ module OsLib_FDD
     # with user-specified values. If the times are outside the
     # hours of building daytime operation, it extends the operation schedule
     # by extended hour
-
+	
     scheduleday.clearValues
     # force the first setpoint of the day and any setpoint in the evening
     # to be the same as the daytime setpoint
     newtime = shifttimevector(times, values, ext_hr, changetime, moring_evening_string, runner)
-    i = 0
+	i = 0
     times.zip(values).each do |time, value|
       if time == changetime
-	################################
-	################################
-	if moring_evening_string == "morning"
+	    ################################
+	    ################################
+	    if moring_evening_string == "morning"
           scheduleday.addValue(newtime, value)
-	else
-	  scheduleday.addValue(newtime, values[i-1])
-	end
-	################################
-	################################
+		else
+		  scheduleday.addValue(newtime, values[i-1])
+		end
+		################################
+		################################
       else
         scheduleday.addValue(time, value)
       end
-      i = i + 1
+	  i = i + 1
     end
 	
   end
@@ -622,44 +622,46 @@ module OsLib_FDD
     # This function finds the time of lighting goes on and off
 	
     finval = values[0]
-    pretime = times[0]
+	pretime = times[0]
     changetime = times[0]
-    i = 0
+	i = 0
 	
-    p_tol_min = 30 # percentage
-    p_tol_max = 30 # percentage
+	p_tol_min = 30 # percentage
+	p_tol_max = 30 # percentage
 	
-    tol_min = values.min.abs*p_tol_min/100
-    tol_max = values.max.abs*p_tol_max/100
+	tol_min = values.min.abs*p_tol_min/100
+	tol_max = values.max.abs*p_tol_max/100
 		
-    # any lighting fraction change after 3am should be a result of building opening
-    # any lighting fraction change after 3pm should be a result of building shutdown
-    if moring_evening_string == "morning"
+	# any lighting fraction change after 3am should be a result of building opening
+	# any lighting fraction change after 3pm should be a result of building shutdown
+	if moring_evening_string == "morning"
       times.zip(values).each do |time, value|
-	if (values[i] - values.min).abs > tol_max && i > 0 && time.hours >= 3
-	  finval = value
-          changetime = times[i-1]
-	  break
-	else
+		if (values[i] - values.min).abs > tol_max && i > 0 && time.hours >= 3
+		  finval = value
+		  changetime = times[i-1]
+		  break
+		else
           final = value
-	  changetime = time	  
-	end	
-	i = i + 1
+		  changetime = time	  
+		end
+		
+		i = i + 1
       end
-    else
-      times.zip(values).each do |time, value|
-	if (values[i] - values.max).abs > tol_max && i > 0 && time.hours >= 15
-	  finval = value
-	  changetime = time
-	  break
 	else
+	  times.zip(values).each do |time, value|
+		if (values[i] - values.max).abs > tol_max && i > 0 && time.hours >= 15
+		  finval = value
+		  changetime = time
+		  break
+		else
           final = value
-	  changetime = time	  
-	end	
-	i = i + 1
+		  changetime = time	  
+		end
+		
+		i = i + 1
       end
-    end	
-    return changetime
+	end	
+	return changetime
   end
   ##########################################################
   ##########################################################

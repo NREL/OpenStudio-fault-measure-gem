@@ -1,0 +1,82 @@
+{
+  "classname": "ThermostatBias",
+  "name": "thermostat_bias",
+  "display_name": "Thermostat Bias",
+  "measure_type": "RubyMeasure",
+  "arguments": [
+    {
+      "local_variable": "zone",
+      "variable_type": "Choice",
+      "name": "zone",
+      "display_name": "Zone",
+      "units": null,
+      "description": null,
+      "choices": [
+
+      ]
+    },
+    {
+      "local_variable": "bias_level",
+      "variable_type": "Double",
+      "name": "bias_level",
+      "display_name": "Enter the constant setpoint bias level",
+      "units": null,
+      "description": null,
+      "default_value": 0.0
+    },
+    {
+      "local_variable": "start_month",
+      "variable_type": "Choice",
+      "name": "start_month",
+      "display_name": "Fault active start month",
+      "units": null,
+      "description": null,
+      "default_value": "January",
+      "choices": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    },
+    {
+      "local_variable": "end_month",
+      "variable_type": "Choice",
+      "name": "end_month",
+      "display_name": "Fault active end month",
+      "units": null,
+      "description": null,
+      "default_value": "December",
+      "choices": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ]
+    }
+  ],
+  "name_xml": "thermostat_bias",
+  "uid": "e359373a-ea8b-459d-a4c0-e2e8ae78b840",
+  "version_id": "f6cf45b1-eed8-42b1-86cd-93bafa98a7f8",
+  "modeler_description": "This measure clones the default day schedule and all rules for rulesets connected to heating and/or cooling thermostat schedules. The existing schedules are given lower priority than the new \"faulted\" schedules.",
+  "description": "This measure offsets the heating and/or cooling setpoints according to a bias level.",
+  "tags": [
+    "HVAC.HVAC Controls"
+  ]
+}

@@ -15,6 +15,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 
 # resource file modules
 include OsLib_FDD
+include OsLib_FDD_hvac
 
 # start the measure
 class HVACSetbackErrorDelayedOnset < OpenStudio::Ruleset::ModelUserScript
@@ -106,10 +107,10 @@ class HVACSetbackErrorDelayedOnset < OpenStudio::Ruleset::ModelUserScript
     ext_hr = runner.getDoubleArgumentValue('ext_hr', user_arguments)
     if ext_hr != 0
       start_month, end_month, thermalzones, dayofweek = \
-        get_thermostat_inputs(model, runner, user_arguments)
+        get_thermostat_inputs_alt(model, runner, user_arguments)
 
       # create empty has to poulate when loop through zones
-      setpoint_values = create_initial_final_setpoint_values_hash
+      setpoint_values = create_initial_final_setpoint_values_hash_alt
 
       # apply fault
         thermalzones.each do |thermalzone|

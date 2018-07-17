@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>non_standard_charging</name>
   <uid>af77eb6c-c4c6-4990-bc8b-af916215b967</uid>
-  <version_id>7db35904-2849-49a1-80bc-aa4e362e0d8d</version_id>
-  <version_modified>20180315T144425Z</version_modified>
+  <version_id>854f0705-6504-4f59-a5f7-37c84d946e80</version_id>
+  <version_modified>20180313T161800Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>NonStandardCharging</class_name>
   <display_name>Nonstandard Charging</display_name>
-  <description>Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This measure simulates refrigerant undercharging by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of deviation in refrigerant mass from the nominal value.</description>
-  <modeler_description>Thirty two user inputs (DX coil where the fault occurs / Percentage reduction of refrigerant charge level / rated cooling capacity / rated sensible heat ratio / rated volumetric flow rate / minimum-maximum evaporator air inlet wet-bulb temperature / minimum-maximum condenser air inlet dry-bulb temperature / minimum/maximum rated COP / percentage change of UA with increase of fault level / time required for fault to reach full level / fault starting month / fault starting date / fault starting time / fault ending month / fault ending date / fault ending time) can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
+  <description>Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This measure simulates nonstandard charging by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of deviation in refrigerant mass from the nominal value.</description>
+  <modeler_description>Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation.</modeler_description>
   <arguments>
     <argument>
       <name>coil_choice</name>
@@ -216,62 +216,6 @@
       <model_dependent>false</model_dependent>
       <default_value>-1.39</default_value>
     </argument>
-    <argument>
-      <name>time_constant</name>
-      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>0</default_value>
-    </argument>
-    <argument>
-      <name>start_month</name>
-      <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>6</default_value>
-    </argument>
-    <argument>
-      <name>start_date</name>
-      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>1</default_value>
-    </argument>
-    <argument>
-      <name>start_time</name>
-      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
-    </argument>
-    <argument>
-      <name>end_month</name>
-      <display_name>Enter the month (1-12) when the fault ends</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>12</default_value>
-    </argument>
-    <argument>
-      <name>end_date</name>
-      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>31</default_value>
-    </argument>
-    <argument>
-      <name>end_time</name>
-      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>23</default_value>
-    </argument>
   </arguments>
   <outputs/>
   <provenances/>
@@ -392,6 +336,12 @@
       <checksum>2E414023</checksum>
     </file>
     <file>
+      <filename>faultcalculationcoilcoolingdx.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>4FC60DC4</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -400,13 +350,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>D7522B9A</checksum>
-    </file>
-    <file>
-      <filename>faultcalculationcoilcoolingdx.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>A062FAE5</checksum>
+      <checksum>BE69B6FC</checksum>
     </file>
   </files>
 </measure>

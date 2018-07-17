@@ -7,10 +7,7 @@
 #see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
-require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_RH"
-
 $allchoices = '* ALL Controller:OutdoorAir *'
-$faulttype = 'RARH'			   
 
 # start the measure
 class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
@@ -106,6 +103,8 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
   def run(workspace, runner, user_arguments)
     super(workspace, runner, user_arguments)
 
+    load "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_RH.rb"
+
     # use the built-in error checking
     if !runner.validateUserArguments(arguments(workspace), user_arguments)
       return false
@@ -166,18 +165,15 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
           #main program differs as the options at controlleroutdoorair differs
           #create a new string for the main program to start appending the required
           #EMS routine to it
-          ##################################################
-		  oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-		  ##################################################   
-		  
-          main_body = econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, [ret_rh_bias, 0.0], oacontrollername)
+                    
+          main_body = econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, [ret_rh_bias, 0.0])
           
           string_objects << main_body
           
           #append other objects
           strings_objects = econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, controlleroutdoorair)
 		  ##################################################
-		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
+		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
 		  ##################################################
           
           #add all of the strings to workspace to create IDF objects

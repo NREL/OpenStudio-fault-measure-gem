@@ -313,15 +313,10 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
                           # find the related AirLoopHVAC:ReturnPlenum object
                           returnplenums = workspace.getObjectsByType('AirLoopHVAC:ReturnPlenum'.to_IddObjectType)
                           returnplenums.each do |returnplenum|
-
-                            # this adds support for plenums serving more than 1 zone
-                            (returnplenum.numFields - 5).times do |i|
-                              if returnplenum.getString(5 + i).to_s.eql?(zoneoutnode)  # check if they are connected
-                                retplen_found = true
-                                break
-                              end
+                            if returnplenum.getString(5).to_s.eql?(zoneoutnode)  # check if they are connected
+                              retplen_found = true
+                              break
                             end
-
                           end
                           if retplen_found
                             break

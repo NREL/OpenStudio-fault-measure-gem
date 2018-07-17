@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>presence_of_non_condensable</name>
   <uid>2ff0e29b-c218-422e-b3af-a656eb6f95f7</uid>
-  <version_id>971d3e93-963d-4d49-804e-45525fbe7335</version_id>
-  <version_modified>20180315T144425Z</version_modified>
+  <version_id>340e5264-e8df-47c2-a73a-ea58033a7503</version_id>
+  <version_modified>20180313T161800Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>PresenceOfNonCondensable</class_name>
   <display_name>Presence Of Noncondensable</display_name>
   <description>When an air conditioner, heat pump, or refrigeration unit is not properly evacuated prior to being charged with refrigerant, the unit runs with a mixture of air and refrigerant. Because it is noncondensable, the air inside the refrigerant circuit typically is trapped in the high-pressure vapor downstream of the compressor, and the pressure difference across the compressor and the compressor power consumption increase. This measure simulates the presence of the noncondensable by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. (12). The fault intensity (F) for this fault is defined as the ratio of the mass of noncondensable in the refrigerant circuit to the mass of noncondensable that the refrigerant circuit can hold at standard atmospheric pressure.</description>
-  <modeler_description>Thirty two user inputs (DX coil where the fault occurs / Ratio of liquid line restriction fault / rated cooling capacity / rated sensible heat ratio / rated volumetric flow rate / minimum-maximum evaporator air inlet wet-bulb temperature / minimum-maximum condenser air inlet dry-bulb temperature / minimum/maximum rated COP / percentage change of UA with increase of fault level / time required for fault to reach full level / fault starting month / fault starting date / fault starting time / fault ending month / fault ending date / fault ending time) can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
+  <modeler_description>Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation.</modeler_description>
   <arguments>
     <argument>
       <name>coil_choice</name>
@@ -216,62 +216,6 @@
       <model_dependent>false</model_dependent>
       <default_value>0.373</default_value>
     </argument>
-    <argument>
-      <name>time_constant</name>
-      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>0</default_value>
-    </argument>
-    <argument>
-      <name>start_month</name>
-      <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>6</default_value>
-    </argument>
-    <argument>
-      <name>start_date</name>
-      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>1</default_value>
-    </argument>
-    <argument>
-      <name>start_time</name>
-      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
-    </argument>
-    <argument>
-      <name>end_month</name>
-      <display_name>Enter the month (1-12) when the fault ends</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>12</default_value>
-    </argument>
-    <argument>
-      <name>end_date</name>
-      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>31</default_value>
-    </argument>
-    <argument>
-      <name>end_time</name>
-      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>23</default_value>
-    </argument>
   </arguments>
   <outputs/>
   <provenances/>
@@ -365,7 +309,7 @@
       <filename>faultcalculationcoilcoolingdx.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>A062FAE5</checksum>
+      <checksum>4FC60DC4</checksum>
     </file>
     <file>
       <version>
@@ -376,7 +320,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>4A3D2F6A</checksum>
+      <checksum>604F6FE9</checksum>
     </file>
   </files>
 </measure>
