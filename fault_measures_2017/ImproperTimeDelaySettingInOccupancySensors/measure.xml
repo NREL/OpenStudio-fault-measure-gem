@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>improper_time_delay_setting_in_occupancy_sensors</name>
   <uid>80bceaba-6cd1-43ba-b322-4ad17e72e22a</uid>
-  <version_id>00c083e1-9dab-4372-ab2e-0e65e7b2ced5</version_id>
-  <version_modified>20180313T161759Z</version_modified>
+  <version_id>57964299-438c-4e88-8e4d-b4a4e2aa111d</version_id>
+  <version_modified>20180523T211132Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>ImproperTimeDelaySettingInOccupancySensors</class_name>
   <display_name>Improper Time Delay Setting in Occupancy Sensors</display_name>
@@ -248,10 +248,10 @@
       <checksum>4C69D29E</checksum>
     </file>
     <file>
-      <filename>fdd_thermostat.rb</filename>
+      <filename>fdd_thermostat_occ.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>EA4B315E</checksum>
+      <checksum>03B5F371</checksum>
     </file>
     <file>
       <version>
@@ -262,7 +262,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>849F458D</checksum>
+      <checksum>D2A0DC1C</checksum>
     </file>
   </files>
 </measure>

@@ -15,6 +15,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 
 # resource file modules
 include OsLib_FDD
+include OsLib_FDD_hvac
 
 # start the measure
 class HVACSetbackErrorDelayedOnset < OpenStudio::Ruleset::ModelUserScript
@@ -87,6 +88,12 @@ class HVACSetbackErrorDelayedOnset < OpenStudio::Ruleset::ModelUserScript
     ext_hr.setDefaultValue(1)
     args << ext_hr
 
+    # extend air loop availability with same intensity as thermostat setpoint
+    ext_hr_airloop = OpenStudio::Measure::OSArgument.makeBoolArgument('ext_hr_airloop', true)
+    ext_hr_airloop.setDisplayName('Extend Air Loop Availability with same intensity as thermostat setpoint')
+    ext_hr_airloop.setDefaultValue(true)
+    args << ext_hr_airloop
+
     return args
     # note: the Assignment Branch Condition size is left higher than the
     # recommended minimum by Rubocop because the argument definition
@@ -104,19 +111,37 @@ class HVACSetbackErrorDelayedOnset < OpenStudio::Ruleset::ModelUserScript
 
     # get inputs
     ext_hr = runner.getDoubleArgumentValue('ext_hr', user_arguments)
+    ext_hr_airloop = runner.getBoolArgumentValue('ext_hr_airloop', user_arguments)
+    air_loops = []
+
     if ext_hr != 0
       start_month, end_month, thermalzones, dayofweek = \
-        get_thermostat_inputs(model, runner, user_arguments)
+        get_thermostat_inputs_alt(model, runner, user_arguments)
 
       # create empty has to poulate when loop through zones
-      setpoint_values = create_initial_final_setpoint_values_hash
+      setpoint_values = create_initial_final_setpoint_values_hash_alt
 
       # apply fault
         thermalzones.each do |thermalzone|
         applyfaulttothermalzone_evening_setback(
           thermalzone, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model
         )
+          if thermalzone.airLoopHVAC.is_initialized
+            air_loops << thermalzone.airLoopHVAC.get
+          end
         end
+
+      if ext_hr_airloop
+        runner.registerInfo("Altering availability schedule for air loops serving selected zones.")
+        air_loops.uniq.each do |air_loop|
+          sch = air_loop.availabilitySchedule
+          if sch.to_ScheduleRuleset.is_initialized
+            sch = sch.clone.to_ScheduleRuleset.get
+            air_loop.setAvailabilitySchedule(sch)
+            OsLib_FDD_hvac.addnewscheduleruleset_ext_hr_alt(sch, ext_hr, start_month, end_month, dayofweek, 'evening')
+          end
+        end
+      end
 
       # todo - this isn't useful here, since range isn't change, maybe I should calculate weighted building average thermostat based on floor area or zone volume.
       # register initial and final condition

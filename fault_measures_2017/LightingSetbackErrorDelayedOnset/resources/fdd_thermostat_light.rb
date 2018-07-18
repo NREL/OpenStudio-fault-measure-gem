@@ -1,4 +1,4 @@
-module OsLib_FDD
+module OsLib_FDD_light
 
   # global variable for ending date and ending time of the day
   
@@ -285,7 +285,10 @@ module OsLib_FDD
 
     scheduleday = scheduleRule.daySchedule
     scheduleday.setName("#{scheduleday.name} with NoOvernightSetback")
+
+    # not sure what this doing, without setback max value for lighting should be used for all times
     finval, changetime = finvalandchangetime(times, values, runner)
+
     newtimesandvaluestosceduleday(times, values, finval, changetime, scheduleday, runner)
   end
 
@@ -298,8 +301,8 @@ module OsLib_FDD
     changetime = times[0]
     times.zip(values).each do |time, value|
       # any setpoint change after 3pm should be a result of shutdown
-      next unless time.hours >= $end_hour
-      finval = value
+      #next unless time.hours >= $end_hour
+      finval = values.max
       changetime = time
       break
     end
@@ -445,7 +448,7 @@ module OsLib_FDD
     return start_month, end_month, thermalzones, dayofweek
   end
 
-# todo - this method is has ext_hr arg not fouund in uses of this method in other measures
+# todo - this method has ext_hr arg not fouund in uses of this method in other measures
   def addnewscheduleruleset_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
                                    end_month, dayofweek,moring_evening_string, runner)
     # This function accepts schedules rulesets of heating or cooling, analyzes the
@@ -477,7 +480,7 @@ module OsLib_FDD
                                   start_month, end_month, e_day, dayofweek, moring_evening_string, runner)
   end
 
-# todo - this method is has ext_hr arg not found in uses of this method in other measures
+# todo - this method has ext_hr arg not found in uses of this method in other measures
   def createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
                                     end_month, e_day, dayofweek, moring_evening_string, runner)
     # This function creates new priority rules to impose ExtendEveningThermostatSetpointWeek fault
@@ -497,12 +500,23 @@ module OsLib_FDD
         rule_clone = createnewruleandcopy(heatorcoolscheduleruleset, rule.daySchedule,
                                           start_month, end_month, e_day, runner)
         compareandchangedayofweek(rule_clone, rule, dayofweek, runner)
-        propagateeveningchangeovervalue_ext_hr(rule_clone, ext_hr, moring_evening_string, runner)
+
+        # dfg - didn't understand what this was doing, was using ext_hr as value for new rules.
+        # seems like this should use same method as used to alter default profile
+        #propagateeveningchangeovervalue_ext_hr(rule_clone, ext_hr, moring_evening_string, runner)
+
+        heatorcoolscheduleruleset.defaultDaySchedule.to_ScheduleDay.get
+        oritimes = rule.daySchedule.times
+        orivalues = rule.daySchedule.values
+        propagateeveningchangeovervaluewithextrainfo_ext_hr(rule_clone, ext_hr,
+                                                            oritimes, orivalues, moring_evening_string, runner)
+
+
       end
     end
   end
 
-# todo - this method is has ext_hr arg not found in uses of this method in other measures
+# todo - this method has ext_hr arg not found in uses of this method in other measures
   def createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr, oritimes, orivalues,
                                            start_month, end_month, e_day, dayofweek, moring_evening_string, runner)
     # This function create a priority rule based on default day rule that is applied
@@ -563,16 +577,29 @@ module OsLib_FDD
     newtime = shifttimevector(times, values, ext_hr, changetime, moring_evening_string, runner)
     i = 0
     times.zip(values).each do |time, value|
-      if time == changetime
-	################################
-	################################
-	if moring_evening_string == "morning"
+
+      # need to see if > = change time and < = change time plus ext_hr
+      between_times = false
+      if newtime > changetime
+        if changetime < time && time < newtime
+          between_times = true
+        end
+      else # would only see this with negative ext_hr value
+        if newtime < time && time < changetime
+          between_times = true
+        end
+      end
+
+      if time == newtime
+        # do nothing, use value set for changetime
+      elsif time == changetime
+        if moring_evening_string == "morning"
           scheduleday.addValue(newtime, value)
-	else
-	  scheduleday.addValue(newtime, values[i-1])
-	end
-	################################
-	################################
+        else
+          scheduleday.addValue(newtime, values[i-1])
+        end
+      elsif between_times
+        # do nothing, don't include values for these times in the new schedule
       else
         scheduleday.addValue(time, value)
       end
@@ -586,13 +613,13 @@ module OsLib_FDD
     # gather initial thermostat range and average temp
     avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
     min_max = heatingrulesetschedule.annual_min_max_value
-    runner.registerInfo("#{initial_final_string.capitalize} annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+    runner.registerInfo("#{initial_final_string.capitalize} annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(4)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_htg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_htg_max".to_sym] << min_max['max']
 
     avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
     min_max = coolingrulesetschedule.annual_min_max_value
-    runner.registerInfo("#{initial_final_string.capitalize} annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
+    runner.registerInfo("#{initial_final_string.capitalize} annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(4)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_clg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_clg_max".to_sym] << min_max['max']
 
@@ -606,7 +633,7 @@ module OsLib_FDD
 
     avg_ltg_si = lightingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
     min_max = lightingrulesetschedule.annual_min_max_value
-    runner.registerInfo("#{initial_final_string.capitalize} annual average fraction profile for #{light[0].name} #{avg_ltg_si.round(1)}, with a range of #{min_max['min'].round(1)} to #{min_max['max'].round(1)}.")
+    runner.registerInfo("#{initial_final_string.capitalize} annual average fraction profile for #{light[0].name} #{avg_ltg_si.round(4)}, with a range of #{min_max['min'].round(1)} to #{min_max['max'].round(1)}.")
     setpoint_values["#{initial_final_string}_ltg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_ltg_max".to_sym] << min_max['max']
 
@@ -636,27 +663,27 @@ module OsLib_FDD
     # any lighting fraction change after 3pm should be a result of building shutdown
     if moring_evening_string == "morning"
       times.zip(values).each do |time, value|
-	if (values[i] - values.min).abs > tol_max && i > 0 && time.hours >= 3
-	  finval = value
-          changetime = times[i-1]
-	  break
-	else
+        if (values[i] - values.min).abs > tol_max && i > 0 && time.hours >= 3
+          finval = value
+                changetime = times[i-1]
+          break
+        else
           final = value
-	  changetime = time	  
-	end	
-	i = i + 1
+          changetime = time
+        end
+	      i = i + 1
       end
     else
       times.zip(values).each do |time, value|
-	if (values[i] - values.max).abs > tol_max && i > 0 && time.hours >= 15
-	  finval = value
-	  changetime = time
-	  break
-	else
+        if (values[i] - values.max).abs > tol_max && i > 0 && time.hours >= 15
+          finval = value
+          changetime = time
+          break
+        else
           final = value
-	  changetime = time	  
-	end	
-	i = i + 1
+          changetime = time
+        end
+        i = i + 1
       end
     end	
     return changetime

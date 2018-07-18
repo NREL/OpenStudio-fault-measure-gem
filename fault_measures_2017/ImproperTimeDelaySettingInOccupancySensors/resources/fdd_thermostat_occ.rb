@@ -1,8 +1,8 @@
-module OsLib_FDD
+module OsLib_FDD_occ
 
   # global variable for ending date and ending time of the day
   
-  # 11/18/2017 Lighting Setback Error measure developed based on HVAC Setback Error measure
+  # 11/20/2017 Improper Time Delay Setting in Occupancy Sensors measure developed based on Lighting Setback Error (Delayed Onset) measure
   # codes within ######## are modified parts
   
   require_relative 'global_const'
@@ -385,36 +385,19 @@ module OsLib_FDD
     end
     return newhours, newminutes
   end
-
-  # def create_initial_final_setpoint_values_hash()
-
-    # # add in initial and final condition
-    # setpoint_values = {}
-    # setpoint_values[:initial_htg_min] = []
-    # setpoint_values[:initial_htg_max] = []
-    # setpoint_values[:initial_clg_min] = []
-    # setpoint_values[:initial_clg_max] = []
-    # setpoint_values[:final_htg_min] = []
-    # setpoint_values[:final_htg_max] = []
-    # setpoint_values[:final_clg_min] = []
-    # setpoint_values[:final_clg_max] = []
-
-    # return setpoint_values
-
-  # end
   
   ###########################################################
   ###########################################################
   def create_initial_final_setpoint_values_hash()
 
     # add in initial and final condition
-    setpoint_values = {}
-    setpoint_values[:initial_ltg_min] = []
-    setpoint_values[:initial_ltg_max] = []
-    setpoint_values[:final_ltg_min] = []
-    setpoint_values[:final_ltg_max] = []
+    occupancy_values = {}
+    occupancy_values[:initial_ltg_min] = []
+    occupancy_values[:initial_ltg_max] = []
+    occupancy_values[:final_ltg_min] = []
+    occupancy_values[:final_ltg_max] = []
 
-    return setpoint_values
+    return occupancy_values
 
   end
   ###########################################################
@@ -446,140 +429,265 @@ module OsLib_FDD
   end
 
 # todo - this method is has ext_hr arg not fouund in uses of this method in other measures
-  def addnewscheduleruleset_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
-                                   end_month, dayofweek,moring_evening_string, runner)
-    # This function accepts schedules rulesets of heating or cooling, analyzes the
-    # priority and default rules in the schedule and add new schedules with the
-    # evening offsets back to the model. start_month is the string for the starting
-    # month when the ExtendEveningThermostatSetpointWeek fault starts, and end_month is the string for
-    # the ending month that the fault ends.
+  # def addnewscheduleruleset_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
+                                   # end_month, dayofweek,moring_evening_string, runner)
+    # # This function accepts schedules rulesets of heating or cooling, analyzes the
+    # # priority and default rules in the schedule and add new schedules with the
+    # # evening offsets back to the model. start_month is the string for the starting
+    # # month when the ExtendEveningThermostatSetpointWeek fault starts, and end_month is the string for
+    # # the ending month that the fault ends.
 
-    # This function accepts schedules rulesets of heating or cooling, analyzes the
-    # priority and default rules in the schedule and add new schedules with the
-    # evening offsets back to the model. start_month is the string for the starting
-    # month when the ExtendMorningThermostatSetpointWeek fault starts, and end_month is the string for
-    # the ending month that the fault ends.
+    # # This function accepts schedules rulesets of heating or cooling, analyzes the
+    # # priority and default rules in the schedule and add new schedules with the
+    # # evening offsets back to the model. start_month is the string for the starting
+    # # month when the ExtendMorningThermostatSetpointWeek fault starts, and end_month is the string for
+    # # the ending month that the fault ends.
+
+    # # get ending date
+    # e_day = $e_days[end_month]
+
+    # # create new priority rule for default day schedule
+    # defaultday_clone = \
+    # heatorcoolscheduleruleset.defaultDaySchedule.to_ScheduleDay.get
+    # oritimes = defaultday_clone.times
+    # orivalues = defaultday_clone.values
+    # createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr,
+                                         # oritimes, orivalues, start_month,
+                                         # end_month, e_day, dayofweek, moring_evening_string, runner)
+
+    # # change the schedule rules of the priority rules first
+    # createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr,
+                                  # start_month, end_month, e_day, dayofweek, moring_evening_string, runner)
+  # end
+  
+  ####################################################################
+  ####################################################################
+  def addnewscheduleruleset_occupancy(lightingrulesetschedule, peoplerulesetschedule, ext_hr, start_month,
+                                   end_month, dayofweek, moring_evening_string, runner)
 
     # get ending date
     e_day = $e_days[end_month]
-
+	
     # create new priority rule for default day schedule
     defaultday_clone = \
-    heatorcoolscheduleruleset.defaultDaySchedule.to_ScheduleDay.get
+    peoplerulesetschedule.defaultDaySchedule.to_ScheduleDay.get
     oritimes = defaultday_clone.times
     orivalues = defaultday_clone.values
-    createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr,
+    createnewdefaultdayofweekrule_occupancy(peoplerulesetschedule, lightingrulesetschedule, ext_hr,
                                          oritimes, orivalues, start_month,
                                          end_month, e_day, dayofweek, moring_evening_string, runner)
 
     # change the schedule rules of the priority rules first
-    createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr,
+    createnewpriroityrules_occupancy(peoplerulesetschedule, lightingrulesetschedule, ext_hr,
                                   start_month, end_month, e_day, dayofweek, moring_evening_string, runner)
   end
+  ####################################################################
+  ####################################################################
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
+  # def createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
+                                    # end_month, e_day, dayofweek, moring_evening_string, runner)
+    # # This function creates new priority rules to impose ExtendEveningThermostatSetpointWeek fault
+    # # to the schedules of thermostat setpoint
+
+    # # This function creates new priority rules to impose ExtendMorningThermostatSetpointWeek fault
+    # # to the schedules of thermostat setpoint
+
+    # # iterate rules with the lowest priority first and skip the highest priority rule
+    # # that was just created with the default rule
+    # rules = heatorcoolscheduleruleset.scheduleRules
+    # (1..(rules.length - 1)).each do |i|
+      # rule = rules[-i]
+      # if checkscheduleruledayofweek(rule, dayofweek, runner)
+        # # create new rules with the highest priority among existing ones if it hasn't been just created
+        # # and the rule is applicable to the related dayofweek
+        # rule_clone = createnewruleandcopy(heatorcoolscheduleruleset, rule.daySchedule,
+                                          # start_month, end_month, e_day, runner)
+        # compareandchangedayofweek(rule_clone, rule, dayofweek, runner)
+        # propagateeveningchangeovervalue_ext_hr(rule_clone, ext_hr, moring_evening_string, runner)
+      # end
+    # end
+  # end
+  
+  ####################################################################
+  ####################################################################
+  def createnewpriroityrules_occupancy(peoplerulesetschedule, lightingrulesetschedule, ext_hr, start_month,
                                     end_month, e_day, dayofweek, moring_evening_string, runner)
-    # This function creates new priority rules to impose ExtendEveningThermostatSetpointWeek fault
-    # to the schedules of thermostat setpoint
-
-    # This function creates new priority rules to impose ExtendMorningThermostatSetpointWeek fault
-    # to the schedules of thermostat setpoint
-
-    # iterate rules with the lowest priority first and skip the highest priority rule
-    # that was just created with the default rule
-    rules = heatorcoolscheduleruleset.scheduleRules
+									
+    rules = peoplerulesetschedule.scheduleRules
     (1..(rules.length - 1)).each do |i|
       rule = rules[-i]
       if checkscheduleruledayofweek(rule, dayofweek, runner)
         # create new rules with the highest priority among existing ones if it hasn't been just created
         # and the rule is applicable to the related dayofweek
-        rule_clone = createnewruleandcopy(heatorcoolscheduleruleset, rule.daySchedule,
+        rule_clone = createnewruleandcopy(peoplerulesetschedule, rule.daySchedule,
                                           start_month, end_month, e_day, runner)
         compareandchangedayofweek(rule_clone, rule, dayofweek, runner)
-        propagateeveningchangeovervalue_ext_hr(rule_clone, ext_hr, moring_evening_string, runner)
+        propagateeveningchangeovervalue_occupancy(lightingrulesetschedule, rule_clone, ext_hr, moring_evening_string, runner)
       end
     end
   end
+  ####################################################################
+  ####################################################################
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr, oritimes, orivalues,
+  # def createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr, oritimes, orivalues,
+                                           # start_month, end_month, e_day, dayofweek, moring_evening_string, runner)
+    # # This function create a priority rule based on default day rule that is applied
+    # # to dayofweek only
+
+    # new_defaultday_rule = createnewruleandcopy(
+        # heatorcoolscheduleruleset, heatorcoolscheduleruleset.defaultDaySchedule,
+        # start_month, end_month, e_day, runner
+    # )
+    # changedayofweek(new_defaultday_rule, dayofweek, runner)
+    # propagateeveningchangeovervaluewithextrainfo_ext_hr(new_defaultday_rule, ext_hr,
+                                                        # oritimes, orivalues, moring_evening_string, runner)
+  # end
+  
+  ####################################################################
+  ####################################################################
+  def createnewdefaultdayofweekrule_occupancy(peoplerulesetschedule, lightingrulesetschedule, ext_hr, oritimes, orivalues,
                                            start_month, end_month, e_day, dayofweek, moring_evening_string, runner)
     # This function create a priority rule based on default day rule that is applied
     # to dayofweek only
-
+	
     new_defaultday_rule = createnewruleandcopy(
-        heatorcoolscheduleruleset, heatorcoolscheduleruleset.defaultDaySchedule,
+        peoplerulesetschedule, peoplerulesetschedule.defaultDaySchedule,
         start_month, end_month, e_day, runner
     )
     changedayofweek(new_defaultday_rule, dayofweek, runner)
-    propagateeveningchangeovervaluewithextrainfo_ext_hr(new_defaultday_rule, ext_hr,
+    propagateeveningchangeovervaluewithextrainfo_occupancy(new_defaultday_rule, lightingrulesetschedule, ext_hr,
                                                         oritimes, orivalues, moring_evening_string, runner)
   end
+  ####################################################################
+  ####################################################################
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def propagateeveningchangeovervalue_ext_hr(scheduleRule, ext_hr, moring_evening_string, runner)
-    # This function analyzes the OpenStudio::mode::ScheduleRule object at the
-    # inputs to find the temperature setpoint before the building closure in
-    # the evening. It returns a value indicating the setpoint. It then
-    # propagates the changeover value according to the assumed startup and
-    # shutdown time of the zone.
+  # def propagateeveningchangeovervalue_ext_hr(scheduleRule, ext_hr, moring_evening_string, runner)
+    # # This function analyzes the OpenStudio::mode::ScheduleRule object at the
+    # # inputs to find the temperature setpoint before the building closure in
+    # # the evening. It returns a value indicating the setpoint. It then
+    # # propagates the changeover value according to the assumed startup and
+    # # shutdown time of the zone.
+
+    # scheduleday = scheduleRule.daySchedule
+    # scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
+    # times = scheduleday.times
+    # values = scheduleday.values
+    # changetime = findchangetime(times, values, moring_evening_string, runner)
+    # newtimesandvaluestosceduleday(times, values, ext_hr, changetime, scheduleday, runner)
+	
+  # end
+  
+  ####################################################################
+  ####################################################################
+  def propagateeveningchangeovervalue_occupancy(lightingrulesetschedule, scheduleRule, ext_hr, moring_evening_string, runner)
 
     scheduleday = scheduleRule.daySchedule
     scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
     times = scheduleday.times
     values = scheduleday.values
     changetime = findchangetime(times, values, moring_evening_string, runner)
-    newtimesandvaluestosceduleday(times, values, ext_hr, changetime, scheduleday, runner)
+    newtimesandvaluestosceduleday_occupancy(lightingrulesetschedule,times, values, ext_hr, changetime, scheduleday, moring_evening_string, runner)
 	
   end
+  ####################################################################
+  ####################################################################
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def propagateeveningchangeovervaluewithextrainfo_ext_hr(scheduleRule, ext_hr, times, values, moring_evening_string, runner)
+  # def propagateeveningchangeovervaluewithextrainfo_ext_hr(scheduleRule, ext_hr, times, values, moring_evening_string, runner)
+    # # This function obtains the times and values vector from the user
+    # # to find the temperature setpoint before the building closure in
+    # # the evening. It returns a value indicating the setpoint. It then
+    # # propagates the changeover value according to the assumed startup and
+    # # shutdown time of the zone. It passes all the new information to the user
+    # # defined scheduleRule
+
+    # scheduleday = scheduleRule.daySchedule
+    # scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
+    # changetime = findchangetime(times, values, moring_evening_string, runner)
+	
+    # newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday, moring_evening_string, runner)
+  # end
+  
+  ####################################################################
+  ####################################################################
+  def propagateeveningchangeovervaluewithextrainfo_occupancy(scheduleRule, lightingrulesetschedule, ext_hr, times, values, moring_evening_string, runner)
     # This function obtains the times and values vector from the user
     # to find the temperature setpoint before the building closure in
     # the evening. It returns a value indicating the setpoint. It then
     # propagates the changeover value according to the assumed startup and
     # shutdown time of the zone. It passes all the new information to the user
     # defined scheduleRule
-
+	
     scheduleday = scheduleRule.daySchedule
     scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
     changetime = findchangetime(times, values, moring_evening_string, runner)
 	
-    newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday, moring_evening_string, runner)
+    newtimesandvaluestosceduleday_occupancy(lightingrulesetschedule, times, values, ext_hr, changetime, scheduleday, moring_evening_string, runner)
   end
+  ####################################################################
+  ####################################################################
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday, moring_evening_string, runner)
+  # def newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday, moring_evening_string, runner)
+    # # This function is used to replace times and values in scheduleday
+    # # with user-specified values. If the times are outside the
+    # # hours of building daytime operation, it extends the operation schedule
+    # # by extended hour
+
+    # scheduleday.clearValues
+	
+    # # force the first setpoint of the day and any setpoint in the evening
+    # # to be the same as the daytime setpoint
+    # newtime = shifttimevector(times, values, ext_hr, changetime, moring_evening_string, runner)
+	# i = 0
+    # times.zip(values).each do |time, value|
+      # if time == changetime
+	    # if moring_evening_string == "morning"
+          # scheduleday.addValue(newtime, value)
+		# else
+		  # scheduleday.addValue(newtime, values[i-1])
+		# end
+      # else
+        # scheduleday.addValue(time, value)
+      # end
+	  # i = i + 1
+    # end
+	
+  # end
+  
+  ##########################################################
+  ##########################################################
+  def newtimesandvaluestosceduleday_occupancy(lightingrulesetschedule, times, values, ext_hr, changetime, scheduleday, moring_evening_string, runner)
     # This function is used to replace times and values in scheduleday
     # with user-specified values. If the times are outside the
     # hours of building daytime operation, it extends the operation schedule
     # by extended hour
+		
+    scheduleday_ltg = lightingrulesetschedule.defaultDaySchedule
+    scheduleday_ltg.clearValues
 	
-    scheduleday.clearValues
     # force the first setpoint of the day and any setpoint in the evening
     # to be the same as the daytime setpoint
     newtime = shifttimevector(times, values, ext_hr, changetime, moring_evening_string, runner)
-	i = 0
+    i = 0
     times.zip(values).each do |time, value|
       if time == changetime
-	    ################################
-	    ################################
-	    if moring_evening_string == "morning"
-          scheduleday.addValue(newtime, value)
-		else
-		  scheduleday.addValue(newtime, values[i-1])
-		end
-		################################
-		################################
+        if moring_evening_string == "morning"
+          scheduleday_ltg.addValue(newtime, value)
+	else
+          scheduleday_ltg.addValue(newtime, values[i-1])
+	end
       else
-        scheduleday.addValue(time, value)
+        scheduleday_ltg.addValue(time, value)
       end
-	  i = i + 1
+      i = i + 1
     end
-	
   end
+  ##########################################################
+  ##########################################################
 
   def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
@@ -600,24 +708,18 @@ module OsLib_FDD
 
   end
   
-  ##########################################################
-  ##########################################################
   def gather_light_avg_high_low_values(light, lightingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
     avg_ltg_si = lightingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
     min_max = lightingrulesetschedule.annual_min_max_value
-    runner.registerInfo("#{initial_final_string.capitalize} annual average fraction profile for #{light[0].name} #{avg_ltg_si.round(1)}, with a range of #{min_max['min'].round(1)} to #{min_max['max'].round(1)}.")
+    runner.registerInfo("#{initial_final_string.capitalize} annual average occupancy count for #{light[0].name} #{avg_ltg_si.round(1)}, with a range of #{min_max['min'].round(2)} to #{min_max['max'].round(2)}.")
     setpoint_values["#{initial_final_string}_ltg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_ltg_max".to_sym] << min_max['max']
 
     return setpoint_values
 
   end
-  ##########################################################
-  ##########################################################
   
-  ##########################################################
-  ##########################################################
   def findchangetime(times, values, moring_evening_string, runner)
     # This function finds the time of lighting goes on and off
 	
@@ -663,8 +765,6 @@ module OsLib_FDD
 	end	
 	return changetime
   end
-  ##########################################################
-  ##########################################################
 
 # method has different code for morning and evening
   def newhrandmin(times, values, ind, ext_hr, moring_evening_string, runner)

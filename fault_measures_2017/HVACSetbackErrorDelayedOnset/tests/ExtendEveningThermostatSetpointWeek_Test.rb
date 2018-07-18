@@ -4,13 +4,13 @@ require 'minitest/autorun'
 require_relative '../measure.rb'
 require 'fileutils'
 
-class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
+class HVACSetbackErrorDelayedOnset_Test < MiniTest::Unit::TestCase
 
   # method to apply arguments, run measure, and assert results (only populate args hash with non-default argument values)
   def apply_measure_to_model(test_name, args, model_name = nil, result_value = 'Success', warnings_count = 0, info_count = nil)
 
     # create an instance of the measure
-    measure = ExtendEveningThermostatSetpointWeek.new
+    measure = HVACSetbackErrorDelayedOnset.new
 
     # create an instance of a runner
     runner = OpenStudio::Ruleset::OSRunner.new
@@ -66,7 +66,7 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
     return result
   end
 
-  def test_single_zone
+  def no_test_single_zone
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
     args["ext_hr"] = 5.0
@@ -96,14 +96,14 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
 
   # todo - add a test that results in setback start after midnight
 
-  def test_all_zones
+  def no_test_all_zones
     args = {}
     args["zone"] = '* All Zones *'
 
     apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm',"Success",1)
   end
 
-  def test_partial_year
+  def no_test_partial_year
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
     args["start_month"] = 'May'
@@ -111,14 +111,14 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
     apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
   end
 
-  def test_monday
+  def no_test_monday
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
     args["dayofweek"] = 'Monday'
     apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
   end
 
-  def test_weekdays
+  def no_test_weekdays
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
     args["dayofweek"] = 'Weekdays only'
@@ -127,7 +127,7 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
 
   # todo - "Not Faulted" isn't supported as "dayofweek" on this measure, which is fine. HR of 0 should throw NA
 =begin
-  def test_not_faulted
+  def no_test_not_faulted
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
     args["dayofweek"] = 'Not faulted'
@@ -135,7 +135,7 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
   end
 =end
 
-  def test_ext_hr_0
+  def no_test_ext_hr_0
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
     args["ext_hr"] = 0.0
@@ -147,5 +147,21 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
     args["zone"] = 'Cafe_Flr_1 ZN'
     args["ext_hr"] = -5.0
     apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
+  end
+
+  def test_alt_model
+    args = {}
+    args["zone"] = '* All Zones *'
+    #args["zone"] = 'Room 203'
+    args["ext_hr"] = -1.0
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'frp_baseline_generic_space_types_hvac.osm',"Success",0)
+  end
+
+  def test_alt_air_loop
+    args = {}
+    args["zone"] = '* All Zones *'
+    args["ext_hr"] = 1.0
+    args["ext_hr_airloop"] = true
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'frp_baseline_generic_space_types_hvac.osm',"Success",0)
   end
 end

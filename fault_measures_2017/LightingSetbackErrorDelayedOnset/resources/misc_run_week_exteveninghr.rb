@@ -6,14 +6,17 @@
 
 ##########################################################
 ##########################################################
-def applyfaulttolight_no_setback_ext_hr(light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
+def applyfaulttolight_no_setback_ext_hr_evening(light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
   
   scheds = []
   light.each do |ligh|
 	scheds << ligh.schedule
   end
   lightingrulesetschedule = scheds[0].get.to_Schedule.get.clone.to_ScheduleRuleset.get
-  
+  if light.size > 1
+    runner.registerWarning("#{light.space.name} has more than one light object. Only changing the schedule for #{light[0].name}.")
+  end
+
   setpoint_values = gather_light_avg_high_low_values(light, lightingrulesetschedule, setpoint_values, runner, model, 'initial')
 
   # alter schedules

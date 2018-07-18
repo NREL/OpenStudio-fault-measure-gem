@@ -6,29 +6,29 @@ def applyfaulttothermalzone_evening_setback(thermalzone, ext_hr, start_month, en
   # setpoint schedules
 
   # get thermostat schedules
-  dualsetpoint, dualsetpointexist = obtainthermostatschedule(thermalzone, runner)
+  dualsetpoint, dualsetpointexist = obtainthermostatschedule_alt(thermalzone, runner)
   return true unless dualsetpointexist
 
   # get heating schedule
   heatingrulesetschedule, rulesetscheduleexist = \
-    getschedulerulesetfromsetpointschedule(dualsetpoint.heatingSetpointTemperatureSchedule,thermalzone,runner)
+    OsLib_FDD_hvac.getschedulerulesetfromsetpointschedule_alt(dualsetpoint.heatingSetpointTemperatureSchedule,thermalzone,runner)
   return false unless rulesetscheduleexist
 
   # get cooling schedule
   coolingrulesetschedule , rulesetscheduleexist = \
-    getschedulerulesetfromsetpointschedule(dualsetpoint.coolingSetpointTemperatureSchedule,thermalzone,runner)
+    OsLib_FDD_hvac.getschedulerulesetfromsetpointschedule_alt(dualsetpoint.coolingSetpointTemperatureSchedule,thermalzone,runner)
   return false unless rulesetscheduleexist
 
-  setpoint_values = gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, 'initial')
+  setpoint_values = OsLib_FDD_hvac.gather_thermostat_avg_high_low_values_alt(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, 'initial')
 
   # alter schedules
-  addnewscheduleruleset_ext_hr(heatingrulesetschedule, ext_hr, start_month, end_month, dayofweek, 'evening')
-  addnewscheduleruleset_ext_hr(coolingrulesetschedule, ext_hr, start_month, end_month, dayofweek, 'evening')
+  OsLib_FDD_hvac.addnewscheduleruleset_ext_hr_alt(heatingrulesetschedule, ext_hr, start_month, end_month, dayofweek, 'evening')
+  OsLib_FDD_hvac.addnewscheduleruleset_ext_hr_alt(coolingrulesetschedule, ext_hr, start_month, end_month, dayofweek, 'evening')
 
-  setpoint_values = gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, 'final')
+  setpoint_values = OsLib_FDD_hvac.gather_thermostat_avg_high_low_values_alt(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, 'final')
 
   # assign the heating and cooling temperature schedule with faults to the thermostat
-  addnewsetpointschedules(dualsetpoint, heatingrulesetschedule, coolingrulesetschedule)
+  OsLib_FDD_hvac.addnewsetpointschedules_alt(dualsetpoint, heatingrulesetschedule, coolingrulesetschedule)
 
   # assign the thermostat to the zone
   thermalzone.setThermostatSetpointDualSetpoint(dualsetpoint)

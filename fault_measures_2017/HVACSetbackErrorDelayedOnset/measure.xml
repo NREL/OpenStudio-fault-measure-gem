@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_delayed_onset</name>
   <uid>fa0f7ae0-8ff7-4484-8a91-842a42656284</uid>
-  <version_id>89e03ddc-3b73-4167-8ffc-26cacb6a3e3e</version_id>
-  <version_modified>20180313T161759Z</version_modified>
+  <version_id>2b963be2-4c0f-44b8-987e-71b95b5c5817</version_id>
+  <version_modified>20180524T000242Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorDelayedOnset</class_name>
   <display_name>HVAC Setback Error: Delayed Onset</display_name>
@@ -236,24 +236,6 @@
       <checksum>25825DAD</checksum>
     </file>
     <file>
-      <filename>ExtendEveningThermostatSetpointWeek_Test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>3B1BB387</checksum>
-    </file>
-    <file>
-      <filename>misc_run_week_exteveninghr.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>F3E1C818</checksum>
-    </file>
-    <file>
-      <filename>fdd_thermostat.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6E98A224</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
@@ -262,7 +244,31 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>43223573</checksum>
+      <checksum>15C0CDE5</checksum>
+    </file>
+    <file>
+      <filename>fdd_thermostat_hvac.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>6B132892</checksum>
+    </file>
+    <file>
+      <filename>misc_run_week_exteveninghr.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>E50D945F</checksum>
+    </file>
+    <file>
+      <filename>frp_baseline_generic_space_types_hvac.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>21E0467B</checksum>
+    </file>
+    <file>
+      <filename>ExtendEveningThermostatSetpointWeek_Test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>C8DC11B2</checksum>
     </file>
   </files>
 </measure>
