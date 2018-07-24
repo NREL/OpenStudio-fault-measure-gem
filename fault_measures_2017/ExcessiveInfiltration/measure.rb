@@ -64,8 +64,8 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 
     #make an argument for excessive infiltration percentage
     space_infiltration_increase_percent = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("space_infiltration_increase_percent",true)
-    space_infiltration_increase_percent.setDisplayName("Space Infiltration Increase (%).")
-    space_infiltration_increase_percent.setDefaultValue(20.0)
+    space_infiltration_increase_percent.setDisplayName("Ratio of excessive infiltration around the building envelope compared to the non-faulted condition (0-1).")
+    space_infiltration_increase_percent.setDefaultValue(0.2)
     args << space_infiltration_increase_percent
 	
 	##################################################
@@ -128,7 +128,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 
     #assign the user inputs to variables
     object = runner.getOptionalWorkspaceObjectChoiceValue("thermalzone",user_arguments,model)		
-    space_infiltration_increase_percent = runner.getDoubleArgumentValue("space_infiltration_increase_percent",user_arguments)
+    space_infiltration_increase_percent = runner.getDoubleArgumentValue("space_infiltration_increase_percent",user_arguments)*100
 	#################################################################################
     time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments)
 	start_month = runner.getDoubleArgumentValue('start_month',user_arguments)
