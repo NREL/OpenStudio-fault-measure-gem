@@ -6,7 +6,7 @@
 
 ##########################################################
 ##########################################################
-def applyfaulttolight_no_setback_ext_hr(light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
+def applyfaulttolight_no_setback_ext_hr_morning(light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
   
   scheds = []
   light.each do |ligh|

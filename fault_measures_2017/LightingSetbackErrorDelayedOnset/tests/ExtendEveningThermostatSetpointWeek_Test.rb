@@ -4,13 +4,13 @@ require 'minitest/autorun'
 require_relative '../measure.rb'
 require 'fileutils'
 
-class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
+class LightingSetbackErrorDelayedOnset_Test < MiniTest::Unit::TestCase
 
   # method to apply arguments, run measure, and assert results (only populate args hash with non-default argument values)
   def apply_measure_to_model(test_name, args, model_name = nil, result_value = 'Success', warnings_count = 0, info_count = nil)
 
     # create an instance of the measure
-    measure = ExtendEveningThermostatSetpointWeek.new
+    measure = LightingSetbackErrorDelayedOnset.new
 
     # create an instance of a runner
     runner = OpenStudio::Ruleset::OSRunner.new
@@ -69,10 +69,13 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
   def test_single_zone
     args = {}
     args["zone"] = 'Cafe_Flr_1 ZN'
-    args["ext_hr"] = 5.0
+    args["ext_hr"] = 3.0
 
+    # todo - figure out issue with sch rules. May be issue on thermostats as well. b test model without profiles at first glance works fine, same model with two rules ends up with fractional schedule with values of 5.
     result = apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm')
+    #result = apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago_b.osm')
 
+=begin
     # the following strings should be found in info.logMessage text
     expected_string_01 = 'Final annual average heating setpoint for Cafe_Flr_1 ZN 20.0 C'
     expected_string_02 = 'Final annual average cooling setpoint for Cafe_Flr_1 ZN 25.0 C'
@@ -91,6 +94,7 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
     # assert that each message found exactly once
     assert(found_expected_string_01.size == 1)
     assert(found_expected_string_02.size == 1)
+=end
 
   end
 
@@ -100,7 +104,7 @@ class ExtendEveningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
     args = {}
     args["zone"] = '* All Zones *'
 
-    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm',"Success",1)
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'temp_2004_lg_hotel_chicago.osm',"Success")
   end
 
   def test_partial_year

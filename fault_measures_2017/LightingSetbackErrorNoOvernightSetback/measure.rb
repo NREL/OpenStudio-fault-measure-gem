@@ -17,6 +17,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 
 # resource file modules
 include OsLib_FDD
+include OsLib_FDD_light
 
 # start the measure
 class LightingSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
@@ -105,7 +106,6 @@ class LightingSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScr
     else
       start_month = runner.getStringArgumentValue('start_month', user_arguments)
       end_month = runner.getStringArgumentValue('end_month', user_arguments)
-      thermalzones = obtainzone('zone', model, runner, user_arguments)
 
       # create empty has to poulate when loop through zones
       setpoint_values = create_initial_final_setpoint_values_hash

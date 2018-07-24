@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>lighting_setback_error_delayed_onset</name>
   <uid>e97755d6-9e77-418e-8292-7c177ab1653c</uid>
-  <version_id>4759be75-d02c-4bb3-9285-ba25eb781a7f</version_id>
-  <version_modified>20180313T161759Z</version_modified>
+  <version_id>31b10918-61b5-477d-96ed-70b580eda673</version_id>
+  <version_modified>20180523T211132Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>LightingSetbackErrorDelayedOnset</class_name>
   <display_name>Lighting Setback Error: Delayed Onset</display_name>
@@ -248,10 +248,10 @@
       <checksum>A4B02246</checksum>
     </file>
     <file>
-      <filename>fdd_thermostat.rb</filename>
+      <filename>fdd_thermostat_light.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>4A0E3728</checksum>
+      <checksum>0A0A78AA</checksum>
     </file>
     <file>
       <version>
@@ -262,7 +262,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>47DA8429</checksum>
+      <checksum>99E8EAD9</checksum>
     </file>
   </files>
 </measure>

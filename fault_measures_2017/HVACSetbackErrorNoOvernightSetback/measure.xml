@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_no_overnight_setback</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>c6e9d958-5b03-4bd7-9f50-ae2dd409fd64</version_id>
-  <version_modified>20180313T161759Z</version_modified>
+  <version_id>d7ac1688-a04d-400a-90a0-ec03a4bf79e2</version_id>
+  <version_modified>20180524T000242Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorNoOvernightSetback</class_name>
   <display_name>HVAC Setback Error: No Overnight Setback</display_name>
@@ -226,28 +226,16 @@
       <checksum>BA085459</checksum>
     </file>
     <file>
-      <filename>NoOvernightSetbackWeek_Test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>8797033B</checksum>
-    </file>
-    <file>
       <filename>misc_arguments.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>25825DAD</checksum>
     </file>
     <file>
-      <filename>misc_run_dayofweek.rb</filename>
+      <filename>NoOvernightSetbackWeek_Test.rb</filename>
       <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>80230056</checksum>
-    </file>
-    <file>
-      <filename>fdd_thermostat.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6E98A224</checksum>
+      <usage_type>test</usage_type>
+      <checksum>EE2D02C3</checksum>
     </file>
     <file>
       <version>
@@ -258,7 +246,19 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>DB33E0CA</checksum>
+      <checksum>5719ABCC</checksum>
+    </file>
+    <file>
+      <filename>fdd_thermostat_hvac.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>6B132892</checksum>
+    </file>
+    <file>
+      <filename>misc_run_dayofweek.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>542080E1</checksum>
     </file>
   </files>
 </measure>

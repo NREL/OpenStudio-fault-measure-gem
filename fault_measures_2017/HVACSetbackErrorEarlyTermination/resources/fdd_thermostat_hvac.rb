@@ -1,9 +1,9 @@
-module OsLib_FDD
+module OsLib_FDD_hvac
 
   # global variable for ending date and ending time of the day
   require_relative 'global_const'
 
-  def getschedulerulesetfromsetpointschedule(schedule,thermalzone,runner)
+  def getschedulerulesetfromsetpointschedule_alt(schedule,thermalzone,runner)
     # This function returns a deep copy of the ScheduleRuleset object within
     # the Schedule object made to reduce the ABC of function applyfaulttothermalzone
 
@@ -19,7 +19,7 @@ module OsLib_FDD
 
   end
 
-  def obtainthermostatschedule(thermalzone, runner)
+  def obtainthermostatschedule_alt(thermalzone, runner)
     # This function helps to obtain the ThermostatDualSetpoint object from the
     # OpenStudio object of the chosen zone
 
@@ -37,7 +37,7 @@ module OsLib_FDD
     return thermostatsetpointdualsetpoint, true
   end
 
-  def addnewsetpointschedules(dualsetpoint, heatingrulesetschedule,
+  def addnewsetpointschedules_alt(dualsetpoint, heatingrulesetschedule,
                               coolingrulesetschedule)
     # This function adds the new heating and cooling schedule to the DualSetpoint
     # object
@@ -50,7 +50,7 @@ module OsLib_FDD
   end
 
 # todo - this results in unused default profile and extra rules, would be nice to clean up how this works.
-  def addnewscheduleruleset(heatorcoolscheduleruleset, start_month,
+  def addnewscheduleruleset_alt(heatorcoolscheduleruleset, start_month,
                             end_month, dayofweek)
     # This function accepts schedules rulesets of heating or cooling, analyzes the
     # priority and default rules in the schedule and add new schedules with the
@@ -66,32 +66,32 @@ module OsLib_FDD
     heatorcoolscheduleruleset.defaultDaySchedule.to_ScheduleDay.get
     oritimes = defaultday_clone.times
     orivalues = defaultday_clone.values
-    createnewdefaultdayofweekrule(heatorcoolscheduleruleset, oritimes, orivalues,
+    createnewdefaultdayofweekrule_alt(heatorcoolscheduleruleset, oritimes, orivalues,
                                   start_month, end_month, e_day, dayofweek)
 
     # change the schedule rules of the priority rules first
-    createnewpriroityrules(heatorcoolscheduleruleset, start_month,
+    createnewpriroityrules_alt(heatorcoolscheduleruleset, start_month,
                            end_month, e_day, dayofweek)
   end
 
-  def createnewpriroityrules(heatorcoolscheduleruleset, start_month,
+  def createnewpriroityrules_alt(heatorcoolscheduleruleset, start_month,
                              end_month, e_day, dayofweek)
     # This function creates new priority rules to impose NoOvernightSetback fault
     # to the schedules of thermostat setpoint
 
     rules = heatorcoolscheduleruleset.scheduleRules
     rules.each_with_index do |rule, i|
-      next unless checkscheduleruledayofweek(rule, dayofweek)
+      next unless checkscheduleruledayofweek_alt(rule, dayofweek)
       # create new rules with a higher priority than the present one
       rule_clone = OpenStudio::Model::ScheduleRule.new(heatorcoolscheduleruleset)
-      copydayscheduletimesandvalues(rule.daySchedule, rule_clone.daySchedule)
-      setcommoninformation(rule_clone, rule.name, start_month, end_month, e_day)
-      propagateeveningchangeovervalue(rule_clone)
-      compareandchangedayofweek(rule_clone, rule, dayofweek)
+      copydayscheduletimesandvalues_alt(rule.daySchedule, rule_clone.daySchedule)
+      setcommoninformation_alt(rule_clone, rule.name, start_month, end_month, e_day)
+      propagateeveningchangeovervalue_alt(rule_clone)
+      compareandchangedayofweek_alt(rule_clone, rule, dayofweek)
     end
   end
 
-  def checkscheduleruledayofweek(scheduleRule, dayofweek)
+  def checkscheduleruledayofweek_alt(scheduleRule, dayofweek)
     # This function checks if a certain sceduleRule is applied to the dayofweek
     case dayofweek
       when 'Monday'
@@ -109,34 +109,34 @@ module OsLib_FDD
       when 'Sunday'
         return scheduleRule.applySunday
       when $all_days
-        return checkschedulerulemultidayofweek(scheduleRule, $dayofweeks)
+        return checkschedulerulemultidayofweek_alt(scheduleRule, $dayofweeks)
       when $weekdaysonly
-        return checkschedulerulemultidayofweek(scheduleRule, $weekdays)
+        return checkschedulerulemultidayofweek_alt(scheduleRule, $weekdays)
       when $weekendonly
-        return checkschedulerulemultidayofweek(scheduleRule, $weekend)
+        return checkschedulerulemultidayofweek_alt(scheduleRule, $weekend)
       else
         return false
     end
   end
 
-  def checkschedulerulemultidayofweek(scheduleRule, dayofweeks)
+  def checkschedulerulemultidayofweek_alt(scheduleRule, dayofweeks)
     # This function checks if a certain sceduleRule is applied to any days in
     # dayofweeks
     dayofweeks.each do |fixday|
       # return true as far as one of them is true
-      return true if checkscheduleruledayofweek(scheduleRule, fixday)
+      return true if checkscheduleruledayofweek_alt(scheduleRule, fixday)
     end
     return false
   end
 
-  def compareandchangedayofweek(scheduleRule, oldscheduleRule, dayofweeks)
+  def compareandchangedayofweek_alt(scheduleRule, oldscheduleRule, dayofweeks)
     # This function compares the applied days between ones in oldscheduleRule
     # and ones in dayofweeks, and only apply the day to scheduleRule when
     # the day exists in both the applied days and the dayofweeks
 
     # check if multiple day computation is needed
     fixdays = []
-    applyallday(scheduleRule, false)
+    applyallday_alt(scheduleRule, false)
     case dayofweeks
       when $all_days
         fixdays = $dayofweeks
@@ -146,28 +146,28 @@ module OsLib_FDD
         fixdays = $weekend
       else
         # only one single day is involved. change it normally
-        changedayofweek(scheduleRule, dayofweeks)
+        changedayofweek_alt(scheduleRule, dayofweeks)
         return true
     end
 
     # check the applied days in the old rule and see if it should be
     # imposed in the new rule
     fixdays.each do |fixday|
-      if checkscheduleruledayofweek(oldscheduleRule, fixday)
-        applydayofweek(scheduleRule, fixday)
+      if checkscheduleruledayofweek_alt(oldscheduleRule, fixday)
+        applydayofweek_alt(scheduleRule, fixday)
       end
     end
     return true
   end
 
-  def changedayofweek(scheduleRule, dayofweek)
+  def changedayofweek_alt(scheduleRule, dayofweek)
     # This function changes to ScheduleRule object so that it is only applied
     # to dayofweek
-    applyallday(scheduleRule, false)
-    applydayofweek(scheduleRule, dayofweek)
+    applyallday_alt(scheduleRule, false)
+    applydayofweek_alt(scheduleRule, dayofweek)
   end
 
-  def applydayofweek(scheduleRule, dayofweek)
+  def applydayofweek_alt(scheduleRule, dayofweek)
     # set apply to a specific day according to the string in dayofweek
     case dayofweek
       when 'Monday'
@@ -185,44 +185,44 @@ module OsLib_FDD
       when 'Sunday'
         scheduleRule.setApplySunday(true)
       when $all_days
-        applyallday(scheduleRule, true)
+        applyallday_alt(scheduleRule, true)
       when $weekdaysonly
-        applymultidayofweek(scheduleRule, $weekdays)
+        applymultidayofweek_alt(scheduleRule, $weekdays)
       when $weekendonly
-        applymultidayofweek(scheduleRule, $weekend)
+        applymultidayofweek_alt(scheduleRule, $weekend)
       else
         return false
     end
     return true
   end
 
-  def applymultidayofweek(scheduleRule, dayofweeks)
+  def applymultidayofweek_alt(scheduleRule, dayofweeks)
     # set application to multiple days in a week
     dayofweeks.each do |fixday|
-      next if applydayofweek(scheduleRule, fixday)
+      next if applydayofweek_alt(scheduleRule, fixday)
       return false
     end
     return true
   end
 
-  def createnewdefaultdayofweekrule(heatorcoolscheduleruleset, oritimes, orivalues,
+  def createnewdefaultdayofweekrule_alt(heatorcoolscheduleruleset, oritimes, orivalues,
                                     start_month, end_month, e_day, dayofweek)
     # This function create a priority rule based on default day rule that is applied
     # to dayofweek only
 
     defaultday_rule = \
     OpenStudio::Model::ScheduleRule.new(heatorcoolscheduleruleset)
-    copydayscheduletimesandvalues(heatorcoolscheduleruleset.defaultDaySchedule,
+    copydayscheduletimesandvalues_alt(heatorcoolscheduleruleset.defaultDaySchedule,
                                   defaultday_rule.daySchedule)
-    setcommoninformation(defaultday_rule,
+    setcommoninformation_alt(defaultday_rule,
                          heatorcoolscheduleruleset.defaultDaySchedule.name,
                          start_month, end_month, e_day)
-    changedayofweek(defaultday_rule, dayofweek)
-    propagateeveningchangeovervaluewithextrainfo(defaultday_rule, oritimes,
+    changedayofweek_alt(defaultday_rule, dayofweek)
+    propagateeveningchangeovervaluewithextrainfo_alt(defaultday_rule, oritimes,
                                                  orivalues)
   end
 
-  def copydayscheduletimesandvalues(sourcedayschedule, todayschedule)
+  def copydayscheduletimesandvalues_alt(sourcedayschedule, todayschedule)
     # copy the times and values from sourcedayschedule to todayschedule
     todayschedule.clearValues
     times = sourcedayschedule.times
@@ -232,7 +232,7 @@ module OsLib_FDD
     end
   end
 
-  def setcommoninformation(scheduleRule, name, start_month, end_month, e_day)
+  def setcommoninformation_alt(scheduleRule, name, start_month, end_month, e_day)
     # This function sets the name, the starting month and the ending month
     # of the given OpenStudio ScheduleRule object
     scheduleRule.setName("#{name} with new start/end dates")
@@ -244,7 +244,7 @@ module OsLib_FDD
     )
   end
 
-  def applyallday(scheduleRule, on)
+  def applyallday_alt(scheduleRule, on)
     # This function sets the scheduleRule in the input to switch on
     # or off all day of the week
     scheduleRule.setApplySunday(on)
@@ -256,7 +256,7 @@ module OsLib_FDD
     scheduleRule.setApplySaturday(on)
   end
 
-  def propagateeveningchangeovervalue(scheduleRule)
+  def propagateeveningchangeovervalue_alt(scheduleRule)
     # This function analyzes the OpenStudio::mode::ScheduleRule object at the
     # inputs to find the temperature setpoint before the building closure in
     # the evening. It returns a value indicating the setpoint. It then
@@ -267,11 +267,11 @@ module OsLib_FDD
     scheduleday.setName("#{scheduleday.name} with NoOvernightSetback")
     times = scheduleday.times
     values = scheduleday.values
-    finval, changetime = finvalandchangetime(times, values)
-    newtimesandvaluestosceduleday(times, values, finval, changetime, scheduleday)
+    finval, changetime = finvalandchangetime_alt(times, values)
+    newtimesandvaluestosceduleday_alt(times, values, finval, changetime, scheduleday)
   end
 
-  def propagateeveningchangeovervaluewithextrainfo(scheduleRule, times, values)
+  def propagateeveningchangeovervaluewithextrainfo_alt(scheduleRule, times, values)
     # This function obtains the times and values vector from the user
     # to find the temperature setpoint before the building closure in
     # the evening. It returns a value indicating the setpoint. It then
@@ -281,11 +281,11 @@ module OsLib_FDD
 
     scheduleday = scheduleRule.daySchedule
     scheduleday.setName("#{scheduleday.name} with NoOvernightSetback")
-    finval, changetime = finvalandchangetime(times, values)
-    newtimesandvaluestosceduleday(times, values, finval, changetime, scheduleday)
+    finval, changetime = finvalandchangetime_alt(times, values)
+    newtimesandvaluestosceduleday_alt(times, values, finval, changetime, scheduleday)
   end
 
-  def finvalandchangetime(times, values)
+  def finvalandchangetime_alt(times, values)
     # This function finds the value of setpoint in the evening with NoOvernightSetback
     # fault, and returns the setpoint and the end time of daytime building operation
 
@@ -303,7 +303,7 @@ module OsLib_FDD
     return finval, changetime
   end
 
-  def newtimesandvaluestosceduleday(times, values, finval, changetime, scheduleday)
+  def newtimesandvaluestosceduleday_alt(times, values, finval, changetime, scheduleday)
     # This function is used to replace times and values in scheduleday
     # with user-specified values. If the times are outside the
     # hours of building daytime operation, it replaces the values
@@ -325,18 +325,18 @@ module OsLib_FDD
 # methods above are in NoOvernightThermostatSetback
 # methods below are only in ExtendEveningThermostatSetpoint and ExtendMorningThermostatSetpoint
 
-  def createnewruleandcopy(scheduleruleset, olddayschedule, start_month, end_month, e_day)
+  def createnewruleandcopy_alt(scheduleruleset, olddayschedule, start_month, end_month, e_day)
     # return a new rule with dayschedule the same as the olddayschedule for a user-defined
     # starting month and ending month. Afterwards, it is imposed to the ScheduleRuleset scheduleruleset.
     # day of week is also specified according to user preference
     rule_clone = OpenStudio::Model::ScheduleRule.new(scheduleruleset)
-    copydayscheduletimesandvalues(olddayschedule, rule_clone.daySchedule)
-    setcommoninformation(rule_clone, olddayschedule.name, start_month,
+    copydayscheduletimesandvalues_alt(olddayschedule, rule_clone.daySchedule)
+    setcommoninformation_alt(rule_clone, olddayschedule.name, start_month,
                          end_month, e_day)
     return rule_clone
   end
 
-  def shifttimevector(times, values, ext_hr, changetime, moring_evening_string)
+  def shifttimevector_alt(times, values, ext_hr, changetime, moring_evening_string)
     # This function shifts the time vector according to the extension
     # in ext_hr. If the extension passes midnight, it terminates the
     # extension at midnight, and dispose the midnight value in the
@@ -346,19 +346,19 @@ module OsLib_FDD
     newtime = times[0]
     if times.length > 1  # no extension if the setpoint is a constant
       ind = times.index(changetime)
-      newhours, newminutes = newhrandmin(times, values, ind, ext_hr, moring_evening_string)
+      newhours, newminutes = newhrandmin_alt(times, values, ind, ext_hr, moring_evening_string)
       newtime = OpenStudio::Time.new(times[ind].days, newhours, newminutes, 0)
     end
     return newtime
   end
 
-  def roundtointeger(floatnum)
+  def roundtointeger_alt(floatnum)
     # This function rounds a float to an integer
 
     return floatnum.round.to_i
   end
 
-  def roundclock(newhours, newminutes)
+  def roundclock_alt(newhours, newminutes)
     # This function adjusts the integers in hours and minutes
     # so that minutes will not exceed 60 upon calculation
 
@@ -369,12 +369,12 @@ module OsLib_FDD
     return newhours, newminutes
   end
 
-  def midnightadjust(newhours, newminutes, times, values, ind)
+  def midnightadjust_alt(newhours, newminutes, times, values, ind)
     # This function checks the times vector to see if the
     # second last vector passes midnight. If it does, remove
     # the last entry in times and values
 
-    newhours, newminutes = roundclock(newhours, newminutes)
+    newhours, newminutes = roundclock_alt(newhours, newminutes)
     if newhours >= 24
       newhours = 23
       newminutes = 59
@@ -382,7 +382,7 @@ module OsLib_FDD
     return newhours, newminutes
   end
 
-  def create_initial_final_setpoint_values_hash()
+  def create_initial_final_setpoint_values_hash_alt()
 
     # add in initial and final condition
     setpoint_values = {}
@@ -399,7 +399,7 @@ module OsLib_FDD
 
   end
 
-  def num_hours_in_year(model)
+  def num_hours_in_year_alt(model)
 
     if model.yearDescription.is_initialized and model.yearDescription.get.isLeapYear
       num_hours_in_year = 8784.0
@@ -411,7 +411,7 @@ module OsLib_FDD
 
   end
 
-  def get_thermostat_inputs(model, runner, user_arguments)
+  def get_thermostat_inputs_alt(model, runner, user_arguments)
     # This function passes the inputs in user_arguments, other than the ones
     # to check if the function should run, to the run function. For
     # ExtendMorningThermostatSetpoint, it is start_month, end_month and
@@ -425,7 +425,7 @@ module OsLib_FDD
   end
 
 # todo - this method is has ext_hr arg not fouund in uses of this method in other measures
-  def addnewscheduleruleset_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
+  def addnewscheduleruleset_ext_hr_alt(heatorcoolscheduleruleset, ext_hr, start_month,
                                    end_month, dayofweek,moring_evening_string)
     # This function accepts schedules rulesets of heating or cooling, analyzes the
     # priority and default rules in the schedule and add new schedules with the
@@ -447,17 +447,17 @@ module OsLib_FDD
     heatorcoolscheduleruleset.defaultDaySchedule.to_ScheduleDay.get
     oritimes = defaultday_clone.times
     orivalues = defaultday_clone.values
-    createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr,
+    createnewdefaultdayofweekrule_ext_hr_alt(heatorcoolscheduleruleset, ext_hr,
                                          oritimes, orivalues, start_month,
                                          end_month, e_day, dayofweek, moring_evening_string)
 
     # change the schedule rules of the priority rules first
-    createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr,
+    createnewpriroityrules_ext_hr_alt(heatorcoolscheduleruleset, ext_hr,
                                   start_month, end_month, e_day, dayofweek, moring_evening_string)
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def createnewpriroityrules_ext_hr(heatorcoolscheduleruleset, ext_hr, start_month,
+  def createnewpriroityrules_ext_hr_alt(heatorcoolscheduleruleset, ext_hr, start_month,
                                     end_month, e_day, dayofweek, moring_evening_string)
     # This function creates new priority rules to impose ExtendEveningThermostatSetpointWeek fault
     # to the schedules of thermostat setpoint
@@ -470,34 +470,44 @@ module OsLib_FDD
     rules = heatorcoolscheduleruleset.scheduleRules
     (1..(rules.length - 1)).each do |i|
       rule = rules[-i]
-      if checkscheduleruledayofweek(rule, dayofweek)
+      if checkscheduleruledayofweek_alt(rule, dayofweek)
         # create new rules with the highest priority among existing ones if it hasn't been just created
         # and the rule is applicable to the related dayofweek
-        rule_clone = createnewruleandcopy(heatorcoolscheduleruleset, rule.daySchedule,
+        rule_clone = createnewruleandcopy_alt(heatorcoolscheduleruleset, rule.daySchedule,
                                           start_month, end_month, e_day)
-        compareandchangedayofweek(rule_clone, rule, dayofweek)
-        propagateeveningchangeovervalue_ext_hr(rule_clone, ext_hr, moring_evening_string)
+        compareandchangedayofweek_alt(rule_clone, rule, dayofweek)
+
+        # dfg - didn't understand what this was doing, was using ext_hr as value for new rules.
+        # seems like this should use same method as used to alter default profile
+        #propagateeveningchangeovervalue_ext_hr_alt(rule_clone, ext_hr, moring_evening_string)
+
+        heatorcoolscheduleruleset.defaultDaySchedule.to_ScheduleDay.get
+        oritimes = rule.daySchedule.times
+        orivalues = rule.daySchedule.values
+        propagateeveningchangeovervaluewithextrainfo_ext_hr_alt(rule_clone, ext_hr,
+                                                            oritimes, orivalues, moring_evening_string)
+
       end
     end
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr, oritimes, orivalues,
+  def createnewdefaultdayofweekrule_ext_hr_alt(heatorcoolscheduleruleset, ext_hr, oritimes, orivalues,
                                            start_month, end_month, e_day, dayofweek, moring_evening_string)
     # This function create a priority rule based on default day rule that is applied
     # to dayofweek only
 
-    new_defaultday_rule = createnewruleandcopy(
+    new_defaultday_rule = createnewruleandcopy_alt(
         heatorcoolscheduleruleset, heatorcoolscheduleruleset.defaultDaySchedule,
         start_month, end_month, e_day
     )
-    changedayofweek(new_defaultday_rule, dayofweek)
-    propagateeveningchangeovervaluewithextrainfo_ext_hr(new_defaultday_rule, ext_hr,
+    changedayofweek_alt(new_defaultday_rule, dayofweek)
+    propagateeveningchangeovervaluewithextrainfo_ext_hr_alt(new_defaultday_rule, ext_hr,
                                                         oritimes, orivalues, moring_evening_string)
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def propagateeveningchangeovervalue_ext_hr(scheduleRule, ext_hr, moring_evening_string)
+  def propagateeveningchangeovervalue_ext_hr_alt(scheduleRule, ext_hr, moring_evening_string)
     # This function analyzes the OpenStudio::mode::ScheduleRule object at the
     # inputs to find the temperature setpoint before the building closure in
     # the evening. It returns a value indicating the setpoint. It then
@@ -508,12 +518,12 @@ module OsLib_FDD
     scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
     times = scheduleday.times
     values = scheduleday.values
-    changetime = findchangetime(times, values, moring_evening_string)
-    newtimesandvaluestosceduleday(times, values, ext_hr, changetime, scheduleday)
+    changetime = findchangetime_alt(times, values, moring_evening_string)
+    newtimesandvaluestosceduleday_alt(times, values, ext_hr, changetime, scheduleday)
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def propagateeveningchangeovervaluewithextrainfo_ext_hr(scheduleRule, ext_hr, times, values, moring_evening_string)
+  def propagateeveningchangeovervaluewithextrainfo_ext_hr_alt(scheduleRule, ext_hr, times, values, moring_evening_string)
     # This function obtains the times and values vector from the user
     # to find the temperature setpoint before the building closure in
     # the evening. It returns a value indicating the setpoint. It then
@@ -523,12 +533,12 @@ module OsLib_FDD
 
     scheduleday = scheduleRule.daySchedule
     scheduleday.setName("#{scheduleday.name} with ExtendEveningThermostatSetpointWeek")
-    changetime = findchangetime(times, values, moring_evening_string)
-    newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday, moring_evening_string)
+    changetime = findchangetime_alt(times, values, moring_evening_string)
+    newtimesandvaluestosceduleday_ext_hr_alt(times, values, ext_hr, changetime, scheduleday, moring_evening_string)
   end
 
 # todo - this method is has ext_hr arg not found in uses of this method in other measures
-  def newtimesandvaluestosceduleday_ext_hr(times, values, ext_hr, changetime, scheduleday, moring_evening_string)
+  def newtimesandvaluestosceduleday_ext_hr_alt(times, values, ext_hr, changetime, scheduleday, moring_evening_string)
     # This function is used to replace times and values in scheduleday
     # with user-specified values. If the times are outside the
     # hours of building daytime operation, it extends the operation schedule
@@ -537,26 +547,50 @@ module OsLib_FDD
     scheduleday.clearValues
     # force the first setpoint of the day and any setpoint in the evening
     # to be the same as the daytime setpoint
-    newtime = shifttimevector(times, values, ext_hr, changetime, moring_evening_string)
+    newtime = shifttimevector_alt(times, values, ext_hr, changetime, moring_evening_string)
+    i = 0
     times.zip(values).each do |time, value|
-      if time == changetime
-        scheduleday.addValue(newtime, value)
+
+      # need to see if > = change time and < = change time plus ext_hr
+      between_times = false
+      if newtime > changetime
+        if changetime < time && time < newtime
+          between_times = true
+        end
+      else # would only see this with negative ext_hr value
+        if newtime < time && time < changetime
+          between_times = true
+        end
+      end
+
+      if time == newtime
+        # do nothing, use value set for changetime
+      elsif time == changetime
+        if moring_evening_string == "morning"
+          scheduleday.addValue(newtime, value)
+        else
+          scheduleday.addValue(newtime, value)
+        end
+      elsif between_times
+        # do nothing, don't include values for these times in the new schedule
       else
         scheduleday.addValue(time, value)
       end
+      i = i + 1
     end
+
   end
 
-  def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
+  def gather_thermostat_avg_high_low_values_alt(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
     # gather initial thermostat range and average temp
-    avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
+    avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year_alt(model)
     min_max = heatingrulesetschedule.annual_min_max_value
     runner.registerInfo("#{initial_final_string.capitalize} annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_htg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_htg_max".to_sym] << min_max['max']
 
-    avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
+    avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year_alt(model)
     min_max = coolingrulesetschedule.annual_min_max_value
     runner.registerInfo("#{initial_final_string.capitalize} annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_clg_min".to_sym] << min_max['min']
@@ -567,7 +601,7 @@ module OsLib_FDD
   end
   
 # method has different code for morning and evening
-  def findchangetime(times, values, moring_evening_string)
+  def findchangetime_alt(times, values, moring_evening_string)
     # This function finds the closing time of the building for extension
     # according to the thermostat schedule
 
@@ -582,22 +616,22 @@ module OsLib_FDD
   end
 
 # method has different code for morning and evening
-  def newhrandmin(times, values, ind, ext_hr, moring_evening_string)
+  def newhrandmin_alt(times, values, ind, ext_hr, moring_evening_string)
     # This function returns the hours and minutes for substitution
     # in the vector times from the time object indicated by index ind. The
     # new time object will consist of the time shifted according to ext_hr.
     # It also removes the last entry in times and values vector when needed
 
     hr = ext_hr.floor
-    newhours = roundtointeger(times[ind].hours) + hr
+    newhours = roundtointeger_alt(times[ind].hours) + hr
     # do not correct upwards
 
     if moring_evening_string == "morning"
-      newminutes = roundtointeger(times[ind].minutes) + ((ext_hr - hr) * 60).floor
+      newminutes = roundtointeger_alt(times[ind].minutes) + ((ext_hr - hr) * 60).floor
     else
-      newminutes = roundtointeger(times[ind].minutes) + ((ext_hr - hr) * 60).floor
+      newminutes = roundtointeger_alt(times[ind].minutes) + ((ext_hr - hr) * 60).floor
     end
-    newhours, newminutes = midnightadjust(newhours, newminutes,
+    newhours, newminutes = midnightadjust_alt(newhours, newminutes,
                                           times, values, ind)
     return newhours, newminutes
   end

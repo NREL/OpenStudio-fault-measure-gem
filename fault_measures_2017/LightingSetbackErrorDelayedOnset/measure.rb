@@ -18,6 +18,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 
 # resource file modules
 include OsLib_FDD
+include OsLib_FDD_light
 
 # start the measure
 class LightingSetbackErrorDelayedOnset < OpenStudio::Ruleset::ModelUserScript
@@ -122,7 +123,7 @@ class LightingSetbackErrorDelayedOnset < OpenStudio::Ruleset::ModelUserScript
       # apply fault
       lights.each do |light|
 	next if not light.size > 0
-        results = applyfaulttolight_no_setback_ext_hr(light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
+        results = applyfaulttolight_no_setback_ext_hr_evening(light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
 
         # populate hash for min max values across zones
         if not results == false
