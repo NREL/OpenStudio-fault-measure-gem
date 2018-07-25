@@ -30,12 +30,12 @@ class ImproperTimeDelaySettingInOccupancySensors < OpenStudio::Ruleset::ModelUse
 
   # simple human readable description
   def description
-    return "This measure simulates the effect of an improper time delay setting in occupancy sensors by modifying the Schedule:Compact object in EnergyPlus assigned to lighting schedules. The fault intensity (F) for this fault is defined as the delayed time setting (in hours), which is specified as one of the inputs."
+    return "Compared to scheduled lighting operation, using an occupancy sensor for the lighting control is more suitable when the space is intermittently occupied. In other words, when the space is left with the lights on for large amount of portion throughout the day, it is better to use the occupancy sensor to save the lighting energy consumption. However, setting a time delay in the occupancy sensor is a trade-off between occupant’s visual discomfort and energy savings. If the time delay is too short, chances increase for energy savings. But on the other side, lights being on and off too often increases visual discomfort for occupants in the space. 15 minutes of time delay is common in the real application, however, the setting can be improperly implemented in the field. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates the effect of an improper time delay setting in occupancy sensors by modifying the Schedule:Compact object in EnergyPlus assigned to lighting schedules. This fault is categorized as a fault that occur in the lighting system (controller) during the operation stage. The fault intensity (F) is defined as the delayed time setting (in hours)."
   end
 
   # detailed human readable description about how to use the measure
   def modeler_description
-    return "The measure detects the original occupancy schedule applied in EnergyPlus automatically, and adjusts the lighting schedule assigned to the selected zone according to the occupancy schedule with the time delay applied based on the user inputs. Five different user inputs are required to simulate the fault; zone where the fault occurs; starting month of the faulted operation, ending month of the faulted operation, day of the week when the fault occurs, time delay in hours. "
+    return "The measure detects the original occupancy schedule applied in EnergyPlus, and adjusts the lighting schedule assigned to the selected zone according to the occupancy schedule with the time delay applied based on the user inputs. Five different user inputs are required to simulate the fault; zone where the fault occurs; starting month of the faulted operation, ending month of the faulted operation, day of the week when the fault occurs, time delay in hours."
   end
 
   # define the arguments that the user will input
