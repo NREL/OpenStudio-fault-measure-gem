@@ -471,6 +471,9 @@ module OsLib_FDD_light
     heatorcoolscheduleruleset.defaultDaySchedule.to_ScheduleDay.get
     oritimes = defaultday_clone.times
     orivalues = defaultday_clone.values
+	##############################################
+	runner.registerInfo("OriginalSchedule: #{defaultday_clone}")
+	##############################################
     createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr,
                                          oritimes, orivalues, start_month,
                                          end_month, e_day, dayofweek, moring_evening_string, runner)
@@ -578,6 +581,10 @@ module OsLib_FDD_light
     i = 0
     times.zip(values).each do |time, value|
 
+	  #################################################
+	  runner.registerInfo("BEFORE:	Time =	#{time} / NewTime =	#{newtime} / ChangeTime = 	#{changetime} / Value =	#{value}")
+	  #################################################
+	
       # need to see if > = change time and < = change time plus ext_hr
       between_times = false
       if newtime > changetime
@@ -604,8 +611,15 @@ module OsLib_FDD_light
         scheduleday.addValue(time, value)
       end
       i = i + 1
+	  
+	  #################################################
+	  runner.registerInfo("AFTER:		Time =	#{time} / NewTime =	#{newtime} / ChangeTime = 	#{changetime} / Value =	#{value}")
+	  #################################################
+	  
     end
-	
+	#################################################
+	runner.registerInfo("SCHEDULE:	#{scheduleday}")
+	#################################################
   end
 
   def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
@@ -699,12 +713,13 @@ module OsLib_FDD_light
     # It also removes the last entry in times and values vector when needed
 
     hr = ext_hr.floor
-    newhours = roundtointeger(times[ind].hours) + hr
     # do not correct upwards
 
     if moring_evening_string == "morning"
-      newminutes = roundtointeger(times[ind].minutes) + ((ext_hr - hr) * 60).floor
+      newhours = roundtointeger(times[ind].hours) - hr
+	  newminutes = roundtointeger(times[ind].minutes) + ((ext_hr - hr) * 60).floor
     else
+	  newhours = roundtointeger(times[ind].hours) + hr
       newminutes = roundtointeger(times[ind].minutes) + ((ext_hr - hr) * 60).floor
     end
     newhours, newminutes = midnightadjust(newhours, newminutes,
