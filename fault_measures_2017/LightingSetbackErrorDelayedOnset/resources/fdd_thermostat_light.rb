@@ -471,9 +471,6 @@ module OsLib_FDD_light
     heatorcoolscheduleruleset.defaultDaySchedule.to_ScheduleDay.get
     oritimes = defaultday_clone.times
     orivalues = defaultday_clone.values
-	##############################################
-	runner.registerInfo("OriginalSchedule: #{defaultday_clone}")
-	##############################################
     createnewdefaultdayofweekrule_ext_hr(heatorcoolscheduleruleset, ext_hr,
                                          oritimes, orivalues, start_month,
                                          end_month, e_day, dayofweek, moring_evening_string, runner)
@@ -582,7 +579,7 @@ module OsLib_FDD_light
     times.zip(values).each do |time, value|
 
 	  #################################################
-	  runner.registerInfo("BEFORE:	Time =	#{time} / NewTime =	#{newtime} / ChangeTime = 	#{changetime} / Value =	#{value}")
+	  #runner.registerInfo("BEFORE:	Time =	#{time} / NewTime =	#{newtime} / ChangeTime = 	#{changetime} / Value =	#{value}")
 	  #################################################
 	
       # need to see if > = change time and < = change time plus ext_hr
@@ -610,16 +607,8 @@ module OsLib_FDD_light
       else
         scheduleday.addValue(time, value)
       end
-      i = i + 1
-	  
-	  #################################################
-	  runner.registerInfo("AFTER:		Time =	#{time} / NewTime =	#{newtime} / ChangeTime = 	#{changetime} / Value =	#{value}")
-	  #################################################
-	  
+      i = i + 1	  
     end
-	#################################################
-	runner.registerInfo("SCHEDULE:	#{scheduleday}")
-	#################################################
   end
 
   def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
