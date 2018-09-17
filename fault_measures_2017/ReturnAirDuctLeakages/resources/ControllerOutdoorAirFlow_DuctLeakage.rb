@@ -585,7 +585,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
     SET OA_NEW = @Min MDOT_OA_MAX OA_NEW, !- <none>
     SET FinalFlow = OA_NEW, !- <none>
     ENDIF, !- <none>
-    SET "+name_cut(econ_choice)+"MDOT_OA = FinalFlow + "+name_cut(econ_choice)+"MixAirFlow_CTRL*("+leakratio+")*AF_current_#{$faulttype}_#{oacontrollername}; !- <none>
+    SET "+name_cut(econ_choice)+"MDOT_OA = FinalFlow + ("+name_cut(econ_choice)+"MixAirFlow_CTRL - FinalFlow)*("+leakratio+")*AF_current_#{$faulttype}_#{oacontrollername}; !- <none>
   "
   
   return main_body
