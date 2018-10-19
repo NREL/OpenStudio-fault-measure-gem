@@ -106,7 +106,7 @@ class LightingSetbackErrorEarlyTermination < OpenStudio::Ruleset::ModelUserScrip
     end
 
     # get inputs
-    ext_hr = runner.getDoubleArgumentValue('ext_hr', user_arguments)
+    ext_hr = runner.getDoubleArgumentValue('ext_hr', user_arguments)*(-1)
     if ext_hr != 0
       start_month, end_month, thermalzones, dayofweek = \
         get_thermostat_inputs(model, runner, user_arguments)
