@@ -49,7 +49,7 @@ class DuctLeakageThroughZoneHVACAirDistributionUnit < OpenStudio::Measure::Energ
 
     # assign the user inputs to variables
     upstream_fraction = runner.getStringArgumentValue("upstream_fraction", user_arguments)
-    downstream_fraction = runner.getStringArgumentValue("upstream_fraction", user_arguments)
+    downstream_fraction = runner.getStringArgumentValue("downstream_fraction", user_arguments)
 
     # get all thermal zones in the starting model
     adus = workspace.getObjectsByType("ZoneHVAC:AirDistributionUnit".to_IddObjectType)
