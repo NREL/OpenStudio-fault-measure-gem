@@ -61,7 +61,7 @@ class DuctLeakageThroughZoneHVACAirDistributionUnit < OpenStudio::Measure::Energ
     adus.each do |adu|
       runner.registerInfo("Setting duct leakge for #{adu.getString(0)}")
       adu.setString(4,upstream_fraction)
-      adu.setString(5,upstream_fraction)
+      adu.setString(5,downstream_fraction)
     end
 
 
