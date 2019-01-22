@@ -748,7 +748,7 @@ end
 
 #The following script appends the necessary EMS objects to the code to run the program
 
-def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, controlleroutdoorair)
+def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, controlleroutdoorair)
 
   #string_objects is an array containing the program and the program caller
 

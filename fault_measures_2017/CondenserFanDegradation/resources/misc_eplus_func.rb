@@ -2,7 +2,14 @@
 
 def name_cut(complexname)
   # return a name that is trimmed without space and symbols
-  return complexname.clone.gsub!(/[^0-9A-Za-z]/, '')
+  #####################################################
+  if complexname.clone.gsub!(/[^0-9A-Za-z]/, '').nil?
+    return complexname
+  else
+    return complexname.clone.gsub!(/[^0-9A-Za-z]/, '')
+  end
+  #####################################################
+  #return complexname.clone.gsub!(/[^0-9A-Za-z]/, '')
 end
 
 def pass_string(object, index = 0)

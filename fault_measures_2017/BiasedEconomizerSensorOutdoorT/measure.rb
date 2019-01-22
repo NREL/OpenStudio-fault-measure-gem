@@ -175,7 +175,7 @@ class BiasedEconomizerSensorOAT < OpenStudio::Ruleset::WorkspaceUserScript
           string_objects << main_body
           
           #append other objects
-          strings_objects = econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, controlleroutdoorair)
+          strings_objects = econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, controlleroutdoorair)
 		  ##################################################
 		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
 		  ##################################################

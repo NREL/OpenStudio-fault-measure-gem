@@ -12,7 +12,7 @@ require 'openstudio-standards' # this is used to get min/max values from thermos
 
 # require all .rb files in resources folder
 Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
-#require "#{File.dirname(__FILE__)}/resources/faultimplementation"
+#require "#{File.dirname(__FILE__)}/resources/faultimplementation_TB"
 
 # global variables
 $faultnow = 'TB'
