@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_t</name>
   <uid>f1ba09fb-2903-45b2-838c-604b63fc4662</uid>
-  <version_id>14891f57-768c-4993-8ead-db18e7bf380f</version_id>
-  <version_modified>20180315T184451Z</version_modified>
+  <version_id>addd441e-50b4-4ab6-9891-68fef633b17b</version_id>
+  <version_modified>20180427T140504Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnT</class_name>
   <display_name>Biased Economizer Sensor: Return Temperature</display_name>
@@ -131,7 +131,7 @@
       <filename>ControllerOutdoorAirFlow_T.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>D8E96669</checksum>
+      <checksum>C74C6C8D</checksum>
     </file>
   </files>
 </measure>
