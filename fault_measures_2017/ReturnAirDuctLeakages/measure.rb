@@ -162,19 +162,21 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 		  oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
 		  
 		  ######################################################################################
-		  if leak_ratio >= 0.00
-			leakratio = "#{leak_ratio}"
-		  else
-			leakratio = "-#{leak_ratio}"
-		  end
-		  nodename_ma = controlleroutdoorair.getString(3)
+		  
 		  if controlleroutdoorair.getString(7).to_s.eql?('NoEconomizer')
 		    runner.registerInfo("Current model is not using the economizer. EMS will override the outdoor air flow rate with the actuator.")
+			if leak_ratio >= 0.00
+			  leakratio = "#{leak_ratio}"
+		    else
+			  leakratio = "-#{leak_ratio}"
+		    end
+		    nodename_ma = controlleroutdoorair.getString(3)
+			runner.registerInfo("Mixed air outlet node name for reference = #{nodename_ma}")
 			
 			string_objects << "			
 			  EnergyManagementSystem:Sensor,
 				SA_#{$faulttype}, !- Name
-				"+nodename_ma+", !- Output:Variable or Output:Meter Index Key Name
+				#{nodename_ma}, !- Output:Variable or Output:Meter Index Key Name
 				System Node Mass Flow Rate; !- Output:Variable or Output:Meter Name
 			"
 			string_objects << "
