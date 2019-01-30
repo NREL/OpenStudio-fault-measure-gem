@@ -34,7 +34,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
     
-    ##################################################
     #make choice arguments for economizers
     controlleroutdoorairs = workspace.getObjectsByType("Controller:OutdoorAir".to_IddObjectType)
     chs = OpenStudio::StringVector.new
@@ -52,7 +51,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     leak_ratio.setDefaultValue(0.1)  #default fault level to be 10%
     args << leak_ratio
 	
-	##################################################
     #Parameters for transient fault modeling
 	
 	#make a double argument for the time required for fault to reach full level 
@@ -96,7 +94,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
     end_time.setDefaultValue(23)  #default is 11pm
     args << end_time
-    ##################################################
 
     return args
   end
@@ -170,13 +167,14 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 		  else
 			leakratio = "-#{leak_ratio}"
 		  end
+		  nodename_ma = controlleroutdoorair.getString(3)
 		  if controlleroutdoorair.getString(7).to_s.eql?('NoEconomizer')
-		    runner.registerInfo("Current model is not using the economizer. EMS will override outdoor air flow rate with the actuator.")
+		    runner.registerInfo("Current model is not using the economizer. EMS will override the outdoor air flow rate with the actuator.")
 			
 			string_objects << "			
 			  EnergyManagementSystem:Sensor,
 				SA_#{$faulttype}, !- Name
-				Node 3, !- Output:Variable or Output:Meter Index Key Name
+				"+nodename_ma+", !- Output:Variable or Output:Meter Index Key Name
 				System Node Mass Flow Rate; !- Output:Variable or Output:Meter Name
 			"
 			string_objects << "
@@ -187,17 +185,18 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 				Air Mass Flow Rate; !- Actuated Component Control Type
 			"
 			string_objects << "
+			  EnergyManagementSystem:Program,
+				RA_#{$faulttype}, !- Name
+				set FI_#{$faulttype}_RA = "+leakratio+", !- Program Line 1
+				set OA_#{$faulttype} = SA_#{$faulttype}*FI_#{$faulttype}_RA*AF_current_#{$faulttype}_#{oacontrollername}; !- Program Line 2
+			"
+			string_objects << "
 			  EnergyManagementSystem:ProgramCallingManager,
 				PCM_#{$faulttype}, !- Name
 				InsideHVACSystemIterationLoop, !- EnergyPlus Model Calling Point
-				#{$faulttype}_RA; !- Program Name 1
+				RA_#{$faulttype}; !- Program Name 1
 			"
-			string_objects << "
-			  EnergyManagementSystem:Program,
-				#{$faulttype}_RA, !- Name
-				set FI_#{$faulttype}_RA = "+leakratio+", !- Program Line 1
-				set OA_#{$faulttype} = SA_#{$faulttype}*FI_#{$faulttype}_RA; !- Program Line 2
-			"
+			strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
 		  else	
             main_body = econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, oacontrollername)
             string_objects << main_body
