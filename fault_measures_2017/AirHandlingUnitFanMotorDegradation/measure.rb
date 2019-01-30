@@ -8,7 +8,9 @@
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
 require "#{File.dirname(__FILE__)}/resources/ScheduleSearch"
+require "#{File.dirname(__FILE__)}/resources/dynamicfaultimplementation"
 
+$faultnow = 'FD'
 $allchoices = '* ALL Fan objects *'
 
 # start the measure
@@ -20,12 +22,12 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
 
   # human readable description
   def description
-    return "Fan motor degradation occurs due to bearing and stator winding faults, leading to a decrease in motor efficiency and an increase in overall fan power consumption. This measure simulates the air handling unit fan motor degradation by modifying either the Fan:ConstantVolume, Fan:VariableVolume, or the Fan:OnOff objects in EnergyPlus assigned to the ventilation system. The fault intensity (F) for this fault is defined as the ratio of fan motor efficiency degradation."
+    return "Fan motor degradation occurs due to bearing and stator winding faults, leading to a decrease in motor efficiency and an increase in overall fan power consumption. This fault is categorized as a fault that occur in the ventilation system (fan) during the operation stage. This fault measure is based on a semi-empirical model and simulates the air handling unit fan motor degradation by modifying either the Fan:ConstantVolume, Fan:VariableVolume, or the Fan:OnOff objects in EnergyPlus assigned to the ventilation system. The fault intensity (F) for this fault is defined as the ratio of fan motor efficiency degradation with the application range of 0 to 0.3 (30% degradation)."
   end
 
   # human readable description of workspace approach
   def modeler_description
-    return "Two user inputs are required and, based on these user inputs, the fan efficiency is recalculated to reflect the faulted operation as shown below, where η_(fan,tot,F) is the degraded total efficiency under faulted condition, η_(fan,tot) is the total efficiency under normal condition, and F is the fault intensity. η_(fan,tot,F) = η_(fan,tot)∙(1-F)"
+    return "Nine user inputs are required and, based on these user inputs, the fan efficiency is recalculated to reflect the faulted operation. η_(fan,tot,F) = η_(fan,tot)∙(1-F), where η_(fan,tot,F) is the degraded total efficiency under faulted condition, η_(fan,tot) is the total efficiency under normal condition, and F is the fault intensity. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and the F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
   end
 
   # define the arguments that the user will input
@@ -64,12 +66,51 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
     eff_degrad_fac.setDisplayName('Degradation factor of the total efficiency of the fan during the simulation period. If the fan is not faulted, set it to zero.')
     eff_degrad_fac.setDefaultValue(0.15)  # default fouling level to be 15%
     args << eff_degrad_fac
-
-    # choice of schedules for the presence of fault. 0 for no fault and 1 means total degradation
-    sch_choice = OpenStudio::Ruleset::OSArgument.makeStringArgument('sch_choice', false)
-    sch_choice.setDisplayName('Enter the name of the schedule of the fault level. If you do not have a schedule, leave this blank.')
-    sch_choice.setDefaultValue('')
-    args << sch_choice
+	
+	##################################################
+    #Parameters for transient fault modeling
+	#make a double argument for the time required for fault to reach full level 
+    time_constant = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_constant', false)
+    time_constant.setDisplayName('Enter the time required for fault to reach full level [hr]')
+    time_constant.setDefaultValue(0)  #default is zero
+    args << time_constant
+	
+	#make a double argument for the start month
+    start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
+    start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
+    start_month.setDefaultValue(6)  #default is June
+    args << start_month
+	
+	#make a double argument for the start date
+    start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_date', false)
+    start_date.setDisplayName('Enter the date (1-28/30/31) when the fault starts to occur')
+    start_date.setDefaultValue(1)  #default is 1st day of the month
+    args << start_date
+	
+	#make a double argument for the start time
+    start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
+    start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
+    start_time.setDefaultValue(9)  #default is 9am
+    args << start_time
+	
+	#make a double argument for the end month
+    end_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_month', false)
+    end_month.setDisplayName('Enter the month (1-12) when the fault ends')
+    end_month.setDefaultValue(12)  #default is Decebmer
+    args << end_month
+	
+	#make a double argument for the end date
+    end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_date', false)
+    end_date.setDisplayName('Enter the date (1-28/30/31) when the fault ends')
+    end_date.setDefaultValue(31)  #default is last day of the month
+    args << end_date
+	
+	#make a double argument for the end time
+    end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
+    end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
+    end_time.setDefaultValue(23)  #default is 11pm
+    args << end_time
+    ##################################################
 
     return args
   end
@@ -86,90 +127,33 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
     # obtain values
     fan_choice = runner.getStringArgumentValue('fan_choice', user_arguments)
     eff_degrad_fac = runner.getDoubleArgumentValue('eff_degrad_fac', user_arguments)
-    sch_choice = runner.getStringArgumentValue('sch_choice', user_arguments)
+	##################################################
+    time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
+	start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
+	start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
+	start_time = runner.getDoubleArgumentValue('start_time',user_arguments).to_s
+	end_month = runner.getDoubleArgumentValue('end_month',user_arguments).to_s
+	end_date = runner.getDoubleArgumentValue('end_date',user_arguments).to_s
+	end_time = runner.getDoubleArgumentValue('end_time',user_arguments).to_s
+	time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
+	dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
+	dts.each do |dt|
+	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
+	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
+	end
+	##################################################
 
     runner.registerInitialCondition("Imposing airflow restriction on #{fan_choice}.")
-
-    # create schedule_exist
-    schedule_exist = true
-    if sch_choice.eql?('')
-      schedule_exist = false
-    end
-
-    # read data for scheduletypelimits
-    scheduletypelimits = workspace.getObjectsByType('ScheduleTypeLimits'.to_IddObjectType)
-
-    # if a user-defined schedule is used, check if the schedule exists and if the schedule has the correct schedule type limits
-    if schedule_exist
-      # check if the schedule exists
-      bool_schedule, schedule_type_limit, schedule_code = schedule_search(workspace, sch_choice)
-
-      unless bool_schedule
-        runner.registerError("User-defined schedule #{sch_choice} does not exist. Exiting......")
-        return false
-      end
-
-      # check schedule type limit of the schedule, if it is not bounded between 0 and 1, reject it
-      scheduletypelimits.each do |scheduletypelimit|
-        if scheduletypelimit.getString(0).to_s.eql?(schedule_type_limit)
-          if scheduletypelimit.getString(1).to_s.to_f < 0 || scheduletypelimit.getString(1).to_s.to_f > 1
-            runner.registerError("User-defined schedule #{sch_choice} has a ScheduleTypeLimits outside the range 0 to 1.0. Exiting......")
-            return false
-          end
-          break
-        end
-      end
-    else
-      # if there is no user-defined schedule, check if the fouling level is between 0 and 1
-      if eff_degrad_fac < 0.0 || eff_degrad_fac > 1.0
-        runner.registerError("Fan Efficiency Degradation Level #{eff_degrad_fac} for #{fan_choice} is outside the range 0 to 1.0. Exiting......")
-        return false
-      end
+	
+	# if there is no user-defined schedule, check if the fouling level is between 0 and 1
+    if eff_degrad_fac < 0.0 || eff_degrad_fac > 1.0
+      runner.registerError("Fan Efficiency Degradation Level #{eff_degrad_fac} for #{fan_choice} is outside the range 0 to 1.0. Exiting......")
+      return false
     end
 
     # create energyplus management system code to alter the maximum volumetric flow rate at the fan
     # create an empty string_objects to be appended into the .idf file
     string_objects = []
-
-    # check if the Fractional Schedule Type Limit exists and create it if
-    # it doesn't. It's going to be used by the schedule in this script.
-    print_fractional_schedule = true
-    scheduletypelimitname = 'Fraction'
-    scheduletypelimits.each do |scheduletypelimit|
-      if scheduletypelimit.getString(0).to_s.eql?(scheduletypelimitname)
-        if scheduletypelimit.getString(1).to_s.to_f < 0 || scheduletypelimit.getString(2).to_s.to_f > 1 || !scheduletypelimit.getString(3).to_s.eql?('Continuous')
-          print_fractional_schedule = false
-        else
-          # if the existing ScheduleTypeLimits does not satisfy the requirement, generate the ScheduleTypeLimits with a unique name
-          scheduletypelimitname = "Fraction#{fan_choice.gsub(/\s+/, '').gsub('*', '')}"
-        end
-        break
-      end
-    end
-    if print_fractional_schedule
-      string_objects << "
-        ScheduleTypeLimits,
-          #{scheduletypelimitname},                             !- Name
-          0,                                      !- Lower Limit Value {BasedOnField A3}
-          1,                                      !- Upper Limit Value {BasedOnField A3}
-          Continuous;                             !- Numeric Type
-      "
-    end
-
-    # if the schedule does not exist, create a new schedule according to vol_ratio
-    unless schedule_exist
-      # set a unique name for the schedule according to the component and the fault
-      sch_choice = "Bearing#{fan_choice.gsub(/\s+/, '').gsub('*', '')}_SCH"
-
-      # create a Schedule:Compact object with a schedule type limit "Fractional" that are usually
-      # created in OpenStudio for continuous schedules bounded by 0 and 1
-      string_objects << "
-        Schedule:Constant,
-          #{sch_choice},         !- Name
-          #{scheduletypelimitname},                       !- Schedule Type Limits Name
-          #{eff_degrad_fac};                    !- Hourly Value
-      "
-    end
 
     # find the fan object to change (only Fan:ConstantVolume and Fan:OnOff will compute the correct reduction now)
     no_fan_changed = true
@@ -200,26 +184,6 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
           old_effs << fan_chosen.getDouble(2).to_f
         end
       end
-
-      # check if the fan is autosized
-      # unless no_fan_changed
-        # # find the branch the fan belongs to
-        # branch_located = false
-        # name_branch = ''
-        # branchs.each do |branch|
-          # numfield = branch.numFields
-          # (0..numfield).each do |i|
-            # if branch.getString(i).to_s.eql?(fan_chosen.getString(0).to_s)
-              # branch_owner = branch
-              # name_branch = branch.getString(0).to_s
-              # break
-            # end
-          # end
-          # if branch_located
-            # break
-          # end
-        # end
-      # end
     end
 
     # give an error for the name if no RTU is changed
@@ -229,13 +193,6 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
     end
 
     # write EMS Program, ProgramCallingManager and Actuators to change fan efficiency value at the degraded condition
-    sch_obj_name = "Sen#{sch_choice}"
-    string_objects << "
-      EnergyManagementSystem:Sensor,
-        #{sch_obj_name},                !- Name
-        #{sch_choice},       !- Output:Variable or Output:Meter Index Key Name
-        Schedule Value;    !- Output:Variable or Output:Meter Name
-    "
 
     fannames.zip(old_effs).each do |fanname, old_eff|
       fanshortname = fanname.gsub(/\s+/, '').gsub('*', '')
@@ -243,8 +200,7 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
       string_objects << "
         EnergyManagementSystem:Program,
           EfficiencyChange#{fanshortname},          !- Name
-          SET TEMP = #{old_eff}*#{sch_obj_name};          !- Program Line 1
-          SET NewEfficiency#{fanshortname} = #{old_eff}-TEMP;          !- Program Line 1
+          SET NewEfficiency#{fanshortname} = #{old_eff}*(1-#{eff_degrad_fac}*AF_current_#{$faultnow}_"+fanshortname+");          !- Program Line 1
       "
 
       string_objects << "
@@ -261,6 +217,11 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
           Fan,        !- Actuated Component Type
           Fan Total Efficiency;            !- Actuated Component Control Type
       "
+	  
+	  ##################################################
+	  faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, fanshortname)
+	  ##################################################
+	  
     end
 
     # only add Output:EnergyManagementSystem if it does not exist in the code
