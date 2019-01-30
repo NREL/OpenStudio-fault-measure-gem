@@ -122,7 +122,7 @@ class LightingSetbackErrorEarlyTermination < OpenStudio::Ruleset::ModelUserScrip
       # apply fault
       lights.each do |light|
 	next if not light.size > 0
-        results = applyfaulttolight_no_setback_ext_hr_morning(light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
+        results = applyfaulttolight_no_setback_ext_hr_morning(light, -1*ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
 
         # populate hash for min max values across zones
         if not results == false
