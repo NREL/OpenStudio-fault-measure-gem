@@ -33,3 +33,25 @@ def applyfaulttothermalzone_morning_setback(thermalzone, ext_hr, start_month, en
   # assign the thermostat to the zone
   thermalzone.setThermostatSetpointDualSetpoint(dualsetpoint)
 end
+
+def applyfaulttolight_no_setback_ext_hr_morning(light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
+  
+  scheds = []
+  light.each do |ligh|
+	scheds << ligh.schedule
+  end
+  lightingrulesetschedule = scheds[0].get.to_Schedule.get.clone.to_ScheduleRuleset.get
+  
+  setpoint_values = gather_light_avg_high_low_values(light, lightingrulesetschedule, setpoint_values, runner, model, 'initial')
+
+  # alter schedules
+  addnewscheduleruleset_ext_hr(lightingrulesetschedule, ext_hr, start_month, end_month, dayofweek, 'morning', runner)
+
+  setpoint_values = gather_light_avg_high_low_values(light, lightingrulesetschedule, setpoint_values, runner, model, 'final')
+
+  # assign the modified schedule to the light
+  light[0].setSchedule(lightingrulesetschedule)
+
+  return setpoint_values
+
+end

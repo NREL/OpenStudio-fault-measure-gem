@@ -336,7 +336,7 @@ def dummy_fault_sub_add(workspace, string_objects, coilcooling, fault_choice = '
   return string_objects
 end
 
-def general_adjust_function(workspace, coil_choice, string_objects, coilcooling, model_name, para, fault_name, coiltype, coilperformancedxcooling, curve_index)
+def general_adjust_function_cfd(workspace, coil_choice, string_objects, coilcooling, model_name, para, fault_name, coiltype, coilperformancedxcooling, curve_index)
   # This function appends the program and the required variables that calculate the fault impact ratio
   # into the EnergyPlus IDF file
 

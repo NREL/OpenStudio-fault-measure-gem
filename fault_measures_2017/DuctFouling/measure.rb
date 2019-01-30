@@ -1,7 +1,7 @@
 # see the URL below for information on how to write OpenStudio measures
 # http://openstudio.nrel.gov/openstudio-measure-writing-guide
 
-require "#{File.dirname(__FILE__)}/resources/EnterCoefficients"
+require "#{File.dirname(__FILE__)}/resources/entercoefficients_DF"
 
 $allahuchoice = '* ALL AHUs *'
 
