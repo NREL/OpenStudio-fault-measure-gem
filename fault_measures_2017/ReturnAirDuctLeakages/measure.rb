@@ -34,7 +34,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
     
-    ##################################################
     #make choice arguments for economizers
     controlleroutdoorairs = workspace.getObjectsByType("Controller:OutdoorAir".to_IddObjectType)
     chs = OpenStudio::StringVector.new
@@ -52,7 +51,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     leak_ratio.setDefaultValue(0.1)  #default fault level to be 10%
     args << leak_ratio
 	
-	##################################################
     #Parameters for transient fault modeling
 	
 	#make a double argument for the time required for fault to reach full level 
@@ -96,7 +94,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
     end_time.setDefaultValue(23)  #default is 11pm
     args << end_time
-    ##################################################
 
     return args
   end
@@ -113,7 +110,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     #obtain values
     econ_choice = runner.getStringArgumentValue('econ_choice',user_arguments)
     leak_ratio = runner.getDoubleArgumentValue('leak_ratio',user_arguments)
-	##################################################
 	time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
 	start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
 	start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
@@ -127,7 +123,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
 	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
 	end
-	##################################################
     if leak_ratio == 0
       runner.registerAsNotApplicable("#{name} is not running with zero fault level. Skipping......")
       return true
@@ -164,18 +159,55 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
           #main program differs as the options at controlleroutdoorair differs
           #create a new string for the main program to start appending the required
           #EMS routine to it
-		  ##################################################
 		  oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-		  ################################################## 
-                    
-          main_body = econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, oacontrollername)
-          string_objects << main_body
+		  
+		  ######################################################################################
+		  
+		  if controlleroutdoorair.getString(7).to_s.eql?('NoEconomizer')
+		    runner.registerInfo("Current model is not using the economizer. EMS will override the outdoor air flow rate with the actuator.")
+			if leak_ratio >= 0.00
+			  leakratio = "#{leak_ratio}"
+		    else
+			  leakratio = "-#{leak_ratio}"
+		    end
+		    nodename_ma = controlleroutdoorair.getString(3)
+			runner.registerInfo("Mixed air outlet node name for reference = #{nodename_ma}")
+			
+			string_objects << "			
+			  EnergyManagementSystem:Sensor,
+				SA_#{$faulttype}, !- Name
+				#{nodename_ma}, !- Output:Variable or Output:Meter Index Key Name
+				System Node Mass Flow Rate; !- Output:Variable or Output:Meter Name
+			"
+			string_objects << "
+			  EnergyManagementSystem:Actuator,
+				OA_#{$faulttype}, !- Name
+				#{econ_choice}, !- Actuated Component Unique Name
+				Outdoor Air Controller, !- Actuated Component Type
+				Air Mass Flow Rate; !- Actuated Component Control Type
+			"
+			string_objects << "
+			  EnergyManagementSystem:Program,
+				RA_#{$faulttype}, !- Name
+				set FI_#{$faulttype}_RA = "+leakratio+", !- Program Line 1
+				set OA_#{$faulttype} = SA_#{$faulttype}*FI_#{$faulttype}_RA*AF_current_#{$faulttype}_#{oacontrollername}; !- Program Line 2
+			"
+			string_objects << "
+			  EnergyManagementSystem:ProgramCallingManager,
+				PCM_#{$faulttype}, !- Name
+				InsideHVACSystemIterationLoop, !- EnergyPlus Model Calling Point
+				RA_#{$faulttype}; !- Program Name 1
+			"
+			strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
+		  else	
+            main_body = econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, oacontrollername)
+            string_objects << main_body
            
-          #append other objects
-          strings_objects = econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
-		  ##################################################
-		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
-		  ##################################################
+            #append other objects
+            strings_objects = econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
+		    strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
+		  end
+		  ######################################################################################
 
           #add all of the strings to workspace to create IDF objects
           string_objects.each do |string_object|
@@ -183,6 +215,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
             object = idfObject.get
             wsObject = workspace.addObject(object)
           end
+		  
         end
       end
     end
