@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>return_air_duct_leakages</name>
   <uid>e28746df-aa8c-4f6e-a2be-6e2ff3c5e7dd</uid>
-  <version_id>cb5f5090-026c-4276-b9d2-30d064a29c91</version_id>
-  <version_modified>20180315T174034Z</version_modified>
+  <version_id>7112b37e-3f13-4cc7-842d-1ed4994fe311</version_id>
+  <version_modified>20180427T140504Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>ReturnAirDuctLeakages</class_name>
   <display_name>Return Air Duct Leakages</display_name>
@@ -117,12 +117,6 @@
       <checksum>435C6B82</checksum>
     </file>
     <file>
-      <filename>ControllerOutdoorAirFlow_DuctLeakage.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>E872BB8F</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -132,6 +126,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>2680767C</checksum>
+    </file>
+    <file>
+      <filename>ControllerOutdoorAirFlow_DuctLeakage.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>804EA54E</checksum>
     </file>
   </files>
 </measure>

@@ -11,7 +11,7 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
   ##################################################
   string_objects << "
     EnergyManagementSystem:Program,
-      AF_P,                    !- Name
+      AF_P_#{$faulttype}_#{oacontrollername},                    !- Name
       SET SM = "+start_month+",              !- Program Line 1
       SET SD = "+start_date+",              !- Program Line 2
       SET ST = "+start_time+",              !- A4
@@ -77,7 +77,7 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
       SET StartTime = T_SM + (SD-1)*24 + ST,  !- A61
       SET EndTime = T_EM + (ED-1)*24 + ET,  !- A62
       IF (ActualTime>=StartTime) && (ActualTime<=EndTime),  !- A63
-      SET AF_previous = @TrendValue AF_trend 1,  !- A64			
+      SET AF_previous = @TrendValue AF_trend_#{$faulttype}_#{oacontrollername} 1,  !- A64			
       SET AF_current_#{$faulttype}_#{oacontrollername} = AF_previous + dt/tau,  !- A65			
       IF AF_current_#{$faulttype}_#{oacontrollername}>1.0,       !- A66
       SET AF_current_#{$faulttype}_#{oacontrollername} = 1.0,    !- A67
@@ -97,16 +97,16 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
 			  
   string_objects << "
     EnergyManagementSystem:TrendVariable,				
-      AF_Trend,                !- Name
+      AF_Trend_#{$faulttype}_#{oacontrollername},                !- Name
       AF_current_#{$faulttype}_#{oacontrollername},              !- EMS Variable Name
       1;                       !- Number of Timesteps to be Logged
   "
 			
   string_objects << "
 	EnergyManagementSystem:ProgramCallingManager,
-      AF_PCM,                  !- Name
+      AF_PCM_#{$faulttype}_#{oacontrollername},                  !- Name
       AfterPredictorAfterHVACManagers,  !- EnergyPlus Model Calling Point
-      AF_P;                    !- Program Name 1
+      AF_P_#{$faulttype}_#{oacontrollername};                    !- Program Name 1
   "
   ##################################################
   
@@ -585,7 +585,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
     SET OA_NEW = @Min MDOT_OA_MAX OA_NEW, !- <none>
     SET FinalFlow = OA_NEW, !- <none>
     ENDIF, !- <none>
-    SET "+name_cut(econ_choice)+"MDOT_OA = FinalFlow + "+name_cut(econ_choice)+"MixAirFlow_CTRL*("+leakratio+")*AF_current_#{$faulttype}_#{oacontrollername}; !- <none>
+    SET "+name_cut(econ_choice)+"MDOT_OA = FinalFlow + ("+name_cut(econ_choice)+"MixAirFlow_CTRL - FinalFlow)*("+leakratio+")*AF_current_#{$faulttype}_#{oacontrollername}; !- <none>
   "
   
   return main_body
