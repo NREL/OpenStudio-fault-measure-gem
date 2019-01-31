@@ -81,7 +81,7 @@ class HVACSetbackErrorEarlyTermination < OpenStudio::Ruleset::ModelUserScript
     dayofweek.setDefaultValue($all_days)
     args << dayofweek
 
-    ext_hr = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('ext_hr', true)*(-1)
+    ext_hr = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('ext_hr', true)
     ext_hr.setDisplayName(
         'Number of operating hours extended to the morning.'
     )

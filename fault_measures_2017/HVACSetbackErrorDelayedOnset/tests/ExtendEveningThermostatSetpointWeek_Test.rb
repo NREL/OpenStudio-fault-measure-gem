@@ -154,7 +154,7 @@ class HVACSetbackErrorDelayedOnset_Test < MiniTest::Unit::TestCase
     args["zone"] = '* All Zones *'
     #args["zone"] = 'Room 203'
     args["ext_hr"] = -1.0
-    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'frp_baseline_generic_space_types_hvac.osm',"Success",0)
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'frp_baseline_generic_space_types_hvac.osm',"Success",4)
   end
 
   def test_alt_air_loop
@@ -162,6 +162,6 @@ class HVACSetbackErrorDelayedOnset_Test < MiniTest::Unit::TestCase
     args["zone"] = '* All Zones *'
     args["ext_hr"] = 1.0
     args["ext_hr_airloop"] = true
-    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'frp_baseline_generic_space_types_hvac.osm',"Success",0)
+    apply_measure_to_model(__method__.to_s.gsub('test_',''), args, 'frp_baseline_generic_space_types_hvac.osm',"Success",4)
   end
 end

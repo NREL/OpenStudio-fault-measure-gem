@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>liquid_line_restriction</name>
   <uid>7b7c155e-f73d-4805-a285-7750c5c356ae</uid>
-  <version_id>5fb38093-0a43-4d82-91e4-c2b38625fceb</version_id>
-  <version_modified>20180427T140504Z</version_modified>
+  <version_id>9d3dd84f-fdea-4a70-8170-732dfa8eccbd</version_id>
+  <version_modified>20190131T190643Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>LiquidLineRestriction</class_name>
   <display_name>Liquid-Line Restriction</display_name>
-  <description>A liquid-line restriction fault occurs when particles accumulate within the refrigerant filter located between the condenser and the expansion valve in the refrigerant circuit of a vapor compression cycle. The accumulation increases the flow resistance of the refrigerant circuit and the pressure difference across the compressor. It also reduces the evaporating temperature and leads to lower cooling capacity, efficiency, and SHR. The lower SHR leads to increased latent load to meet a particular sensible load. This measure simulates a liquid-line restriction by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of increase in the pressure difference between the condenser outlet and evaporator inlet due to the restriction.</description>
-  <modeler_description>Thirty two user inputs (DX coil where the fault occurs / Ratio of liquid line restriction fault / rated cooling capacity / rated sensible heat ratio / rated volumetric flow rate / minimum-maximum evaporator air inlet wet-bulb temperature / minimum-maximum condenser air inlet dry-bulb temperature / minimum/maximum rated COP / percentage change of UA with increase of fault level / time required for fault to reach full level / fault starting month / fault starting date / fault starting time / fault ending month / fault ending date / fault ending time) can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
+  <description>A liquid-line restriction fault occurs when particles accumulate within the refrigerant filter located between the condenser and the expansion valve in the refrigerant circuit of a vapor compression cycle. The accumulation increases the flow resistance of the refrigerant circuit and the pressure difference across the compressor. It also reduces the evaporating temperature and leads to lower cooling capacity, efficiency, and SHR. The lower SHR leads to increased latent load to meet a particular sensible load. This fault is categorized as a fault that occur in the vapor compression system during the operation stage. This fault measure is based on an empirical model and simulates a liquid-line restriction by modifying the Coil:Cooling:DX:SingleSpeed or Coil:Cooling:DX:TwoStageWithHumiditycontrolmodes objects in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) is defined as the ratio of increase in the pressure difference between the condenser outlet and evaporator inlet due to the restriction with the application range of 0 to 0.3 (30% increase).</description>
+  <modeler_description>Thirty two user inputs (DX coil where the fault occurs / Ratio of liquid line restriction fault / rated cooling capacity / rated sensible heat ratio / rated volumetric flow rate / maximum fault intensity / empirical model coefficients / minimum-maximum evaporator air inlet wet-bulb temperature / minimum-maximum condenser air inlet dry-bulb temperature / minimum/maximum rated COP / percentage change of UA with increase of fault level / time required for fault to reach full level / fault starting month / fault starting date / fault starting time / fault ending month / fault ending date / fault ending time) can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
       <name>coil_choice</name>
@@ -362,6 +362,12 @@
       <checksum>2E414023</checksum>
     </file>
     <file>
+      <filename>faultcalculationcoilcoolingdx.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>53C09372</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -370,13 +376,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>CFA74994</checksum>
-    </file>
-    <file>
-      <filename>faultcalculationcoilcoolingdx.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>53C09372</checksum>
+      <checksum>662DA846</checksum>
     </file>
   </files>
 </measure>

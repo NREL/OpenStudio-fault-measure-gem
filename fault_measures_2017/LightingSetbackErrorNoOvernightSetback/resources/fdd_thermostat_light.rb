@@ -609,20 +609,22 @@ module OsLib_FDD_light
       end
       i = i + 1	  
     end
- 
   end
 
   def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
+    # used for schedule_ruleset_annual_equivalent_full_load_hrs
+    std = Standard.new
+
     # gather initial thermostat range and average temp
-    avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
-    min_max = heatingrulesetschedule.annual_min_max_value
+    avg_htg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(heatingrulesetschedule)/num_hours_in_year(model)
+    min_max = std.schedule_ruleset_annual_min_max_value(heatingrulesetschedule)
     runner.registerInfo("#{initial_final_string.capitalize} annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(4)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_htg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_htg_max".to_sym] << min_max['max']
 
-    avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
-    min_max = coolingrulesetschedule.annual_min_max_value
+    avg_clg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(coolingrulesetschedule)/num_hours_in_year(model)
+    min_max = scd.schedule_ruleset_annual_min_max_value(coolingrulesetschedule)
     runner.registerInfo("#{initial_final_string.capitalize} annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(4)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_clg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_clg_max".to_sym] << min_max['max']
@@ -630,13 +632,14 @@ module OsLib_FDD_light
     return setpoint_values
 
   end
-  
-  ##########################################################
-  ##########################################################
+
   def gather_light_avg_high_low_values(light, lightingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
-    avg_ltg_si = lightingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year(model)
-    min_max = lightingrulesetschedule.annual_min_max_value
+    # used for schedule_ruleset_annual_equivalent_full_load_hrs
+    std = Standard.new
+
+    avg_ltg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(lightingrulesetschedule)/num_hours_in_year(model)
+    min_max = std.schedule_ruleset_annual_min_max_value(lightingrulesetschedule)
     runner.registerInfo("#{initial_final_string.capitalize} annual average fraction profile for #{light[0].name} #{avg_ltg_si.round(4)}, with a range of #{min_max['min'].round(1)} to #{min_max['max'].round(1)}.")
     setpoint_values["#{initial_final_string}_ltg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_ltg_max".to_sym] << min_max['max']
@@ -644,11 +647,7 @@ module OsLib_FDD_light
     return setpoint_values
 
   end
-  ##########################################################
-  ##########################################################
-  
-  ##########################################################
-  ##########################################################
+
   def findchangetime(times, values, moring_evening_string, runner)
     # This function finds the time of lighting goes on and off
 	
@@ -703,7 +702,6 @@ module OsLib_FDD_light
     # It also removes the last entry in times and values vector when needed
 
     hr = ext_hr.floor
-			 
     # do not correct upwards
 
     if moring_evening_string == "morning"
