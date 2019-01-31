@@ -31,7 +31,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return "Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This fault is categorized as a fault that occur in the vapor compression system during the operation stage. This fault measure is based on an empirical model and simulates refrigerant undercharging by modifying the Coil:Cooling:DX:SingleSpeed or Coil:Cooling:DX:TwoStageWithHumiditycontrolmodes objects in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of charge deviation from the normal charge level with the application range of -0.3 to 0.3. Positive value represents overcharge and negative value represents undercharge of refrigerant."
+    return "Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This fault is categorized as a fault that occur in the vapor compression system during the operation stage. This fault measure is based on an empirical model and simulates refrigerant undercharging/overcharging by modifying the Coil:Cooling:DX:SingleSpeed or Coil:Cooling:DX:TwoStageWithHumiditycontrolmodes objects in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of charge deviation from the normal charge level with the application range of -0.3 to 0.3. Positive value represents overcharge and negative value represents undercharge of refrigerant."
   end
 
   # human readable description of workspace approach
@@ -66,8 +66,8 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
 
     # make a double argument for the fault level
     fault_lvl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_lvl', false)
-    fault_lvl.setDisplayName('Reduction ratio of charge level [-]')
-    fault_lvl.setDefaultValue(0.1)  # defaulted at 10%
+    fault_lvl.setDisplayName('Fraction of refrigerant charge level deviation from 100% normal refrigerant charge (-0.1 = 10% undercharge / 0.1 = 10% overcharge)')
+    fault_lvl.setDefaultValue(-0.1)  # defaulted at 10% undercharge
     args << fault_lvl
 
     # rated cooling capacity
@@ -99,9 +99,12 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     # the form of the model is
     # RATIO = 1 + FaultLevel*(a1+a2*Tdb,i+a3*Twb,i+a4*Tc,i+a5*FaultLevel+a6*FaultLevel*FaultLevel+a7*(Rated COP))
 
-    # undercharging model
-    args = enter_coefficients(args, $q_para_num, "Q_#{$faultnow}", [7.717900, -10.765000, 3.129000, -0.884030, 0.300430, -0.036993], '')
-    args = enter_coefficients(args, $eir_para_num, "EIR_#{$faultnow}", [-5.741900, 8.670900, -4.410400, 1.248900, 1.209500, 0.360510], '')
+    # undercharging/overcharging model
+    args = enter_coefficients(args, $q_para_num, "Q_#{$faultnow} for overcharge", [-0.147880498,0.003593422,0.000733413,9.49E-05,-3.59E-07,0.034916398], '')
+    args = enter_coefficients(args, $eir_para_num, "EIR_#{$faultnow} for overcharge", [-0.135721078,-0.002211474,-0.000427324,-8.32E-05,4.30E-07,0.038107954], '')
+	  
+    args = enter_coefficients(args, $q_para_num, "Q_#{$faultnow} for undercharge", [7.717900, -10.765000, 3.129000, -0.884030, 0.300430, -0.036993], '')
+    args = enter_coefficients(args, $eir_para_num, "EIR_#{$faultnow} for undercharge", [-5.741900, 8.670900, -4.410400, 1.248900, 1.209500, 0.360510], '')
 
     min_wb_tmp_uc = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('min_wb_tmp_uc', true)
     min_wb_tmp_uc.setDisplayName('Minimum value of evaporator air inlet wet-bulb temperature [C]')
@@ -193,15 +196,12 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     super(workspace, runner, user_arguments)
 
     # obtain values
-    coil_choice, fault_lvl, fault_lvl_check = _get_inputs(workspace, runner, user_arguments)
+    coil_choice, fault_lvl, fault_lvl_withsign, fault_lvl_check = _get_inputs(workspace, runner, user_arguments)
     unless fault_lvl_check == 'continue'
       return fault_lvl_check
     end
 	  
-    ##################################################
     bf_para = runner.getDoubleArgumentValue('bf_para', user_arguments)
-    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
-	##################################################
 	time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
 	start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
 	start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
@@ -215,7 +215,6 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
 	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
 	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
 	end
-	##################################################
 
     rtu_changed = false
     existing_coils = []
@@ -237,7 +236,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       existing_coils << pass_string(coilcoolingdxsinglespeed, 0)
       next unless pass_string(coilcoolingdxsinglespeed, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
       runner.registerInfo("Found single speed coil named #{coilcoolingdxsinglespeed.getString(0)}")
-      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, coilcoolingdxsinglespeed, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxsinglespeed, 0), fault_lvl, fault_lvl_withsign, coilcoolingdxsinglespeed, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
       unless rtu_changed
         return false
       end
@@ -263,7 +262,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       existing_coils << pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0)
       next unless pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0).eql?(coil_choice) | coil_choice.eql?($all_coil_selection)
       runner.registerInfo("Found two stage coil named #{coilcoolingdxtwostagewithhumiditycontrolmode.getString(0)}")
-      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0), fault_lvl, coilcoolingdxtwostagewithhumiditycontrolmode, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+      rtu_changed = _write_ems_string(workspace, runner, user_arguments, pass_string(coilcoolingdxtwostagewithhumiditycontrolmode, 0), fault_lvl, fault_lvl_withsign, coilcoolingdxtwostagewithhumiditycontrolmode, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
       unless rtu_changed
         return false
       end
@@ -307,24 +306,30 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
 
     # function to return inputs stored in user_arguments
     coil_choice = runner.getStringArgumentValue('coil_choice', user_arguments)
-    fault_lvl = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
-    fault_lvl_check = _check_fault_lvl(runner, coil_choice, fault_lvl)
-    return coil_choice, fault_lvl, fault_lvl_check
+    fault_lvl_withsign = runner.getDoubleArgumentValue('fault_lvl', user_arguments)
+	fault_lvl = fault_lvl_withsign.abs
+	##################################################
+	runner.registerInfo("fault_lvl = #{fault_lvl}")
+	runner.registerInfo("fault_lvl_withsign = #{fault_lvl_withsign}")
+	##################################################
+	
+    fault_lvl_check = _check_fault_lvl(runner, coil_choice, fault_lvl_withsign)
+    return coil_choice, fault_lvl, fault_lvl_withsign, fault_lvl_check
   end
 
-  def _check_fault_lvl(runner, coil_choice, fault_lvl)
+  def _check_fault_lvl(runner, coil_choice, fault_lvl_withsign)
     # This function checks if the fault level values are valid
-    if fault_lvl < 0.0 || fault_lvl > 1.0
-      runner.registerError("Fault level #{fault_lvl} for #{coil_choice} is outside the range from 0 to 1. Exiting......")
+    if fault_lvl_withsign < -0.3 || fault_lvl_withsign > 0.3
+      runner.registerError("Fault level #{fault_lvl_withsign} for #{coil_choice} is outside the range from -0.3 to 0.3. Exiting......")
       return false
-    elsif fault_lvl.abs < 0.001
+    elsif fault_lvl_withsign.abs < 0.001
       runner.registerAsNotApplicable("NonStandardCharging is not running for #{coil_choice}. Skipping......")
       return true
     end
     return 'continue'
   end
 
-  def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, coilcooling, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
+  def _write_ems_string(workspace, runner, user_arguments, coil_choice, fault_lvl, fault_lvl_withsign, coilcooling, coiltype, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time)
     # check component validity
 
     ##################################################
@@ -346,7 +351,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     # create energyplus management system code to alter the cooling capacity and EIR of the coil object
     # introduce code to modify the temperature curve for cooling capacity
     # obtaining the coefficients in the original Q curve
-    string_objects, workspace = _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl)
+    string_objects, workspace = _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl, fault_lvl_withsign)
 
     # write variable definition for EMS programs
     # EMS Sensors to the workspace
@@ -392,7 +397,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     string_objects << "
       ScheduleTypeLimits,
         #{scheduletypelimitname},                             !- Name
-        0,                                      !- Lower Limit Value {BasedOnField A3}
+        -1,                                      !- Lower Limit Value {BasedOnField A3}
         1,                                      !- Upper Limit Value {BasedOnField A3}
         Continuous;                             !- Numeric Type
     "
@@ -405,10 +410,10 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     return sch_choice, scheduletypelimitname
   end
 
-  def _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl)
+  def _write_ems_curves(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl, fault_lvl_withsign)
     # This function writes the original and adjustment curves in EMS
     string_objects = _write_q_and_eir_curves(workspace, coil_choice, coilcooling, string_objects, runner, coiltype, fault_lvl)
-    string_objects, workspace = _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype)
+    string_objects, workspace = _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl, fault_lvl_withsign)
     return string_objects, workspace
   end
 
@@ -417,7 +422,6 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     # returns a boolean to indicate if the addition is successful
 
     # curves generated by OpenStudio. No need to check
-    ##################################################
     if coiltype == 1 #SINGLESPEED
       string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'Q', 9, runner, coiltype, [], fault_lvl)
       string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 11, runner, coiltype, [], fault_lvl)
@@ -428,18 +432,16 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
 	string_objects, curve_exist = _write_curves(workspace, coil_choice, coilcooling, string_objects, 'EIR', 8, runner, coiltype, coilperformancedxcooling, fault_lvl)
       end
     end
-    ##################################################
     return string_objects
   end
 
-  def _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype)
+  def _write_q_and_eir_adj_routine(workspace, runner, user_arguments, coil_choice, coilcooling, string_objects, coiltype, fault_lvl, fault_lvl_withsign)
     # This function writes the adjustment routines of the Q and EIR curves to impose faults
 
     # pass the minimum and maximum values of model inputs to ca_q_para and ca_eir_para to insert them to the subroutines
-    q_para, eir_para = _get_parameters(runner, user_arguments)
+    q_para, eir_para = _get_parameters_uc_oc(runner, user_arguments, fault_lvl_withsign)
 
     # write the EMS subroutines
-    ##################################################
     if coiltype == 1 #SINGLESPEED
       string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'Q', q_para, $faultnow, coiltype, [], 9)
       string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'EIR', eir_para, $faultnow, coiltype, [], 11)
@@ -464,18 +466,15 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
 	end
       end
     end
-    ##################################################
     return string_objects, workspace
   end
 
   def _write_curves(workspace, coil_choice, coilcooling, string_objects, curve_name, curve_index, runner, coiltype, coilperformancedxcooling, fault_lvl)
-    ##################################################
     if coiltype == 1 #SINGLESPEED
       curve_str = pass_string(coilcooling, curve_index)
     elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
       curve_str = pass_string(coilperformancedxcooling, curve_index)
     end
-    ##################################################
     curvebiquadratics = get_workspace_objects(workspace, 'Curve:Biquadratic')
     curve_nameq, paraq, no_curve = para_biquadratic_limit(curvebiquadratics, curve_str)
 
@@ -483,7 +482,6 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       runner.registerError("No Temperature Adjustment Curve for #{coil_choice} #{curve_name} model. Exiting......")
       return string_objects, false
     end
-    ##################################################
     sh_coil_choice = coil_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
     if sh_coil_choice.eql?(nil)
       sh_coil_choice = coil_choice
@@ -492,24 +490,36 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     if sh_curve_name.eql?(nil)
       sh_curve_name = curve_nameq
     end
-    ##################################################
     string_objects = main_program_entry(workspace, string_objects, coil_choice, curve_nameq, paraq, curve_name, fault_lvl)
     return string_objects, true
   end
 
-  def _get_parameters(runner, user_arguments)
+  def _get_parameters_uc_oc(runner, user_arguments, fault_lvl)
     # This function returns the parameters for Q and EIR calculation
 
     min_fl = runner.getDoubleArgumentValue('min_fl', user_arguments)
     max_max_para = _get_ext_from_argumets(runner, user_arguments)
 
-    uc_q_para = runner_pass_coefficients(runner, user_arguments, $q_para_num, "Q_#{$faultnow}")
-    q_para = [min_fl, uc_q_para, max_max_para]
-    q_para.flatten!
+    # Use different set of coefficient between undercharge and overcharge based on fault_lvl definition (fault_lvl<0 = undercharge / fault_lvl>0 = overcharge)
+    ##################################################
+	if fault_lvl < 0
+      uc_q_para = runner_pass_coefficients(runner, user_arguments, $q_para_num, "Q_#{$faultnow} for undercharge")
+      q_para = [min_fl, uc_q_para, max_max_para]
+      q_para.flatten!
 
-    uc_eir_para = runner_pass_coefficients(runner, user_arguments, $eir_para_num, "EIR_#{$faultnow}")
-    eir_para = [min_fl, uc_eir_para, max_max_para]
-    eir_para.flatten!
+      uc_eir_para = runner_pass_coefficients(runner, user_arguments, $eir_para_num, "EIR_#{$faultnow} for undercharge")
+      eir_para = [min_fl, uc_eir_para, max_max_para]
+      eir_para.flatten!
+	elsif fault_lvl > 0
+      uc_q_para = runner_pass_coefficients(runner, user_arguments, $q_para_num, "Q_#{$faultnow} for overcharge")
+      q_para = [min_fl, uc_q_para, max_max_para]
+      q_para.flatten!
+
+      uc_eir_para = runner_pass_coefficients(runner, user_arguments, $eir_para_num, "EIR_#{$faultnow} for overcharge")
+      eir_para = [min_fl, uc_eir_para, max_max_para]
+      eir_para.flatten!
+	end
+	##################################################
 
     return q_para, eir_para
   end
