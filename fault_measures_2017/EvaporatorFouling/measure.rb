@@ -89,7 +89,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     # fault level limits
     min_fl = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('min_fl', true)
     min_fl.setDisplayName('Maximum value of fault level [-]')
-    min_fl.setDefaultValue(0.3)
+    min_fl.setDefaultValue(0.5)
     args << min_fl
 
     # coefficients of models should be inputs.
