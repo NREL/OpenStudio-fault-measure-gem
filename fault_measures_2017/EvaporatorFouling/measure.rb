@@ -18,12 +18,12 @@ require "#{File.dirname(__FILE__)}/resources/psychrometric"
 # define number of parameters in the model
 $q_para_num = 6
 $eir_para_num = 6
-$faultnow = 'CH'
+$faultnow = 'EF'
 $err_check = false
 $all_coil_selection = '* ALL Coil Selected *'
 
 # start the measure
-class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
+class EvaporatorFouling < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
     return 'Evaporator Fouling Effect on DX Unit'
@@ -314,7 +314,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
       runner.registerError("Fault level #{fault_lvl} for #{coil_choice} is outside the range from 0 to 1. Exiting......")
       return false
     elsif fault_lvl.abs < 0.001
-      runner.registerAsNotApplicable("NonStandardCharging is not running for #{coil_choice}. Skipping......")
+      runner.registerAsNotApplicable("EvaporatorFouling is not running for #{coil_choice}. Skipping......")
       return true
     end
     return 'continue'
@@ -326,7 +326,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     ##################################################
     if coiltype == 1 #SINGLESPEED
       unless pass_string(coilcooling, 20).eql?('AirCooled')
-        runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in NonStandardCharging. Exiting......")
+        runner.registerError("#{coil_choice} is not air cooled. Impossible to continue in EvaporatorFouling. Exiting......")
         return false
       end
     end
@@ -780,4 +780,4 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
 end
 
 # register the measure to be used by the application
-NonStandardCharging.new.registerWithApplication
+EvaporatorFouling.new.registerWithApplication
