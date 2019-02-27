@@ -9,7 +9,7 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
   ##################################################
   string_objects << "
     EnergyManagementSystem:Program,
-      AF_P,                    !- Name
+      AF_P_#{$faultnow}_"+sh_coil_choice+",                    !- Name
       SET SM = "+start_month+",              !- Program Line 1
       SET SD = "+start_date+",              !- Program Line 2
       SET ST = "+start_time+",              !- A4
@@ -75,7 +75,7 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
       SET StartTime = T_SM + (SD-1)*24 + ST,  !- A61
       SET EndTime = T_EM + (ED-1)*24 + ET,  !- A62
       IF (ActualTime>=StartTime) && (ActualTime<=EndTime),  !- A63
-        SET AF_previous = @TrendValue AF_trend 1,  !- A64			
+        SET AF_previous = @TrendValue AF_trend_#{$faultnow}_"+sh_coil_choice+" 1,  !- A64			
         SET AF_current_#{$faultnow}_"+sh_coil_choice+" = AF_previous + dt/tau,  !- A65
         IF AF_current_#{$faultnow}_"+sh_coil_choice+">1.0,       !- A66
           SET AF_current_#{$faultnow}_"+sh_coil_choice+" = 1.0,    !- A67
@@ -96,16 +96,16 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
 			  
   string_objects << "
     EnergyManagementSystem:TrendVariable,				
-      AF_Trend,                !- Name
+      AF_Trend_#{$faultnow}_"+sh_coil_choice+",                !- Name
       AF_current_#{$faultnow}_"+sh_coil_choice+",              !- EMS Variable Name
       1;                       !- Number of Timesteps to be Logged
   "
 			
   string_objects << "
 	EnergyManagementSystem:ProgramCallingManager,
-      AF_PCM,                  !- Name
+      AF_PCM_#{$faultnow}_"+sh_coil_choice+",                  !- Name
       AfterPredictorAfterHVACManagers,  !- EnergyPlus Model Calling Point
-      AF_P;                    !- Program Name 1
+      AF_P_#{$faultnow}_"+sh_coil_choice+";                    !- Program Name 1
   "
   ##################################################
   
