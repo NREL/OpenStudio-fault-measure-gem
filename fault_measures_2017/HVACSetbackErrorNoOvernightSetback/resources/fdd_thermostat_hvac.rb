@@ -583,15 +583,18 @@ module OsLib_FDD_hvac
 
   def gather_thermostat_avg_high_low_values_alt(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
+    # used for schedule_ruleset_annual_equivalent_full_load_hrs
+    std = Standard.new
+
     # gather initial thermostat range and average temp
-    avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year_alt(model)
-    min_max = heatingrulesetschedule.annual_min_max_value
+    avg_htg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(heatingrulesetschedule)/num_hours_in_year_alt(model)
+    min_max = std.schedule_ruleset_annual_min_max_value(heatingrulesetschedule)
     runner.registerInfo("#{initial_final_string.capitalize} annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_htg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_htg_max".to_sym] << min_max['max']
 
-    avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year_alt(model)
-    min_max = coolingrulesetschedule.annual_min_max_value
+    avg_clg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(coolingrulesetschedule)/num_hours_in_year_alt(model)
+    min_max = std.schedule_ruleset_annual_min_max_value(coolingrulesetschedule)
     runner.registerInfo("#{initial_final_string.capitalize} annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_clg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_clg_max".to_sym] << min_max['max']

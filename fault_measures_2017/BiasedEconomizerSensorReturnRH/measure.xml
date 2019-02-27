@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_rh</name>
   <uid>581a85db-9cee-480f-9e5f-bbf62b217268</uid>
-  <version_id>80b0e836-3a96-49db-a6b3-bfd0be8aef67</version_id>
-  <version_modified>20180427T140504Z</version_modified>
+  <version_id>7a2a0909-e69a-4168-aca3-5d96e151f806</version_id>
+  <version_modified>20190131T190640Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnRH</class_name>
   <display_name>Biased Economizer Sensor: Return RH</display_name>
-  <description>When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. This measure simulates the biased economizer sensor (return relative humidity) by modifying Controller:OutdoorAir object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the biased RH level (%). A positive number means that the sensor is reading a relative humidity higher than the true relative humidity.</description>
-  <modeler_description>Nine user inputs are required and, based on these user inputs, the return air RH reading in the economizer will be replaced by the equation below, where RHraF is the biased return air RH reading, RHra is the actual return air RH, F is the fault intensity and AF is the adjustment factor. RHraF = RHra + F*AF. To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of relative humidity sensor bias between -100 to 100 that you want at the return air duct for the economizer during the simulation period. For example, setting F=3 means the sensor is reading 25% when the actual relative humidity is 22%. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
+  <description>When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. This fault is categorized as a fault that occur in the economizer system (sensor) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates the biased economizer sensor (return relative humidity) by modifying Controller:OutdoorAir object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) is defined as the biased RH level (%). A positive number means that the sensor is reading a relative humidity higher than the true relative humidity.</description>
+  <modeler_description>Nine user inputs are required and, based on these user inputs, the return air RH reading in the economizer will be replaced by the equation below, RHraF = RHra + F*AF, where RHraF is the biased return air RH reading, RHra is the actual return air RH, F is the fault intensity and AF is the adjustment factor. To use this Measure, choose the Controller:OutdoorAir object to be faulted. Set the level of relative humidity sensor bias between -100 to 100 that you want at the return air duct for the economizer during the simulation period. For example, setting F=3 means the sensor is reading 25% when the actual relative humidity is 22%. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
       <name>econ_choice</name>
@@ -117,6 +117,12 @@
       <checksum>435C6B82</checksum>
     </file>
     <file>
+      <filename>ControllerOutdoorAirFlow_RH.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>A6F47D25</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -125,13 +131,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>41DFC173</checksum>
-    </file>
-    <file>
-      <filename>ControllerOutdoorAirFlow_RH.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>A6F47D25</checksum>
+      <checksum>BEE44322</checksum>
     </file>
   </files>
 </measure>

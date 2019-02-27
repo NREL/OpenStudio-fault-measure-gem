@@ -12,3 +12,7 @@ faraday.log
 Cofee-measures
 .Rproj.user
 */*/tests/output/*.osm
+test
+*/test_results
+.rubocop*
+output

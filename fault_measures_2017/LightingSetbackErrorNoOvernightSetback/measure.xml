@@ -2,12 +2,12 @@
   <schema_version>3.0</schema_version>
   <name>lighting_setback_error_no_overnight_setback</name>
   <uid>646e4236-1db0-44fe-92bf-08d761e2d708</uid>
-  <version_id>bb4299da-0999-4fd3-8aa2-e2fee7419c8e</version_id>
-  <version_modified>20180523T211133Z</version_modified>
+  <version_id>73629dcb-375c-41c7-a056-24d3d08dffa9</version_id>
+  <version_modified>20190131T231459Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>LightingSetbackErrorNoOvernightSetback</class_name>
   <display_name>Lighting Setback Error: No Overnight Setback</display_name>
-  <description>Lighting should be turned off or at least reduced during unoccupied hours. However, some commissioning studies have found noticeable lighting energy use at night either because lighting schedules are improperly configured or occupants forget to turn off lights when vacating a building (Haasl, Stum, and Arney 1996; Kahn, Potter, and Haasl 2002). This measure simulates the effect of having no setback during unoccupied hours by modifying the Schedule:Compact object in EnergyPlus assigned to lighting schedules. The fault intensity (F) for this fault is defined as the absence of overnight lighting setback (binary).</description>
+  <description>Lighting should be turned off or at least reduced during unoccupied hours. However, some commissioning studies have found noticeable lighting energy use at night either because lighting schedules are improperly configured or occupants forget to turn off lights when vacating a building. This fault is categorized as a fault that occur in the lighting system (controller) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates the effect of having no setback during unoccupied hours by modifying the Schedule:Compact object in EnergyPlus assigned to lighting schedules. The fault intensity (F) is defined as the absence of overnight lighting setback (binary).</description>
   <modeler_description>Four different user inputs are required; zone where the fault occurs, starting month of the faulted operation, ending month of the faulted operation, day of the week when the fault occurs. The measure detects the original (non-faulted) lighting schedule applied in EnergyPlus automatically, and adjusts the schedule based on user inputs.</modeler_description>
   <arguments>
     <argument>
@@ -235,30 +235,30 @@
       <filename>misc_arguments.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>C1F7D0FC</checksum>
+      <checksum>AC509FB1</checksum>
     </file>
     <file>
       <filename>misc_run_dayofweek.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>442A26D3</checksum>
-    </file>
-    <file>
-      <filename>fdd_thermostat_light.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>B46BB6D9</checksum>
+      <checksum>AFC057E7</checksum>
     </file>
     <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
-        <min_compatible>1.4.0</min_compatible>
+        <min_compatible>2.5.0</min_compatible>
       </version>
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>B3CE05A3</checksum>
+      <checksum>D624B503</checksum>
+    </file>
+    <file>
+      <filename>fdd_thermostat_light.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>E4CBEA96</checksum>
     </file>
   </files>
 </measure>
