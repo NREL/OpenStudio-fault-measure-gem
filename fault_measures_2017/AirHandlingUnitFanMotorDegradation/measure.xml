@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>air_handling_unit_fan_motor_degradation</name>
   <uid>9814a5e9-37b7-472a-bae5-e9e2e794c024</uid>
-  <version_id>59797810-9d1f-48d9-8c4d-97494ee73003</version_id>
-  <version_modified>20180313T161758Z</version_modified>
+  <version_id>bdd6d204-a508-4255-a072-928ad9f236cf</version_id>
+  <version_modified>20180427T140924Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>AirHandlingUnitFanMotorDegradation</class_name>
   <display_name>Air Handling Unit Fan Motor Degradation</display_name>
@@ -33,12 +33,60 @@
       <default_value>0.15</default_value>
     </argument>
     <argument>
-      <name>sch_choice</name>
-      <display_name>Enter the name of the schedule of the fault level. If you do not have a schedule, leave this blank.</display_name>
-      <type>String</type>
+      <name>time_constant</name>
+      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
+      <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>start_month</name>
+      <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>6</default_value>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>9</default_value>
+    </argument>
+    <argument>
+      <name>end_month</name>
+      <display_name>Enter the month (1-12) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12</default_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>31</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23</default_value>
     </argument>
   </arguments>
   <outputs/>
@@ -82,6 +130,12 @@
       <checksum>577A5309</checksum>
     </file>
     <file>
+      <filename>dynamicfaultimplementation.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>932A95D8</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -90,7 +144,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>46EFFB62</checksum>
+      <checksum>FA469159</checksum>
     </file>
   </files>
 </measure>

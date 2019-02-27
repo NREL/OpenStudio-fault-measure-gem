@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>non_standard_charging</name>
   <uid>af77eb6c-c4c6-4990-bc8b-af916215b967</uid>
-  <version_id>f240712a-41f2-4e88-8479-91b1d20a5d04</version_id>
-  <version_modified>20190131T190643Z</version_modified>
+  <version_id>d3a933f4-72f4-419e-8118-88dd6f5595c4</version_id>
+  <version_modified>20190206T153509Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>NonStandardCharging</class_name>
-  <display_name>Nonstandard Charging</display_name>
-  <description>Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This fault is categorized as a fault that occur in the vapor compression system during the operation stage. This fault measure is based on an empirical model and simulates refrigerant undercharging by modifying the Coil:Cooling:DX:SingleSpeed or Coil:Cooling:DX:TwoStageWithHumiditycontrolmodes objects in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of charge deviation from the normal charge level with the application range of -0.3 to 0.3. Positive value represents overcharge and negative value represents undercharge of refrigerant.</description>
-  <modeler_description>Thirty two user inputs (DX coil where the fault occurs / Percentage reduction of refrigerant charge level / rated cooling capacity / rated sensible heat ratio / rated volumetric flow rate / maximum fault intensity / empirical model coefficients / minimum-maximum evaporator air inlet wet-bulb temperature / minimum-maximum condenser air inlet dry-bulb temperature / minimum/maximum rated COP / percentage change of UA with increase of fault level / time required for fault to reach full level / fault starting month / fault starting date / fault starting time / fault ending month / fault ending date / fault ending time) can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
+  <display_name>Evaporator Fouling Effect on DX Unit</display_name>
+  <description>Evaporator fouling occurs when the filter upstream of a cooling/evaporator coil is fouled, the duct is improperly designed, the blower speed is too low (e.g., belt slipping or control problem), etc. This fault decreases the evaporator saturation temperature, which decreases overall cooling capacity, sensible heat ratio (SHR), and coefficient of performance. The lower SHR leads to an increased latent load to meet a particular sensible load. This measure simulates evaporator fouling by modifying either Fan:ConstantVolume, Fan:VariableVolume, Fan:OnOff, or Fan:VariableVolume objects in EnergyPlus assigned to the air system. F is the fault intensity defined as the reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate.</description>
+  <modeler_description>Thirty two user inputs (DX coil where the fault occurs / reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate / rated cooling capacity / rated sensible heat ratio / rated volumetric flow rate / minimum-maximum evaporator air inlet wet-bulb temperature / minimum-maximum condenser air inlet dry-bulb temperature / minimum/maximum rated COP / percentage change of UA with increase of fault level / time required for fault to reach full level / fault starting month / fault starting date / fault starting time / fault ending month / fault ending date / fault ending time) can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
       <name>coil_choice</name>
@@ -26,7 +26,7 @@
     </argument>
     <argument>
       <name>fault_lvl</name>
-      <display_name>Reduction ratio of charge level [-]</display_name>
+      <display_name>Reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate [-]</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
@@ -70,7 +70,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>7.7179</default_value>
+      <default_value>-1.680856</default_value>
     </argument>
     <argument>
       <name>Q_CHa2</name>
@@ -78,7 +78,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>-10.765</default_value>
+      <default_value>1.955241</default_value>
     </argument>
     <argument>
       <name>Q_CHa3</name>
@@ -86,7 +86,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>3.129</default_value>
+      <default_value>0.013734</default_value>
     </argument>
     <argument>
       <name>Q_CHa4</name>
@@ -94,7 +94,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>-0.88403</default_value>
+      <default_value>1.944498</default_value>
     </argument>
     <argument>
       <name>Q_CHa5</name>
@@ -102,7 +102,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>0.30043</default_value>
+      <default_value>-0.958203</default_value>
     </argument>
     <argument>
       <name>Q_CHa6</name>
@@ -110,7 +110,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>-0.036993</default_value>
+      <default_value>-0.367406</default_value>
     </argument>
     <argument>
       <name>EIR_CHa1</name>
@@ -118,7 +118,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>-5.7419</default_value>
+      <default_value>1.075997</default_value>
     </argument>
     <argument>
       <name>EIR_CHa2</name>
@@ -126,7 +126,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>8.6709</default_value>
+      <default_value>-1.609711</default_value>
     </argument>
     <argument>
       <name>EIR_CHa3</name>
@@ -134,7 +134,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>-4.4104</default_value>
+      <default_value>0.054396</default_value>
     </argument>
     <argument>
       <name>EIR_CHa4</name>
@@ -142,7 +142,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>1.2489</default_value>
+      <default_value>-1.58432</default_value>
     </argument>
     <argument>
       <name>EIR_CHa5</name>
@@ -150,7 +150,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>1.2095</default_value>
+      <default_value>0.803225</default_value>
     </argument>
     <argument>
       <name>EIR_CHa6</name>
@@ -158,7 +158,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>0.36051</default_value>
+      <default_value>0.356159</default_value>
     </argument>
     <argument>
       <name>min_wb_tmp_uc</name>
@@ -374,6 +374,18 @@
       <checksum>9BFD2C98</checksum>
     </file>
     <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>B966E865</checksum>
+    </file>
+    <file>
+      <filename>faultdefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>B966E865</checksum>
+    </file>
+    <file>
       <filename>psychrometric.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -386,18 +398,6 @@
       <checksum>53C09372</checksum>
     </file>
     <file>
-      <filename>FaultDefinitions.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6230C9E3</checksum>
-    </file>
-    <file>
-      <filename>faultdefinitions.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6230C9E3</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -406,7 +406,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>40F98EE8</checksum>
+      <checksum>D604DCB5</checksum>
     </file>
   </files>
 </measure>
