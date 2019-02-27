@@ -1,6 +1,9 @@
 # The file contains functions to pass arguments from OpenStudio inputs to the
 # measure script. They are used to avoid the function arguments to be too long.
 
+# 11/18/2017 Lighting Setback Error measure developed based on HVAC Setback Error measure
+# codes within ######## are modified parts
+
 module OsLib_FDD
 
   require_relative 'global_const'
@@ -49,5 +52,63 @@ module OsLib_FDD
       return thermalzones
     end
   end
+  
+  ##########################################################
+  ##########################################################
+  def obtainlight(zone, model, runner, user_arguments)
+    # This function helps to obtain the light information from user arguments.
+    # It returns the Lights OpenStudio object of the chosen zone
+    array = []
+
+    if zone.eql?($allzonechoices)
+      model.getSpaces.each do |space|
+        array << space.lights
+      end
+      model.getSpaceTypes.each do |space_type|
+        next if not space_type.spaces.size > 0
+        array << space_type.lights
+      end
+      return array
+    else
+	    model.getThermalZones.each do |zone2|
+        next unless zone2.name.to_s == zone
+        zone2.spaces.each do |space|
+          space.hardApplySpaceType(false) # pulls in lights that were in space type
+          array << space.lights
+        end
+        #break
+      end
+      return array
+    end
+  end
+
+  def obtainpeople(zone, model, runner, user_arguments)
+    # This function helps to obtain the people information from user arguments.
+    # It returns the people OpenStudio object of the chosen zone
+    array = []
+
+    if zone.eql?($allzonechoices)
+      model.getSpaces.each do |space|
+        array << space.people
+      end
+      model.getSpaceTypes.each do |space_type|
+        next if not space_type.spaces.size > 0
+        array << space_type.people
+      end
+      return array
+    else
+      model.getThermalZones.each do |zone2|
+        next unless zone2.name.to_s == zone
+        zone2.spaces.each do |space|
+          space.hardApplySpaceType(false) # pulls in lights that were in space type
+          array << space.people
+        end
+        #break
+      end
+      return array
+    end
+  end
+  ##########################################################
+  ##########################################################
 
 end

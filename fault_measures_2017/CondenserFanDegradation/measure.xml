@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fan_degradation</name>
   <uid>78fd31ab-ff52-4260-b680-c2c75dfd31dc</uid>
-  <version_id>5a02ff11-6cda-4e9a-a2a3-3dc5fcd8b296</version_id>
-  <version_modified>20180427T140504Z</version_modified>
+  <version_id>2432c090-264d-4718-8664-a264eb3c4e6f</version_id>
+  <version_modified>20190131T190640Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFanDegradation</class_name>
   <display_name>Condenser Fan Degradation</display_name>
@@ -126,12 +126,6 @@
   </attributes>
   <files>
     <file>
-      <filename>misc_eplus_func.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>D73C9CAE</checksum>
-    </file>
-    <file>
       <filename>TransferCurveParameters.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -156,6 +150,12 @@
       <checksum>627EF985</checksum>
     </file>
     <file>
+      <filename>misc_eplus_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>435C6B82</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -164,13 +164,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>3B414A9E</checksum>
+      <checksum>EF455258</checksum>
     </file>
     <file>
-      <filename>faultcalculationcoilcoolingdx_CAF.rb</filename>
+      <filename>faultcalculationcoilcoolingdx_CFD.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>DAFB12C2</checksum>
+      <checksum>E179779E</checksum>
     </file>
   </files>
 </measure>

@@ -1,0 +1,29 @@
+&location
+City='Oak Ridge'
+StateProv='TN'
+Country='USA'
+InWMO='723260'
+InLat=35.96
+InLong=-84.29
+InElev=334
+InTime=-5
+/
+
+&miscdata
+Comments1='Generated from FRP2-2_DataWeather weather data'
+/
+
+&wthdata
+NumInHour=4
+InputFileType='Custom'
+InFormat='Delimited'
+DelimiterChar=','
+DataElements=Date,HH:MM,diffuse_horizontal_radiation,direct_normal_radiation,ignore,ignore,ignore,ignore,ignore,dry_bulb_temperature,relative_humidity,atmospheric_pressure,liquid_precip_depth,wind_speed,wind_direction,ignore,dew_point_temperature
+DataUnits='mm/dd/yyyy,hh:mm','W/m2','W/m2',x,x,x,x,x,'f','%','Pa','mm','m/s','degrees',x,'f'
+DataConversionFactors=1,1,1,1,1,1,1,1,1,1,1,6894.76,25.4,0.44704,1,1,1
+DataMissingValues=,,-9900,-9900,,,,,,-9900,-9900,-9900,-9900,-9900,-9900,,-9900
+/
+
+&datacontrol
+NumRecordsToSkip=4
+/

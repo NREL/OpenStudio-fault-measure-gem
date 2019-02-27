@@ -7,7 +7,7 @@
 #see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # http://openstudio.nrel.gov/sites/openstudio.nrel.gov/files/nv_data/cpp_documentation_it/model/html/namespaces.html
 
-require "#{File.dirname(__FILE__)}/resources/faultimplementation"
+require "#{File.dirname(__FILE__)}/resources/faultimplementation_EI"
 
 $faultnow = 'EI'
 
@@ -22,12 +22,12 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
   
   # human readable description
   def description
-    return "Excessive infiltration around the building envelope occurs by the unintentional introduction of outside air into a building, typically through cracks in the building envelope and through use of windows and doors. Infiltration is driven by pressure differences between indoors and outdoors of the building caused by wind and by air buoyancy forces known commonly as the stack effect (ASHRAE Handbook Fundamentals, 2005). Excessive infiltration can affect thermal comfort, indoor air quality, heating and cooling demand, and moisture damage of building envelope components (Emmerich et al., 2005). The fault intensity is defined as the percentage of excessive infiltration around the building envelope compared to the non-faulted condition."
+    return "Excessive infiltration around the building envelope occurs by the unintentional introduction of outside air into a building, typically through cracks in the building envelope and through use of windows and doors. Infiltration is driven by pressure differences between indoors and outdoors of the building caused by wind and by air buoyancy forces known commonly as the stack effect. Excessive infiltration can affect thermal comfort, indoor air quality, heating and cooling demand, and moisture damage of building envelope components. This fault is categorized as a fault that occur in the building envelope during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates an excessive infiltration by modifying ZoneInfiltration:DesignFlowRate or ZoneInfiltration:EffectiveLeakageArea objects in EnergyPlus. The fault intensity (F) is defined as the ratio of excessive infiltration around the building envelope compared to the non-faulted condition."
   end
   
   # human readable description of modeling approach
   def modeler_description
-    return "The user input of the percentage of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F/100), where Infil_o is the original value defined in the infiltration object and F is the percentage of excessive infiltration. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
+    return "The user input of the ratio of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F), where Infil_o is the original value defined in the infiltration object and F is the percentage of excessive infiltration. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
   end
 
   #define the arguments that the user will input
@@ -64,8 +64,8 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 
     #make an argument for excessive infiltration percentage
     space_infiltration_increase_percent = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("space_infiltration_increase_percent",true)
-    space_infiltration_increase_percent.setDisplayName("Space Infiltration Increase (%).")
-    space_infiltration_increase_percent.setDefaultValue(20.0)
+    space_infiltration_increase_percent.setDisplayName("Ratio of excessive infiltration around the building envelope compared to the non-faulted condition (0-1).")
+    space_infiltration_increase_percent.setDefaultValue(0.2)
     args << space_infiltration_increase_percent
 	
 	##################################################
@@ -128,7 +128,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 
     #assign the user inputs to variables
     object = runner.getOptionalWorkspaceObjectChoiceValue("thermalzone",user_arguments,model)		
-    space_infiltration_increase_percent = runner.getDoubleArgumentValue("space_infiltration_increase_percent",user_arguments)
+    space_infiltration_increase_percent = runner.getDoubleArgumentValue("space_infiltration_increase_percent",user_arguments)*100
 	#################################################################################
     time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments)
 	start_month = runner.getDoubleArgumentValue('start_month',user_arguments)

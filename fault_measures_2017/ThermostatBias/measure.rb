@@ -12,11 +12,9 @@ require 'openstudio-standards' # this is used to get min/max values from thermos
 
 # require all .rb files in resources folder
 Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
-#require "#{File.dirname(__FILE__)}/resources/faultimplementation"
 
 # global variables
 $faultnow = 'TB'
-$allzonechoices = '* All Zones *'
 
 # resource file modules
 include OsLib_FDD
@@ -32,12 +30,12 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
   
   # human readable description
   def description
-    return "Drift of the thermostat temperature sensor over time can lead to increased energy use and/or reduced occupant comfort. This measure simulates a biased thermostat by modifying the Schedule:Compact object in EnergyPlus assigned to heating and cooling set points. The fault intensity (F) for this fault is defined as the thermostat measurement bias (K), which is also specified as one of the inputs."
+    return "Drift of the thermostat temperature sensor over time can lead to increased energy use and/or reduced occupant comfort. This fault is categorized as a fault that occur in the indoor thermostats (sensor) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates a biased thermostat by modifying the Schedule:Compact object in EnergyPlus assigned to heating and cooling set points. The fault intensity (F) is defined as the thermostat measurement bias (K). A positive number means that the sensor is reading a temperature higher than the true temperature."
   end
   
   # human readable description of modeling approach
   def modeler_description
-    return "Four user inputs are required and, based on these user inputs, the original (non-faulted) heating and cooling set point schedules in the building model will be replaced with a biased temperature set point by the equation below. If the reading of the thermostat is biased with +1oC, the actual space temperature should be maintained 1oC lower than the reading. Thus, the set point for the space is corrected by subtracting the original set point from the biased level. T_(stpt,heat,F)=T_(stpt,heat)-F / T_(stpt,cool,F)=T_(stpt,cool)-F"
+    return "Seven user inputs are required and, based on these user inputs, the original (non-faulted) heating and cooling set point schedules in the building model will be replaced with a biased temperature set point by the equation below. If the reading of the thermostat is biased with +1C, the actual space temperature should be maintained 1C lower than the reading. Thus, the set point for the space is corrected by subtracting the original set point from the biased level. T_(stpt,heat,F)=T_(stpt,heat)-F / T_(stpt,cool,F)=T_(stpt,cool)-F. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
   end
 
   #define the arguments that the user will input
@@ -72,30 +70,6 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
     bias_level.setDisplayName("Enter the constant setpoint bias level [K] [0=Non faulted case]")
     bias_level.setDefaultValue(0)
     args << bias_level
-
-    # start_month = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("start_month", months, true)
-    # start_month.setDisplayName("Fault active start month")
-    # start_month.setDefaultValue("January")
-    # args << start_month
-	
-	#####################################################################
-	# start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("start_date", false)
-    # start_date.setDisplayName("Fault active start date")
-    # start_date.setDefaultValue("1")
-    # args << start_date
-	#####################################################################
-
-    # end_month = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("end_month", months, true)
-    # end_month.setDisplayName("Fault active end month")
-    # end_month.setDefaultValue("December")
-    # args << end_month
-	
-	#####################################################################
-	# end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("end_date", false)
-    # end_date.setDisplayName("Fault active end date")
-    # end_date.setDefaultValue("1")
-    # args << end_date
-	#####################################################################
 	
 	##################################################
     #Parameters for transient fault modeling
@@ -119,10 +93,11 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
     args << start_date
 	
 	#make a double argument for the start time
-    start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
-    start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
-    start_time.setDefaultValue(9)  #default is 9am
-    args << start_time
+	#todo: implement start / end time modification on schedule ruleset
+    # start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
+    # start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
+    # start_time.setDefaultValue(9)  #default is 9am
+    # args << start_time
 	
 	#make a double argument for the end month
     end_month = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("end_month", months, true)
@@ -137,10 +112,11 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
     args << end_date
 	
 	#make a double argument for the end time
-    end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
-    end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
-    end_time.setDefaultValue(23)  #default is 11pm
-    args << end_time
+	#todo: implement start / end time modification on schedule ruleset
+    # end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
+    # end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
+    # end_time.setDefaultValue(23)  #default is 11pm
+    # args << end_time
     ##################################################
 
     return args
@@ -163,8 +139,8 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
 	  start_date = runner.getStringArgumentValue("start_date",user_arguments)
       end_date = runner.getStringArgumentValue("end_date",user_arguments)
       time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
-	  start_time = runner.getDoubleArgumentValue('start_time',user_arguments).to_s
-	  end_time = runner.getDoubleArgumentValue('end_time',user_arguments).to_s
+	  # start_time = runner.getDoubleArgumentValue('start_time',user_arguments).to_s
+	  # end_time = runner.getDoubleArgumentValue('end_time',user_arguments).to_s
 	  time_interval = model.getTimestep.numberOfTimestepsPerHour
 	  time_step = (1./(time_interval.to_f))
 	  ##################################################################### 
@@ -245,15 +221,18 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
             next
           end
 
+          # used for schedule_ruleset_annual_equivalent_full_load_hrs
+          std = Standard.new
+
           # gather initial thermostat range and average temp
-          avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
-          min_max = heatingrulesetschedule.annual_min_max_value
+          avg_htg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(heatingrulesetschedule)/num_hours_in_year
+          min_max = std.schedule_ruleset_annual_min_max_value(heatingrulesetschedule)
           runner.registerInfo("Initial annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
           setpoint_values[:init_htg_min] << min_max['min']
           setpoint_values[:init_htg_max] << min_max['max']
 
-          avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
-          min_max = coolingrulesetschedule.annual_min_max_value
+          avg_clg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(coolingrulesetschedule)/num_hours_in_year
+          min_max = std.schedule_ruleset_annual_min_max_value(coolingrulesetschedule)
           runner.registerInfo("Initial annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
           setpoint_values[:init_clg_min] << min_max['min']
           setpoint_values[:init_clg_max] << min_max['max']
@@ -377,14 +356,14 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
           thermalzone.setThermostatSetpointDualSetpoint(thermostatsetpointdualsetpoint)
 
           # gather final thermostat range and average temp
-          avg_htg_si = heatingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
-          min_max = heatingrulesetschedule.annual_min_max_value
+          avg_htg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(heatingrulesetschedule)/num_hours_in_year
+          min_max = std.schedule_ruleset_annual_min_max_value(heatingrulesetschedule)
           runner.registerInfo("Final annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
           setpoint_values[:final_htg_min] << min_max['min']
           setpoint_values[:final_htg_max] << min_max['max']
 
-          avg_clg_si = coolingrulesetschedule.annual_equivalent_full_load_hrs/num_hours_in_year
-          min_max = coolingrulesetschedule.annual_min_max_value
+          avg_clg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(coolingrulesetschedule)/num_hours_in_year
+          min_max = std.schedule_ruleset_annual_min_max_value(coolingrulesetschedule)
           runner.registerInfo("Final annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
           setpoint_values[:final_clg_min] << min_max['min']
           setpoint_values[:final_clg_max] << min_max['max']
@@ -395,7 +374,7 @@ class ThermostatBias < OpenStudio::Ruleset::ModelUserScript
 		  thermostatsetpointdualsetpoint = thermalzone.thermostatSetpointDualSetpoint
           if not thermostatsetpointdualsetpoint.empty?
 		    runner.registerInfo("Dynamic fault evolution implemented with time constant = #{time_constant} in zone = #{thermalzone.name}")
-            dynamicfaultevolution(model, runner, thermalzone, s_month, start_date, start_time, e_month, end_date, end_time, time_constant, time_step, biasLevel)
+            dynamicfaultevolution(model, runner, thermalzone, s_month, start_date, 0, e_month, end_date, 0, time_constant, time_step, biasLevel)
           end
 		  dynamic_fault = true
 		  #####################################################################

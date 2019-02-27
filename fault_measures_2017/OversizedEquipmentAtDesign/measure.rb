@@ -21,12 +21,12 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
   
   # human readable description
   def description
-    return "Oversizing of heating and cooling equipment is commonly accepted in real-world applications. In a previous study (Felts and Bailey 2000), more than 40% of the units surveyed were oversized by more than 25%, and 10% were oversized by more than 50%. System oversizing can ensure that the highest heating and cooling demands are met. But excessive oversizing of units can lead to increased equipment cycling with increased energy use due to efficiency losses. The fault intensity (F) for this fault is defined as the ratio of increased sizing compared to the correct sizing."
+    return "Oversizing of heating and cooling equipment is commonly accepted in real-world applications. In a previous study, more than 40% of the units surveyed were oversized by more than 25%, and 10% were oversized by more than 50%. System oversizing can ensure that the highest heating and cooling demands are met. But excessive oversizing of units can lead to increased equipment cycling with increased energy use due to efficiency losses. This fault is categorized as a fault that occur in the HVAC system during the design stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates oversized equipment by modifying Sizing:Parameters object in EnergyPlus. The fault intensity (F) is defined as the ratio of increased sizing compared to the correct sizing."
   end
   
   # human readable description of modeling approach
   def modeler_description
-    return "This measure simulates the effect of oversized equipment at design by modifying the Sizing:Parameters object and capacity fields in coil objects in EnergyPlus assigned to the heating and cooling system. One user input is required; percentage of increased sizing. Current measure applicable to following objects; coilcoolingdxsinglespeed, coilcoolingdxtwospeed,  coilcoolingdxtwostagewithhumiditycontrolmode, coilcoolingdxvariablerefrigerantflow, coilheatingdxvariablerefrigerantflow, coilheatinggas, coilheatingelectric"
+    return "This measure simulates the effect of oversized equipment at design by modifying the Sizing:Parameters object and capacity fields in coil objects in EnergyPlus assigned to the heating and cooling system. One user input is required; percentage of increased sizing. Current measure applicable to following objects; coilcoolingdxsinglespeed, coilcoolingdxtwospeed,  coilcoolingdxtwostagewithhumiditycontrolmode, coilcoolingdxvariablerefrigerantflow, coilheatingdxvariablerefrigerantflow, coilheatinggas, coilheatingelectric."
   end
 
   #define the arguments that the user will input

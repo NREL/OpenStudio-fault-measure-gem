@@ -4,13 +4,13 @@ require 'minitest/autorun'
 require_relative '../measure.rb'
 require 'fileutils'
 
-class ExtendMorningThermostatSetpointWeek_Test < MiniTest::Unit::TestCase
+class HVACSetbackErrorEarlyTermination_Test < MiniTest::Unit::TestCase
 
   # method to apply arguments, run measure, and assert results (only populate args hash with non-default argument values)
   def apply_measure_to_model(test_name, args, model_name = nil, result_value = 'Success', warnings_count = 0, info_count = nil)
 
     # create an instance of the measure
-    measure = ExtendMorningThermostatSetpointWeek.new
+    measure = HVACSetbackErrorEarlyTermination.new
 
     # create an instance of a runner
     runner = OpenStudio::Ruleset::OSRunner.new
