@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>avg_bldg_temperature_time_series_objective_function</name>
   <uid>a385f785-1e94-421d-a565-d2230f4e121b</uid>
-  <version_id>59e7ae2e-4b3e-4aea-8e98-4209a7175e8d</version_id>
-  <version_modified>20180308T214850Z</version_modified>
+  <version_id>bb830049-6213-4c1f-a9f8-938edc3b6590</version_id>
+  <version_modified>20180322T191231Z</version_modified>
   <xml_checksum>F44A8258</xml_checksum>
   <class_name>AvgBldgTemperatureTimeSeriesObjectiveFunction</class_name>
   <display_name>Avg Bldg Temperature TimeSeries Objective Function</display_name>
@@ -399,12 +399,6 @@
   </attributes>
   <files>
     <file>
-      <filename>report.html.erb</filename>
-      <filetype>erb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6CBAC1DE</checksum>
-    </file>
-    <file>
       <filename>NoRTU_NREL_st_12am.csv</filename>
       <filetype>csv</filetype>
       <usage_type>test</usage_type>
@@ -438,6 +432,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>8B7D5A64</checksum>
+    </file>
+    <file>
+      <filename>report.html.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>C57A57AD</checksum>
     </file>
   </files>
 </measure>

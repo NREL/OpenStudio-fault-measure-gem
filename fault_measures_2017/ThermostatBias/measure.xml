@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>thermostat_bias</name>
   <uid>e359373a-ea8b-459d-a4c0-e2e8ae78b840</uid>
-  <version_id>e0868a7b-acc7-404a-b0cd-abc9cdf8c2da</version_id>
-  <version_modified>20180405T152007Z</version_modified>
+  <version_id>b11fdb8b-8355-4c99-90da-40590c4df040</version_id>
+  <version_modified>20190131T190644Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ThermostatBias</class_name>
   <display_name>Thermostat Measurement Bias</display_name>
@@ -107,6 +107,14 @@
       <default_value>1</default_value>
     </argument>
     <argument>
+      <name>start_time</name>
+      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>9</default_value>
+    </argument>
+    <argument>
       <name>end_month</name>
       <display_name>Fault active end month</display_name>
       <type>Choice</type>
@@ -172,6 +180,14 @@
       <model_dependent>false</model_dependent>
       <default_value>31</default_value>
     </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23</default_value>
+    </argument>
   </arguments>
   <outputs/>
   <provenances/>
@@ -210,33 +226,33 @@
       <checksum>A75599FB</checksum>
     </file>
     <file>
-      <filename>misc_arguments.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>25825DAD</checksum>
-    </file>
-    <file>
-      <filename>faultimplementation.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>1F550A11</checksum>
-    </file>
-    <file>
       <filename>global_const.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>C16CED49</checksum>
     </file>
     <file>
+      <filename>misc_arguments.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>AC509FB1</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
-        <min_compatible>1.4.0</min_compatible>
+        <min_compatible>2.5.0</min_compatible>
       </version>
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>3BBF2E68</checksum>
+      <checksum>5BB1C988</checksum>
+    </file>
+    <file>
+      <filename>faultimplementation_TB.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>1F550A11</checksum>
     </file>
   </files>
 </measure>

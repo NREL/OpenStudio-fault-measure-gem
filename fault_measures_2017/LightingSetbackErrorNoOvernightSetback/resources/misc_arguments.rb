@@ -1,6 +1,9 @@
 # The file contains functions to pass arguments from OpenStudio inputs to the
 # measure script. They are used to avoid the function arguments to be too long.
 
+# 11/18/2017 Lighting Setback Error measure developed based on HVAC Setback Error measure
+# codes within ######## are modified parts
+
 module OsLib_FDD
 
   require_relative 'global_const'
@@ -31,7 +34,7 @@ module OsLib_FDD
 
     return zone_handles, zone_display_names
   end
-  
+
   def obtainzone(strname, model, runner, user_arguments)
     # This function helps to obtain the zone information from user arguments.
     # It returns the ThermalZone OpenStudio object of the chosen zone
@@ -55,19 +58,52 @@ module OsLib_FDD
   def obtainlight(zone, model, runner, user_arguments)
     # This function helps to obtain the light information from user arguments.
     # It returns the Lights OpenStudio object of the chosen zone
-	array = []
-	spaces = model.getSpaces
-	
+    array = []
+
     if zone.eql?($allzonechoices)
-	  spaces.each do |space|
-		array << space.lights
+      model.getSpaces.each do |space|
+        array << space.lights
+      end
+      model.getSpaceTypes.each do |space_type|
+        next if not space_type.spaces.size > 0
+        array << space_type.lights
       end
       return array
     else
-	  spaces.each do |space|
-        next unless space.name.to_s == zone.to_s
-        array << space.lights
-        break
+	    model.getThermalZones.each do |zone2|
+        next unless zone2.name.to_s == zone
+        zone2.spaces.each do |space|
+          space.hardApplySpaceType(false) # pulls in lights that were in space type
+          array << space.lights
+        end
+        #break
+      end
+      return array
+    end
+  end
+
+  def obtainpeople(zone, model, runner, user_arguments)
+    # This function helps to obtain the people information from user arguments.
+    # It returns the people OpenStudio object of the chosen zone
+    array = []
+
+    if zone.eql?($allzonechoices)
+      model.getSpaces.each do |space|
+        array << space.people
+      end
+      model.getSpaceTypes.each do |space_type|
+        next if not space_type.spaces.size > 0
+        array << space_type.people
+      end
+      return array
+    else
+      model.getThermalZones.each do |zone2|
+        next unless zone2.name.to_s == zone
+        zone2.spaces.each do |space|
+          space.hardApplySpaceType(false) # pulls in lights that were in space type
+          array << space.people
+        end
+        #break
       end
       return array
     end

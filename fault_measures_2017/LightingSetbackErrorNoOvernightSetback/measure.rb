@@ -17,6 +17,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 
 # resource file modules
 include OsLib_FDD
+include OsLib_FDD_light
 
 # start the measure
 class LightingSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
@@ -28,7 +29,7 @@ class LightingSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScr
 
   # simple human readable description
   def description
-    return "Lighting should be turned off or at least reduced during unoccupied hours. However, some commissioning studies have found noticeable lighting energy use at night either because lighting schedules are improperly configured or occupants forget to turn off lights when vacating a building (Haasl, Stum, and Arney 1996; Kahn, Potter, and Haasl 2002). This measure simulates the effect of having no setback during unoccupied hours by modifying the Schedule:Compact object in EnergyPlus assigned to lighting schedules. The fault intensity (F) for this fault is defined as the absence of overnight lighting setback (binary)."
+    return "Lighting should be turned off or at least reduced during unoccupied hours. However, some commissioning studies have found noticeable lighting energy use at night either because lighting schedules are improperly configured or occupants forget to turn off lights when vacating a building. This fault is categorized as a fault that occur in the lighting system (controller) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates the effect of having no setback during unoccupied hours by modifying the Schedule:Compact object in EnergyPlus assigned to lighting schedules. The fault intensity (F) is defined as the absence of overnight lighting setback (binary)."
   end
 
   # detailed human readable description about how to use the measure
@@ -105,7 +106,6 @@ class LightingSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScr
     else
       start_month = runner.getStringArgumentValue('start_month', user_arguments)
       end_month = runner.getStringArgumentValue('end_month', user_arguments)
-      thermalzones = obtainzone('zone', model, runner, user_arguments)
 
       # create empty has to poulate when loop through zones
       setpoint_values = create_initial_final_setpoint_values_hash

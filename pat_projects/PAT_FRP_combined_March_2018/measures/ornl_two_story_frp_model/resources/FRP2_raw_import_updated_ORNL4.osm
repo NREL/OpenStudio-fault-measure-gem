@@ -1,7 +1,7 @@
 
 OS:Version,
-  {1e48c0c1-4ff2-4225-a33f-b7eb043bc8b3}, !- Handle
-  2.4.0;                                  !- Version Identifier
+  {92547754-2721-4c0c-9a7a-4bc46841488a}, !- Handle
+  2.4.1;                                  !- Version Identifier
 
 OS:Site,
   {3a1edcec-3cbf-4f45-88d2-3a278ae9e394}, !- Handle
@@ -172,8 +172,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {5f458315-c3ee-48fe-8f5a-68b22a8f1f3e}, !- Handle
   Thermostat Dual SP Control,             !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:Schedule:Compact,
   {c0a070f4-93c6-4809-9c18-598eb1f7c8aa}, !- Handle
@@ -409,8 +409,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {588351be-fe14-49fe-a234-284f595fc9fc}, !- Handle
   {882cbd62-c5df-44a4-9355-db7b82cf4283}, !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:DesignSpecification:OutdoorAir,
   {1c96b3e2-e809-48ce-8a4b-d4bf87cfde17}, !- Handle
@@ -661,8 +661,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {fee3b0c2-67e5-4900-be4a-c22d2f0725fc}, !- Handle
   {5768dfdc-68f4-4305-807a-c5e644fe7b3f}, !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:Surface,
   {7ca09937-7a94-4cb9-ba54-197ac2e050fe}, !- Handle
@@ -782,8 +782,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {ef1de1fe-b2e6-4821-9feb-1bdb3c4d47ca}, !- Handle
   {5a0b2737-bc96-44c5-a58a-f7247c343c08}, !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:Schedule:Compact,
   {7e43aa6f-4250-4bf9-b76a-8d5199681e8b}, !- Handle
@@ -1090,8 +1090,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {873df643-aa25-467e-857a-c924923ba7f3}, !- Handle
   {050fc005-8ad4-492f-85e8-9a689a46f48f}, !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:Output:Variable,
   {67530a4a-f3ac-4097-b053-b5d7b9dd62d3}, !- Handle
@@ -1385,8 +1385,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {ca178cf1-c603-471f-a89b-0a185729d901}, !- Handle
   {1b10330c-58a6-4708-a6aa-2e514de9f8cd}, !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:EnergyManagementSystem:GlobalVariable,
   {e5660632-01d6-4c2a-919d-abfa3499ce03}, !- Handle
@@ -1528,8 +1528,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {972b6251-ef10-4bdf-98ea-10be5e3c37d4}, !- Handle
   {5ac76ab0-f03f-47a6-a679-215c1ca4a298}, !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:Output:Variable,
   {3ed1bd2c-c14b-47de-b007-1bcd62b638d7}, !- Handle
@@ -1739,8 +1739,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {7f9315b3-f363-46dd-9122-c985ed9f0910}, !- Handle
   {cca5d03f-f7cd-4294-a350-de8645c5f8b6}, !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:Output:Variable,
   {65d96705-0c03-4754-bda6-e29115b1037c}, !- Handle
@@ -2159,8 +2159,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {ffaa92c6-621c-4ffc-917b-b1224611c9ee}, !- Handle
   {8c6253e3-ff5f-468a-b243-1dd7f33730dc}, !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:SubSurface,
   {3cabc6e5-da61-4dfc-8baf-8e8170a81c87}, !- Handle
@@ -3877,8 +3877,8 @@ OS:Space,
 OS:ThermostatSetpoint:DualSetpoint,
   {d6f76a68-bcc3-47bc-8e0c-397428fdb6c0}, !- Handle
   {83ec09a0-6656-4844-9466-c692b516ffa4}, !- Name
-  {d89aacef-91f8-415f-b27a-33b840a68a0e}, !- Heating Setpoint Temperature Schedule Name
-  {b5bdc578-b5d2-4e8d-b506-5769e6a974c5}; !- Cooling Setpoint Temperature Schedule Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Heating Setpoint Temperature Schedule Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}; !- Cooling Setpoint Temperature Schedule Name
 
 OS:DesignSpecification:OutdoorAir,
   {54ed1520-1fde-453e-88ce-b4136906ba10}, !- Handle
@@ -9205,4 +9205,318 @@ OS:Rendering:Color,
   70,                                     !- Rendering Red Value
   130,                                    !- Rendering Green Value
   180;                                    !- Rendering Blue Value
+
+OS:Schedule:Ruleset,
+  {8103a25f-3462-4a54-82ef-d87d612caf84}, !- Handle
+  Cooling no setback,                     !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  {b4fde565-13d8-4b6c-9e4e-90f409d35658}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {b4fde565-13d8-4b6c-9e4e-90f409d35658}, !- Handle
+  Schedule Day 759,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  23.9000015258789;                       !- Value Until Time 1
+
+OS:Schedule:Ruleset,
+  {1d77b4b5-d825-4cea-a6e6-8e7ef9a7b19b}, !- Handle
+  Heating no setback,                     !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  {6cda706e-dbcb-49c2-83c6-0a1d3d68d3d2}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {6cda706e-dbcb-49c2-83c6-0a1d3d68d3d2}, !- Handle
+  Schedule Day 760,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  21.0999984741211;                       !- Value Until Time 1
+
+OS:Schedule:Ruleset,
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}, !- Handle
+  Cooling ramp,                           !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  {5f457f11-d9b0-49e6-8155-b33eaed90987}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {5f457f11-d9b0-49e6-8155-b33eaed90987}, !- Handle
+  Schedule Day 761,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  6,                                      !- Hour 1
+  0,                                      !- Minute 1
+  31.7000007629395,                       !- Value Until Time 1
+  6,                                      !- Hour 2
+  15,                                     !- Minute 2
+  31.7000007629395,                       !- Value Until Time 2
+  6,                                      !- Hour 3
+  30,                                     !- Minute 3
+  31.2688217163086,                       !- Value Until Time 3
+  6,                                      !- Hour 4
+  45,                                     !- Minute 4
+  30.1288967132568,                       !- Value Until Time 4
+  7,                                      !- Hour 5
+  0,                                      !- Minute 5
+  29.4775123596191,                       !- Value Until Time 5
+  7,                                      !- Hour 6
+  15,                                     !- Minute 6
+  28.1747417449951,                       !- Value Until Time 6
+  18,                                     !- Hour 7
+  0,                                      !- Minute 7
+  27.5233554840088,                       !- Value Until Time 7
+  24,                                     !- Hour 8
+  0,                                      !- Minute 8
+  31.7000007629395;                       !- Value Until Time 8
+
+OS:Schedule:Rule,
+  {e7576329-238b-4f65-be9f-c98dd0835ac5}, !- Handle
+  Schedule Rule 15,                       !- Name
+  {a19fec98-b3ce-4c44-a755-af23b626c43f}, !- Schedule Ruleset Name
+  0,                                      !- Rule Order
+  {e08fa307-d95e-439f-ad3d-052e2bab1c8b}, !- Day Schedule Name
+  Yes,                                    !- Apply Sunday
+  Yes,                                    !- Apply Monday
+  Yes,                                    !- Apply Tuesday
+  Yes,                                    !- Apply Wednesday
+  Yes,                                    !- Apply Thursday
+  Yes,                                    !- Apply Friday
+  Yes,                                    !- Apply Saturday
+  ,                                       !- Apply Holiday
+  DateRange,                              !- Date Specification Type
+  8,                                      !- Start Month
+  9,                                      !- Start Day
+  8,                                      !- End Month
+  10;                                     !- End Day
+
+OS:Schedule:Day,
+  {e08fa307-d95e-439f-ad3d-052e2bab1c8b}, !- Handle
+  Schedule Day 762,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  32.7000007629395;                       !- Value Until Time 1
+
+OS:Schedule:Ruleset,
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Handle
+  Heating ramp,                           !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  {c37f644b-ad61-4e50-b696-3864c32b15f0}; !- Default Day Schedule Name
+
+OS:Schedule:Day,
+  {c37f644b-ad61-4e50-b696-3864c32b15f0}, !- Handle
+  Schedule Day 763,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  6,                                      !- Hour 1
+  0,                                      !- Minute 1
+  14.9999990463257,                       !- Value Until Time 1
+  6,                                      !- Hour 2
+  15,                                     !- Minute 2
+  14.9999990463257,                       !- Value Until Time 2
+  6,                                      !- Hour 3
+  30,                                     !- Minute 3
+  16.2869548797607,                       !- Value Until Time 3
+  6,                                      !- Hour 4
+  45,                                     !- Minute 4
+  17.5897254943848,                       !- Value Until Time 4
+  7,                                      !- Hour 5
+  0,                                      !- Minute 5
+  18.7296485900879,                       !- Value Until Time 5
+  7,                                      !- Hour 6
+  15,                                     !- Minute 6
+  19.8695735931396,                       !- Value Until Time 6
+  18,                                     !- Hour 7
+  0,                                      !- Minute 7
+  21.1100006103516,                       !- Value Until Time 7
+  24,                                     !- Hour 8
+  0,                                      !- Minute 8
+  14.9999990463257;                       !- Value Until Time 8
+
+OS:Schedule:Rule,
+  {5b485403-78a1-4896-9504-7ed30387ae5e}, !- Handle
+  Schedule Rule 16,                       !- Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Schedule Ruleset Name
+  2,                                      !- Rule Order
+  {a3164b15-7ba2-422c-a6dd-902dc496b48a}, !- Day Schedule Name
+  Yes,                                    !- Apply Sunday
+  Yes,                                    !- Apply Monday
+  Yes,                                    !- Apply Tuesday
+  Yes,                                    !- Apply Wednesday
+  Yes,                                    !- Apply Thursday
+  Yes,                                    !- Apply Friday
+  Yes,                                    !- Apply Saturday
+  ,                                       !- Apply Holiday
+  DateRange,                              !- Date Specification Type
+  8,                                      !- Start Month
+  9,                                      !- Start Day
+  8,                                      !- End Month
+  10;                                     !- End Day
+
+OS:Schedule:Day,
+  {a3164b15-7ba2-422c-a6dd-902dc496b48a}, !- Handle
+  Schedule Day 764,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  24,                                     !- Hour 1
+  0,                                      !- Minute 1
+  28.0000019073486;                       !- Value Until Time 1
+
+OS:Schedule:Day,
+  {acf63bf4-b0ae-424c-96da-401578d6d2a5}, !- Handle
+  Schedule Day 765,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  6,                                      !- Hour 1
+  0,                                      !- Minute 1
+  14.9999990463257,                       !- Value Until Time 1
+  6,                                      !- Hour 2
+  15,                                     !- Minute 2
+  14.9999990463257,                       !- Value Until Time 2
+  6,                                      !- Hour 3
+  30,                                     !- Minute 3
+  16.2869548797607,                       !- Value Until Time 3
+  6,                                      !- Hour 4
+  45,                                     !- Minute 4
+  17.5897254943848,                       !- Value Until Time 4
+  7,                                      !- Hour 5
+  0,                                      !- Minute 5
+  18.7296485900879,                       !- Value Until Time 5
+  7,                                      !- Hour 6
+  15,                                     !- Minute 6
+  19.8695735931396,                       !- Value Until Time 6
+  18,                                     !- Hour 7
+  0,                                      !- Minute 7
+  21.1100006103516,                       !- Value Until Time 7
+  24,                                     !- Hour 8
+  0,                                      !- Minute 8
+  14.9999990463257;                       !- Value Until Time 8
+
+OS:Schedule:Rule,
+  {cc9bfbd3-bfb7-4a6f-953e-0cb5753e1d29}, !- Handle
+  Schedule Rule 17,                       !- Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Schedule Ruleset Name
+  1,                                      !- Rule Order
+  {122ffb24-d5e3-4c66-a951-827a617a2a8d}, !- Day Schedule Name
+  Yes,                                    !- Apply Sunday
+  Yes,                                    !- Apply Monday
+  Yes,                                    !- Apply Tuesday
+  Yes,                                    !- Apply Wednesday
+  Yes,                                    !- Apply Thursday
+  Yes,                                    !- Apply Friday
+  Yes,                                    !- Apply Saturday
+  ,                                       !- Apply Holiday
+  DateRange,                              !- Date Specification Type
+  11,                                     !- Start Month
+  1,                                      !- Start Day
+  12,                                     !- End Month
+  31;                                     !- End Day
+
+OS:Schedule:Day,
+  {122ffb24-d5e3-4c66-a951-827a617a2a8d}, !- Handle
+  Schedule Day 766,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  5,                                      !- Hour 1
+  45,                                     !- Minute 1
+  14.9999990463257,                       !- Value Until Time 1
+  6,                                      !- Hour 2
+  0,                                      !- Minute 2
+  14.9999990463257,                       !- Value Until Time 2
+  6,                                      !- Hour 3
+  15,                                     !- Minute 3
+  16.2869548797607,                       !- Value Until Time 3
+  6,                                      !- Hour 4
+  30,                                     !- Minute 4
+  17.5897254943848,                       !- Value Until Time 4
+  6,                                      !- Hour 5
+  45,                                     !- Minute 5
+  18.7296485900879,                       !- Value Until Time 5
+  7,                                      !- Hour 6
+  0,                                      !- Minute 6
+  19.8695735931396,                       !- Value Until Time 6
+  18,                                     !- Hour 7
+  0,                                      !- Minute 7
+  21.1100006103516,                       !- Value Until Time 7
+  24,                                     !- Hour 8
+  0,                                      !- Minute 8
+  14.9999990463257;                       !- Value Until Time 8
+
+OS:Schedule:Day,
+  {c218c308-e034-40a1-b283-cf475324cefc}, !- Handle
+  Schedule Day 767,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  5,                                      !- Hour 1
+  45,                                     !- Minute 1
+  14.9999990463257,                       !- Value Until Time 1
+  6,                                      !- Hour 2
+  0,                                      !- Minute 2
+  14.9999990463257,                       !- Value Until Time 2
+  6,                                      !- Hour 3
+  15,                                     !- Minute 3
+  16.2869548797607,                       !- Value Until Time 3
+  6,                                      !- Hour 4
+  30,                                     !- Minute 4
+  17.5897254943848,                       !- Value Until Time 4
+  6,                                      !- Hour 5
+  45,                                     !- Minute 5
+  18.7296485900879,                       !- Value Until Time 5
+  7,                                      !- Hour 6
+  0,                                      !- Minute 6
+  19.8695735931396,                       !- Value Until Time 6
+  18,                                     !- Hour 7
+  0,                                      !- Minute 7
+  21.1100006103516,                       !- Value Until Time 7
+  24,                                     !- Hour 8
+  0,                                      !- Minute 8
+  14.9999990463257;                       !- Value Until Time 8
+
+OS:Schedule:Rule,
+  {5a58a040-ec6a-4cb0-9308-843ee344cc5a}, !- Handle
+  Schedule Rule 18,                       !- Name
+  {f7fd6372-2614-4942-b9f9-f42b05ca6985}, !- Schedule Ruleset Name
+  0,                                      !- Rule Order
+  {2113d6b9-361c-44fc-a455-6570a20c3c48}, !- Day Schedule Name
+  Yes,                                    !- Apply Sunday
+  Yes,                                    !- Apply Monday
+  Yes,                                    !- Apply Tuesday
+  Yes,                                    !- Apply Wednesday
+  Yes,                                    !- Apply Thursday
+  Yes,                                    !- Apply Friday
+  Yes,                                    !- Apply Saturday
+  ,                                       !- Apply Holiday
+  DateRange,                              !- Date Specification Type
+  10,                                     !- Start Month
+  1,                                      !- Start Day
+  10,                                     !- End Month
+  31;                                     !- End Day
+
+OS:Schedule:Day,
+  {2113d6b9-361c-44fc-a455-6570a20c3c48}, !- Handle
+  Schedule Day 768,                       !- Name
+  {0422d949-1232-489b-b8e3-6708dfb04cac}, !- Schedule Type Limits Name
+  ,                                       !- Interpolate to Timestep
+  5,                                      !- Hour 1
+  0,                                      !- Minute 1
+  14.9999990463257,                       !- Value Until Time 1
+  5,                                      !- Hour 2
+  15,                                     !- Minute 2
+  15.7224998474121,                       !- Value Until Time 2
+  5,                                      !- Hour 3
+  30,                                     !- Minute 3
+  17.1848430633545,                       !- Value Until Time 3
+  5,                                      !- Hour 4
+  45,                                     !- Minute 4
+  19.8695735931396,                       !- Value Until Time 4
+  18,                                     !- Hour 5
+  0,                                      !- Minute 5
+  21.1100006103516,                       !- Value Until Time 5
+  24,                                     !- Hour 6
+  0,                                      !- Minute 6
+  14.9999990463257;                       !- Value Until Time 6
 

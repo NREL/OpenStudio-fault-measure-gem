@@ -22,19 +22,18 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description
   def description
-    return "The return duct of an air system typically operates at negative pressure, thus the leakage in the return duct (outside of conditioned space) results in increased heating and cooling load due to unconditioned air being drawn into the return duct and mixing with return air from conditioned spaces. This measure simulates the return air leakage by modifying the Controller:OutdoorAir object in EnergyPlus."
+    return "The return duct of an air system typically operates at negative pressure, thus the leakage in the return duct (outside of conditioned space) results in increased heating and cooling load due to unconditioned air being drawn into the return duct and mixing with return air from conditioned spaces. This fault is categorized as a fault that occur in the ventilation system (duct) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates the return air leakage by modifying the Controller:OutdoorAir object in EnergyPlus. The fault intensity (F) is defined as the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate."
   end
 
   # human readable description of workspace approach
   def modeler_description
-    return "Nine user inputs are required to simulate the fault and, based on these inputs, this fault model simulates the return air duct leakage by introducing additional outdoor air (based on the leakage ratio) through the economizer object. Equation (2) shows the calculation of outdoor airflow rate in the economizer (qdot_(oa,F)) at a faulted condition where qdot_oa is the outdoor airflow rate for ventilation, qdot_(ra,tot) is the return airflow rate, F is the fault intensity and AF is the adjustment factor. qdot_(oa,F) = qdot_oa + qdot_(ra,tot)∙F∙AF. The second term represents the outdoor airflow rate introduced to the duct due to leakage. The fault intensity (F) for this fault is defined as the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
+    return "Nine user inputs are required to simulate the fault and, based on these inputs, this fault model simulates the return air duct leakage by introducing additional outdoor air (based on the leakage ratio) through the economizer object. Equation, qdot_(oa,F) = qdot_oa + qdot_(ra,tot)∙F∙AF shows the calculation of outdoor airflow rate in the economizer (qdot_(oa,F)) at a faulted condition where qdot_oa is the outdoor airflow rate for ventilation, qdot_(ra,tot) is the return airflow rate, F is the fault intensity and AF is the adjustment factor.. The second term represents the outdoor airflow rate introduced to the duct due to leakage. The fault intensity (F) for this fault is defined as the unconditioned air introduced to return air stream at full load condition as a ratio of the total return airflow rate. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
   end
 
   # define the arguments that the user will input
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
     
-    ##################################################
     #make choice arguments for economizers
     controlleroutdoorairs = workspace.getObjectsByType("Controller:OutdoorAir".to_IddObjectType)
     chs = OpenStudio::StringVector.new
@@ -52,7 +51,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     leak_ratio.setDefaultValue(0.1)  #default fault level to be 10%
     args << leak_ratio
 	
-	##################################################
     #Parameters for transient fault modeling
 	
 	#make a double argument for the time required for fault to reach full level 
@@ -96,7 +94,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
     end_time.setDefaultValue(23)  #default is 11pm
     args << end_time
-    ##################################################
 
     return args
   end
@@ -113,7 +110,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     #obtain values
     econ_choice = runner.getStringArgumentValue('econ_choice',user_arguments)
     leak_ratio = runner.getDoubleArgumentValue('leak_ratio',user_arguments)
-	##################################################
 	time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
 	start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
 	start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
@@ -127,7 +123,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
 	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
 	end
-	##################################################
     if leak_ratio == 0
       runner.registerAsNotApplicable("#{name} is not running with zero fault level. Skipping......")
       return true
@@ -164,18 +159,55 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
           #main program differs as the options at controlleroutdoorair differs
           #create a new string for the main program to start appending the required
           #EMS routine to it
-		  ##################################################
 		  oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-		  ################################################## 
-                    
-          main_body = econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, oacontrollername)
-          string_objects << main_body
+		  
+		  ######################################################################################
+		  
+		  if controlleroutdoorair.getString(7).to_s.eql?('NoEconomizer')
+		    runner.registerInfo("Current model is not using the economizer. EMS will override the outdoor air flow rate with the actuator.")
+			if leak_ratio >= 0.00
+			  leakratio = "#{leak_ratio}"
+		    else
+			  leakratio = "-#{leak_ratio}"
+		    end
+		    nodename_ma = controlleroutdoorair.getString(3)
+			runner.registerInfo("Mixed air outlet node name for reference = #{nodename_ma}")
+			
+			string_objects << "			
+			  EnergyManagementSystem:Sensor,
+				SA_#{$faulttype}, !- Name
+				#{nodename_ma}, !- Output:Variable or Output:Meter Index Key Name
+				System Node Mass Flow Rate; !- Output:Variable or Output:Meter Name
+			"
+			string_objects << "
+			  EnergyManagementSystem:Actuator,
+				OA_#{$faulttype}, !- Name
+				#{econ_choice}, !- Actuated Component Unique Name
+				Outdoor Air Controller, !- Actuated Component Type
+				Air Mass Flow Rate; !- Actuated Component Control Type
+			"
+			string_objects << "
+			  EnergyManagementSystem:Program,
+				RA_#{$faulttype}, !- Name
+				set FI_#{$faulttype}_RA = "+leakratio+", !- Program Line 1
+				set OA_#{$faulttype} = SA_#{$faulttype}*FI_#{$faulttype}_RA*AF_current_#{$faulttype}_#{oacontrollername}; !- Program Line 2
+			"
+			string_objects << "
+			  EnergyManagementSystem:ProgramCallingManager,
+				PCM_#{$faulttype}, !- Name
+				InsideHVACSystemIterationLoop, !- EnergyPlus Model Calling Point
+				RA_#{$faulttype}; !- Program Name 1
+			"
+			strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
+		  else	
+            main_body = econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, oacontrollername)
+            string_objects << main_body
            
-          #append other objects
-          strings_objects = econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
-		  ##################################################
-		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
-		  ##################################################
+            #append other objects
+            strings_objects = econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
+		    strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
+		  end
+		  ######################################################################################
 
           #add all of the strings to workspace to create IDF objects
           string_objects.each do |string_object|
@@ -183,6 +215,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
             object = idfObject.get
             wsObject = workspace.addObject(object)
           end
+		  
         end
       end
     end

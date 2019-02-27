@@ -22,11 +22,11 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
   end
   
   def description
-    return "Stuck dampers associated with economizers can be caused by seized actuators, broken linkages, economizer control system failures, or the failure of sensors that are used to determine damper position (Roth et al. 2004, 2005). In extreme cases, dampers stuck at either 100% open or closed can have a serious impact on system energy consumption or occupant comfort in the space. This measure simulates a stuck damper by modifying the Controller:OutdoorAir object in EnergyPlus. The fault intensity (F) for this fault is defined as the ratio of economizer damper at the stuck position (0 = fully closed, 1 = fully open)"
+    return "Stuck dampers associated with economizers can be caused by seized actuators, broken linkages, economizer control system failures, or the failure of sensors that are used to determine damper position. In extreme cases, dampers stuck at either 100% open or closed can have a serious impact on system energy consumption or occupant comfort in the space. This fault is categorized as a fault that occur in the economizer system (damper) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates a stuck damper by modifying the Controller:OutdoorAir object in EnergyPlus. The fault intensity (F) for this fault is defined as the ratio of economizer damper at the stuck position (0 = fully closed, 1 = fully open)."
   end
   
   def modeler_description
-    return "To use this fault measure, user should choose the economizer getting faulted, the elapsed time that the damper is being stuck and the damper stuck position. If a schedule of fault prevalence is not given, the model will apply the fault to the entire simulation."
+    return "To use this fault measure, user should choose the economizer getting faulted, the schedule of fault prevalence when to impose fault during the simulation and the damper stuck position. If a schedule of fault prevalence is not given, the model will apply the fault to the entire simulation."
   end
   
   #define the arguments that the user will input

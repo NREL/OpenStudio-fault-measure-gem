@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>supply_air_duct_leakages</name>
   <uid>8d568a70-080d-4f27-97f5-5210ff639652</uid>
-  <version_id>a05218cd-96ce-4115-9639-5ca4b0ada52b</version_id>
-  <version_modified>20180313T042158Z</version_modified>
+  <version_id>aa0421d9-7146-4ba7-9dd5-fb0e09d95633</version_id>
+  <version_modified>20180313T213331Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>SupplyAirDuctLeakages</class_name>
   <display_name>Supply Air Duct Leakages</display_name>
@@ -15,7 +15,14 @@
       <display_name>Select the name of the faulted AirTerminal object</display_name>
       <type>Choice</type>
       <required>true</required>
-      <model_dependent>true</model_dependent>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL Terminals Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Terminals Selected *</value>
+          <display_name>* ALL Terminals Selected *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>leak_ratio</name>
@@ -63,7 +70,19 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>099B1CD9</checksum>
+      <checksum>C7C4F45C</checksum>
+    </file>
+    <file>
+      <filename>frp_baseline_generic_sch.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E2264D50</checksum>
+    </file>
+    <file>
+      <filename>measure_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>B3B789F2</checksum>
     </file>
   </files>
 </measure>

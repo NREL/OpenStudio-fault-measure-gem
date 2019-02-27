@@ -15,6 +15,7 @@ Dir[File.dirname(__FILE__) + '/resources/*.rb'].each {|file| require file }
 
 # resource file modules
 include OsLib_FDD
+include OsLib_FDD_hvac
 
 # start the measure
 class HVACSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
@@ -26,7 +27,7 @@ class HVACSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
 
   # simple human readable description
   def description
-    return "Thermostat schedules are employed to raise set points for cooling and lower set points for heating at night, to switch fan operation from being continuously on during occupied times to being coupled to cooling or heating demands at other times, and to close ventilation dampers during unoccupied periods. Faults can occur due to malfunctioning, unprogrammed, or incorrectly programmed or scheduled thermostats, leading to increased energy consumption and/or compromised comfort and air quality. This measure simulates the effect of having no overnight setback by modifying the Schedule:Compact object in EnergyPlus assigned to thermostat set point schedules. The fault intensity (F) for this fault is defined as the absence of overnight HVAC setback (binary)."
+    return "Thermostat schedules are employed to raise set points for cooling and lower set points for heating at night, to switch fan operation from being continuously on during occupied times to being coupled to cooling or heating demands at other times, and to close ventilation dampers during unoccupied periods. Faults can occur due to malfunctioning, unprogrammed, or incorrectly programmed or scheduled thermostats, leading to increased energy consumption and/or compromised comfort and air quality. This fault is categorized as a fault that occur in the HVAC system (controller) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates the effect of having no overnight setback by modifying the Schedule:Compact object in EnergyPlus assigned to thermostat set point schedules. The fault intensity (F) is defined as the absence of overnight HVAC setback (binary)."
   end
 
   # detailed human readable description about how to use the measure
@@ -81,6 +82,12 @@ class HVACSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
     dayofweek.setDefaultValue($all_days)
     args << dayofweek
 
+    # extend air loop availability with same intensity as thermostat setpoint
+    ext_hr_airloop = OpenStudio::Measure::OSArgument.makeBoolArgument('ext_hr_airloop', true)
+    ext_hr_airloop.setDisplayName('Extend Air Loop Availability with same intensity as thermostat setpoint')
+    ext_hr_airloop.setDefaultValue(true)
+    args << ext_hr_airloop
+
     return args
     # note: the Assignment Branch Condition size is left higher than the
     # recommended minimum by Rubocop because the argument definition
@@ -98,6 +105,9 @@ class HVACSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
 
     # get inputs
     dayofweek = runner.getStringArgumentValue('dayofweek', user_arguments)
+    ext_hr_airloop = runner.getBoolArgumentValue('ext_hr_airloop', user_arguments)
+    air_loops = []
+
     if dayofweek == $not_faulted
       runner.registerAsNotApplicable('Measure HVACSetbackErrorNoOvernightSetback not run')
     else
@@ -106,15 +116,31 @@ class HVACSetbackErrorNoOvernightSetback < OpenStudio::Ruleset::ModelUserScript
       thermalzones = obtainzone('zone', model, runner, user_arguments)
 
       # create empty has to poulate when loop through zones
-      setpoint_values = create_initial_final_setpoint_values_hash
+      setpoint_values = create_initial_final_setpoint_values_hash_alt
 
       # apply fault
       thermalzones.each do |thermalzone|
         results = applyfaulttothermalzone_no_setback(thermalzone, start_month, end_month, dayofweek, runner, setpoint_values, model)
 
+        if thermalzone.airLoopHVAC.is_initialized
+          air_loops << thermalzone.airLoopHVAC.get
+        end
+
         # populate hash for min max values across zones
         if not results == false
           setpoint_values = results
+        end
+      end
+
+      if ext_hr_airloop
+        runner.registerInfo("Altering availability schedule for air loops serving selected zones.")
+        air_loops.uniq.each do |air_loop|
+          sch = air_loop.availabilitySchedule
+          if sch.to_ScheduleRuleset.is_initialized
+            sch = sch.clone.to_ScheduleRuleset.get
+            air_loop.setAvailabilitySchedule(sch)
+            OsLib_FDD_hvac.addnewscheduleruleset_alt(sch, start_month, end_month, dayofweek)
+          end
         end
       end
 

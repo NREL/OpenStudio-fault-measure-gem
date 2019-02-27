@@ -8,7 +8,7 @@
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
 require "#{File.dirname(__FILE__)}/resources/transfercurveparameters"
-require "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdx_CAF"
+require "#{File.dirname(__FILE__)}/resources/faultcalculationcoilcoolingdx_CFD"
 require "#{File.dirname(__FILE__)}/resources/faultdefinitions"
 require "#{File.dirname(__FILE__)}/resources/misc_eplus_func"
 
@@ -352,11 +352,11 @@ class CondenserFanDegradation < OpenStudio::Ruleset::WorkspaceUserScript
     # write the EMS subroutines
     ##################################################
     if coiltype == 1 #SINGLESPEED
-      string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'EIR', eir_para, $faultnow, coiltype, [], 11)
+      string_objects, workspace = general_adjust_function_cfd(workspace, coil_choice, string_objects, coilcooling, 'EIR', eir_para, $faultnow, coiltype, [], 11)
     elsif coiltype == 2 #TWOSTAGEWITHHUMIDITYCONTROLMODE
       coilperformancedxcoolings = workspace.getObjectsByType(coilcooling.getString(8).to_s.to_IddObjectType)
       coilperformancedxcoolings.each do |coilperformancedxcooling|
-        string_objects, workspace = general_adjust_function(workspace, coil_choice, string_objects, coilcooling, 'EIR', eir_para, $faultnow, coiltype, coilperformancedxcooling, 8)
+        string_objects, workspace = general_adjust_function_cfd(workspace, coil_choice, string_objects, coilcooling, 'EIR', eir_para, $faultnow, coiltype, coilperformancedxcooling, 8)
       end
     end
 

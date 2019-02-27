@@ -1,0 +1,77 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>duct_leakage_through_zone_hvac_air_distribution_unit</name>
+  <uid>1bd982b9-ff11-4960-a75e-7421a5a08d47</uid>
+  <version_id>9091f946-fca1-4cc0-b6c9-11591fff0d15</version_id>
+  <version_modified>20180405T205437Z</version_modified>
+  <xml_checksum>CE45555F</xml_checksum>
+  <class_name>DuctLeakageThroughZoneHVACAirDistributionUnit</class_name>
+  <display_name>Duct Leakage through ZoneHVACAirDistributionUnit</display_name>
+  <description>Simulate supply air duct leakage from VAV into Return Plenum.</description>
+  <modeler_description>This simple measure finds all ZoneHVAC:AirDistributionUnit objects and sets the upstream and downstream nominal leakage fraction to a user specified value</modeler_description>
+  <arguments>
+    <argument>
+      <name>upstream_fraction</name>
+      <display_name>Upstream nominal leakage fraction</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>downstream_fraction</name>
+      <display_name>Downstream nominal leakage fraction</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Distribution</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.4.1</identifier>
+        <min_compatible>2.4.1</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>C0EBE23A</checksum>
+    </file>
+    <file>
+      <filename>duct_leakage_through_zone_hvac_air_distribution_unit_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>D447BDEB</checksum>
+    </file>
+    <file>
+      <filename>in.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>7C351D20</checksum>
+    </file>
+  </files>
+</measure>
