@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>thermostat_bias</name>
   <uid>e359373a-ea8b-459d-a4c0-e2e8ae78b840</uid>
-  <version_id>b11fdb8b-8355-4c99-90da-40590c4df040</version_id>
-  <version_modified>20190131T190644Z</version_modified>
+  <version_id>b440082a-77f7-4bf3-95c3-9410fe238654</version_id>
+  <version_modified>20190306T224822Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ThermostatBias</class_name>
   <display_name>Thermostat Measurement Bias</display_name>
-  <description>Drift of the thermostat temperature sensor over time can lead to increased energy use and/or reduced occupant comfort. This measure simulates a biased thermostat by modifying the Schedule:Compact object in EnergyPlus assigned to heating and cooling set points. The fault intensity (F) for this fault is defined as the thermostat measurement bias (K), which is also specified as one of the inputs.</description>
-  <modeler_description>Four user inputs are required and, based on these user inputs, the original (non-faulted) heating and cooling set point schedules in the building model will be replaced with a biased temperature set point by the equation below. If the reading of the thermostat is biased with +1oC, the actual space temperature should be maintained 1oC lower than the reading. Thus, the set point for the space is corrected by subtracting the original set point from the biased level. T_(stpt,heat,F)=T_(stpt,heat)-F / T_(stpt,cool,F)=T_(stpt,cool)-F</modeler_description>
+  <description>Drift of the thermostat temperature sensor over time can lead to increased energy use and/or reduced occupant comfort. This fault is categorized as a fault that occur in the indoor thermostats (sensor) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates a biased thermostat by modifying the Schedule:Compact object in EnergyPlus assigned to heating and cooling set points. The fault intensity (F) is defined as the thermostat measurement bias (K). A positive number means that the sensor is reading a temperature higher than the true temperature.</description>
+  <modeler_description>Seven user inputs are required and, based on these user inputs, the original (non-faulted) heating and cooling set point schedules in the building model will be replaced with a biased temperature set point by the equation below. If the reading of the thermostat is biased with +1C, the actual space temperature should be maintained 1C lower than the reading. Thus, the set point for the space is corrected by subtracting the original set point from the biased level. T_(stpt,heat,F)=T_(stpt,heat)-F / T_(stpt,cool,F)=T_(stpt,cool)-F. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
       <name>zone</name>
@@ -107,14 +107,6 @@
       <default_value>1</default_value>
     </argument>
     <argument>
-      <name>start_time</name>
-      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
-    </argument>
-    <argument>
       <name>end_month</name>
       <display_name>Fault active end month</display_name>
       <type>Choice</type>
@@ -180,14 +172,6 @@
       <model_dependent>false</model_dependent>
       <default_value>31</default_value>
     </argument>
-    <argument>
-      <name>end_time</name>
-      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
-      <type>Double</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>23</default_value>
-    </argument>
   </arguments>
   <outputs/>
   <provenances/>
@@ -238,6 +222,12 @@
       <checksum>AC509FB1</checksum>
     </file>
     <file>
+      <filename>faultimplementation_TB.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>1F550A11</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
@@ -246,13 +236,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>5BB1C988</checksum>
-    </file>
-    <file>
-      <filename>faultimplementation_TB.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>1F550A11</checksum>
+      <checksum>5321C161</checksum>
     </file>
   </files>
 </measure>

@@ -110,7 +110,7 @@ class HVACSetbackErrorEarlyTermination < OpenStudio::Ruleset::ModelUserScript
     end
 
     # get inputs
-    ext_hr = runner.getDoubleArgumentValue('ext_hr', user_arguments)
+    ext_hr = runner.getDoubleArgumentValue('ext_hr', user_arguments)*(-1)
     ext_hr_airloop = runner.getBoolArgumentValue('ext_hr_airloop', user_arguments)
     air_loops = []
 

@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fan_degradation</name>
   <uid>78fd31ab-ff52-4260-b680-c2c75dfd31dc</uid>
-  <version_id>2432c090-264d-4718-8664-a264eb3c4e6f</version_id>
-  <version_modified>20190131T190640Z</version_modified>
+  <version_id>4e573164-7a79-4212-a97b-fd901345c508</version_id>
+  <version_modified>20190306T224821Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFanDegradation</class_name>
   <display_name>Condenser Fan Degradation</display_name>
-  <description>Motor efficiency degrades when a motor suffers from a bearing or a stator winding fault. This fault causes the motor to draw higher electrical current without changing the fluid flow. Both a bearing fault and a stator winding fault can be modeled by increasing the power consumption of the condenser fan without changing the airflow of the condenser fan. This measure simulates the condenser fan degradation by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the reduction in motor efficiency as a fraction of the non-faulted motor efficiency.</description>
-  <modeler_description>Three user inputs are required and, based on these user inputs, the EIR in the DX cooling coil model is recalculated to reflect the faulted operation as shown in the equation below, where EIRF is the faulted EIR, W ̇_fan is the fan power, W ̇_cool is the DX  coil power, and F is the fault intensity. EIR_F/EIR=1+(W ̇_fan/W ̇_cool)*(F/(1-F)). This fault model also requires the ratio of condenser fan power to the power consumption of compressor and condenser fan as a user input parameter.</modeler_description>
+  <description>Motor efficiency degrades when a motor suffers from a bearing or a stator winding fault. This fault causes the motor to draw higher electrical current without changing the fluid flow. Both a bearing fault and a stator winding fault can be modeled by increasing the power consumption of the condenser fan without changing the airflow of the condenser fan. This fault is categorized as a fault that occur in the vapor compression system during the operation stage. This fault measure is based on an empirical model and simulates the condenser fan degradation by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) is defined as the reduction in motor efficiency as a fraction of the non-faulted motor efficiency with the application range of 0 to 0.3 (30% degradation).</description>
+  <modeler_description>Three user inputs are required and, based on these user inputs, the EIR in the DX cooling coil model is recalculated to reflect the faulted operation as shown in the equation below, EIR_F/EIR=1+(W ̇_fan/W ̇_cool)*(F/(1-F)), where EIR_F is the faulted EIR, W ̇_fan is the fan power, W ̇_cool is the DX  coil power, and F is the fault intensity. This fault model also requires the ratio of condenser fan power to the power consumption of compressor and condenser fan as a user input parameter.</modeler_description>
   <arguments>
     <argument>
       <name>coil_choice</name>
@@ -132,18 +132,6 @@
       <checksum>627EF985</checksum>
     </file>
     <file>
-      <filename>FaultDefinitions.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6230C9E3</checksum>
-    </file>
-    <file>
-      <filename>faultdefinitions.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6230C9E3</checksum>
-    </file>
-    <file>
       <filename>transfercurveparameters.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -156,6 +144,18 @@
       <checksum>435C6B82</checksum>
     </file>
     <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>9DC8C074</checksum>
+    </file>
+    <file>
+      <filename>faultdefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>9DC8C074</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -164,13 +164,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>EF455258</checksum>
+      <checksum>8C074B72</checksum>
     </file>
     <file>
       <filename>faultcalculationcoilcoolingdx_CFD.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>E179779E</checksum>
+      <checksum>AC1E90A3</checksum>
     </file>
   </files>
 </measure>

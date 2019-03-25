@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>lighting_setback_error_early_termination</name>
   <uid>4068e01b-f572-4805-9d49-a5067c5246ff</uid>
-  <version_id>1c548025-bd16-438a-9f69-25cddc53dc45</version_id>
-  <version_modified>20190131T231459Z</version_modified>
+  <version_id>d2bf6d37-5cb6-4303-8802-5d1d717df5b4</version_id>
+  <version_modified>20190306T230535Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>LightingSetbackErrorEarlyTermination</class_name>
   <display_name>Lighting Setback Error: Early Termination</display_name>
@@ -242,17 +242,6 @@
       <checksum>AC509FB1</checksum>
     </file>
     <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>1.4.0</identifier>
-        <min_compatible>2.5.0</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>3BD44289</checksum>
-    </file>
-    <file>
       <filename>misc_run_week_extmorninghr.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -263,6 +252,17 @@
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>E4CBEA96</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.4.0</identifier>
+        <min_compatible>2.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>168C6198</checksum>
     </file>
   </files>
 </measure>
