@@ -99,7 +99,7 @@ class CondenserFouling < OpenStudio::Ruleset::WorkspaceUserScript
     # the form of the model is
     # RATIO = 1 + FaultLevel*(a1+a2*Tdb,i+a3*Twb,i+a4*Tc,i+a5*FaultLevel+a6*FaultLevel*FaultLevel+a7*(Rated COP))
 
-    # undercharging model
+    # regression model coefficients
     args = enter_coefficients(args, $q_para_num, "Q_#{$faultnow}", [-2.216200, 5.631500, -3.119900, 0.224920, -0.762450, -0.072843], '')
     args = enter_coefficients(args, $eir_para_num, "EIR_#{$faultnow}", [-5.980600, 0.947900, 4.381600, -1.066700, 2.914200, 0.090476], '')
 

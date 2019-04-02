@@ -100,7 +100,7 @@ class PresenceOfNonCondensable < OpenStudio::Ruleset::WorkspaceUserScript
     # the form of the model is
     # RATIO = 1 + FaultLevel*(a1+a2*Tdb,i+a3*Twb,i+a4*Tc,i+a5*FaultLevel+a6*FaultLevel*FaultLevel+a7*(Rated COP))
 
-    # undercharging model
+    # regression model coefficients
     args = enter_coefficients(args, $q_para_num, "Q_#{$faultnow}", [-1.952000, 3.894600, -1.668500, -0.044405, -0.015189, -0.062296], '')
     args = enter_coefficients(args, $eir_para_num, "EIR_#{$faultnow}", [2.464800, -3.189800, 1.058200, 0.040316, -0.000329, -0.038164], '')
 

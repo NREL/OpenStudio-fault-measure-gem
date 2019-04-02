@@ -99,7 +99,7 @@ class LiquidLineRestriction < OpenStudio::Ruleset::WorkspaceUserScript
     # the form of the model is
     # RATIO = 1 + FaultLevel*(a1+a2*Tdb,i+a3*Twb,i+a4*Tc,i+a5*FaultLevel+a6*FaultLevel*FaultLevel+a7*(Rated COP))
 
-    # undercharging model
+    # regression model coefficients
     args = enter_coefficients(args, $q_para_num, "Q_#{$faultnow}", [-1.020500, -3.289900, 3.660000, -1.911800, 0.031398, 0.064409], '')
     args = enter_coefficients(args, $eir_para_num, "EIR_#{$faultnow}", [1.403100, 3.792200, -5.343000, 3.022900, 1.697900, 0.121590], '')
 

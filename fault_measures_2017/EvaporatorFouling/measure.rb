@@ -97,7 +97,7 @@ class EvaporatorFouling < OpenStudio::Ruleset::WorkspaceUserScript
     # the form of the model is
     # RATIO = 1 + FaultLevel*(a1+a2*Tdb,i+a3*Twb,i+a4*Tc,i+a5*FaultLevel+a6*FaultLevel*FaultLevel+a7*(Rated COP))
 
-    # undercharging model
+    # regression model coefficients
     args = enter_coefficients(args, $q_para_num, "Q_#{$faultnow}", [-1.680856, 1.955241, 0.013734, 1.944498, -0.958203, -0.367406], '')
     args = enter_coefficients(args, $eir_para_num, "EIR_#{$faultnow}", [1.075997, -1.609711, 0.054396, -1.58432, 0.803225, 0.356159], '')
 
