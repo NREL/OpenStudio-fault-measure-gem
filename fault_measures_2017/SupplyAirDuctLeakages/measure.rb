@@ -7,6 +7,8 @@
 # see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
+$allchoices = '* ALL ADU objects *'
+
 # start the measure
 class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
@@ -28,8 +30,8 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
 
-    ##################################################
     list = OpenStudio::StringVector.new
+	list << $allchoices
     atsdus = workspace.getObjectsByType("AirTerminal:SingleDuct:Uncontrolled".to_IddObjectType)
     atsdus.each do |atsdu|
       list << atsdu.name.to_s
@@ -88,7 +90,6 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     airterminal_choice.setDisplayName("Select the name of the faulted AirTerminal object")
     airterminal_choice.setDefaultValue(list[0].to_s)
     args << airterminal_choice
-    ##################################################
 
     # make a double argument for the leakage ratio
     leak_ratio = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('leak_ratio', false)
@@ -138,29 +139,6 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
           defaultflow = airterminal.getString(3).to_s  # can be "Autosize" so leave it as string
           # change the equipment list object type and names under AirTerminal:SingleDuct:Uncontrolled
           newaduname = "ADU #{sh_airterminal_choice}"
-          
-          #############################################################################################          
-          #equiplistchange = false
-          #equiplists = workspace.getObjectsByType('ZoneHVAC:EquipmentList'.to_IddObjectType)
-          #equiplists.each do |equiplist|
-          #  equiplistfields = equiplist.numFields
-          #  (1..(equiplistfields - 1)).each do |ind|
-          #    if equiplist.getString(ind).to_s.eql?(airterminal_choice)
-          #      equiplist.setString(ind, newaduname)
-          #      equiplist.setString(ind - 1, 'ZoneHVAC:AirDistributionUnit')
-          #      equiplistchange = true
-          #      break
-          #    end
-          #  end
-          #  if equiplistchange
-          #    break
-          #  end
-          #end
-          #unless equiplistchange
-          #  runner.registerError("Measure SupplyAirDuctLeakages cannot find the ZoneHVAC:EquipmentList that contains #{airterminal_choice}. Exiting......")
-          #  return false
-          #end
-          #############################################################################################
           
           # change the AirLoopHVAC:ZoneSplitter object with new node name
           newnodename = "NodeIn#{sh_airterminal_choice}"  # name of node between the new terminal and the ZoneSplitter object
@@ -224,19 +202,10 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
               runner.registerError("#{string_object} inserted unsuccessfully. Exiting......")
               return false
             end
-          end
-          
-          #############################################################################################
-          #string_objects = []
-          ## remove the AirTerminal:SingleDuct:Uncontrolled object
-          #airterminal.remove
-          #break
-          #############################################################################################
-          
+          end          
         end
       end
       
-      #############################################################################################
       airterminals.each do |airterminal|
         if airterminal.getString(0).to_s.eql?(airterminal_choice)
       
@@ -269,65 +238,93 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
           break
         end
       end
-      #############################################################################################
 
       # find the AirTerminal object to change
       airterminal_changed = false
       adu_changed = false
       ratio_set = false
-      zonemixer_changed = false
-      retpath_changed = false
       retplen_found = false
       field_num = 0
-      zonename = ''
       existing_airterminals = []
       airterminaltypes = [
         'AirTerminal:DualDuct:ConstantVolume', 'AirTerminal:DualDuct:VAV', 'AirTerminal:DualDuct:VAV:OutdoorAir', 'AirTerminal:SingleDuct:ConstantVolume:Reheat', 'AirTerminal:SingleDuct:VAV:Reheat', 'AirTerminal:SingleDuct:VAV:NoReheat', 'AirTerminal:SingleDuct:SeriesPIU:Reheat', 'AirTerminal:SingleDuct:ParallelPIU:Reheat', 'AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction',  'AirTerminal:SingleDuct:VAV:Reheat:VariableSpeedFan', 'AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat', 'AirTerminal:SingleDuct:VAV:HeatAndCool:NoReheat'
       ] # AirTerminal:SingleDuct:Uncontrolled requires insertion of of ZoneHVAC:AirDistributionUnit. Do it later.
-      airterminaltypes.each do |airterminaltype|
-        airterminals = workspace.getObjectsByType(airterminaltype.to_IddObjectType)
-        airterminals.each do |airterminal|
-          # check if the names are equal
-          if airterminal.getString(0).to_s.eql?(airterminal_choice)
-            # find the airterminal
-            airterminal_changed = true
+	  
+	  if airterminal_choice.eql?($allchoices)
+	  	
+	    # get all thermal zones in the starting model
+        adus = workspace.getObjectsByType("ZoneHVAC:AirDistributionUnit".to_IddObjectType)
 
-            # locate the ZoneHVAC:AirDistributionUnit to add the leakage ratio
-            adus = workspace.getObjectsByType('ZoneHVAC:AirDistributionUnit'.to_IddObjectType)
-            adus.each do |adu|
-              if adu.getString(2).to_s.eql?(airterminaltype) && adu.getString(3).to_s.eql?(airterminal_choice)
-                adu_changed = true
-                # continue to check if a Return Plenum is available for the duct to leak before imposing fault
-                equiplists = workspace.getObjectsByType('ZoneHVAC:EquipmentList'.to_IddObjectType)
-                aduname = adu.getString(0).to_s
-                equiplists.each do |equiplist|
-                  equiplistfields = equiplist.numFields
-                  (1..(equiplistfields - 1)).each do |ind|
-                    if equiplist.getString(ind).to_s.eql?(aduname)
-                      equiplistname = equiplist.getString(0).to_s
-                      equipconns = workspace.getObjectsByType('ZoneHVAC:EquipmentConnections'.to_IddObjectType)
-                      equipconns.each do |equipconn|
-                        if equipconn.getString(1).to_s.eql?(equiplistname)
-                          # zone located
-                          zoneoutnode = equipconn.getString(5).to_s
-                          # find the related AirLoopHVAC:ReturnPlenum object
-                          returnplenums = workspace.getObjectsByType('AirLoopHVAC:ReturnPlenum'.to_IddObjectType)
-                          returnplenums.each do |returnplenum|
+        # reporting initial condition of model
+        runner.registerInitialCondition("Total of #{adus.size} Air Distribution Unit objects detected..")
 
-                            # this adds support for plenums serving more than 1 zone
-                            (returnplenum.numFields - 5).times do |i|
-                              if returnplenum.getString(5 + i).to_s.eql?(zoneoutnode)  # check if they are connected
-                                retplen_found = true
-                                break
+        # set upstream and downstream
+        adus.each do |adu|
+          runner.registerInfo("Setting duct leakge for #{adu.getString(0)}")
+		  ori_leak_ratio = adu.getDouble(5)
+          field_num = adu.numFields
+          if ori_leak_ratio
+			leak_ratio = ori_leak_ratio.to_f + (1-ori_leak_ratio.to_f)*leak_ratio  # if the AirTerminal is leakage in the original model, recalculate the appropriate leak ratio.
+          end
+		  ratio_set = adu.setDouble(5, leak_ratio)
+          upstreamleakratio = adu.getDouble(4)
+          if !upstreamleakratio  # give a small value to make sure that the algorithm runs
+            adu.setDouble(4, 0.00001)
+          elsif upstreamleakratio.to_f < 0.00001
+            adu.setDouble(4, 0.00001)
+          end
+        end
+		airterminal_changed = true
+		adu_changed = true
+	  else
+	    airterminaltypes.each do |airterminaltype|
+          airterminals = workspace.getObjectsByType(airterminaltype.to_IddObjectType)
+          airterminals.each do |airterminal|
+            # check if the names are equal
+            if airterminal.getString(0).to_s.eql?(airterminal_choice)
+              # find the airterminal
+              airterminal_changed = true
+
+              # locate the ZoneHVAC:AirDistributionUnit to add the leakage ratio
+              adus = workspace.getObjectsByType('ZoneHVAC:AirDistributionUnit'.to_IddObjectType)
+              adus.each do |adu|
+                if adu.getString(2).to_s.eql?(airterminaltype) && adu.getString(3).to_s.eql?(airterminal_choice)
+                  adu_changed = true
+                  # continue to check if a Return Plenum is available for the duct to leak before imposing fault
+                  equiplists = workspace.getObjectsByType('ZoneHVAC:EquipmentList'.to_IddObjectType)
+                  aduname = adu.getString(0).to_s
+                  equiplists.each do |equiplist|
+                    equiplistfields = equiplist.numFields
+                    (1..(equiplistfields - 1)).each do |ind|
+                      if equiplist.getString(ind).to_s.eql?(aduname)
+                        equiplistname = equiplist.getString(0).to_s
+                        equipconns = workspace.getObjectsByType('ZoneHVAC:EquipmentConnections'.to_IddObjectType)
+                        equipconns.each do |equipconn|
+                          if equipconn.getString(1).to_s.eql?(equiplistname)
+                            # zone located
+                            zoneoutnode = equipconn.getString(5).to_s
+                            # find the related AirLoopHVAC:ReturnPlenum object
+                            returnplenums = workspace.getObjectsByType('AirLoopHVAC:ReturnPlenum'.to_IddObjectType)
+                            returnplenums.each do |returnplenum|
+
+                              # this adds support for plenums serving more than 1 zone
+                              (returnplenum.numFields - 5).times do |i|
+                                if returnplenum.getString(5 + i).to_s.eql?(zoneoutnode)  # check if they are connected
+                                  retplen_found = true
+                                  break
+                                end
                               end
-                            end
 
-                          end
-                          if retplen_found
+                            end
+                            if retplen_found
+                              break
+                            end
                             break
                           end
-                          break
                         end
+                      end
+                      if retplen_found
+                        break
                       end
                     end
                     if retplen_found
@@ -335,39 +332,36 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
                     end
                   end
                   if retplen_found
+                    # set or modify the original leakage ratio
+                    ori_leak_ratio = adu.getDouble(5)
+                    field_num = adu.numFields
+                    if ori_leak_ratio
+                      leak_ratio = ori_leak_ratio.to_f + (1-ori_leak_ratio.to_f)*leak_ratio  # if the AirTerminal is leakage in the original model, recalculate the appropriate leak ratio.
+                    end
+                    ratio_set = adu.setDouble(5, leak_ratio)
+                    upstreamleakratio = adu.getDouble(4)
+                    if !upstreamleakratio  # give a small value to make sure that the algorithm runs
+                      adu.setDouble(4, 0.00001)
+                    elsif upstreamleakratio.to_f < 0.00001
+                      adu.setDouble(4, 0.00001)
+                    end
                     break
+                  else
+                    runner.registerAsNotApplicable("#{airterminal_choice} cannot leak because there are no return plenums for it to leak its airflow. Skipping......")
+                    return true
                   end
-                end
-                if retplen_found
-                  # set or modify the original leakage ratio
-                  ori_leak_ratio = adu.getDouble(5)
-                  field_num = adu.numFields
-                  if ori_leak_ratio
-                    leak_ratio = 1.0 - (1.0 - ori_leak_ratio.to_f) * (1.0 - leak_ratio)  # if the AirTerminal is leakage in the original model, recalculate the appropriate leak ratio
-                  end
-                  ratio_set = adu.setDouble(5, leak_ratio)
-                  upstreamleakratio = adu.getDouble(4)
-                  if !upstreamleakratio  # give a small value to make sure that the algorithm runs
-                    adu.setDouble(4, 0.00001)
-                  elsif upstreamleakratio.to_f < 0.00001
-                    adu.setDouble(4, 0.00001)
-                  end
-                  break
-                else
-                  runner.registerAsNotApplicable("#{airterminal_choice} cannot leak because there are no return plenums for it to leak its airflow. Skipping......")
-                  return true
                 end
               end
+            else
+              existing_airterminals << airterminal.getString(0).to_s
             end
-          else
-            existing_airterminals << airterminal.getString(0).to_s
+            if airterminal_changed
+              break
+            end
           end
           if airterminal_changed
             break
           end
-        end
-        if airterminal_changed
-          break
         end
       end
 

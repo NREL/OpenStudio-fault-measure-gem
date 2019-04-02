@@ -75,10 +75,10 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
     ##################################################
 	
     #make an argument for excessive sizing
-    sizing_increase_percent = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("sizing_increase_percent",true)
-    sizing_increase_percent.setDisplayName("Sizing Increase (between 0-50%).")
-    sizing_increase_percent.setDefaultValue(10.0)
-    args << sizing_increase_percent	
+    sizing_increase_ratio = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("sizing_increase_ratio",true)
+    sizing_increase_ratio.setDisplayName("Sizing Increase Ratio (between 0-1).")
+    sizing_increase_ratio.setDefaultValue(0.1)
+    args << sizing_increase_ratio	
     
     return args
   end #end the arguments method
@@ -93,7 +93,7 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
     end
     
     coil_choice = runner.getStringArgumentValue('coil_choice', user_arguments)
-    sizing_increase_percent = runner.getDoubleArgumentValue('sizing_increase_percent', user_arguments)
+    sizing_increase_ratio = runner.getDoubleArgumentValue('sizing_increase_ratio', user_arguments)
 	
     #Initial Condition
     if coil_choice.eql?($all_coil_selection)
@@ -103,11 +103,11 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
     end
 	
     #Input check
-    if sizing_increase_percent < 0.0 || sizing_increase_percent > 50.0
-      runner.registerError("Fault intensity #{sizing_increase_percent} is defined outside the range from 0 to 50%. Exiting......")
+    if sizing_increase_ratio < 0.0 || sizing_increase_ratio > 0.5
+      runner.registerError("Fault intensity #{sizing_increase_ratio} is defined outside the range from 0 to 50%. Exiting......")
       return false
-    elsif sizing_increase_percent.abs < 0.001
-      runner.registerAsNotApplicable("Fault intensity #{sizing_increase_percent} is defined too small. Skipping......")
+    elsif sizing_increase_ratio.abs < 0.001
+      runner.registerAsNotApplicable("Fault intensity #{sizing_increase_ratio} is defined too small. Skipping......")
       return true
     end
 	
@@ -123,7 +123,7 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
     coilheatinggass = model.getCoilHeatingGass
     coilheatingelectrics = model.getCoilHeatingElectrics
     
-    def changeratedcapacity1(objects, objectname, sizing_increase_percent, runner)
+    def changeratedcapacity1(objects, objectname, sizing_increase_ratio, runner)
       #works for
       #CoilCoolingDXSingleSpeed
       #CoilCoolingDXVariableRefrigerantFlow
@@ -135,14 +135,12 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
 	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) is autosized, skipping..")
 	  else
 	    value_before_cap = object.ratedTotalCoolingCapacity.to_f
-	    #value_before_flow = object.ratedAirFlowRate.to_f
-	    value_after_cap = value_before_cap + value_before_cap*sizing_increase_percent/100
-	    #value_after_flow = value_before_flow + value_before_flow*sizing_increase_percent/100
+	    value_after_cap = value_before_cap + value_before_cap*sizing_increase_ratio
 		  
 	    object.setRatedTotalCoolingCapacity(value_after_cap)
 	    #object.setRatedAirFlowRate(value_after_flow)
 		  
-	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_percent.round(0)}% increase).") 
+	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_ratio.round(0)*100}% increase).") 
 	  end
 	else
 	  next
@@ -150,7 +148,7 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
       end
     end
 	
-    def changeratedcapacity2(objects, objectname, sizing_increase_percent, runner)
+    def changeratedcapacity2(objects, objectname, sizing_increase_ratio, runner)
       #works for
       #CoilCoolingDXTwoStageWithHumidityControlMode (CoilPerformanceDXCooling)
 	  
@@ -163,14 +161,11 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
 	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) is autosized, skipping..")
 	  else
 	    value_before_cap = perf.grossRatedTotalCoolingCapacity.to_f
-	    #value_before_flow = perf.ratedAirFlowRate.to_f
-	    value_after_cap = value_before_cap + value_before_cap*sizing_increase_percent/100
-	    #value_after_flow = value_before_flow + value_before_flow*sizing_increase_percent/100
+	    value_after_cap = value_before_cap + value_before_cap*sizing_increase_ratio
 		  
 	    perf.setGrossRatedTotalCoolingCapacity(value_after_cap)
-	    #perf.setRatedAirFlowRate(value_after_flow)
 		  
-	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_percent.round(0)}% increase).")
+	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_ratio.round(0)*100}% increase).")
 	  end
 	else
 	  next
@@ -178,7 +173,7 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
       end
     end
 	
-    def changeratedcapacity3(objects, objectname, sizing_increase_percent, runner) 
+    def changeratedcapacity3(objects, objectname, sizing_increase_ratio, runner) 
       #works for
       #CoilCoolingDXTwoSpeed
 	  
@@ -190,33 +185,27 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
 	    runner.registerInfo("Capacity of coil (#{object.name.to_s}_high) is autosized, skipping..")
 			
 	    value_before_cap2 = object.ratedLowSpeedTotalCoolingCapacity.to_f
-	    value_after_cap2 = value_before_cap2 + value_before_cap2*sizing_increase_percent/100
+	    value_after_cap2 = value_before_cap2 + value_before_cap2*sizing_increase_ratio
 			
-	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap2.round(2)} W to #{value_after_cap2.round(2)} W (low) (#{sizing_increase_percent.round(0)}% increase).")
+	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap2.round(2)} W to #{value_after_cap2.round(2)} W (low) (#{sizing_increase_ratio.round(0)*100}% increase).")
 	  elsif autosized2
 	    runner.registerInfo("Capacity of coil (#{object.name.to_s}_low) is autosized, skipping..")
 			
             value_before_cap1 = object.ratedHighSpeedTotalCoolingCapacity.to_f
-	    value_after_cap1 = value_before_cap1 + value_before_cap1*sizing_increase_percent/100
+	    value_after_cap1 = value_before_cap1 + value_before_cap1*sizing_increase_ratio
 			
-	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap1.round(2)} W to #{value_after_cap1.round(2)} W (high) (#{sizing_increase_percent.round(0)}% increase).")
+	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap1.round(2)} W to #{value_after_cap1.round(2)} W (high) (#{sizing_increase_ratio.round(0)*100}% increase).")
 	  else
 	    value_before_cap1 = object.ratedHighSpeedTotalCoolingCapacity.to_f
-	    #value_before_flow1 = object.ratedHighSpeedAirFlowRate.to_f
-	    value_after_cap1 = value_before_cap1 + value_before_cap1*sizing_increase_percent/100
-	    #value_after_flow1 = value_before_flow1 + value_before_flow1*sizing_increase_percent/100
+	    value_after_cap1 = value_before_cap1 + value_before_cap1*sizing_increase_ratio
 		  
 	    value_before_cap2 = object.ratedLowSpeedTotalCoolingCapacity.to_f
-	    #value_before_flow2 = object.ratedLowSpeedAirFlowRate.to_f
-	    value_after_cap2 = value_before_cap2 + value_before_cap2*sizing_increase_percent/100
-	    #value_after_flow2 = value_before_flow2 + value_before_flow2*sizing_increase_percent/100
+	    value_after_cap2 = value_before_cap2 + value_before_cap2*sizing_increase_ratio
 		  
 	    object.setRatedHighSpeedTotalCoolingCapacity(value_after_cap1)
-	    #object.setRatedHighSpeedAirFlowRate(value_after_flow1)
 	    object.setRatedLowSpeedTotalCoolingCapacity(value_after_cap2)
-	    #object.setRatedLowSpeedAirFlowRate(value_after_flow2)
 		  
-	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap1.round(2)} W to #{value_after_cap1.round(2)} W (high) and from #{value_before_cap2.round(2)} W to #{value_after_cap2.round(2)} W (low) (#{sizing_increase_percent.round(0)}% increase).")
+	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap1.round(2)} W to #{value_after_cap1.round(2)} W (high) and from #{value_before_cap2.round(2)} W to #{value_after_cap2.round(2)} W (low) (#{sizing_increase_ratio.round(0)*100}% increase).")
 	  end 
 	else
 	  next
@@ -224,7 +213,7 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
       end
     end
 	
-    def changeratedcapacity4(objects, objectname, sizing_increase_percent, runner)
+    def changeratedcapacity4(objects, objectname, sizing_increase_ratio, runner)
       #works for
       #CoilHeatingDXVariableRefrigerantFlow
 	  
@@ -235,14 +224,11 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
 	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) is autosized, skipping..")
 	  else
 	    value_before_cap = object.ratedTotalHeatingCapacity.to_f
-	    #value_before_flow = object.ratedAirFlowRate.to_f
-	    value_after_cap = value_before_cap + value_before_cap*sizing_increase_percent/100
-	    #value_after_flow = value_before_flow + value_before_flow*sizing_increase_percent/100
+	    value_after_cap = value_before_cap + value_before_cap*sizing_increase_ratio
 		  
 	    object.setRatedTotalHeatingCapacity(value_after_cap)
-	    #object.setRatedAirFlowRate(value_after_flow)
 		  
-	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_percent.round(0)}% increase).")
+	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_ratio.round(0)*100}% increase).")
 	  end
 	else
 	  next
@@ -250,7 +236,7 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
       end
     end
 	
-    def changeratedcapacity5(objects, objectname, sizing_increase_percent, runner)
+    def changeratedcapacity5(objects, objectname, sizing_increase_ratio, runner)
       #works for
       #CoilHeatingGas
       #CoilHeatingElectric
@@ -262,11 +248,11 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
 	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) is autosized, skipping..")
 	  else
 	    value_before_cap = object.nominalCapacity.to_f
-	    value_after_cap = value_before_cap + value_before_cap*sizing_increase_percent/100
+	    value_after_cap = value_before_cap + value_before_cap*sizing_increase_ratio
 		  
 	    object.setNominalCapacity(value_after_cap)
 		  
-	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_percent.round(0)}% increase).")
+	    runner.registerInfo("Capacity of coil (#{object.name.to_s}) changed from #{value_before_cap.round(2)} W to #{value_after_cap.round(2)} W (#{sizing_increase_ratio.round(0)*100}% increase).")
 	  end
 	else
 	  next
@@ -278,8 +264,8 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
 	  	  
       sizingparameter_h = model.getSizingParameters.heatingSizingFactor
       sizingparameter_c = model.getSizingParameters.coolingSizingFactor  
-      sizingparameter_h_after = sizingparameter_h + sizingparameter_h*sizing_increase_percent/100
-      sizingparameter_c_after = sizingparameter_c + sizingparameter_c*sizing_increase_percent/100
+      sizingparameter_h_after = sizingparameter_h + sizingparameter_h*sizing_increase_ratio
+      sizingparameter_c_after = sizingparameter_c + sizingparameter_c*sizing_increase_ratio
       model.getSizingParameters.setHeatingSizingFactor(sizingparameter_h_after)
       model.getSizingParameters.setCoolingSizingFactor(sizingparameter_c_after)
 	  
@@ -288,31 +274,22 @@ class OversizedEquipmentAtDesign < OpenStudio::Ruleset::ModelUserScript
       straightcomponents = model.getStraightComponents
       straightcomponents.each do |straightcomponent|
 	componentname = straightcomponent.name.to_s
-	changeratedcapacity1(coilcoolingdxsinglespeeds, componentname, sizing_increase_percent, runner)
-	changeratedcapacity1(coilcoolingdxvariablerefrigerantflows, componentname, sizing_increase_percent, runner)
-	changeratedcapacity2(coilcoolingdxtwostagewithhumiditycontrolmodes, componentname, sizing_increase_percent, runner)
-	changeratedcapacity3(coilcoolingdxtwospeeds, componentname, sizing_increase_percent, runner)
-	changeratedcapacity4(coilheatingdxvariablerefrigerantflows, componentname, sizing_increase_percent, runner)
-	changeratedcapacity5(coilheatinggass, componentname, sizing_increase_percent, runner)
-	changeratedcapacity5(coilheatingelectrics, componentname, sizing_increase_percent, runner)
+	changeratedcapacity1(coilcoolingdxsinglespeeds, componentname, sizing_increase_ratio, runner)
+	changeratedcapacity1(coilcoolingdxvariablerefrigerantflows, componentname, sizing_increase_ratio, runner)
+	changeratedcapacity2(coilcoolingdxtwostagewithhumiditycontrolmodes, componentname, sizing_increase_ratio, runner)
+	changeratedcapacity3(coilcoolingdxtwospeeds, componentname, sizing_increase_ratio, runner)
+	changeratedcapacity4(coilheatingdxvariablerefrigerantflows, componentname, sizing_increase_ratio, runner)
+	changeratedcapacity5(coilheatinggass, componentname, sizing_increase_ratio, runner)
+	changeratedcapacity5(coilheatingelectrics, componentname, sizing_increase_ratio, runner)
       end	  
     else
-      # sizingparameter_h = model.getSizingParameters.heatingSizingFactor
-      # sizingparameter_c = model.getSizingParameters.coolingSizingFactor  
-      # sizingparameter_h_after = sizingparameter_h + sizingparameter_h*sizing_increase_percent/100
-      # sizingparameter_c_after = sizingparameter_c + sizingparameter_c*sizing_increase_percent/100
-      # model.getSizingParameters.setHeatingSizingFactor(sizingparameter_h_after)
-      # model.getSizingParameters.setCoolingSizingFactor(sizingparameter_c_after)
-	  
-      # runner.registerInfo("Sizing parameter for heating changed from #{sizingparameter_h.round(2)} --> #{model.getSizingParameters.heatingSizingFactor.round(2)} and for cooling changed from #{sizingparameter_c.round(2)} --> #{model.getSizingParameters.coolingSizingFactor.round(2)}")
-	  
-      changeratedcapacity1(coilcoolingdxsinglespeeds, coil_choice, sizing_increase_percent, runner)
-      changeratedcapacity1(coilcoolingdxvariablerefrigerantflows, coil_choice, sizing_increase_percent, runner)
-      changeratedcapacity2(coilcoolingdxtwostagewithhumiditycontrolmodes, coil_choice, sizing_increase_percent, runner)
-      changeratedcapacity3(coilcoolingdxtwospeeds, coil_choice, sizing_increase_percent, runner)
-      changeratedcapacity4(coilheatingdxvariablerefrigerantflows, coil_choice, sizing_increase_percent, runner)
-      changeratedcapacity5(coilheatinggass, coil_choice, sizing_increase_percent, runner)
-      changeratedcapacity5(coilheatingelectrics, coil_choice, sizing_increase_percent, runner)
+      changeratedcapacity1(coilcoolingdxsinglespeeds, coil_choice, sizing_increase_ratio, runner)
+      changeratedcapacity1(coilcoolingdxvariablerefrigerantflows, coil_choice, sizing_increase_ratio, runner)
+      changeratedcapacity2(coilcoolingdxtwostagewithhumiditycontrolmodes, coil_choice, sizing_increase_ratio, runner)
+      changeratedcapacity3(coilcoolingdxtwospeeds, coil_choice, sizing_increase_ratio, runner)
+      changeratedcapacity4(coilheatingdxvariablerefrigerantflows, coil_choice, sizing_increase_ratio, runner)
+      changeratedcapacity5(coilheatinggass, coil_choice, sizing_increase_ratio, runner)
+      changeratedcapacity5(coilheatingelectrics, coil_choice, sizing_increase_ratio, runner)
     end
 
     #Final Condition

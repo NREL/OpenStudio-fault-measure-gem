@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>liquid_line_restriction</name>
   <uid>7b7c155e-f73d-4805-a285-7750c5c356ae</uid>
-  <version_id>73087739-0c84-43eb-8ac0-5792aa0e8561</version_id>
-  <version_modified>20190306T224821Z</version_modified>
+  <version_id>e92fb158-c540-4fba-9b45-8e2363a83034</version_id>
+  <version_modified>20190402T163024Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>LiquidLineRestriction</class_name>
   <display_name>Liquid-Line Restriction</display_name>
@@ -356,17 +356,6 @@
       <checksum>53C09372</checksum>
     </file>
     <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>1.5.0</identifier>
-        <min_compatible>1.5.0</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>662DA846</checksum>
-    </file>
-    <file>
       <filename>FaultDefinitions.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -377,6 +366,17 @@
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>9DC8C074</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>9646DD3A</checksum>
     </file>
   </files>
 </measure>
