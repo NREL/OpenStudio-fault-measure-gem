@@ -26,12 +26,12 @@ $all_coil_selection = '* ALL Coil Selected *'
 class EvaporatorFouling < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
-    return 'Evaporator Fouling Effect on DX Unit'
+    return 'Evaporator Fouling'
   end
 
   # human readable description
   def description
-    return "Evaporator fouling occurs when the filter upstream of a cooling/evaporator coil is fouled, the duct is improperly designed, the blower speed is too low (e.g., belt slipping or control problem), etc. This fault decreases the evaporator saturation temperature, which decreases overall cooling capacity, sensible heat ratio (SHR), and coefficient of performance. The lower SHR leads to an increased latent load to meet a particular sensible load. This measure simulates evaporator fouling by modifying either Fan:ConstantVolume, Fan:VariableVolume, Fan:OnOff, or Fan:VariableVolume objects in EnergyPlus assigned to the air system. F is the fault intensity defined as the reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate."
+    return "Evaporator fouling occurs when the filter upstream of a cooling/evaporator coil is fouled. This fault decreases the evaporator saturation temperature, which decreases overall cooling capacity, sensible heat ratio (SHR), and coefficient of performance. The lower SHR leads to an increased latent load to meet a particular sensible load. This fault is categorized as a fault that occur in the vapor compression system during the operation stage. This fault measure is based on an empirical model and simulates evaporator fouling by modifying the Coil:Cooling:DX:SingleSpeed or Coil:Cooling:DX:TwoStageWithHumiditycontrolmodes object in EnergyPlus assigned to the heating and cooling system. F is the fault intensity defined as the reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate with the application range of 0 to 0.5 (50% reduction)."
   end
 
   # human readable description of workspace approach
