@@ -2,12 +2,12 @@
   <schema_version>3.0</schema_version>
   <name>evaporator_fouling</name>
   <uid>af77eb6c-c4c6-4990-bc8b-af916215b967</uid>
-  <version_id>ad7761b6-84f5-4020-98f2-d107e4ac448d</version_id>
-  <version_modified>20190402T174944Z</version_modified>
+  <version_id>262c38a1-a2d8-46a1-93f0-3694294c6222</version_id>
+  <version_modified>20190402T175503Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>EvaporatorFouling</class_name>
   <display_name>Evaporator Fouling</display_name>
-  <description>Evaporator fouling occurs when the filter upstream of a cooling/evaporator coil is fouled. This fault decreases the evaporator saturation temperature, which decreases overall cooling capacity, sensible heat ratio (SHR), and coefficient of performance. The lower SHR leads to an increased latent load to meet a particular sensible load. This fault is categorized as a fault that occur in the vapor compression system during the operation stage. This fault measure is based on an empirical model and simulates condenser fouling by modifying the Coil:Cooling:DX:SingleSpeed or Coil:Cooling:DX:TwoStageWithHumiditycontrolmodes object in EnergyPlus assigned to the heating and cooling system. F is the fault intensity defined as the reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate with the application range of 0 to 0.5 (50% reduction).</description>
+  <description>Evaporator fouling occurs when the filter upstream of a cooling/evaporator coil is fouled. This fault decreases the evaporator saturation temperature, which decreases overall cooling capacity, sensible heat ratio (SHR), and coefficient of performance. The lower SHR leads to an increased latent load to meet a particular sensible load. This fault is categorized as a fault that occur in the vapor compression system during the operation stage. This fault measure is based on an empirical model and simulates evaporator fouling by modifying the Coil:Cooling:DX:SingleSpeed or Coil:Cooling:DX:TwoStageWithHumiditycontrolmodes object in EnergyPlus assigned to the heating and cooling system. F is the fault intensity defined as the reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate with the application range of 0 to 0.5 (50% reduction).</description>
   <modeler_description>Thirty two user inputs (DX coil where the fault occurs / reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate / rated cooling capacity / rated sensible heat ratio / rated volumetric flow rate / minimum-maximum evaporator air inlet wet-bulb temperature / minimum-maximum condenser air inlet dry-bulb temperature / minimum/maximum rated COP / percentage change of UA with increase of fault level / time required for fault to reach full level / fault starting month / fault starting date / fault starting time / fault ending month / fault ending date / fault ending time) can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation. The time required for the fault to reach the full level is only required when user wants to model dynamic fault evolution. If dynamic fault evolution is not necessary for the user, it can be defined as zero and the fault intensity will be imposed as a step function with user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose fault intensity based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
@@ -376,7 +376,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>D7C39412</checksum>
+      <checksum>8887D172</checksum>
     </file>
   </files>
 </measure>
