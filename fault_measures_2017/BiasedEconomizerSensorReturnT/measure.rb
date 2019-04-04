@@ -124,7 +124,7 @@ class BiasedEconomizerSensorReturnT < OpenStudio::Ruleset::WorkspaceUserScript
 	time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
 	dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
 	dts.each do |dt|
-	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
+	 #runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
 	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
 	end
 	##################################################

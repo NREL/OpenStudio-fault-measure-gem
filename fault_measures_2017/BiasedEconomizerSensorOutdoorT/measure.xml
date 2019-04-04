@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_oat</name>
   <uid>75ad65c1-1f17-4fa3-be05-13a3bb415fbe</uid>
-  <version_id>d90368fe-2b12-49c9-abaa-9acf9c25d37a</version_id>
-  <version_modified>20190306T224821Z</version_modified>
+  <version_id>78498ae9-0f0b-4187-8e42-6f343fb7c87e</version_id>
+  <version_modified>20190404T161447Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorOAT</class_name>
   <display_name>Biased Economizer Sensor: Outdoor Temperature</display_name>
@@ -117,6 +117,12 @@
       <checksum>435C6B82</checksum>
     </file>
     <file>
+      <filename>ControllerOutdoorAirFlow_T.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>5C205C32</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -125,13 +131,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>D2994827</checksum>
-    </file>
-    <file>
-      <filename>ControllerOutdoorAirFlow_T.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>5C205C32</checksum>
+      <checksum>C60E32A7</checksum>
     </file>
   </files>
 </measure>

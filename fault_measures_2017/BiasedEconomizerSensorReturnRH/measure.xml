@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_rh</name>
   <uid>581a85db-9cee-480f-9e5f-bbf62b217268</uid>
-  <version_id>7a2a0909-e69a-4168-aca3-5d96e151f806</version_id>
-  <version_modified>20190131T190640Z</version_modified>
+  <version_id>2cdf4d3f-d3cb-4b13-a92a-28c7061515c6</version_id>
+  <version_modified>20190404T161448Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnRH</class_name>
   <display_name>Biased Economizer Sensor: Return RH</display_name>
@@ -131,7 +131,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>BEE44322</checksum>
+      <checksum>E8067F0F</checksum>
     </file>
   </files>
 </measure>
