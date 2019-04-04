@@ -27,7 +27,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
   
   # human readable description of modeling approach
   def modeler_description
-    return "The user input of the ratio of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F), where Infil_o is the original value defined in the infiltration object and F is the percentage of excessive infiltration. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
+    return "The user input of the ratio of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F), where Infil_o is the original value defined in the infiltration object and F is the ratio of excessive infiltration. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
   end
 
   #define the arguments that the user will input
@@ -62,15 +62,13 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     thermalzone.setDefaultValue("*Entire Building*") #if no space type is chosen this will run on the entire building
     args << thermalzone
 
-    #make an argument for excessive infiltration percentage
+    #make an argument for excessive infiltration ratio 
     space_infiltration_increase_ratio = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("space_infiltration_increase_ratio",true)
     space_infiltration_increase_ratio.setDisplayName("Ratio of excessive infiltration around the building envelope compared to the non-faulted condition (0-1).")
     space_infiltration_increase_ratio.setDefaultValue(0.2)
     args << space_infiltration_increase_ratio
 	
-	##################################################
     #Parameters for transient fault modeling
-	
 	#make a double argument for the time required for fault to reach full level 
     time_constant = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_constant', false)
     time_constant.setDisplayName('Enter the time required for fault to reach full level [hr]')
@@ -112,7 +110,6 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
     end_time.setDefaultValue(23)  #default is 11pm
     args << end_time
-    ##################################################
 
     return args
   end #end the arguments method
@@ -128,8 +125,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 
     #assign the user inputs to variables
     object = runner.getOptionalWorkspaceObjectChoiceValue("thermalzone",user_arguments,model)		
-    space_infiltration_increase_ratio = runner.getDoubleArgumentValue("space_infiltration_increase_ratio",user_arguments)*100
-	#################################################################################
+    space_infiltration_increase_ratio = runner.getDoubleArgumentValue("space_infiltration_increase_ratio",user_arguments)
     time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments)
 	start_month = runner.getDoubleArgumentValue('start_month',user_arguments)
 	start_date = runner.getDoubleArgumentValue('start_date',user_arguments)
@@ -139,7 +135,6 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 	end_time = runner.getDoubleArgumentValue('end_time',user_arguments)	
 	time_interval = model.getTimestep.numberOfTimestepsPerHour
 	time_step = (1./(time_interval.to_f))	
-	#################################################################################
 
     #check the thermalzone for reasonableness and see if measure should run on space type or on the entire building
     apply_to_building = false
@@ -171,17 +166,17 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
     end
 
     #check the space_infiltration_increase_ratio and for reasonableness
-    if space_infiltration_increase_ratio > 100
-      runner.registerError("Please enter a value less than or equal to 100 for the space infiltration increase percentage.")
+    if space_infiltration_increase_ratio > 1
+      runner.registerError("Please enter a value less than or equal to 100 for the space infiltration increase ratio .")
       return false
     elsif space_infiltration_increase_ratio == 0
       runner.registerInfo("No space infiltration adjustment requested, but some life cycle costs may still be affected.")
-    elsif space_infiltration_increase_ratio < 1 and space_infiltration_increase_ratio > -1
-      runner.registerWarning("A space infiltration increase percentage of #{space_infiltration_increase_ratio} percent is abnormally low.")
-    elsif space_infiltration_increase_ratio > 90
-      runner.registerWarning("A space infiltration increase percentage of #{space_infiltration_increase_ratio} percent is abnormally high.")
+    elsif space_infiltration_increase_ratio < 0.01
+      runner.registerWarning("A space infiltration increase ratio of #{space_infiltration_increase_ratio} is abnormally low.")
+    elsif space_infiltration_increase_ratio > 0.9
+      runner.registerWarning("A space infiltration increase ratio of #{space_infiltration_increase_ratio} is abnormally high.")
     elsif space_infiltration_increase_ratio < 0
-      runner.registerInfo("The requested value for space infiltration increase percentage was negative. This will result in a reduction in space infiltration.")
+      runner.registerInfo("The requested value for space infiltration increase ratio was negative. This will result in a reduction in space infiltration.")
     end
 
     #get space infiltration objects used in the model
@@ -198,17 +193,14 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       runner.registerInitialCondition("The initial model did not contain any space infiltration objects.")
     end
 	
-	#################################################################################
 	#create a schedule object to be used in infiltration objects
 	schedule_const = OpenStudio::Model::ScheduleConstant.new(model)	
 	schedule_const.setName("faultlvlsch_#{$faultnow}")
 	schedule_const.setValue(0)
-	#################################################################################
 
     #getting spaces in the model
     spaces = model.getSpaces
  
-	#################################################################################
     #loop through spaces for ZoneInfiltration:DesignFlowRate
     spaces.each do |space|
       space_infiltration_objects = space.spaceInfiltrationDesignFlowRates
@@ -240,7 +232,6 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       end 
 	  
     end 
-    #################################################################################
     #loop through spaces for ZoneInfiltration:EffectiveLeakageArea
     spaces.each do |space|
       space_infiltration_ela_objects = space.spaceInfiltrationEffectiveLeakageAreas
@@ -273,7 +264,6 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
 		  
       end 
     end
-    #################################################################################
 	
     #report final condition
     runner.registerFinalCondition("#{altered_instances} space infiltration objects in the model were altered.")
