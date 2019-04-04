@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>excessive_infiltration</name>
   <uid>d8161857-8b77-4e1a-a76c-ae5deab7c1e0</uid>
-  <version_id>460d9cf2-2001-4810-8805-b00df3bed6aa</version_id>
-  <version_modified>20190131T190640Z</version_modified>
+  <version_id>8a183b5a-d429-4e2f-8976-8005cc7a89e9</version_id>
+  <version_modified>20190404T162954Z</version_modified>
   <xml_checksum>EACB548E</xml_checksum>
   <class_name>ExcessiveInfiltration</class_name>
   <display_name>Excessive Infiltration</display_name>
@@ -19,13 +19,13 @@
       <default_value>*Entire Building*</default_value>
       <choices>
         <choice>
-          <value>{599e673f-2070-404e-9513-475423f6d82b}</value>
+          <value>{3e58b2b7-b0c9-4dcf-875d-823542f11d73}</value>
           <display_name>*Entire Building*</display_name>
         </choice>
       </choices>
     </argument>
     <argument>
-      <name>space_infiltration_increase_percent</name>
+      <name>space_infiltration_increase_ratio</name>
       <display_name>Ratio of excessive infiltration around the building envelope compared to the non-faulted condition (0-1).</display_name>
       <type>Double</type>
       <required>true</required>
@@ -116,13 +116,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>A9F721DF</checksum>
+      <checksum>CB194D49</checksum>
     </file>
     <file>
       <filename>faultimplementation_EI.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>F2103B32</checksum>
+      <checksum>6AD759F2</checksum>
     </file>
   </files>
 </measure>
