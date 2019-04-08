@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>excessive_infiltration</name>
   <uid>d8161857-8b77-4e1a-a76c-ae5deab7c1e0</uid>
-  <version_id>8a183b5a-d429-4e2f-8976-8005cc7a89e9</version_id>
-  <version_modified>20190404T162954Z</version_modified>
+  <version_id>65327e01-12f5-4e51-ba86-87541ca43676</version_id>
+  <version_modified>20190404T223504Z</version_modified>
   <xml_checksum>EACB548E</xml_checksum>
   <class_name>ExcessiveInfiltration</class_name>
   <display_name>Excessive Infiltration</display_name>
   <description>Excessive infiltration around the building envelope occurs by the unintentional introduction of outside air into a building, typically through cracks in the building envelope and through use of windows and doors. Infiltration is driven by pressure differences between indoors and outdoors of the building caused by wind and by air buoyancy forces known commonly as the stack effect. Excessive infiltration can affect thermal comfort, indoor air quality, heating and cooling demand, and moisture damage of building envelope components. This fault is categorized as a fault that occur in the building envelope during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates an excessive infiltration by modifying ZoneInfiltration:DesignFlowRate or ZoneInfiltration:EffectiveLeakageArea objects in EnergyPlus. The fault intensity (F) is defined as the ratio of excessive infiltration around the building envelope compared to the non-faulted condition.</description>
-  <modeler_description>The user input of the ratio of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F), where Infil_o is the original value defined in the infiltration object and F is the percentage of excessive infiltration. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
+  <modeler_description>The user input of the ratio of excessive infiltration is applied to one of either four variables (Design Flow Rate, Flow per Zone Floor Area, Flow per Exterior Surface Area, Air Changes per Hour) in ZoneInfiltration:DesignFlowRate object and one variable (Effective Air Leakage Area) in ZoneInfiltration:EffectiveLeakageArea depending on the user’s choice of infiltration implementation method to impose fault over the original (non-faulted) configuration. The modified value (Infil_m) is calculated as Infil_m = Infil_o * (1+F), where Infil_o is the original value defined in the infiltration object and F is the ratio of excessive infiltration. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
       <name>thermalzone</name>
@@ -19,7 +19,7 @@
       <default_value>*Entire Building*</default_value>
       <choices>
         <choice>
-          <value>{3e58b2b7-b0c9-4dcf-875d-823542f11d73}</value>
+          <value>{86354676-f9d3-4613-a777-720c83c708e6}</value>
           <display_name>*Entire Building*</display_name>
         </choice>
       </choices>
@@ -108,6 +108,12 @@
   </attributes>
   <files>
     <file>
+      <filename>faultimplementation_EI.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>6AD759F2</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.0.5</identifier>
@@ -116,13 +122,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>CB194D49</checksum>
-    </file>
-    <file>
-      <filename>faultimplementation_EI.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6AD759F2</checksum>
+      <checksum>C02275BD</checksum>
     </file>
   </files>
 </measure>
