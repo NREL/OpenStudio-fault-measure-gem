@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>excessive_infiltration</name>
   <uid>d8161857-8b77-4e1a-a76c-ae5deab7c1e0</uid>
-  <version_id>65327e01-12f5-4e51-ba86-87541ca43676</version_id>
-  <version_modified>20190404T223504Z</version_modified>
+  <version_id>a6ed76c2-903d-418a-a794-e9daaa1575fd</version_id>
+  <version_modified>20190409T165759Z</version_modified>
   <xml_checksum>EACB548E</xml_checksum>
   <class_name>ExcessiveInfiltration</class_name>
   <display_name>Excessive Infiltration</display_name>
@@ -19,7 +19,7 @@
       <default_value>*Entire Building*</default_value>
       <choices>
         <choice>
-          <value>{86354676-f9d3-4613-a777-720c83c708e6}</value>
+          <value>{b5cb0ce4-9fd2-4890-ad6e-018ec5753c0f}</value>
           <display_name>*Entire Building*</display_name>
         </choice>
       </choices>
@@ -122,7 +122,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>C02275BD</checksum>
+      <checksum>DCD31E42</checksum>
     </file>
   </files>
 </measure>

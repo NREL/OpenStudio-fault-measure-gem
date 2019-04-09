@@ -170,7 +170,7 @@ class ExcessiveInfiltration < OpenStudio::Ruleset::ModelUserScript
       runner.registerError("Please enter a value less than or equal to 100 for the space infiltration increase ratio .")
       return false
     elsif space_infiltration_increase_ratio == 0
-      runner.registerInfo("No space infiltration adjustment requested, but some life cycle costs may still be affected.")
+      runner.registerInfo("No space infiltration adjustment requested.")
     elsif space_infiltration_increase_ratio < 0.01
       runner.registerWarning("A space infiltration increase ratio of #{space_infiltration_increase_ratio} is abnormally low.")
     elsif space_infiltration_increase_ratio > 0.9
