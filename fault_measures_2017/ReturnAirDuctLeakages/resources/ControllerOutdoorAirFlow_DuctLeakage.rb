@@ -198,6 +198,9 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
   if not controlleroutdoorair.getString(19).to_s.eql?("")
     controllermechventilations = workspace.getObjectsByType("Controller:MechanicalVentilation".to_IddObjectType)
     outdoorairspecs = workspace.getObjectsByType("DesignSpecification:OutdoorAir".to_IddObjectType)
+	#####################################################
+	peoples = workspace.getObjectsByType("People".to_IddObjectType)
+	#####################################################
     controllermechventilations.each do |controllermechventilation|
       if controllermechventilation.getString(0).to_s.eql?(controlleroutdoorair.getString(19).to_s)
         vent_num_zone = (controllermechventilation.numFields-5)/3
@@ -223,7 +226,27 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
                   SET ZONE_VOL = "+zone_name+"_VOL_DL, !- NEED INTERNAL VARIABLE FOR ZONE VOLUME
                   SET ZONE_MUL = "+zone_name+"_MUL_DL, !- NEED INTERNAL VARIABLE FOR ZONE MULTIPLIER
                   SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL_DL, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
-                  SET ZONE_PPL = "+zone_name+"_PEOPLE_DL, !- NEED SENSOR FOR ZONE People Occupant Count
+                "
+				#####################################################
+				if peoples.empty?
+				  main_body = main_body+"
+                    SET ZONE_PPL = 0, !- <none>
+				  "
+				else
+				  peoples.each do |people|
+			        if people.getString(1).to_s.eql?(controllermechventilation.getString(4+3*i+1).to_s)
+				      main_body = main_body+"
+                        SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_T, !- NEED SENSOR FOR ZONE People Occupant Count
+				      "
+				    else
+				      main_body = main_body+"
+                        SET ZONE_PPL = 0, !- <none>
+				      "
+				    end
+				  end
+			    end
+				#####################################################
+				main_body = main_body+"
                   SET IND_OA = #{outdoorairspec.getString(2).to_s}, !- Zone occupant flow rate
                   SET IND_OA = IND_OA*ZONE_MUL*ZONE_LIST_MUL*ZONE_PPL, !- <none>
                   SET OA_MECH = OA_MECH+IND_OA*MECH_SCH, !- <none>
@@ -934,15 +957,16 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   if not controlleroutdoorair.getString(19).to_s.eql?("")
     controllermechventilations = workspace.getObjectsByType("Controller:MechanicalVentilation".to_IddObjectType)
     outdoorairspecs = workspace.getObjectsByType("DesignSpecification:OutdoorAir".to_IddObjectType)
+	#####################################################
+	peoples = workspace.getObjectsByType("People".to_IddObjectType)
+	#####################################################
     controllermechventilations.each do |controllermechventilation|
       if controllermechventilation.getString(0).to_s.eql?(controlleroutdoorair.getString(19).to_s)
         vent_num_zone = (controllermechventilation.numFields-5)/3
         for i in 0..vent_num_zone-1  #for each zone
           outdoorairspecs.each do |outdoorairspec|
             
-          #####################################################
 	      oaschedule_name = outdoorairspec.getString(6).to_s
-	      #####################################################
             
             if controllermechventilation.getString(4+3*i+2).to_s.eql?(outdoorairspec.getString(0).to_s)
               zone_name = controllermechventilation.getString(4+3*i+1).to_s
@@ -972,20 +996,25 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
                   "+zone_name+",
                   Zone Floor Area;
               "
-              string_objects << "
-                EnergyManagementSystem:Sensor,
-                  "+zone_name_tag+"_PEOPLE_DL, !- Name
-                  "+zone_name+",                        !- Output:Variable or Output:Meter Index Key Name
-                  Zone People Occupant Count;                !- Output:Variable or Output:Meter Name
-              "
               #####################################################
+              peoples.each do |people|
+			    if people.getString(1).to_s.eql?(zone_name)
+				  people_name = people.getString(0).to_s
+				  string_objects << "
+                    EnergyManagementSystem:Sensor,
+                    "+zone_name_tag+"_PEOPLE#{bias_sensor}_T, !- Name
+                    "+people_name+",                        !- Output:Variable or Output:Meter Index Key Name
+                    Zone People Occupant Count;                !- Output:Variable or Output:Meter Name
+                  "
+				end
+			  end
+			  #####################################################
               string_objects << "
                 EnergyManagementSystem:Sensor,
                   "+zone_name_tag+"_OA_SCH_DL, !- Name
                   "+oaschedule_name+",                        !- Output:Variable or Output:Meter Index Key Name
                   Schedule Value;                !- Output:Variable or Output:Meter Name
               "
-	        #####################################################
             end
           end
         end
