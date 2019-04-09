@@ -106,7 +106,8 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
             else
               # change the maximum flow rate condition with the given fan curve
               delta_P = fan.pressureRise
-              delta_P = delta_P*(1+((1.-coeff[0])*evap_flow_reduction*(evap_flow_reduction-2)))
+              #delta_P = delta_P*(1+((1.-coeff[0])*evap_flow_reduction*(evap_flow_reduction-2)))
+              delta_P = delta_P*(coeff[0]+(1-coeff[0])*(1-evap_flow_reduction)*(1-evap_flow_reduction))
               max_flow = fan.getMaximumFlowRate
               max_flow = max_flow.get
               max_flow = max_flow*(1.-evap_flow_reduction)
@@ -128,7 +129,7 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
               # change the maximum flow rate condition with the given fan curve
               # variables defined in a little bit different way to facilitate future modification
               old_delta_P = fan.pressureRise
-              delta_P = old_delta_P*(1+((1.-coeff[0])*evap_flow_reduction*(evap_flow_reduction-2)))
+              delta_P = old_delta_P*(coeff[0]+(1-coeff[0])*(1-evap_flow_reduction)*(1-evap_flow_reduction))
               old_max_flow = fan.getMaximumFlowRate
               old_max_flow = old_max_flow.get.value
               max_flow = old_max_flow*(1.-evap_flow_reduction)
