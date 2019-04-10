@@ -659,7 +659,6 @@ module OsLib_FDD_occ
   # end
   
   ##########################################################
-  ##########################################################
   def newtimesandvaluestosceduleday_occupancy(lightingrulesetschedule, times, values, ext_hr, changetime, scheduleday, moring_evening_string, runner)
     # This function is used to replace times and values in scheduleday
     # with user-specified values. If the times are outside the
@@ -687,7 +686,18 @@ module OsLib_FDD_occ
     end
   end
   ##########################################################
-  ##########################################################
+  
+  def num_hours_in_year_alt(model)
+
+    if model.yearDescription.is_initialized and model.yearDescription.get.isLeapYear
+      num_hours_in_year = 8784.0
+    else
+      num_hours_in_year = 8760.0 # if no yearDescripiton then assumed year 2009 is not leap year
+    end
+
+    return num_hours_in_year
+
+  end
 
   def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
@@ -710,6 +720,8 @@ module OsLib_FDD_occ
     return setpoint_values
 
   end
+  
+
   
   def gather_light_avg_high_low_values(light, lightingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 

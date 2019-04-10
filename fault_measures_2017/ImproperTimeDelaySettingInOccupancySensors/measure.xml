@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>improper_time_delay_setting_in_occupancy_sensors</name>
   <uid>80bceaba-6cd1-43ba-b322-4ad17e72e22a</uid>
-  <version_id>3895a856-4953-4b16-a7cc-b861903e375b</version_id>
-  <version_modified>20190321T153751Z</version_modified>
+  <version_id>586e6c2b-aff5-4704-b1d7-659231272442</version_id>
+  <version_modified>20190410T181256Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>ImproperTimeDelaySettingInOccupancySensors</class_name>
   <display_name>Improper Time Delay Setting in Occupancy Sensors</display_name>
@@ -242,12 +242,6 @@
       <checksum>AC509FB1</checksum>
     </file>
     <file>
-      <filename>misc_run_week_exteveninghr.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>111B81B6</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
@@ -256,13 +250,19 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>CCEFA831</checksum>
+      <checksum>94E4D09B</checksum>
+    </file>
+    <file>
+      <filename>misc_run_week_exteveninghr.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>C88C3B0A</checksum>
     </file>
     <file>
       <filename>fdd_thermostat_occ.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>C866D1E0</checksum>
+      <checksum>7104E577</checksum>
     </file>
   </files>
 </measure>

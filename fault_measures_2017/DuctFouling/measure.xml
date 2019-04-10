@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>duct_fouling</name>
   <uid>20a9d083-d915-4653-8893-d94a6dbc72d8</uid>
-  <version_id>374716ab-d56f-48bb-b335-4588575dcae8</version_id>
-  <version_modified>20190306T224821Z</version_modified>
+  <version_id>34893d7a-210d-46ec-9425-6514a73cdb14</version_id>
+  <version_modified>20190409T221839Z</version_modified>
   <xml_checksum>266557E5</xml_checksum>
   <class_name>DuctFouling</class_name>
   <display_name>Duct Fouling</display_name>
@@ -90,7 +90,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>A6949617</checksum>
+      <checksum>A85263CB</checksum>
     </file>
   </files>
 </measure>
