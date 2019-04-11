@@ -10,7 +10,7 @@
 require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_DuctLeakage"
 
 $allchoices = '* ALL Controller:OutdoorAir *'
-$faulttype = 'DL'
+$faulttype = 'RDL'
 
 # start the measure
 class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
@@ -120,7 +120,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 	time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
 	dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
 	dts.each do |dt|
-	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
 	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
 	end
     if leak_ratio == 0
