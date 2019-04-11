@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_rh</name>
   <uid>581a85db-9cee-480f-9e5f-bbf62b217268</uid>
-  <version_id>b5bb7400-c341-452f-968c-862cb58ccb62</version_id>
-  <version_modified>20190409T185919Z</version_modified>
+  <version_id>af1d293e-082c-423e-a16d-8c1198dc7eb1</version_id>
+  <version_modified>20190410T223832Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnRH</class_name>
   <display_name>Biased Economizer Sensor: Return RH</display_name>
@@ -39,7 +39,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>6</default_value>
+      <default_value>1</default_value>
     </argument>
     <argument>
       <name>start_date</name>
@@ -55,7 +55,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
+      <default_value>0</default_value>
     </argument>
     <argument>
       <name>end_month</name>
@@ -117,6 +117,12 @@
       <checksum>435C6B82</checksum>
     </file>
     <file>
+      <filename>ControllerOutdoorAirFlow_RH.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>F67D394D</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -125,13 +131,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>E8067F0F</checksum>
-    </file>
-    <file>
-      <filename>ControllerOutdoorAirFlow_RH.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>F67D394D</checksum>
+      <checksum>5ABEC491</checksum>
     </file>
   </files>
 </measure>

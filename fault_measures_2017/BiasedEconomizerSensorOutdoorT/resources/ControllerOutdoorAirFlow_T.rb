@@ -112,7 +112,7 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
   
 end
 
-def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, t_bias=[0, 0], oacontrollername)
+def econ_t_sensor_bias_ems_main_body(runner, workspace, bias_sensor, controlleroutdoorair, t_bias=[0, 0], oacontrollername)
 
   #workspace is the Workspace object in EnergyPlus Measure script
   

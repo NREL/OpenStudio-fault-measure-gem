@@ -62,7 +62,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 	#make a double argument for the start month
     start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
     start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
-    start_month.setDefaultValue(6)  #default is June
+    start_month.setDefaultValue(1)  #default is June
     args << start_month
 	
 	#make a double argument for the start date
@@ -74,7 +74,7 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
 	#make a double argument for the start time
     start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
     start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
-    start_time.setDefaultValue(9)  #default is 9am
+    start_time.setDefaultValue(0)  #default is 9am
     args << start_time
 	
 	#make a double argument for the end month
