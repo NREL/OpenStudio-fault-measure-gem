@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_t</name>
   <uid>f1ba09fb-2903-45b2-838c-604b63fc4662</uid>
-  <version_id>ed1afcfd-088c-4c07-a001-208ac1974d28</version_id>
-  <version_modified>20190410T223832Z</version_modified>
+  <version_id>6dfe6403-07d0-48f2-8d98-768dcfee9181</version_id>
+  <version_modified>20190411T203253Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnT</class_name>
   <display_name>Biased Economizer Sensor: Return Temperature</display_name>
@@ -117,12 +117,6 @@
       <checksum>435C6B82</checksum>
     </file>
     <file>
-      <filename>ControllerOutdoorAirFlow_T.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>684A54B2</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -132,6 +126,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>E02DB20A</checksum>
+    </file>
+    <file>
+      <filename>ControllerOutdoorAirFlow_T.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>3317723F</checksum>
     </file>
   </files>
 </measure>
