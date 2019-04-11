@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>supply_air_duct_leakages</name>
   <uid>8d568a70-080d-4f27-97f5-5210ff639652</uid>
-  <version_id>b0692f7e-24e8-459c-a334-b13dbaad0490</version_id>
-  <version_modified>20190131T190644Z</version_modified>
+  <version_id>60435a0d-4cac-4777-ba47-4babd36ec913</version_id>
+  <version_modified>20190402T174125Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>SupplyAirDuctLeakages</class_name>
   <display_name>Supply Air Duct Leakages</display_name>
@@ -16,6 +16,13 @@
       <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
+      <default_value>* ALL ADU objects *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL ADU objects *</value>
+          <display_name>* ALL ADU objects *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>leak_ratio</name>
@@ -61,6 +68,12 @@
       <checksum>58210784</checksum>
     </file>
     <file>
+      <filename>frp_baseline_generic_sch.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>3EBD3C9E</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -69,13 +82,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>40B2BF72</checksum>
-    </file>
-    <file>
-      <filename>frp_baseline_generic_sch.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>3EBD3C9E</checksum>
+      <checksum>2659C336</checksum>
     </file>
   </files>
 </measure>

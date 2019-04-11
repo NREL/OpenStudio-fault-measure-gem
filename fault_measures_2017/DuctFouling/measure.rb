@@ -106,7 +106,8 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
             else
               # change the maximum flow rate condition with the given fan curve
               delta_P = fan.pressureRise
-              delta_P = delta_P*(1+((1.-coeff[0])*evap_flow_reduction*(evap_flow_reduction-2)))
+              #delta_P = delta_P*(1+((1.-coeff[0])*evap_flow_reduction*(evap_flow_reduction-2)))
+              delta_P = delta_P*(coeff[0]+(1-coeff[0])*(1-evap_flow_reduction)*(1-evap_flow_reduction))
               max_flow = fan.getMaximumFlowRate
               max_flow = max_flow.get
               max_flow = max_flow*(1.-evap_flow_reduction)
@@ -128,13 +129,24 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
               # change the maximum flow rate condition with the given fan curve
               # variables defined in a little bit different way to facilitate future modification
               old_delta_P = fan.pressureRise
-              delta_P = old_delta_P*(1+((1.-coeff[0])*evap_flow_reduction*(evap_flow_reduction-2)))
               old_max_flow = fan.getMaximumFlowRate
+			  ###############################################
+			  old_min_v = fan.fanPowerMinimumAirFlowRate.get
               old_max_flow = old_max_flow.get.value
               max_flow = old_max_flow*(1.-evap_flow_reduction)
-              fan.setMaximumFlowRate(max_flow)
-              fan.setPressureRise(delta_P)
-              runner.registerInfo("#{fan.name.to_s} maximum flow becomes #{max_flow.round(3)} m3/s from #{old_max_flow.round(3)} m3/s.")
+			  if max_flow >= old_min_v
+			    fan.setMaximumFlowRate(max_flow)
+				delta_P = old_delta_P*(coeff[0]+(1-coeff[0])*(1-evap_flow_reduction)*(1-evap_flow_reduction))
+                fan.setPressureRise(delta_P)
+                runner.registerInfo("#{fan.name.to_s} maximum flow becomes #{max_flow.round(3)} m3/s from #{old_max_flow.round(3)} m3/s.")
+			  else
+                fan.setMaximumFlowRate(old_min_v)
+				maxminratio = (max_flow-old_min_v)/max_flow
+				delta_P = old_delta_P*(coeff[0]+(1-coeff[0])*(1-maxminratio)*(1-maxminratio))
+                fan.setPressureRise(delta_P)
+                runner.registerInfo("Reduced maximum flow (#{max_flow.round(3)} m3/s) is lower than the specified minimum flow (#{old_min_v.round(3)} m3/s). Modified maximum flow in #{fan.name.to_s} is overriden to specified minimum flow of #{old_min_v.round(3)} m3/s.")
+			  end	
+			  ###############################################
               
               # fix the flow rate corresponding to the minimum power consumption
               # get f_pl coefficients
@@ -151,7 +163,7 @@ class DuctFouling < OpenStudio::Ruleset::ModelUserScript
               rho_a = 1.2 # arbitrary
               min_flow_method = fan.fanPowerMinimumFlowRateInputMethod
               if min_flow_method.eql?("FixedFlowRate")
-                old_min_v = fan.fanPowerMinimumAirFlowRate.get
+                
                 min_power = fan_power(c, old_min_v, old_max_flow, old_delta_P, eff, rho_a)
                 min_v_ratio = old_min_v/old_max_flow
               else  # default is fraction

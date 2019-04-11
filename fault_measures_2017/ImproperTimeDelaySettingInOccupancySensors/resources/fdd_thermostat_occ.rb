@@ -659,7 +659,6 @@ module OsLib_FDD_occ
   # end
   
   ##########################################################
-  ##########################################################
   def newtimesandvaluestosceduleday_occupancy(lightingrulesetschedule, times, values, ext_hr, changetime, scheduleday, moring_evening_string, runner)
     # This function is used to replace times and values in scheduleday
     # with user-specified values. If the times are outside the
@@ -687,7 +686,18 @@ module OsLib_FDD_occ
     end
   end
   ##########################################################
-  ##########################################################
+  
+  def num_hours_in_year_alt(model)
+
+    if model.yearDescription.is_initialized and model.yearDescription.get.isLeapYear
+      num_hours_in_year = 8784.0
+    else
+      num_hours_in_year = 8760.0 # if no yearDescripiton then assumed year 2009 is not leap year
+    end
+
+    return num_hours_in_year
+
+  end
 
   def gather_thermostat_avg_high_low_values(thermalzone, heatingrulesetschedule, coolingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
@@ -695,14 +705,14 @@ module OsLib_FDD_occ
     std = Standard.new
 
     # gather initial thermostat range and average temp
-    avg_htg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs/num_hours_in_year(heatingrulesetschedule)
+    avg_htg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(heatingrulesetschedule)/num_hours_in_year_alt(model)
     min_max = std.schedule_ruleset_annual_min_max_value(heatingrulesetschedule)
     runner.registerInfo("#{initial_final_string.capitalize} annual average heating setpoint for #{thermalzone.name} #{avg_htg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_htg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_htg_max".to_sym] << min_max['max']
 
-    avg_clg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs/num_hours_in_year(coolingrulesetschedule)
-    min_max = scd.schedule_ruleset_annual_min_max_value(coolingrulesetschedule)
+    avg_clg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(coolingrulesetschedule)/num_hours_in_year_alt(model)
+    min_max = std.schedule_ruleset_annual_min_max_value(coolingrulesetschedule)
     runner.registerInfo("#{initial_final_string.capitalize} annual average cooling setpoint for #{thermalzone.name} #{avg_clg_si.round(1)} C, with a range of #{min_max['min'].round(1)} C to #{min_max['max'].round(1)} C.")
     setpoint_values["#{initial_final_string}_clg_min".to_sym] << min_max['min']
     setpoint_values["#{initial_final_string}_clg_max".to_sym] << min_max['max']
@@ -711,12 +721,14 @@ module OsLib_FDD_occ
 
   end
   
+
+  
   def gather_light_avg_high_low_values(light, lightingrulesetschedule, setpoint_values, runner, model, initial_final_string)
 
     # used for schedule_ruleset_annual_equivalent_full_load_hrs
     std = Standard.new
 
-    avg_ltg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs/num_hours_in_year(lightingrulesetschedule)
+    avg_ltg_si = std.schedule_ruleset_annual_equivalent_full_load_hrs(lightingrulesetschedule)/num_hours_in_year_alt(model)
     min_max = std.schedule_ruleset_annual_min_max_value(lightingrulesetschedule)
     runner.registerInfo("#{initial_final_string.capitalize} annual average occupancy count for #{light[0].name} #{avg_ltg_si.round(1)}, with a range of #{min_max['min'].round(2)} to #{min_max['max'].round(2)}.")
     setpoint_values["#{initial_final_string}_ltg_min".to_sym] << min_max['min']

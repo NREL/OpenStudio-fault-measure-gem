@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fouling</name>
   <uid>7fac3cb7-ed23-454d-ac24-b037d2c8faa4</uid>
-  <version_id>fe615038-f6e0-4c70-8f8b-12d94d1b5b9a</version_id>
-  <version_modified>20190131T190640Z</version_modified>
+  <version_id>83a27d6f-8582-49c5-9fdc-60a378fe5aef</version_id>
+  <version_modified>20190402T163023Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFouling</class_name>
   <display_name>Condenser Fouling</display_name>
@@ -338,18 +338,6 @@
       <checksum>627EF985</checksum>
     </file>
     <file>
-      <filename>FaultDefinitions.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6230C9E3</checksum>
-    </file>
-    <file>
-      <filename>faultdefinitions.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6230C9E3</checksum>
-    </file>
-    <file>
       <filename>psychrometric.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -368,6 +356,18 @@
       <checksum>435C6B82</checksum>
     </file>
     <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>9DC8C074</checksum>
+    </file>
+    <file>
+      <filename>faultdefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>9DC8C074</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -376,7 +376,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>C402F9C2</checksum>
+      <checksum>6FA8CCBE</checksum>
     </file>
   </files>
 </measure>

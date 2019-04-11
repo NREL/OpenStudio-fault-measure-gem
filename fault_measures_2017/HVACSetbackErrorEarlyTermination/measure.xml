@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_early_termination</name>
   <uid>d6a0f476-5b23-4273-ae00-93e55fa5f917</uid>
-  <version_id>28b9e55e-c862-42a8-ac3a-d641d9b3dd37</version_id>
-  <version_modified>20190131T231458Z</version_modified>
+  <version_id>dc5ec5bf-0486-4ef9-8d10-f5baacc6ee77</version_id>
+  <version_modified>20190306T230534Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorEarlyTermination</class_name>
   <display_name>HVAC Setback Error: Early Termination</display_name>
@@ -280,7 +280,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>D3FBCD19</checksum>
+      <checksum>0917400D</checksum>
     </file>
   </files>
 </measure>

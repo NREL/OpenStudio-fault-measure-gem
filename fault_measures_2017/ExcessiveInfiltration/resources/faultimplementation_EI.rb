@@ -1,25 +1,19 @@
 # This script contains functions that will be used in EnergyPlus measure scripts most of the time
 
-def alter_performance(model, object, space_infiltration_increase_percent, runner, schedule_const, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, short_name)
+def alter_performance(model, object, space_infiltration_increase_ratio, runner, schedule_const, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, short_name)
 
   #add ems code for dynamic fault evolution
-  dynamicfaultevolution(model, runner, object, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, schedule_const, short_name, space_infiltration_increase_percent)
-  #edit instance based on percentage increase
+  dynamicfaultevolution(model, runner, object, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, schedule_const, short_name, space_infiltration_increase_ratio)
   instance = object
   if not instance.designFlowRate.empty?
-    #new_infiltration_design_flow_rate = instance.setDesignFlowRate(instance.designFlowRate.get + instance.designFlowRate.get*space_infiltration_increase_percent*0.01)
 	new_infiltration_design_flow_rate = instance.setSchedule(schedule_const)
   elsif not instance.flowperSpaceFloorArea.empty?
-    #new_infiltration_flow_floor_area = instance.setFlowperSpaceFloorArea(instance.flowperSpaceFloorArea.get + instance.flowperSpaceFloorArea.get*space_infiltration_increase_percent*0.01)
     new_infiltration_flow_floor_area = instance.setSchedule(schedule_const)
   elsif not instance.flowperExteriorSurfaceArea.empty?
-    #new_infiltration_flow_ext_sarea = instance.setFlowperExteriorSurfaceArea(instance.flowperExteriorSurfaceArea.get + instance.flowperExteriorSurfaceArea.get*space_infiltration_increase_percent*0.01)
 	new_infiltration_flow_ext_sarea = instance.setSchedule(schedule_const)
   elsif not instance.flowperExteriorWallArea.empty?
-    #new_infiltration_flow_ext_warea = instance.setFlowperExteriorWallArea(instance.flowperExteriorWallArea.get + instance.flowperExteriorWallArea.get*space_infiltration_increase_percent*0.01)
 	new_infiltration_flow_ext_warea = instance.setSchedule(schedule_const)
   elsif not instance.airChangesperHour.empty?
-    #new_infiltration_ach = instance.setAirChangesperHour(instance.airChangesperHour.get + instance.airChangesperHour.get*space_infiltration_increase_percent*0.01)
 	new_infiltration_ach = instance.setSchedule(schedule_const)
   else
     runner.registerWarning("'#{instance.name}' is used by one or more instances and has no load values.")
@@ -28,16 +22,14 @@ def alter_performance(model, object, space_infiltration_increase_percent, runner
 end  
    
 	
-def alter_performance_ela(object, space_infiltration_increase_percent, runner, schedule_const, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, short_name)
+def alter_performance_ela(object, space_infiltration_increase_ratio, runner, schedule_const, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, short_name)
 
   #add ems code for dynamic fault evolution
-  dynamicfaultevolution(model, runner, object, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, schedule_const, short_name, space_infiltration_increase_percent)
+  dynamicfaultevolution(model, runner, object, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, schedule_const, short_name, space_infiltration_increase_ratio)
   
-  #edit instance based on percentage increase
   instance = object
   
   if not instance.effectiveAirLeakageArea.to_s.empty?
-    #new_infiltration_ela = instance.setEffectiveAirLeakageArea(instance.effectiveAirLeakageArea + instance.effectiveAirLeakageArea*space_infiltration_increase_percent*0.01)
 	new_infiltration_ela = instance.setSchedule(schedule_const)
   else
     runner.registerWarning("'#{instance.name}' is used by one or more instances and has no load values.")
@@ -46,7 +38,7 @@ def alter_performance_ela(object, space_infiltration_increase_percent, runner, s
 end
 
 
-def dynamicfaultevolution(model, runner, object, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, schedule_const, short_name, space_infiltration_increase_percent)
+def dynamicfaultevolution(model, runner, object, start_month, start_date, start_time, end_month, end_date, end_time, time_constant, time_step, schedule_const, short_name, space_infiltration_increase_ratio)
     
     #################################################################################
 	#check whether there is original schedule object used for infiltration
@@ -72,7 +64,7 @@ def dynamicfaultevolution(model, runner, object, start_month, start_date, start_
 	#define EMS:program for calculating fault level at each time step
 	ems_program.setName("emsprogram_#{$faultnow}_#{short_name}")
 	program_body = <<-EMS
-	  SET FLPERCENTAGE = #{space_infiltration_increase_percent}
+	  SET FLRATIO = #{space_infiltration_increase_ratio}
       SET SM = #{start_month},              !- Program Line 1
       SET SD = #{start_date},              !- Program Line 2
       SET ST = #{start_time},              !- A4
@@ -152,7 +144,7 @@ def dynamicfaultevolution(model, runner, object, start_month, start_date, start_
 	  ENDIF,
 	  SET SCH = sch_original_#{$faultnow}_#{short_name}
 	  SET AF = AF_current_#{$faultnow}_#{short_name}
-	  SET FL_#{$faultnow}_#{short_name} = SCH*(1+FLPERCENTAGE/100*AF)
+	  SET FL_#{$faultnow}_#{short_name} = SCH*(1+FLRATIO*AF)
     EMS
 	ems_program.setBody(program_body)	
 	#################################################################################
@@ -167,92 +159,6 @@ def dynamicfaultevolution(model, runner, object, start_month, start_date, start_
 	#################################################################################
 	#define EMS:Actuator
 	ems_actuator.setName("FL_#{$faultnow}_#{short_name}")
-	#################################################################################
-	#Code below was used to apply dynamic fault evolution with Schedule:File object. However, I wasn't able to find the OpenStudio class for Schedule:File object.
-	#################################################################################
-	#calculate fault starting time and ending time (0-8760)
-	# if start_month == 1
-      # t_start_month = 0
-    # elsif start_month == 2
-      # t_start_month = 744
-    # elsif start_month == 3
-      # t_start_month = 1416
-    # elsif start_month == 4
-      # t_start_month = 2160
-    # elsif start_month == 5
-      # t_start_month = 2880
-    # elsif start_month == 6
-      # t_start_month = 3624
-    # elsif start_month == 7
-      # t_start_month = 4344
-    # elsif start_month == 8
-      # t_start_month = 5088
-    # elsif start_month == 9
-      # t_start_month = 5832
-    # elsif start_month == 10
-      # t_start_month = 6552
-    # elsif start_month == 11
-      # t_start_month = 7296
-    # elsif start_month == 12
-      # t_start_month = 8016
-    # end
-    # if end_month == 1
-      # t_end_month = 0
-    # elsif end_month == 2
-      # t_end_month = 744
-    # elsif end_month == 3
-      # t_end_month = 1416
-    # elsif end_month == 4
-      # t_end_month = 2160
-    # elsif end_month == 5
-      # t_end_month = 2880
-    # elsif end_month == 6
-      # t_end_month = 3624
-    # elsif end_month == 7
-      # t_end_month = 4344
-    # elsif end_month == 8
-      # t_end_month = 5088
-    # elsif end_month == 9
-      # t_end_month = 5832
-    # elsif end_month == 10
-      # t_end_month = 6552
-    # elsif end_month == 11
-      # t_end_month = 7296
-    # elsif end_month == 12
-      # t_end_month = 8016
-    # end
-	# time_start = t_start_month + (start_date-1)*24 + start_time
-    # time_end = t_end_month + (end_date-1)*24 + end_time
-	#################################################################################
-	#create a text file includes fault level variation throughout the year based on user inputs
-	# schedule_input_file = File.new("faultlvlschedule.txt", "w") 
-	# iter = 1
-	# fl = 0.0
-	# loop do
-	  # if iter == 8761
-	    # break
-	  # end
-	  # if iter<time_start
-	    # schedule_input_file.puts("#{iter}	0")
-	  # elsif iter>time_start && iter<time_end
-	    # fl_current = fl.to_f+1/time_constant
-		
-		# if fl_current>1
-		  # fl_current = 1
-		# end
-		
-	    # schedule_input_file.puts("#{iter}	#{fl_current}")
-	  # else
-	    # schedule_input_file.puts("#{iter}	0")
-	  # end	  
-	  # fl = fl_current
-	  # iter += 1
-	# end  
-	# schedule_input_file.close
-	#################################################################################
-	#Create Schedule:File object and apply fault level schedule
-	#schedule_file = model.getScheduleFiles? (wasn't able to find Schedule:File class)
-	#################################################################################
 	
 end
 

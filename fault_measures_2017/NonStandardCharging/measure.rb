@@ -92,7 +92,7 @@ class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
     # the form of the model is
     # RATIO = 1 + FaultLevel*(a1+a2*Tdb,i+a3*Twb,i+a4*Tc,i+a5*FaultLevel+a6*FaultLevel*FaultLevel+a7*(Rated COP))
 
-    # undercharging/overcharging model
+    # regression model coefficients
     args = enter_coefficients(args, $q_para_num, "Q_#{$faultnow} for overcharge", [-0.667351, 0.417386, 0.091732, 0.812637, -0.30102, -0.1014], '')
     args = enter_coefficients(args, $eir_para_num, "EIR_#{$faultnow} for overcharge", [0.191888, -0.256732, -0.05316, -0.716681, 0.381224, 0.1241], '')
 	  

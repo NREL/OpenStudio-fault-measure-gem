@@ -119,14 +119,13 @@ class ImproperTimeDelaySettingInOccupancySensors < OpenStudio::Ruleset::ModelUse
       lights = obtainlight(zone, model, runner, user_arguments)
 	  
       ###########################################################################
-      ###########################################################################
-      peoples = obtainpeople(zone, model, runner, user_arguments)	  
+      peoples = obtainpeople(zone, model, runner, user_arguments)
       peoples.each do |people|
         next if not people.size > 0
         lights.each do |light|
-	  next if not light.size > 0
+	      next if not light.size > 0
           results = applyfaulttopeople(people, light, ext_hr, start_month, end_month, dayofweek, runner, setpoint_values, model)
-	end
+	    end
       end
 	  
       if setpoint_values[:initial_ltg_min].size > 0
@@ -135,7 +134,6 @@ class ImproperTimeDelaySettingInOccupancySensors < OpenStudio::Ruleset::ModelUse
       else
         runner.registerAsNotApplicable("No changes made, selected zones may not have had schedules, or schedules may not have been ScheduleRulesets.")
       end
-      ###########################################################################
       ###########################################################################
 
     else

@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_outdoor_rh</name>
   <uid>cb5d34a2-7980-44bb-8a41-1f2cb262fd81</uid>
-  <version_id>5909ed2f-2ca5-42f3-aa31-74062eda4fb3</version_id>
-  <version_modified>20190131T190640Z</version_modified>
+  <version_id>779f5d8d-8100-48ae-ab2c-a37a2a75235d</version_id>
+  <version_modified>20190410T223831Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorOutdoorRH</class_name>
   <display_name>Biased Economizer Sensor: Outdoor RH</display_name>
@@ -39,7 +39,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>6</default_value>
+      <default_value>1</default_value>
     </argument>
     <argument>
       <name>start_date</name>
@@ -55,7 +55,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
+      <default_value>0</default_value>
     </argument>
     <argument>
       <name>end_month</name>
@@ -120,7 +120,7 @@
       <filename>ControllerOutdoorAirFlow_RH.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>A6F47D25</checksum>
+      <checksum>83D101AC</checksum>
     </file>
     <file>
       <version>
@@ -131,7 +131,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>6E06A004</checksum>
+      <checksum>A2E63E6E</checksum>
     </file>
   </files>
 </measure>

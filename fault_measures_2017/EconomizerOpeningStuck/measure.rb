@@ -9,7 +9,6 @@
 
 require 'date'
 require "#{File.dirname(__FILE__)}/resources/ScheduleRuleTransfer"
-require "#{File.dirname(__FILE__)}/resources/FractionalScheduleChoice"
 
 $allchoices = '* ALL Controller:OutdoorAir *'
 
@@ -54,8 +53,17 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
     schedule_exist.setDefaultValue(false)
     args << schedule_exist
     
-    #choice of schedules for the presence of fault. 0 for no fault and other numbers means fault    
-    args << fractional_schedule_choice(model)
+    #choice of schedules for the presence of fault. 0 for no fault and other numbers means fault 
+	schedulerulesets = model.getScheduleRulesets
+    sch = OpenStudio::StringVector.new
+	sch << 'Always On Discrete'
+    schedulerulesets.each do |scheduleruleset|
+      sch << scheduleruleset.name.to_s
+    end
+    sch_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('sch_choice', sch, true)
+    sch_choice.setDisplayName("Choice of fault presence schedule:") 
+    sch_choice.setDefaultValue('Always On Discrete')
+	args << sch_choice
 	
     #make a double argument for the damper position
     #it should range between 0 and 1. 0 means completely closed damper

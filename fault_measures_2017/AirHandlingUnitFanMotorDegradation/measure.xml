@@ -2,13 +2,13 @@
   <schema_version>3.0</schema_version>
   <name>air_handling_unit_fan_motor_degradation</name>
   <uid>9814a5e9-37b7-472a-bae5-e9e2e794c024</uid>
-  <version_id>bdd6d204-a508-4255-a072-928ad9f236cf</version_id>
-  <version_modified>20180427T140924Z</version_modified>
+  <version_id>65672ee8-3281-498c-81cf-63c238394bb4</version_id>
+  <version_modified>20190306T224821Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>AirHandlingUnitFanMotorDegradation</class_name>
   <display_name>Air Handling Unit Fan Motor Degradation</display_name>
-  <description>Fan motor degradation occurs due to bearing and stator winding faults, leading to a decrease in motor efficiency and an increase in overall fan power consumption. This measure simulates the air handling unit fan motor degradation by modifying either the Fan:ConstantVolume, Fan:VariableVolume, or the Fan:OnOff objects in EnergyPlus assigned to the ventilation system. The fault intensity (F) for this fault is defined as the ratio of fan motor efficiency degradation.</description>
-  <modeler_description>Two user inputs are required and, based on these user inputs, the fan efficiency is recalculated to reflect the faulted operation as shown below, where η_(fan,tot,F) is the degraded total efficiency under faulted condition, η_(fan,tot) is the total efficiency under normal condition, and F is the fault intensity. η_(fan,tot,F) = η_(fan,tot)∙(1-F)</modeler_description>
+  <description>Fan motor degradation occurs due to bearing and stator winding faults, leading to a decrease in motor efficiency and an increase in overall fan power consumption. This fault is categorized as a fault that occur in the ventilation system (fan) during the operation stage. This fault measure is based on a semi-empirical model and simulates the air handling unit fan motor degradation by modifying either the Fan:ConstantVolume, Fan:VariableVolume, or the Fan:OnOff objects in EnergyPlus assigned to the ventilation system. The fault intensity (F) for this fault is defined as the ratio of fan motor efficiency degradation with the application range of 0 to 0.3 (30% degradation).</description>
+  <modeler_description>Nine user inputs are required and, based on these user inputs, the fan efficiency is recalculated to reflect the faulted operation. η_(fan,tot,F) = η_(fan,tot)∙(1-F), where η_(fan,tot,F) is the degraded total efficiency under faulted condition, η_(fan,tot) is the total efficiency under normal condition, and F is the fault intensity. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and the F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau).</modeler_description>
   <arguments>
     <argument>
       <name>fan_choice</name>
@@ -144,7 +144,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>FA469159</checksum>
+      <checksum>89981CFD</checksum>
     </file>
   </files>
 </measure>

@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>oversized_equipment_at_design</name>
   <uid>c97fd24d-b0f3-45e0-93a7-487e0b3759fb</uid>
-  <version_id>f16ac16b-aed4-4622-b6ee-0735c2c69789</version_id>
-  <version_modified>20190131T190643Z</version_modified>
+  <version_id>2f7a62e2-9f5a-4c20-a7bd-5b7d4ce30a05</version_id>
+  <version_modified>20190402T164731Z</version_modified>
   <xml_checksum>4435983D</xml_checksum>
   <class_name>OversizedEquipmentAtDesign</class_name>
   <display_name>Oversized Equipment at Design</display_name>
@@ -25,12 +25,12 @@
       </choices>
     </argument>
     <argument>
-      <name>sizing_increase_percent</name>
-      <display_name>Sizing Increase (between 0-50%).</display_name>
+      <name>sizing_increase_ratio</name>
+      <display_name>Sizing Increase Ratio (between 0-1).</display_name>
       <type>Double</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value>10</default_value>
+      <default_value>0.1</default_value>
     </argument>
   </arguments>
   <outputs/>
@@ -60,7 +60,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>643539D5</checksum>
+      <checksum>A61423AF</checksum>
     </file>
   </files>
 </measure>
