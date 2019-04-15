@@ -8,7 +8,6 @@ require_relative 'misc_eplus_func'
 def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
 
   #append transient fault adjustment factor
-  ##################################################
   string_objects << "
     EnergyManagementSystem:Program,
       AF_P_#{$faulttype}_#{oacontrollername},                    !- Name
@@ -108,7 +107,6 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
       AfterPredictorAfterHVACManagers,  !- EnergyPlus Model Calling Point
       AF_P_#{$faulttype}_#{oacontrollername};                    !- Program Name 1
   "
-  ##################################################
   
   return string_objects
   
@@ -253,6 +251,7 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
     outdoorairspecs = workspace.getObjectsByType("DesignSpecification:OutdoorAir".to_IddObjectType)
 	#####################################################
 	peoples = workspace.getObjectsByType("People".to_IddObjectType)
+	zonelists = workspace.getObjectsByType("ZoneList".to_IddObjectType)
 	#####################################################
     controllermechventilations.each do |controllermechventilation|
       if controllermechventilation.getString(0).to_s.eql?(controlleroutdoorair.getString(19).to_s)
@@ -281,6 +280,11 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
                   SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
 				"
 				#####################################################
+				#NOTE:
+				#modifications were made to fix zone_ppl calculation issue when "ZoneList" object is used instead of "Zone" object in the internal gain "People" object. this resulted in difference in minimum outdoor air flow rate.
+				#TODO:
+				#there is still slight different in minimum outdoor air flow rate calculation between baseline (without fault model) model and faulted (fault model with FI = 0) model. 
+				#####################################################
 				if peoples.empty?
 				  main_body = main_body+"
                     SET ZONE_PPL = 0, !- <none>
@@ -289,12 +293,21 @@ def econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoora
 				  peoples.each do |people|
 			        if people.getString(1).to_s.eql?(controllermechventilation.getString(4+3*i+1).to_s)
 				      main_body = main_body+"
-                        SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_T, !- NEED SENSOR FOR ZONE People Occupant Count
+                        SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
 				      "
 				    else
-				      main_body = main_body+"
-                        SET ZONE_PPL = 0, !- <none>
-				      "
+				      zonelists.each do |zonelist|
+				        if people.getString(1).to_s.eql?(zonelist.getString(0).to_s)
+					      for i in 1..zonelist.numFields-1  #for each zone
+					        zone_name_inlist = name_cut(zonelist.getString(i).to_s)
+					  	    if zone_name_inlist.eql?(zone_name)
+						      main_body = main_body+"
+                                SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_#{$faulttype}/"+zone_name+"_PEOPLE_SCH_#{bias_sensor}_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
+				              "
+						    end
+					      end
+				        end
+					  end
 				    end
 				  end
 			    end
@@ -872,7 +885,7 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
   
   string_objects << "
     EnergyManagementSystem:ProgramCallingManager,
-      EMSCallRH_BIAS"+name_cut(econ_choice)+", !- Name
+      EMSCallRH_BIAS"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- Name
       InsideHVACSystemIterationLoop,       !- EnergyPlus Model Calling Point
       RH_BIAS"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- Name
   "
@@ -1015,6 +1028,7 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
     outdoorairspecs = workspace.getObjectsByType("DesignSpecification:OutdoorAir".to_IddObjectType)
 	#####################################################
 	peoples = workspace.getObjectsByType("People".to_IddObjectType)
+	zonelists = workspace.getObjectsByType("ZoneList".to_IddObjectType)
 	#####################################################
     controllermechventilations.each do |controllermechventilation|
       if controllermechventilation.getString(0).to_s.eql?(controlleroutdoorair.getString(19).to_s)
@@ -1022,9 +1036,7 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
         for i in 0..vent_num_zone-1  #for each zone
           outdoorairspecs.each do |outdoorairspec|
             
-            #####################################################
-	    oaschedule_name = outdoorairspec.getString(6).to_s
-	    #####################################################
+	      oaschedule_name = outdoorairspec.getString(6).to_s
     
             if controllermechventilation.getString(4+3*i+2).to_s.eql?(outdoorairspec.getString(0).to_s)
               zone_name = controllermechventilation.getString(4+3*i+1).to_s
@@ -1055,15 +1067,49 @@ def econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, contro
                   Zone Floor Area;
               "
               #####################################################
+			  #NOTE:
+			  #modifications were made to fix zone_ppl calculation issue when "ZoneList" object is used instead of "Zone" object in the internal gain "People" object. this resulted in difference in minimum outdoor air flow rate.
+			  #TODO:
+			  #there is still slight different in minimum outdoor air flow rate calculation between baseline (without fault model) model and faulted (fault model with FI = 0) model. 
+              #####################################################
               peoples.each do |people|
+			    people_name = people.getString(0).to_s
+				numberpeopleschedule_name = people.getString(2).to_s
 			    if people.getString(1).to_s.eql?(zone_name)
-				  people_name = people.getString(0).to_s
+				  
 				  string_objects << "
                     EnergyManagementSystem:Sensor,
-                    "+zone_name_tag+"_PEOPLE#{bias_sensor}_T, !- Name
+                    "+zone_name_tag+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- Name
                     "+people_name+",                        !- Output:Variable or Output:Meter Index Key Name
                     Zone People Occupant Count;                !- Output:Variable or Output:Meter Name
                   "
+				else
+				  zonelists.each do |zonelist|
+				    if people.getString(1).to_s.eql?(zonelist.getString(0).to_s)
+					  for i in 1..zonelist.numFields-1  #for each zone
+					    zone_name_inlist = name_cut(zonelist.getString(i).to_s)
+						
+						if zone_name_inlist.eql?(zone_name_tag)
+						  #NOTE: "Zone People Occupant Count" and "People Occupant Count" are different.
+						  #NOTE: "Zone People Occupant Count" associated with "Zone" object instead of "People" object.
+						  #NOTE: "People Count Design Level" does not work if "ZoneList" is defined instead of "Zone"
+						  string_objects << "
+                            EnergyManagementSystem:Sensor,
+                            "+zone_name_tag+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- Name
+                            "+zone_name+",                        !- Output:Variable or Output:Meter Index Key Name
+                            Zone People Occupant Count;                !- Output:Variable or Output:Meter Name
+                          "
+						  string_objects << "
+                            EnergyManagementSystem:Sensor,
+                            "+zone_name_tag+"_PEOPLE_SCH_#{bias_sensor}_#{$faulttype}, !- Name
+                            "+numberpeopleschedule_name+",                        !- Output:Variable or Output:Meter Index Key Name
+                            Schedule Value;                !- Output:Variable or Output:Meter Name
+                          "
+						end
+						
+					  end
+				    end
+				  end
 				end
 			  end
 			  #####################################################

@@ -256,6 +256,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     outdoorairspecs = workspace.getObjectsByType("DesignSpecification:OutdoorAir".to_IddObjectType)
 	#####################################################
 	peoples = workspace.getObjectsByType("People".to_IddObjectType)
+	zonelists = workspace.getObjectsByType("ZoneList".to_IddObjectType)
 	#####################################################
     controllermechventilations.each do |controllermechventilation|
       if controllermechventilation.getString(0).to_s.eql?(controlleroutdoorair.getString(19).to_s)
@@ -283,6 +284,11 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
                   SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
 				"
 				#####################################################
+				#NOTE:
+				#modifications were made to fix zone_ppl calculation issue when "ZoneList" object is used instead of "Zone" object in the internal gain "People" object. this resulted in difference in minimum outdoor air flow rate.
+				#TODO:
+				#there is still slight different in minimum outdoor air flow rate calculation between baseline (without fault model) model and faulted (fault model with FI = 0) model. 
+				#####################################################
 				if peoples.empty?
 				  main_body = main_body+"
                     SET ZONE_PPL = 0, !- <none>
@@ -294,9 +300,18 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
                         SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
 				      "
 				    else
-				      main_body = main_body+"
-                        SET ZONE_PPL = 0, !- <none>
-				      "
+				      zonelists.each do |zonelist|
+				        if people.getString(1).to_s.eql?(zonelist.getString(0).to_s)
+					      for i in 1..zonelist.numFields-1  #for each zone
+					        zone_name_inlist = name_cut(zonelist.getString(i).to_s)
+					  	    if zone_name_inlist.eql?(zone_name)
+						      main_body = main_body+"
+                                SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_#{$faulttype}/"+zone_name+"_PEOPLE_SCH_#{bias_sensor}_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
+				              "
+						    end
+					      end
+				        end
+					  end
 				    end
 				  end
 			    end
@@ -1017,6 +1032,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
     outdoorairspecs = workspace.getObjectsByType("DesignSpecification:OutdoorAir".to_IddObjectType)
 	#####################################################
 	peoples = workspace.getObjectsByType("People".to_IddObjectType)
+	zonelists = workspace.getObjectsByType("ZoneList".to_IddObjectType)
 	#####################################################
     controllermechventilations.each do |controllermechventilation|
       if controllermechventilation.getString(0).to_s.eql?(controlleroutdoorair.getString(19).to_s)
@@ -1054,16 +1070,50 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
                   "+zone_name+",
                   Zone Floor Area;
               "
+			  #####################################################
+			  #NOTE:
+			  #modifications were made to fix zone_ppl calculation issue when "ZoneList" object is used instead of "Zone" object in the internal gain "People" object. this resulted in difference in minimum outdoor air flow rate.
+			  #TODO:
+			  #there is still slight different in minimum outdoor air flow rate calculation between baseline (without fault model) model and faulted (fault model with FI = 0) model. 
               #####################################################
               peoples.each do |people|
+			    people_name = people.getString(0).to_s
+				numberpeopleschedule_name = people.getString(2).to_s
 			    if people.getString(1).to_s.eql?(zone_name)
-				  people_name = people.getString(0).to_s
+				  
 				  string_objects << "
                     EnergyManagementSystem:Sensor,
                     "+zone_name_tag+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- Name
                     "+people_name+",                        !- Output:Variable or Output:Meter Index Key Name
                     Zone People Occupant Count;                !- Output:Variable or Output:Meter Name
                   "
+				else
+				  zonelists.each do |zonelist|
+				    if people.getString(1).to_s.eql?(zonelist.getString(0).to_s)
+					  for i in 1..zonelist.numFields-1  #for each zone
+					    zone_name_inlist = name_cut(zonelist.getString(i).to_s)
+						
+						if zone_name_inlist.eql?(zone_name_tag)
+						  #NOTE: "Zone People Occupant Count" and "People Occupant Count" are different.
+						  #NOTE: "Zone People Occupant Count" associated with "Zone" object instead of "People" object.
+						  #NOTE: "People Count Design Level" does not work if "ZoneList" is defined instead of "Zone"
+						  string_objects << "
+                            EnergyManagementSystem:Sensor,
+                            "+zone_name_tag+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- Name
+                            "+zone_name+",                        !- Output:Variable or Output:Meter Index Key Name
+                            Zone People Occupant Count;                !- Output:Variable or Output:Meter Name
+                          "
+						  string_objects << "
+                            EnergyManagementSystem:Sensor,
+                            "+zone_name_tag+"_PEOPLE_SCH_#{bias_sensor}_#{$faulttype}, !- Name
+                            "+numberpeopleschedule_name+",                        !- Output:Variable or Output:Meter Index Key Name
+                            Schedule Value;                !- Output:Variable or Output:Meter Name
+                          "
+						end
+						
+					  end
+				    end
+				  end
 				end
 			  end
 			  #####################################################

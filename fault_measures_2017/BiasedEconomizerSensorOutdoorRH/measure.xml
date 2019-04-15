@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_outdoor_rh</name>
   <uid>cb5d34a2-7980-44bb-8a41-1f2cb262fd81</uid>
-  <version_id>0958e085-5430-44a3-b391-9fc679697f99</version_id>
-  <version_modified>20190411T215033Z</version_modified>
+  <version_id>8529a511-908e-4348-b311-c2c51a1aa354</version_id>
+  <version_modified>20190415T161852Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorOutdoorRH</class_name>
   <display_name>Biased Economizer Sensor: Outdoor RH</display_name>
@@ -131,7 +131,7 @@
       <filename>ControllerOutdoorAirFlow_RH.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>1C0D0879</checksum>
+      <checksum>E613A825</checksum>
     </file>
   </files>
 </measure>
