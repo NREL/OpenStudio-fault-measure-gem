@@ -129,10 +129,10 @@ class BiasedEconomizerSensorOAT < OpenStudio::Ruleset::WorkspaceUserScript
 	end
 	##################################################
     bias_sensor = "OA"
-    # if out_t_bias == 0
-      # runner.registerAsNotApplicable("#{name} is not running with zero fault level. Skipping......")
-      # return true
-    # end
+    if out_t_bias == 0
+      runner.registerAsNotApplicable("#{name} is not running with zero fault level. Skipping......")
+      return true
+    end
     
     runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice}.")
   
