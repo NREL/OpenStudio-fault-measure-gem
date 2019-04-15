@@ -656,10 +656,8 @@ module OsLib_FDD_light
     changetime = times[0]
     i = 0
 	
-    p_tol_min = 30 # percentage
     p_tol_max = 30 # percentage
 	
-    tol_min = values.min.abs*p_tol_min/100
     tol_max = values.max.abs*p_tol_max/100
 		
     # any lighting fraction change after 3am should be a result of building opening
