@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>return_air_duct_leakages</name>
   <uid>e28746df-aa8c-4f6e-a2be-6e2ff3c5e7dd</uid>
-  <version_id>50af0877-f46c-43d5-8253-99a2dc9198aa</version_id>
-  <version_modified>20190411T023337Z</version_modified>
+  <version_id>75af0fbf-1800-4bc0-bca0-b2761b055bb6</version_id>
+  <version_modified>20190411T174344Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>ReturnAirDuctLeakages</class_name>
   <display_name>Return Air Duct Leakages</display_name>
@@ -120,7 +120,7 @@
       <filename>ControllerOutdoorAirFlow_DuctLeakage.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>0984077D</checksum>
+      <checksum>540D615D</checksum>
     </file>
     <file>
       <version>
@@ -131,7 +131,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>FF192B87</checksum>
+      <checksum>C26FB0BF</checksum>
     </file>
   </files>
 </measure>

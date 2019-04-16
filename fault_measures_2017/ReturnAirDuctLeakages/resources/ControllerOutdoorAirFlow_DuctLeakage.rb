@@ -129,26 +129,26 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
   end
   main_body = "
     EnergyManagementSystem:Program,
-      t_bias"+name_cut(econ_choice)+"_DL, !- Name
+      t_bias"+name_cut(econ_choice)+"_#{$faulttype}, !- Name
       SET DELTASMALL = 0.00001, !- Program Line 1
       SET SMALLMASSFLOW = 0.001, !- Program Line 2
       SET SMALLVOLFLOW = 0.001, !- Program Line 3
       SET HIGHHUMCTRL = False, !- <none>
       SET NIGHTVENT = False, !- <none>
       SET ECON_OP = True, !- <none>
-      SET MIX_FLOW_GB#{econ_short_name}_DL = "+name_cut(econ_choice)+"MixAirFlow_CTRL_DL, !- <none>
-      IF MIX_FLOW_GB#{econ_short_name}_DL < SMALLMASSFLOW, !- Check if the duct has airflow
+      SET MIX_FLOW_GB#{econ_short_name}_#{$faulttype} = "+name_cut(econ_choice)+"MixAirFlow_CTRL_#{$faulttype}, !- <none>
+      IF MIX_FLOW_GB#{econ_short_name}_#{$faulttype} < SMALLMASSFLOW, !- Check if the duct has airflow
       SET FinalFlow = 0.00, !- <none>
       RETURN, !- <none>
       ENDIF, !- <none>
   "
 
   main_body = main_body+"
-    SET RETTmp = "+name_cut(econ_choice)+"RETTemp1_DL, !- <none>
-    SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1_DL, !- <none>
-    SET OATmp = "+name_cut(econ_choice)+"OATTemp1_DL, !- <none>
-    SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1_DL, !- <none>
-    SET PTmp = "+name_cut(econ_choice)+"RETPressure1_DL, !- <none>
+    SET RETTmp = "+name_cut(econ_choice)+"RETTemp1_#{$faulttype}, !- <none>
+    SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1_#{$faulttype}, !- <none>
+    SET OATmp = "+name_cut(econ_choice)+"OATTemp1_#{$faulttype}, !- <none>
+    SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1_#{$faulttype}, !- <none>
+    SET PTmp = "+name_cut(econ_choice)+"RETPressure1_#{$faulttype}, !- <none>
     IF PTmp < DELTASMALL, !- <none>
     SET PTmp = 101325.0, !- Zero pressure during warmup may crash the code
     ENDIF, !- <none>
@@ -166,12 +166,12 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
   "
 	
   main_body = main_body+"
-      SET VDOT_DES = DesAirflow"+name_cut(econ_choice)+"_DL, !- <none>
-      SET CMDOT_D = CMDesAirflow"+name_cut(econ_choice)+"_DL, !- <none>
-      SET HMDOT_D = HMDesAirflow"+name_cut(econ_choice)+"_DL, !- <none>
+      SET VDOT_DES = DesAirflow"+name_cut(econ_choice)+"_#{$faulttype}, !- <none>
+      SET CMDOT_D = CMDesAirflow"+name_cut(econ_choice)+"_#{$faulttype}, !- <none>
+      SET HMDOT_D = HMDesAirflow"+name_cut(econ_choice)+"_#{$faulttype}, !- <none>
       SET MDOT_DES = @Max CMDOT_D HMDOT_D, !- <none>
-      SET MDOT_OA_MIN = MinOAMdot"+name_cut(econ_choice)+"_DL, !- <none>
-      SET MDOT_OA_MAX = MaxOAMdot"+name_cut(econ_choice)+"_DL, !- <none>
+      SET MDOT_OA_MIN = MinOAMdot"+name_cut(econ_choice)+"_#{$faulttype}, !- <none>
+      SET MDOT_OA_MAX = MaxOAMdot"+name_cut(econ_choice)+"_#{$faulttype}, !- <none>
       IF VDOT_DES > SMALLVOLFLOW, !- <none>
       SET MIN_FRAC = MDOT_OA_MIN/MDOT_DES, !- no if statement for airloop existence because the code won't work without an airloop
       SET MIN_FLOW = MDOT_OA_MIN, !- <none>
@@ -183,7 +183,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
   
   if not controlleroutdoorair.getString(16).to_s.eql?("")  #Minimum Outdoor Air Schedule Name
     main_body = main_body+"
-      SET MIN_SCH_VALUE = "+name_cut(econ_choice)+"_MIN_SCH_DL, !- <none>
+      SET MIN_SCH_VALUE = "+name_cut(econ_choice)+"_MIN_SCH_#{$faulttype}, !- <none>
       SET MIN_SCH_VALUE = @MAX MIN_SCH_VALUE 0.00, !- <none>
       SET MIN_SCH_VALUE = @MIN MIN_SCH_VALUE 1.00, !- <none>
       SET MIN_FRAC = MIN_SCH_VALUE*MIN_FRAC, !- <none>
@@ -214,7 +214,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
               zone_name = name_cut(controllermechventilation.getString(4+3*i+1).to_s)
               if outdoorairspec.numFields == 7  #multiply the number with a schedule
                 main_body = main_body+"
-                  SET MECH_SCH = "+zone_name+"_OA_SCH_DL, !- NEED A SENSOR FOR THE SCHEDULE
+                  SET MECH_SCH = "+zone_name+"_OA_SCH_#{$faulttype}, !- NEED A SENSOR FOR THE SCHEDULE
                 "
               else
                 main_body = main_body+"
@@ -223,9 +223,9 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
               end
               if outdoorairspec.getString(1).to_s.eql?("Sum") #add code for summation
                 main_body = main_body+"
-                  SET ZONE_VOL = "+zone_name+"_VOL_DL, !- NEED INTERNAL VARIABLE FOR ZONE VOLUME
-                  SET ZONE_MUL = "+zone_name+"_MUL_DL, !- NEED INTERNAL VARIABLE FOR ZONE MULTIPLIER
-                  SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL_DL, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
+                  SET ZONE_VOL = "+zone_name+"_VOL_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE VOLUME
+                  SET ZONE_MUL = "+zone_name+"_MUL_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE MULTIPLIER
+                  SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
                 "
 				#####################################################
 				if peoples.empty?
@@ -236,7 +236,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
 				  peoples.each do |people|
 			        if people.getString(1).to_s.eql?(controllermechventilation.getString(4+3*i+1).to_s)
 				      main_body = main_body+"
-                        SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_T, !- NEED SENSOR FOR ZONE People Occupant Count
+                        SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_T_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
 				      "
 				    else
 				      main_body = main_body+"
@@ -250,7 +250,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
                   SET IND_OA = #{outdoorairspec.getString(2).to_s}, !- Zone occupant flow rate
                   SET IND_OA = IND_OA*ZONE_MUL*ZONE_LIST_MUL*ZONE_PPL, !- <none>
                   SET OA_MECH = OA_MECH+IND_OA*MECH_SCH, !- <none>
-                  SET ZONE_AREA = "+zone_name+"_AREA_DL, !- NEED INTERNAL VARIABLE FOR ZONE FLOOR AREA
+                  SET ZONE_AREA = "+zone_name+"_AREA_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE FLOOR AREA
                   SET IND_OA = "+outdoorairspec.getString(3).to_s+"*ZONE_AREA, !- Zone floor area flow rate
                   SET IND_OA = IND_OA*ZONE_MUL*ZONE_LIST_MUL, !- <none>
                   SET OA_MECH = OA_MECH+IND_OA*MECH_SCH, !- <none>
@@ -264,14 +264,14 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
               else #add code for maximum
                 main_body = main_body+"
                   SET IND_OA_FIN = 0.0, !- For maximum calculation
-                  SET ZONE_VOL = "+zone_name+"_VOL_DL, !- NEED INTERNAL VARIABLE FOR ZONE VOLUME
-                  SET ZONE_MUL = "+zone_name+"_MUL_DL, !- NEED INTERNAL VARIABLE FOR ZONE MULTIPLIER
-                  SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL_DL, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
-                  SET ZONE_PPL = "+zone_name+"_PEOPLE_DL, !- NEED SENSOR FOR ZONE People Occupant Count
+                  SET ZONE_VOL = "+zone_name+"_VOL_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE VOLUME
+                  SET ZONE_MUL = "+zone_name+"_MUL_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE MULTIPLIER
+                  SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
+                  SET ZONE_PPL = "+zone_name+"_PEOPLE_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
                   SET IND_OA = #{outdoorairspec.getString(2).to_s}, !- Zone occupant flow rate
                   SET IND_OA = IND_OA*ZONE_MUL*ZONE_LIST_MUL*ZONE_PPL, !- <none>
                   SET IND_OA_FIN = @Max IND_OA_FIN IND_OA, !- <none>
-                  SET ZONE_AREA = "+zone_name+"_AREA_DL, !- NEED INTERNAL VARIABLE FOR ZONE FLOOR AREA
+                  SET ZONE_AREA = "+zone_name+"_AREA_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE FLOOR AREA
                   SET IND_OA = "+outdoorairspec.getString(3).to_s+"*ZONE_AREA, !- Zone floor area flow rate
                   SET IND_OA = IND_OA*ZONE_MUL*ZONE_LIST_MUL, !- <none>
                   SET IND_OA_FIN = @Max IND_OA_FIN IND_OA, !- <none>
@@ -305,15 +305,15 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
     SET TDiff = RETTmp-OATmp, !- <none>
     SET TDiff = @Abs TDiff, !- <none>
     IF TDiff > DELTASMALL, !- <none>
-    SET OA_SIGN = (RETTmp-"+name_cut(econ_choice)+"MASetPoint1_DL)/(RETTmp-OATmp), !- Initialize the signal
+    SET OA_SIGN = (RETTmp-"+name_cut(econ_choice)+"MASetPoint1_#{$faulttype})/(RETTmp-OATmp), !- Initialize the signal
     ELSE, !- <none>
-    IF RETTmp < "+name_cut(econ_choice)+"MASetPoint1_DL && RETTmp >= OATmp, !- <none>
+    IF RETTmp < "+name_cut(econ_choice)+"MASetPoint1_#{$faulttype} && RETTmp >= OATmp, !- <none>
     SET OA_SIGN = -1, !- <none>
-    ELSEIF RETTmp < "+name_cut(econ_choice)+"MASetPoint1_DL && RETTmp < OATmp, !- <none>
+    ELSEIF RETTmp < "+name_cut(econ_choice)+"MASetPoint1_#{$faulttype} && RETTmp < OATmp, !- <none>
     SET OA_SIGN = 1, !- <none>
-    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1_DL && RETTmp >= OATmp,
+    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1_#{$faulttype} && RETTmp >= OATmp,
     SET OA_SIGN = 1, !- <none>
-    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1_DL && RETTmp < OATmp,
+    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1_#{$faulttype} && RETTmp < OATmp,
     SET OA_SIGN = -1, !- <none>
     ENDIF, !- <none>
     ENDIF, !- <none>
@@ -388,7 +388,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
       SET HIGHHUMCTRL = False, !- <none>
       ELSE, !- Running the economizer
       SET ECON_OP = True, !- <none>
-      IF OATmp > "+name_cut(econ_choice)+"MASetPoint1_DL, !- <none>
+      IF OATmp > "+name_cut(econ_choice)+"MASetPoint1_#{$faulttype}, !- <none>
       SET OA_SIGN = 1, !- <none>
       ENDIF, !- <none>
     "
@@ -439,13 +439,13 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
     end
     if controlleroutdoorair.getString(21).to_s.eql?("Yes")  #High humidity control check
       main_body = main_body+"
-        IF ZoneHumidLOAD"+name_cut(econ_choice)+"_DL < 0.0, !- High Humidity Control
+        IF ZoneHumidLOAD"+name_cut(econ_choice)+"_#{$faulttype} < 0.0, !- High Humidity Control
         SET HIGHHUMCTRL = True, !- <none>
         ENDIF, !- <none>
       "
       if controlleroutdoorair.getString(24).to_s.eql?("Yes")  #Control High Indoor Humidity Based on Outdoor Humidity Ratio
         main_body = main_body+"
-          IF ZoneHumid"+name_cut(econ_choice)+"_DL <= OAHumRat, !- Control High Indoor Humidity Based on Outdoor Humidity Ratio
+          IF ZoneHumid"+name_cut(econ_choice)+"_#{$faulttype} <= OAHumRat, !- Control High Indoor Humidity Based on Outdoor Humidity Ratio
           SET HIGHHUMCTRL = False, !- Set it back to False
           ENDIF, !- <none>
         "
@@ -453,7 +453,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
     end
     if not controlleroutdoorair.getString(20).to_s.eql?("")  #Time of Day Economizer Control Schedule Name
       main_body = main_body+"
-        SET ECON_FLOW_SCH_VAL = ECONCTRL"+name_cut(econ_choice)+"_SCH_DL, !- <none>
+        SET ECON_FLOW_SCH_VAL = ECONCTRL"+name_cut(econ_choice)+"_SCH_#{$faulttype}, !- <none>
         IF ECON_FLOW_SCH_VAL > 0, !- <none>
         SET OA_SIGN = 1.0, !- <none>
         SET ECON_OP = True, !- <none>
@@ -483,17 +483,17 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
     IF NIGHTVENT == 0,
     IF OA_SIGN > MIN_FRAC,
     IF OA_SIGN < 1.0,
-    IF MIX_FLOW_GB#{econ_short_name}_DL > SMALLMASSFLOW, !- Check if the duct has airflow
-    SET RETENTH_GB#{econ_short_name}_DL = ORI_RETENTH, !- to simulate feedback control, don't use measurement values
-    SET RETHUMRAT_GB#{econ_short_name}_DL = ORI_RETHumRat, !- to simulate feedback control, don't use measurement values
-    SET OAENTH_GB#{econ_short_name}_DL = ORI_OAENTH, !- to simulate feedback control, don't use measurement values
-    SET OAHUMRAT_GB#{econ_short_name}_DL = ORI_OAHumRat, !- to simulate feedback control, don't use measurement values
-    SET LOWLIMIT_GB#{econ_short_name}_DL = MIN_FRAC, !- <none>
-    SET UPLIMIT_GB#{econ_short_name}_DL = 1, !- <none>
-    SET MIXTEMPSET_GB#{econ_short_name}_DL = "+name_cut(econ_choice)+"MASetPoint1_DL, !-<none>
-    RUN EMSSolveRegulaFalsi_OA_SIGN#{econ_short_name}_DL, !- <none>
-    IF FLAG_GB#{econ_short_name}_DL > 0, !- <none>
-    SET OA_SIGN = SOLN_GB#{econ_short_name}_DL, !- <none>
+    IF MIX_FLOW_GB#{econ_short_name}_#{$faulttype} > SMALLMASSFLOW, !- Check if the duct has airflow
+    SET RETENTH_GB#{econ_short_name}_#{$faulttype} = ORI_RETENTH, !- to simulate feedback control, don't use measurement values
+    SET RETHUMRAT_GB#{econ_short_name}_#{$faulttype} = ORI_RETHumRat, !- to simulate feedback control, don't use measurement values
+    SET OAENTH_GB#{econ_short_name}_#{$faulttype} = ORI_OAENTH, !- to simulate feedback control, don't use measurement values
+    SET OAHUMRAT_GB#{econ_short_name}_#{$faulttype} = ORI_OAHumRat, !- to simulate feedback control, don't use measurement values
+    SET LOWLIMIT_GB#{econ_short_name}_#{$faulttype} = MIN_FRAC, !- <none>
+    SET UPLIMIT_GB#{econ_short_name}_#{$faulttype} = 1, !- <none>
+    SET MIXTEMPSET_GB#{econ_short_name}_#{$faulttype} = "+name_cut(econ_choice)+"MASetPoint1_#{$faulttype}, !-<none>
+    RUN EMSSolveRegulaFalsi_OA_SIGN#{econ_short_name}_#{$faulttype}, !- <none>
+    IF FLAG_GB#{econ_short_name}_#{$faulttype} > 0, !- <none>
+    SET OA_SIGN = SOLN_GB#{econ_short_name}_#{$faulttype}, !- <none>
     ENDIF,
     ENDIF,
     ENDIF,
@@ -513,10 +513,10 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
   if controlleroutdoorair.getString(21).to_s.eql?("Yes")  #High humidity control check
     main_body = main_body+"
       IF HIGHHUMCTRL == True, !- high humidity control
-      SET MIX_FLOW_GB#{econ_short_name}_DL = "+name_cut(econ_choice)+"MixAirFlow_CTRL_DL, !- <none>
+      SET MIX_FLOW_GB#{econ_short_name}_#{$faulttype} = "+name_cut(econ_choice)+"MixAirFlow_CTRL_#{$faulttype}, !- <none>
       SET OA_SIGN_CAN = "+controlleroutdoorair.getString(23).to_s+", !- <none>
       SET OA_SIGN_CAN = OA_SIGN_CAN*MDOT_OA_MAX, !- <none>
-      SET OA_SIGN_CAN = OA_SIGN_CAN/MIX_FLOW_GB#{econ_short_name}_DL, !- <none>
+      SET OA_SIGN_CAN = OA_SIGN_CAN/MIX_FLOW_GB#{econ_short_name}_#{$faulttype}, !- <none>
       SET OA_SIGN = @MAX OA_SIGN_CAN MIN_FRAC, !- <none>
       ENDIF,
     "
@@ -539,12 +539,12 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
   
   if not controlleroutdoorair.getString(17).to_s.eql?("")  #Minimum Fraction of Outdoor Air Schedule Name
     main_body = main_body+"
-      SET MIN_SCH_VALUE = "+name_cut(econ_choice)+"_MIN_FRAC_SCH_DL, !- <none>
+      SET MIN_SCH_VALUE = "+name_cut(econ_choice)+"_MIN_FRAC_SCH_#{$faulttype}, !- <none>
       SET MIN_SCH_VALUE = @Max MIN_SCH_VALUE 0.0, !- <none>
       SET MIN_SCH_VALUE = @Min MIN_SCH_VALUE 1.0, !- <none>
       IF MIN_SCH_VALUE > MIN_FRAC, !- <none>
       SET MIN_FRAC = MIN_SCH_VALUE, !- <none>
-      SET MDOT_OA_MIN = MIN_FRAC*MIX_FLOW_GB#{econ_short_name}_DL, !- <none>
+      SET MDOT_OA_MIN = MIN_FRAC*MIX_FLOW_GB#{econ_short_name}_#{$faulttype}, !- <none>
       ENDIF, !- <none>
       SET OA_SIGN = @Max OA_SIGN MIN_FRAC, !- <none>
     "
@@ -552,12 +552,12 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
   
   if not controlleroutdoorair.getString(18).to_s.eql?("")  #Maximum Fraction of Outdoor Air Schedule Name
     main_body = main_body+"
-      SET MAX_SCH_VALUE = "+name_cut(econ_choice)+"_MAX_FRAC_SCH_DL, !- <none>
+      SET MAX_SCH_VALUE = "+name_cut(econ_choice)+"_MAX_FRAC_SCH_#{$faulttype}, !- <none>
       SET MAX_SCH_VALUE = @Max MAX_SCH_VALUE 0.0, !- <none>
       SET MAX_SCH_VALUE = @Min MAX_SCH_VALUE 1.0, !- <none>
       IF MIN_FRAC > MAX_SCH_VALUE, !- <none>
       SET MIN_FRAC = MAX_SCH_VALUE, !- <none>
-      SET MDOT_OA_MIN = MIN_FRAC*MIX_FLOW_GB#{econ_short_name}_DL, !- <none>
+      SET MDOT_OA_MIN = MIN_FRAC*MIX_FLOW_GB#{econ_short_name}_#{$faulttype}, !- <none>
       ENDIF, !- <none>
       SET OA_SIGN = @Min OA_SIGN MAX_SCH_VALUE, !- <none>
     "
@@ -565,14 +565,14 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
   
   #calculate the outdoor airflow rate
   main_body = main_body+"
-    SET FinalFlow = OA_SIGN*MIX_FLOW_GB#{econ_short_name}_DL, !- <none>
+    SET FinalFlow = OA_SIGN*MIX_FLOW_GB#{econ_short_name}_#{$faulttype}, !- <none>
   "
   
   #make sure that it doesn't exceed the limits of ventilation
   if not controlleroutdoorair.getString(19).to_s.eql?("")
     main_body = main_body+"
       IF OA_MECH > FinalFlow, !- <none>
-      SET FinalFlow = @Min OA_MECH MIX_FLOW_GB#{econ_short_name}_DL, !- <none>
+      SET FinalFlow = @Min OA_MECH MIX_FLOW_GB#{econ_short_name}_#{$faulttype}, !- <none>
       ENDIF, !- <none>
     "
   end
@@ -592,7 +592,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
   #check with mixed airflow
   main_body = main_body+"
     SET OA_NEW = FinalFlow, !- <none>
-    SET OA_NEW = @Min OA_NEW MIX_FLOW_GB#{econ_short_name}_DL, !- <none>
+    SET OA_NEW = @Min OA_NEW MIX_FLOW_GB#{econ_short_name}_#{$faulttype}, !- <none>
     SET FinalFlow = OA_NEW, !- <none>
   "
   
@@ -608,7 +608,7 @@ def econ_ductleakage_ems_main_body(workspace, controlleroutdoorair, leak_ratio, 
     SET OA_NEW = @Min MDOT_OA_MAX OA_NEW, !- <none>
     SET FinalFlow = OA_NEW, !- <none>
     ENDIF, !- <none>
-    SET "+name_cut(econ_choice)+"MDOT_OA = FinalFlow + ("+name_cut(econ_choice)+"MixAirFlow_CTRL_DL - FinalFlow)*("+leakratio+")*AF_current_#{$faulttype}_#{oacontrollername}; !- <none>
+    SET "+name_cut(econ_choice)+"MDOT_OA_#{$faulttype} = FinalFlow + ("+name_cut(econ_choice)+"MixAirFlow_CTRL_#{$faulttype} - FinalFlow)*("+leakratio+")*AF_current_#{$faulttype}_#{oacontrollername}; !- <none>
   "
   
   return main_body
@@ -726,17 +726,17 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   
   string_objects << "
     EnergyManagementSystem:Subroutine,
-      RES_OA_SIGN#{econ_short_name}_DL, !- Name
-      SET TEMP_OA_SIGN = OA_SIGN_GB#{econ_short_name}_DL, !- <none>
-      SET TEMP_MIX_FLOW = MIX_FLOW_GB#{econ_short_name}_DL, !- <none>
+      RES_OA_SIGN#{econ_short_name}_#{$faulttype}, !- Name
+      SET TEMP_OA_SIGN = OA_SIGN_GB#{econ_short_name}_#{$faulttype}, !- <none>
+      SET TEMP_MIX_FLOW = MIX_FLOW_GB#{econ_short_name}_#{$faulttype}, !- <none>
       SET TEMP_OA_FLOW = TEMP_OA_SIGN*TEMP_MIX_FLOW, !- <none>
       SET RECFLOW1 = 0, !- <none>
       SET RECFLOW2 = TEMP_MIX_FLOW-TEMP_OA_FLOW, !- <none>
       SET RECIR_FLOW = @MAX RECFLOW1 RECFLOW2, !- <none>
-      SET TEMP_RETENTH = RETENTH_GB#{econ_short_name}_DL, !- <none>
-      SET TEMP_RETHUMRAT = RETHUMRAT_GB#{econ_short_name}_DL, !- <none>
-      SET TEMP_OAENTH = OAENTH_GB#{econ_short_name}_DL, !- <none>
-      SET TEMP_OAHUMRAT = OAHUMRAT_GB#{econ_short_name}_DL, !- <none>
+      SET TEMP_RETENTH = RETENTH_GB#{econ_short_name}_#{$faulttype}, !- <none>
+      SET TEMP_RETHUMRAT = RETHUMRAT_GB#{econ_short_name}_#{$faulttype}, !- <none>
+      SET TEMP_OAENTH = OAENTH_GB#{econ_short_name}_#{$faulttype}, !- <none>
+      SET TEMP_OAHUMRAT = OAHUMRAT_GB#{econ_short_name}_#{$faulttype}, !- <none>
       SET TEMP_MIXENTH = RECIR_FLOW*TEMP_RETENTH, !- <none>
       SET TEMP_MIXENTH = TEMP_MIXENTH+TEMP_OA_FLOW*TEMP_OAENTH, !- <none>
       SET TEMP_MIXENTH = TEMP_MIXENTH/TEMP_MIX_FLOW, !- <none>
@@ -744,23 +744,23 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
       SET TEMP_MIXHUMRAT = TEMP_MIXHUMRAT+TEMP_OA_FLOW*TEMP_OAHUMRAT, !- <none>
       SET TEMP_MIXHUMRAT = TEMP_MIXHUMRAT/TEMP_MIX_FLOW, !- <none>
       SET TEMP_MIXTEMP = @TdbFnHW TEMP_MIXENTH TEMP_MIXHUMRAT, !- <none>
-      SET TEMP_AA = MIXTEMPSET_GB#{econ_short_name}_DL-TEMP_MIXTEMP, !- <none>
-      SET RESIDUAL_GB#{econ_short_name}_DL = TEMP_AA; !- <none>
+      SET TEMP_AA = MIXTEMPSET_GB#{econ_short_name}_#{$faulttype}-TEMP_MIXTEMP, !- <none>
+      SET RESIDUAL_GB#{econ_short_name}_#{$faulttype} = TEMP_AA; !- <none>
   "
   
   string_objects << "
     EnergyManagementSystem:Subroutine,
-      EMSSolveRegulaFalsi_OA_SIGN#{econ_short_name}_DL, !- Name
-      SET OA_SIGN_GB#{econ_short_name}_DL = LOWLIMIT_GB#{econ_short_name}_DL, !- <none>
-      RUN RES_OA_SIGN#{econ_short_name}_DL, !- <none>
-      SET Y0 = RESIDUAL_GB#{econ_short_name}_DL, !- <none>
-      SET OA_SIGN_GB#{econ_short_name}_DL = UPLIMIT_GB#{econ_short_name}_DL, !- <none>
-      RUN RES_OA_SIGN#{econ_short_name}_DL, !- <none>
-      SET Y1 = RESIDUAL_GB#{econ_short_name}_DL, !- <none>
+      EMSSolveRegulaFalsi_OA_SIGN#{econ_short_name}_#{$faulttype}, !- Name
+      SET OA_SIGN_GB#{econ_short_name}_#{$faulttype} = LOWLIMIT_GB#{econ_short_name}_#{$faulttype}, !- <none>
+      RUN RES_OA_SIGN#{econ_short_name}_#{$faulttype}, !- <none>
+      SET Y0 = RESIDUAL_GB#{econ_short_name}_#{$faulttype}, !- <none>
+      SET OA_SIGN_GB#{econ_short_name}_#{$faulttype} = UPLIMIT_GB#{econ_short_name}_#{$faulttype}, !- <none>
+      RUN RES_OA_SIGN#{econ_short_name}_#{$faulttype}, !- <none>
+      SET Y1 = RESIDUAL_GB#{econ_short_name}_#{$faulttype}, !- <none>
       SET PROD = Y0*Y1, !- <none>
       IF Y0*Y1 > 0, !- <none>
-      SET FLAG_GB#{econ_short_name}_DL = -2, !- <none>
-      SET SOLN_GB#{econ_short_name}_DL = LOWLIMIT_GB#{econ_short_name}_DL, !- <none>
+      SET FLAG_GB#{econ_short_name}_#{$faulttype} = -2, !- <none>
+      SET SOLN_GB#{econ_short_name}_#{$faulttype} = LOWLIMIT_GB#{econ_short_name}_#{$faulttype}, !- <none>
       RETURN, ! Error for solution
       ENDIF, !- <none>
       SET CONT = 1, !- <none>
@@ -774,11 +774,11 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
       SET DY = 1.d-10, !- <none>
       ENDIF, !- <none>
       ENDIF, !- <none>
-      SET XTemp = Y0*UPLIMIT_GB#{econ_short_name}_DL, !- <none>
-      SET XTemp = (XTemp-Y1*LOWLIMIT_GB#{econ_short_name}_DL)/DY, !- <none>
-      SET OA_SIGN_GB#{econ_short_name}_DL = XTemp, !- <none>
-      RUN RES_OA_SIGN#{econ_short_name}_DL, !- <none>
-      SET YTemp = RESIDUAL_GB#{econ_short_name}_DL, !- <none>
+      SET XTemp = Y0*UPLIMIT_GB#{econ_short_name}_#{$faulttype}, !- <none>
+      SET XTemp = (XTemp-Y1*LOWLIMIT_GB#{econ_short_name}_#{$faulttype})/DY, !- <none>
+      SET OA_SIGN_GB#{econ_short_name}_#{$faulttype} = XTemp, !- <none>
+      RUN RES_OA_SIGN#{econ_short_name}_#{$faulttype}, !- <none>
+      SET YTemp = RESIDUAL_GB#{econ_short_name}_#{$faulttype}, !- <none>
       SET NITE = NITE+1, !- <none>
       IF YTemp < 0.0001 && YTemp+0.0001 > 0, !- <none>
       SET CONT = 0, !- <none>
@@ -789,101 +789,101 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
       IF CONT > 0.0d0, !- <none>
       IF Y0 < 0.0d0, !- <none>
       IF YTemp < 0.0d0, !- <none>
-      SET LOWLIMIT_GB#{econ_short_name}_DL = XTemp, !- <none>
+      SET LOWLIMIT_GB#{econ_short_name}_#{$faulttype} = XTemp, !- <none>
       SET Y0 = YTemp, !- <none>
       ELSE, !- <none>
-      SET UPLIMIT_GB#{econ_short_name}_DL = XTemp, !- <none>
+      SET UPLIMIT_GB#{econ_short_name}_#{$faulttype} = XTemp, !- <none>
       SET Y1 = YTemp, !- <none>
       ENDIF, !- <none>
       ELSE, !- <none>
       IF YTemp < 0.0d0, !- <none>
-      SET UPLIMIT_GB#{econ_short_name}_DL = XTemp, !- <none>
+      SET UPLIMIT_GB#{econ_short_name}_#{$faulttype} = XTemp, !- <none>
       SET Y1 = YTemp, !- <none>
       ELSE, !- <none>
-      SET LOWLIMIT_GB#{econ_short_name}_DL = XTemp, !- <none>
+      SET LOWLIMIT_GB#{econ_short_name}_#{$faulttype} = XTemp, !- <none>
       SET Y0 = YTemp, !- <none>
       ENDIF, !- <none>
       ENDIF, !- <none>
       ENDIF, !- <none>
       ENDWHILE, !- <none>
       IF CONV == 1, !- <none>
-      SET FLAG_GB#{econ_short_name}_DL = NITE, !- <none>
+      SET FLAG_GB#{econ_short_name}_#{$faulttype} = NITE, !- <none>
       ELSE,
-      SET FLAG_GB#{econ_short_name}_DL = -1, !- <none>
+      SET FLAG_GB#{econ_short_name}_#{$faulttype} = -1, !- <none>
       ENDIF, !- <none>
-      SET SOLN_GB#{econ_short_name}_DL = XTemp; !- <none>
+      SET SOLN_GB#{econ_short_name}_#{$faulttype} = XTemp; !- <none>
   "
   
   string_objects << "
     EnergyManagementSystem:ProgramCallingManager,
       EMSCallt_bias"+name_cut(econ_choice)+", !- Name
       InsideHVACSystemIterationLoop,       !- EnergyPlus Model Calling Point
-      t_bias"+name_cut(econ_choice)+"_DL, !- Name
+      t_bias"+name_cut(econ_choice)+"_#{$faulttype}, !- Name
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      RESIDUAL_GB#{econ_short_name}_DL;
+      RESIDUAL_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      LOWLIMIT_GB#{econ_short_name}_DL;
+      LOWLIMIT_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      UPLIMIT_GB#{econ_short_name}_DL;
+      UPLIMIT_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      FLAG_GB#{econ_short_name}_DL;
+      FLAG_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      SOLN_GB#{econ_short_name}_DL;
+      SOLN_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      OA_SIGN_GB#{econ_short_name}_DL;
+      OA_SIGN_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      MIX_FLOW_GB#{econ_short_name}_DL;
+      MIX_FLOW_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      RETENTH_GB#{econ_short_name}_DL;
+      RETENTH_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      RETHUMRAT_GB#{econ_short_name}_DL;
+      RETHUMRAT_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      OAENTH_GB#{econ_short_name}_DL;
+      OAENTH_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      OAHUMRAT_GB#{econ_short_name}_DL;
+      OAHUMRAT_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      MIXTEMPSET_GB#{econ_short_name}_DL;
+      MIXTEMPSET_GB#{econ_short_name}_#{$faulttype};
   "
   
   string_objects << "   
     EnergyManagementSystem:Actuator,
-      "+name_cut(econ_choice)+"MDOT_OA_DL,        !- Name
+      "+name_cut(econ_choice)+"MDOT_OA_#{$faulttype},        !- Name
       "+econ_choice+", !- Actuated Component Unique Name
       Outdoor Air Controller,                                  !- Actuated Component Type
       Air Mass Flow Rate;                           !- Actuated Component Control Type
@@ -920,35 +920,35 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      DesAirflow"+name_cut(econ_choice)+"_DL,
+      DesAirflow"+name_cut(econ_choice)+"_#{$faulttype},
       "+airsystem_name+",
       Intermediate Air System Main Supply Volume Flow Rate;
   "
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      CMDesAirflow"+name_cut(econ_choice)+"_DL,
+      CMDesAirflow"+name_cut(econ_choice)+"_#{$faulttype},
       "+airsystem_name+",
       Intermediate Air System "+sizing_option+" Peak Cooling Mass Flow Rate;
   "
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      HMDesAirflow"+name_cut(econ_choice)+"_DL,
+      HMDesAirflow"+name_cut(econ_choice)+"_#{$faulttype},
       "+airsystem_name+",
       Intermediate Air System "+sizing_option+" Peak Heating Mass Flow Rate;
   "
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      MinOAMdot"+name_cut(econ_choice)+"_DL,
+      MinOAMdot"+name_cut(econ_choice)+"_#{$faulttype},
       "+econ_choice+",
       Outdoor Air Controller Minimum Mass Flow Rate;
   "
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      MaxOAMdot"+name_cut(econ_choice)+"_DL,
+      MaxOAMdot"+name_cut(econ_choice)+"_#{$faulttype},
       "+econ_choice+",
       Outdoor Air Controller Maximum Mass Flow Rate;
   "
@@ -974,25 +974,25 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
               zone_name_tag = name_cut(zone_name)
               string_objects << "
                 EnergyManagementSystem:InternalVariable,
-                  "+zone_name_tag+"_VOL_DL,
+                  "+zone_name_tag+"_VOL_#{$faulttype},
                   "+zone_name+",
                   Zone Air Volume;
               "
               string_objects << "
                 EnergyManagementSystem:InternalVariable,
-                  "+zone_name_tag+"_MUL_DL,
+                  "+zone_name_tag+"_MUL_#{$faulttype},
                   "+zone_name+",
                   Zone Multiplier;
               "
               string_objects << "
                 EnergyManagementSystem:InternalVariable,
-                  "+zone_name_tag+"_LIST_MUL_DL,
+                  "+zone_name_tag+"_LIST_MUL_#{$faulttype},
                   "+zone_name+",
                   Zone List Multiplier;
               "
               string_objects << "
                 EnergyManagementSystem:InternalVariable,
-                  "+zone_name_tag+"_AREA_DL,
+                  "+zone_name_tag+"_AREA_#{$faulttype},
                   "+zone_name+",
                   Zone Floor Area;
               "
@@ -1002,7 +1002,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
 				  people_name = people.getString(0).to_s
 				  string_objects << "
                     EnergyManagementSystem:Sensor,
-                    "+zone_name_tag+"_PEOPLE#{bias_sensor}_T, !- Name
+                    "+zone_name_tag+"_PEOPLE#{bias_sensor}_T_#{$faulttype}, !- Name
                     "+people_name+",                        !- Output:Variable or Output:Meter Index Key Name
                     Zone People Occupant Count;                !- Output:Variable or Output:Meter Name
                   "
@@ -1011,7 +1011,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
 			  #####################################################
               string_objects << "
                 EnergyManagementSystem:Sensor,
-                  "+zone_name_tag+"_OA_SCH_DL, !- Name
+                  "+zone_name_tag+"_OA_SCH_#{$faulttype}, !- Name
                   "+oaschedule_name+",                        !- Output:Variable or Output:Meter Index Key Name
                   Schedule Value;                !- Output:Variable or Output:Meter Name
               "
@@ -1024,14 +1024,14 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(airsystem_name)+"_Htg_DL,
+      "+name_cut(airsystem_name)+"_Htg_#{$faulttype},
       "+airsystem_name+",
       Air System Heating Coil Total Heating Energy;
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(airsystem_name)+"_Ctg_DL,
+      "+name_cut(airsystem_name)+"_Ctg_#{$faulttype},
       "+airsystem_name+",
       Air System Cooling Coil Total Cooling Energy;
   "
@@ -1039,21 +1039,21 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   ret_node_name = controlleroutdoorair.getString(2).to_s
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"RETTemp1_DL,  !- Name
+      "+name_cut(econ_choice)+"RETTemp1_#{$faulttype},  !- Name
       "+ret_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Temperature;                !- Output:Variable or Output:Meter Name
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"RETOmega1_DL,  !- Name
+      "+name_cut(econ_choice)+"RETOmega1_#{$faulttype},  !- Name
       "+ret_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Humidity Ratio;                !- Output:Variable or Output:Meter Name
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"RETPressure1_DL,  !- Name
+      "+name_cut(econ_choice)+"RETPressure1_#{$faulttype},  !- Name
       "+ret_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Pressure;                !- Output:Variable or Output:Meter Name
   "
@@ -1061,7 +1061,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   mx_node_name = controlleroutdoorair.getString(3).to_s
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"MASetPoint1_DL,  !- Name
+      "+name_cut(econ_choice)+"MASetPoint1_#{$faulttype},  !- Name
       "+mx_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Setpoint Temperature;                !- Output:Variable or Output:Meter Name
   "
@@ -1069,21 +1069,21 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   oa_node_name = controlleroutdoorair.getString(4).to_s
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"OATTemp1_DL,  !- Name
+      "+name_cut(econ_choice)+"OATTemp1_#{$faulttype},  !- Name
       "+oa_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Temperature;                !- Output:Variable or Output:Meter Name
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"OATOmega1_DL,  !- Name
+      "+name_cut(econ_choice)+"OATOmega1_#{$faulttype},  !- Name
       "+oa_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Humidity Ratio;                !- Output:Variable or Output:Meter Name
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"MixAirFlow_CTRL_DL,  !- Name
+      "+name_cut(econ_choice)+"MixAirFlow_CTRL_#{$faulttype},  !- Name
       "+airsystem_name+",                        !- Output:Variable or Output:Meter Index Key Name
       Air System Mixed Air Mass Flow Rate;                !- Output:Variable or Output:Meter Name
   "
@@ -1094,7 +1094,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
     # check high humidity control before adding
     string_objects << "
       EnergyManagementSystem:Sensor,
-        ZoneHumid"+name_cut(econ_choice)+"_DL,  !- Name
+        ZoneHumid"+name_cut(econ_choice)+"_#{$faulttype},  !- Name
         "+humidistat_zone+",                        !- Output:Variable or Output:Meter Index Key Name
         Zone Air Humidity Ratio;                !- Output:Variable or Output:Meter Name
     "
@@ -1102,7 +1102,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
     # check high humidity control before adding
     string_objects << "
       EnergyManagementSystem:Sensor,
-        ZoneHumidLOAD"+name_cut(econ_choice)+"_DL,  !- Name
+        ZoneHumidLOAD"+name_cut(econ_choice)+"_#{$faulttype},  !- Name
         "+humidistat_zone+",                        !- Output:Variable or Output:Meter Index Key Name
         Zone Predicted Moisture Load to Humidifying Setpoint Moisture Transfer Rate;                !- Output:Variable or Output:Meter Name
     "
@@ -1112,7 +1112,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   if not controlleroutdoorair.getString(20).to_s.eql?("")
     string_objects << "
       EnergyManagementSystem:Sensor,
-        ECONCTRL"+name_cut(econ_choice)+"_SCH_DL, !- Name
+        ECONCTRL"+name_cut(econ_choice)+"_SCH_#{$faulttype}, !- Name
         "+controlleroutdoorair.getString(20).to_s+", !- Schedule Name
         Schedule Value; !- Output:Variable
     "
@@ -1122,7 +1122,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   if false
     string_objects << "
       EnergyManagementSystem:Sensor,
-        NIGHTVENT_SCH_DL, !- Name
+        NIGHTVENT_SCH_#{$faulttype}, !- Name
         [Schedule name from Ruby], !- Schedule Name
         Schedule Value; !- Output:Variable
     "
@@ -1132,7 +1132,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   if not controlleroutdoorair.getString(18).to_s.eql?("")
     string_objects << "
       EnergyManagementSystem:Sensor,
-        "+name_cut(econ_choice)+"_MAX_FRAC_SCH_DL, !- Name
+        "+name_cut(econ_choice)+"_MAX_FRAC_SCH_#{$faulttype}, !- Name
         "+controlleroutdoorair.getString(18).to_s+", !- Schedule Name
         Schedule Value; !- Output:Variable
     "
@@ -1142,7 +1142,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   if not controlleroutdoorair.getString(16).to_s.eql?("")
     string_objects << "
       EnergyManagementSystem:Sensor,
-        "+name_cut(econ_choice)+"_MIN_SCH_DL, !- Name
+        "+name_cut(econ_choice)+"_MIN_SCH_#{$faulttype}, !- Name
         "+controlleroutdoorair.getString(16).to_s+", !- Schedule Name
         Schedule Value; !- Output:Variable
     "
@@ -1152,7 +1152,7 @@ def econ_ductleakage_ems_other(string_objects, workspace, controlleroutdoorair)
   if not controlleroutdoorair.getString(17).to_s.eql?("")
     string_objects << "
       EnergyManagementSystem:Sensor,
-        "+name_cut(econ_choice)+"_MIN_FRAC_SCH_DL, !- Name
+        "+name_cut(econ_choice)+"_MIN_FRAC_SCH_#{$faulttype}, !- Name
         "+controlleroutdoorair.getString(17).to_s+", !- Schedule Name
         Schedule Value; !- Output:Variable
     "

@@ -169,7 +169,7 @@ class BiasedEconomizerSensorOAT < OpenStudio::Ruleset::WorkspaceUserScript
 		  oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
 		  ##################################################        
 		  
-          main_body = econ_t_sensor_bias_ems_main_body(runner, workspace, bias_sensor, controlleroutdoorair, [0.0, out_t_bias], oacontrollername)
+          main_body = econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, [0.0, out_t_bias], oacontrollername)
           
           string_objects << main_body
           

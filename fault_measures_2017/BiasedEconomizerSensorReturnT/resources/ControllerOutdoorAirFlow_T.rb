@@ -8,7 +8,6 @@ require_relative 'misc_eplus_func'
 def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
 
   #append transient fault adjustment factor
-  ##################################################
   string_objects << "
     EnergyManagementSystem:Program,
       AF_P_#{$faulttype}_#{oacontrollername},                    !- Name
@@ -108,7 +107,6 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
       AfterPredictorAfterHVACManagers,  !- EnergyPlus Model Calling Point
       AF_P_#{$faulttype}_#{oacontrollername};                    !- Program Name 1
   "
-  ##################################################
   
   return string_objects
   
@@ -136,15 +134,15 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   econ_short_name = name_cut(econ_choice)
   main_body = "
     EnergyManagementSystem:Program,
-      t_bias"+name_cut(econ_choice)+"#{bias_sensor}_T, !- Name
+      t_bias"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- Name
       SET DELTASMALL = 0.00001, !- Program Line 1
       SET SMALLMASSFLOW = 0.001, !- Program Line 2
       SET SMALLVOLFLOW = 0.001, !- Program Line 3
       SET HIGHHUMCTRL = False, !- <none>
       SET NIGHTVENT = False, !- <none>
       SET ECON_OP = True, !- <none>
-      SET MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T = "+name_cut(econ_choice)+"MixAirFlow_CTRL#{bias_sensor}_T, !- <none>
-      IF MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T < SMALLMASSFLOW, !- Check if the duct has airflow
+      SET MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = "+name_cut(econ_choice)+"MixAirFlow_CTRL#{bias_sensor}_#{$faulttype}, !- <none>
+      IF MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} < SMALLMASSFLOW, !- Check if the duct has airflow
       SET FinalFlow = 0.00, !- <none>
       RETURN, !- <none>
       ENDIF, !- <none>
@@ -161,11 +159,11 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   end
   if bias_sensor.eql?("RET")
     main_body = main_body+"
-      SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_T"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
-      SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_T, !- <none>
-      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_T, !- <none>
-      SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_T, !- <none>
-      SET PTmp = "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_T, !- <none>
+      SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
+      SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_#{$faulttype}, !- <none>
+      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_#{$faulttype}, !- <none>
+      SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_#{$faulttype}, !- <none>
+      SET PTmp = "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_#{$faulttype}, !- <none>
       IF PTmp < DELTASMALL, !- <none>
       SET PTmp = 101325.0, !- Zero pressure during warmup may crash the code
       ENDIF, !- <none>
@@ -181,11 +179,11 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     "
   elsif bias_sensor.eql?("OA")
     main_body = main_body+"
-	  SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_T, !- <none>
-      SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_T, !- <none>
-      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_T"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
-      SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_T, !- <none>
-      SET PTmp = "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_T, !- <none>
+	  SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}, !- <none>
+      SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_#{$faulttype}, !- <none>
+      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_#{$faulttype}"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
+      SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_#{$faulttype}, !- <none>
+      SET PTmp = "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_#{$faulttype}, !- <none>
       IF PTmp < DELTASMALL, !- <none>
       SET PTmp = 101325.0, !- Zero pressure during warmup may crash the code
       ENDIF, !- <none>
@@ -202,11 +200,11 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     "
   else  #for bias in both sensors
     main_body = main_body+"
-      SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_T"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
-      SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_T, !- <none>
-      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_T"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
-      SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_T, !- <none>
-      SET PTmp = "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_T, !- <none>
+      SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
+      SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_#{$faulttype}, !- <none>
+      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_#{$faulttype}"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
+      SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_#{$faulttype}, !- <none>
+      SET PTmp = "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_#{$faulttype}, !- <none>
       IF PTmp < DELTASMALL, !- <none>
       SET PTmp = 101325.0, !- Zero pressure during warmup may crash the code
       ENDIF, !- <none>
@@ -224,12 +222,12 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     "
   end
   main_body = main_body+"
-      SET VDOT_DES = DesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_T, !- <none>
-      SET CMDOT_D = CMDesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_T, !- <none>
-      SET HMDOT_D = HMDesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_T, !- <none>
+      SET VDOT_DES = DesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- <none>
+      SET CMDOT_D = CMDesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- <none>
+      SET HMDOT_D = HMDesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- <none>
       SET MDOT_DES = @Max CMDOT_D HMDOT_D, !- <none>
-      SET MDOT_OA_MIN = MinOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_T, !- <none>
-      SET MDOT_OA_MAX = MaxOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_T, !- <none>
+      SET MDOT_OA_MIN = MinOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- <none>
+      SET MDOT_OA_MAX = MaxOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- <none>
       IF VDOT_DES > SMALLVOLFLOW, !- <none>
       SET MIN_FRAC = MDOT_OA_MIN/MDOT_DES, !- no if statement for airloop existence because the code won't work without an airloop
       SET MIN_FLOW = MDOT_OA_MIN, !- <none>
@@ -241,7 +239,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   
   if not controlleroutdoorair.getString(16).to_s.eql?("")  #Minimum Outdoor Air Schedule Name
     main_body = main_body+"
-      SET MIN_SCH_VALUE = "+name_cut(econ_choice)+"_MIN_SCH#{bias_sensor}_T, !- <none>
+      SET MIN_SCH_VALUE = "+name_cut(econ_choice)+"_MIN_SCH#{bias_sensor}_#{$faulttype}, !- <none>
       SET MIN_SCH_VALUE = @MAX MIN_SCH_VALUE 0.00, !- <none>
       SET MIN_SCH_VALUE = @MIN MIN_SCH_VALUE 1.00, !- <none>
       SET MIN_FRAC = MIN_SCH_VALUE*MIN_FRAC, !- <none>
@@ -258,6 +256,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     outdoorairspecs = workspace.getObjectsByType("DesignSpecification:OutdoorAir".to_IddObjectType)
 	#####################################################
 	peoples = workspace.getObjectsByType("People".to_IddObjectType)
+	zonelists = workspace.getObjectsByType("ZoneList".to_IddObjectType)
 	#####################################################
     controllermechventilations.each do |controllermechventilation|
       if controllermechventilation.getString(0).to_s.eql?(controlleroutdoorair.getString(19).to_s)
@@ -268,11 +267,10 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
         for i in 0..vent_num_zone-1  #for each zone
           outdoorairspecs.each do |outdoorairspec|
             if controllermechventilation.getString(4+3*i+2).to_s.eql?(outdoorairspec.getString(0).to_s)
-              # zone_name = name_cut(outdoorairspec.getString(0).to_s)
               zone_name = name_cut(controllermechventilation.getString(4+3*i+1).to_s)
               if outdoorairspec.numFields == 7  #multiply the number with a schedule
                 main_body = main_body+"
-                  SET MECH_SCH = "+zone_name+"_OA_SCH#{bias_sensor}_T, !- NEED A SENSOR FOR THE SCHEDULE
+                  SET MECH_SCH = "+zone_name+"_OA_SCH#{bias_sensor}_#{$faulttype}, !- NEED A SENSOR FOR THE SCHEDULE
                 "
               else
                 main_body = main_body+"
@@ -281,10 +279,15 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
               end
               if outdoorairspec.getString(1).to_s.eql?("Sum") #add code for summation
                 main_body = main_body+"
-                  SET ZONE_VOL = "+zone_name+"_VOL#{bias_sensor}_T, !- NEED INTERNAL VARIABLE FOR ZONE VOLUME
-                  SET ZONE_MUL = "+zone_name+"_MUL#{bias_sensor}_T, !- NEED INTERNAL VARIABLE FOR ZONE MULTIPLIER
-                  SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL#{bias_sensor}_T, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
+                  SET ZONE_VOL = "+zone_name+"_VOL#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE VOLUME
+                  SET ZONE_MUL = "+zone_name+"_MUL#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE MULTIPLIER
+                  SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
 				"
+				#####################################################
+				#NOTE:
+				#modifications were made to fix zone_ppl calculation issue when "ZoneList" object is used instead of "Zone" object in the internal gain "People" object. this resulted in difference in minimum outdoor air flow rate.
+				#TODO:
+				#there is still slight different in minimum outdoor air flow rate calculation between baseline (without fault model) model and faulted (fault model with FI = 0) model. 
 				#####################################################
 				if peoples.empty?
 				  main_body = main_body+"
@@ -294,12 +297,21 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
 				  peoples.each do |people|
 			        if people.getString(1).to_s.eql?(controllermechventilation.getString(4+3*i+1).to_s)
 				      main_body = main_body+"
-                        SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_T, !- NEED SENSOR FOR ZONE People Occupant Count
+                        SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
 				      "
 				    else
-				      main_body = main_body+"
-                        SET ZONE_PPL = 0, !- <none>
-				      "
+				      zonelists.each do |zonelist|
+				        if people.getString(1).to_s.eql?(zonelist.getString(0).to_s)
+					      for i in 1..zonelist.numFields-1  #for each zone
+					        zone_name_inlist = name_cut(zonelist.getString(i).to_s)
+					  	    if zone_name_inlist.eql?(zone_name)
+						      main_body = main_body+"
+                                SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_#{$faulttype}/"+zone_name+"_PEOPLE_SCH_#{bias_sensor}_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
+				              "
+						    end
+					      end
+				        end
+					  end
 				    end
 				  end
 			    end
@@ -308,7 +320,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
                   SET IND_OA = #{outdoorairspec.getString(2).to_s}, !- Zone occupant flow rate
                   SET IND_OA = IND_OA*ZONE_MUL*ZONE_LIST_MUL*ZONE_PPL, !- <none>
                   SET OA_MECH = OA_MECH+IND_OA*MECH_SCH, !- <none>
-                  SET ZONE_AREA = "+zone_name+"_AREA#{bias_sensor}_T, !- NEED INTERNAL VARIABLE FOR ZONE FLOOR AREA
+                  SET ZONE_AREA = "+zone_name+"_AREA#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE FLOOR AREA
                   SET IND_OA = "+outdoorairspec.getString(3).to_s+"*ZONE_AREA, !- Zone floor area flow rate
                   SET IND_OA = IND_OA*ZONE_MUL*ZONE_LIST_MUL, !- <none>
                   SET OA_MECH = OA_MECH+IND_OA*MECH_SCH, !- <none>
@@ -322,14 +334,14 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
               else #add code for maximum
                 main_body = main_body+"
                   SET IND_OA_FIN = 0.0, !- For maximum calculation
-                  SET ZONE_VOL = "+zone_name+"_VOL#{bias_sensor}_T, !- NEED INTERNAL VARIABLE FOR ZONE VOLUME
-                  SET ZONE_MUL = "+zone_name+"_MUL#{bias_sensor}_T, !- NEED INTERNAL VARIABLE FOR ZONE MULTIPLIER
-                  SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL#{bias_sensor}_T, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
-                  SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_T, !- NEED SENSOR FOR ZONE People Occupant Count
+                  SET ZONE_VOL = "+zone_name+"_VOL#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE VOLUME
+                  SET ZONE_MUL = "+zone_name+"_MUL#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE MULTIPLIER
+                  SET ZONE_LIST_MUL = "+zone_name+"_LIST_MUL#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE LIST MULTIPLIER
+                  SET ZONE_PPL = "+zone_name+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
                   SET IND_OA = #{outdoorairspec.getString(2).to_s}, !- Zone occupant flow rate
                   SET IND_OA = IND_OA*ZONE_MUL*ZONE_LIST_MUL*ZONE_PPL, !- <none>
                   SET IND_OA_FIN = @Max IND_OA_FIN IND_OA, !- <none>
-                  SET ZONE_AREA = "+zone_name+"_AREA#{bias_sensor}_T, !- NEED INTERNAL VARIABLE FOR ZONE FLOOR AREA
+                  SET ZONE_AREA = "+zone_name+"_AREA#{bias_sensor}_#{$faulttype}, !- NEED INTERNAL VARIABLE FOR ZONE FLOOR AREA
                   SET IND_OA = "+outdoorairspec.getString(3).to_s+"*ZONE_AREA, !- Zone floor area flow rate
                   SET IND_OA = IND_OA*ZONE_MUL*ZONE_LIST_MUL, !- <none>
                   SET IND_OA_FIN = @Max IND_OA_FIN IND_OA, !- <none>
@@ -363,15 +375,15 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     SET TDiff = RETTmp-OATmp, !- <none>
     SET TDiff = @Abs TDiff, !- <none>
     IF TDiff > DELTASMALL, !- <none>
-    SET OA_SIGN = (RETTmp-"+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_T)/(RETTmp-OATmp), !- Initialize the signal
+    SET OA_SIGN = (RETTmp-"+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype})/(RETTmp-OATmp), !- Initialize the signal
     ELSE, !- <none>
-    IF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_T && RETTmp >= OATmp, !- <none>
+    IF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp >= OATmp, !- <none>
     SET OA_SIGN = -1, !- <none>
-    ELSEIF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_T && RETTmp < OATmp, !- <none>
+    ELSEIF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp < OATmp, !- <none>
     SET OA_SIGN = 1, !- <none>
-    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_T && RETTmp >= OATmp,
+    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp >= OATmp,
     SET OA_SIGN = 1, !- <none>
-    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_T && RETTmp < OATmp,
+    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp < OATmp,
     SET OA_SIGN = -1, !- <none>
     ENDIF, !- <none>
     ENDIF, !- <none>
@@ -411,7 +423,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
                   if branch.getString(ii).to_s.eql?(oas_name)
                     airsystem_name = branch.getString(0).to_s.gsub(" Supply Branch","").gsub(" Main Branch","")
                     main_body = main_body+"
-                      SET LOCKOUT_POS = "+name_cut(airsystem_name)+"_Htg#{bias_sensor}_T, !- <none>
+                      SET LOCKOUT_POS = "+name_cut(airsystem_name)+"_Htg#{bias_sensor}_#{$faulttype}, !- <none>
                       IF LOCKOUT_POS > 0, !- <none>
                       SET NO_LOCK_OUT = False, !- <none>
                       ENDIF, !- <none>
@@ -420,7 +432,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
                       #check if there is a compressor on the loop
                       #if there is, add code to check if the economizer should be locked out
                       main_body = main_body+"
-                        SET LOCKOUT_POS = "+name_cut(airsystem_name)+"_Ctg#{bias_sensor}_T, !- <none>
+                        SET LOCKOUT_POS = "+name_cut(airsystem_name)+"_Ctg#{bias_sensor}_#{$faulttype}, !- <none>
                         IF LOCKOUT_POS > 0, !- <none>
                         SET NO_LOCK_OUT = False, !- <none>
                         ENDIF, !- <none>
@@ -446,7 +458,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
       SET HIGHHUMCTRL = False, !- <none>
       ELSE, !- Running the economizer
       SET ECON_OP = True, !- <none>
-      IF OATmp > "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_T, !- <none>
+      IF OATmp > "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype}, !- <none>
       SET OA_SIGN = 1, !- <none>
       ENDIF, !- <none>
     "
@@ -497,13 +509,13 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     end
     if controlleroutdoorair.getString(21).to_s.eql?("Yes")  #High humidity control check
       main_body = main_body+"
-        IF ZoneHumidLOAD"+name_cut(econ_choice)+"#{bias_sensor}_T < 0.0, !- High Humidity Control
+        IF ZoneHumidLOAD"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype} < 0.0, !- High Humidity Control
         SET HIGHHUMCTRL = True, !- <none>
         ENDIF, !- <none>
       "
       if controlleroutdoorair.getString(24).to_s.eql?("Yes")  #Control High Indoor Humidity Based on Outdoor Humidity Ratio
         main_body = main_body+"
-          IF ZoneHumid"+name_cut(econ_choice)+"#{bias_sensor}_T <= OAHumRat, !- Control High Indoor Humidity Based on Outdoor Humidity Ratio
+          IF ZoneHumid"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype} <= OAHumRat, !- Control High Indoor Humidity Based on Outdoor Humidity Ratio
           SET HIGHHUMCTRL = False, !- Set it back to False
           ENDIF, !- <none>
         "
@@ -511,7 +523,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     end
     if not controlleroutdoorair.getString(20).to_s.eql?("")  #Time of Day Economizer Control Schedule Name
       main_body = main_body+"
-        SET ECON_FLOW_SCH_VAL = ECONCTRL"+name_cut(econ_choice)+"_SCH#{bias_sensor}_T, !- <none>
+        SET ECON_FLOW_SCH_VAL = ECONCTRL"+name_cut(econ_choice)+"_SCH#{bias_sensor}_#{$faulttype}, !- <none>
         IF ECON_FLOW_SCH_VAL > 0, !- <none>
         SET OA_SIGN = 1.0, !- <none>
         SET ECON_OP = True, !- <none>
@@ -541,17 +553,17 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     IF NIGHTVENT == 0,
     IF OA_SIGN > MIN_FRAC,
     IF OA_SIGN < 1.0,
-    IF MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T > SMALLMASSFLOW, !- Check if the duct has airflow
-    SET RETENTH_GB#{econ_short_name}#{bias_sensor}_T = ORI_RETENTH, !- to simulate feedback control, don't use measurement values
-    SET RETHUMRAT_GB#{econ_short_name}#{bias_sensor}_T = ORI_RETHumRat, !- to simulate feedback control, don't use measurement values
-    SET OAENTH_GB#{econ_short_name}#{bias_sensor}_T = ORI_OAENTH, !- to simulate feedback control, don't use measurement values
-    SET OAHUMRAT_GB#{econ_short_name}#{bias_sensor}_T = ORI_OAHumRat, !- to simulate feedback control, don't use measurement values
-    SET LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_T = MIN_FRAC, !- <none>
-    SET UPLIMIT_GB#{econ_short_name}#{bias_sensor}_T = 1, !- <none>
-    SET MIXTEMPSET_GB#{econ_short_name}#{bias_sensor}_T = "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_T, !-<none>
-    RUN EMSSolveRegulaFalsi_OA_SIGN#{econ_short_name}#{bias_sensor}_T, !- <none>
-    IF FLAG_GB#{econ_short_name}#{bias_sensor}_T > 0, !- <none>
-    SET OA_SIGN = SOLN_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+    IF MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} > SMALLMASSFLOW, !- Check if the duct has airflow
+    SET RETENTH_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = ORI_RETENTH, !- to simulate feedback control, don't use measurement values
+    SET RETHUMRAT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = ORI_RETHumRat, !- to simulate feedback control, don't use measurement values
+    SET OAENTH_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = ORI_OAENTH, !- to simulate feedback control, don't use measurement values
+    SET OAHUMRAT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = ORI_OAHumRat, !- to simulate feedback control, don't use measurement values
+    SET LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = MIN_FRAC, !- <none>
+    SET UPLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = 1, !- <none>
+    SET MIXTEMPSET_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype}, !-<none>
+    RUN EMSSolveRegulaFalsi_OA_SIGN#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+    IF FLAG_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} > 0, !- <none>
+    SET OA_SIGN = SOLN_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
     ENDIF,
     ENDIF,
     ENDIF,
@@ -571,10 +583,10 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   if controlleroutdoorair.getString(21).to_s.eql?("Yes")  #High humidity control check
     main_body = main_body+"
       IF HIGHHUMCTRL == True, !- high humidity control
-      SET MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T = "+name_cut(econ_choice)+"MixAirFlow_CTRL#{bias_sensor}_T, !- <none>
+      SET MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = "+name_cut(econ_choice)+"MixAirFlow_CTRL#{bias_sensor}_#{$faulttype}, !- <none>
       SET OA_SIGN_CAN = "+controlleroutdoorair.getString(23).to_s+", !- <none>
       SET OA_SIGN_CAN = OA_SIGN_CAN*MDOT_OA_MAX, !- <none>
-      SET OA_SIGN_CAN = OA_SIGN_CAN/MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+      SET OA_SIGN_CAN = OA_SIGN_CAN/MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
       SET OA_SIGN = @MAX OA_SIGN_CAN MIN_FRAC, !- <none>
       ENDIF,
     "
@@ -597,12 +609,12 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   
   if not controlleroutdoorair.getString(17).to_s.eql?("")  #Minimum Fraction of Outdoor Air Schedule Name
     main_body = main_body+"
-      SET MIN_SCH_VALUE = "+name_cut(econ_choice)+"_MIN_FRAC_SCH#{bias_sensor}_T, !- <none>
+      SET MIN_SCH_VALUE = "+name_cut(econ_choice)+"_MIN_FRAC_SCH#{bias_sensor}_#{$faulttype}, !- <none>
       SET MIN_SCH_VALUE = @Max MIN_SCH_VALUE 0.0, !- <none>
       SET MIN_SCH_VALUE = @Min MIN_SCH_VALUE 1.0, !- <none>
       IF MIN_SCH_VALUE > MIN_FRAC, !- <none>
       SET MIN_FRAC = MIN_SCH_VALUE, !- <none>
-      SET MDOT_OA_MIN = MIN_FRAC*MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+      SET MDOT_OA_MIN = MIN_FRAC*MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
       ENDIF, !- <none>
       SET OA_SIGN = @Max OA_SIGN MIN_FRAC, !- <none>
     "
@@ -610,12 +622,12 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   
   if not controlleroutdoorair.getString(18).to_s.eql?("")  #Maximum Fraction of Outdoor Air Schedule Name
     main_body = main_body+"
-      SET MAX_SCH_VALUE = "+name_cut(econ_choice)+"_MAX_FRAC_SCH#{bias_sensor}_T, !- <none>
+      SET MAX_SCH_VALUE = "+name_cut(econ_choice)+"_MAX_FRAC_SCH#{bias_sensor}_#{$faulttype}, !- <none>
       SET MAX_SCH_VALUE = @Max MAX_SCH_VALUE 0.0, !- <none>
       SET MAX_SCH_VALUE = @Min MAX_SCH_VALUE 1.0, !- <none>
       IF MIN_FRAC > MAX_SCH_VALUE, !- <none>
       SET MIN_FRAC = MAX_SCH_VALUE, !- <none>
-      SET MDOT_OA_MIN = MIN_FRAC*MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+      SET MDOT_OA_MIN = MIN_FRAC*MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
       ENDIF, !- <none>
       SET OA_SIGN = @Min OA_SIGN MAX_SCH_VALUE, !- <none>
     "
@@ -623,14 +635,14 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   
   #calculate the outdoor airflow rate
   main_body = main_body+"
-    SET FinalFlow = OA_SIGN*MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+    SET FinalFlow = OA_SIGN*MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
   "
   
   #make sure that it doesn't exceed the limits of ventilation
   if not controlleroutdoorair.getString(19).to_s.eql?("")
     main_body = main_body+"
       IF OA_MECH > FinalFlow, !- <none>
-      SET FinalFlow = @Min OA_MECH MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+      SET FinalFlow = @Min OA_MECH MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
       ENDIF, !- <none>
     "
   end
@@ -641,7 +653,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   if controlleroutdoorair.getString(15).to_s.eql?("FixedMinimum")
     main_body = main_body+"
       SET OA_NEW = FinalFlow, !- <none>
-      SET DUMMY = MinOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_T, !- Name too long
+      SET DUMMY = MinOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- Name too long
       SET OA_NEW = @Max OA_NEW (DUMMY*MIN_SCH_VALUE), !- <none>
       SET FinalFlow = OA_NEW, !- <none>
     "
@@ -650,7 +662,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   #check with mixed airflow
   main_body = main_body+"
     SET OA_NEW = FinalFlow, !- <none>
-    SET OA_NEW = @Min OA_NEW MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+    SET OA_NEW = @Min OA_NEW MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
     SET FinalFlow = OA_NEW, !- <none>
   "
   
@@ -666,7 +678,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     SET OA_NEW = @Min MDOT_OA_MAX OA_NEW, !- <none>
     SET FinalFlow = OA_NEW, !- <none>
     ENDIF, !- <none>
-    SET "+name_cut(econ_choice)+"MDOT_OA#{bias_sensor}_T = FinalFlow; !- <none>
+    SET "+name_cut(econ_choice)+"MDOT_OA#{bias_sensor}_#{$faulttype} = FinalFlow; !- <none>
   "
   
   return main_body
@@ -787,17 +799,17 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   
   string_objects << "
     EnergyManagementSystem:Subroutine,
-      RES_OA_SIGN#{econ_short_name}#{bias_sensor}_T, !- Name
-      SET TEMP_OA_SIGN = OA_SIGN_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
-      SET TEMP_MIX_FLOW = MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+      RES_OA_SIGN#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- Name
+      SET TEMP_OA_SIGN = OA_SIGN_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      SET TEMP_MIX_FLOW = MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
       SET TEMP_OA_FLOW = TEMP_OA_SIGN*TEMP_MIX_FLOW, !- <none>
       SET RECFLOW1 = 0, !- <none>
       SET RECFLOW2 = TEMP_MIX_FLOW-TEMP_OA_FLOW, !- <none>
       SET RECIR_FLOW = @MAX RECFLOW1 RECFLOW2, !- <none>
-      SET TEMP_RETENTH = RETENTH_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
-      SET TEMP_RETHUMRAT = RETHUMRAT_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
-      SET TEMP_OAENTH = OAENTH_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
-      SET TEMP_OAHUMRAT = OAHUMRAT_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+      SET TEMP_RETENTH = RETENTH_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      SET TEMP_RETHUMRAT = RETHUMRAT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      SET TEMP_OAENTH = OAENTH_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      SET TEMP_OAHUMRAT = OAHUMRAT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
       SET TEMP_MIXENTH = RECIR_FLOW*TEMP_RETENTH, !- <none>
       SET TEMP_MIXENTH = TEMP_MIXENTH+TEMP_OA_FLOW*TEMP_OAENTH, !- <none>
       SET TEMP_MIXENTH = TEMP_MIXENTH/TEMP_MIX_FLOW, !- <none>
@@ -805,23 +817,23 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
       SET TEMP_MIXHUMRAT = TEMP_MIXHUMRAT+TEMP_OA_FLOW*TEMP_OAHUMRAT, !- <none>
       SET TEMP_MIXHUMRAT = TEMP_MIXHUMRAT/TEMP_MIX_FLOW, !- <none>
       SET TEMP_MIXTEMP = @TdbFnHW TEMP_MIXENTH TEMP_MIXHUMRAT, !- <none>
-      SET TEMP_AA = MIXTEMPSET_GB#{econ_short_name}#{bias_sensor}_T-TEMP_MIXTEMP, !- <none>
-      SET RESIDUAL_GB#{econ_short_name}#{bias_sensor}_T = TEMP_AA; !- <none>
+      SET TEMP_AA = MIXTEMPSET_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}-TEMP_MIXTEMP, !- <none>
+      SET RESIDUAL_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = TEMP_AA; !- <none>
   "
   
   string_objects << "
     EnergyManagementSystem:Subroutine,
-      EMSSolveRegulaFalsi_OA_SIGN#{econ_short_name}#{bias_sensor}_T, !- Name
-      SET OA_SIGN_GB#{econ_short_name}#{bias_sensor}_T = LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
-      RUN RES_OA_SIGN#{econ_short_name}#{bias_sensor}_T, !- <none>
-      SET Y0 = RESIDUAL_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
-      SET OA_SIGN_GB#{econ_short_name}#{bias_sensor}_T = UPLIMIT_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
-      RUN RES_OA_SIGN#{econ_short_name}#{bias_sensor}_T, !- <none>
-      SET Y1 = RESIDUAL_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+      EMSSolveRegulaFalsi_OA_SIGN#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- Name
+      SET OA_SIGN_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      RUN RES_OA_SIGN#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      SET Y0 = RESIDUAL_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      SET OA_SIGN_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = UPLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      RUN RES_OA_SIGN#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      SET Y1 = RESIDUAL_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
       SET PROD = Y0*Y1, !- <none>
       IF Y0*Y1 > 0, !- <none>
-      SET FLAG_GB#{econ_short_name}#{bias_sensor}_T = -2, !- <none>
-      SET SOLN_GB#{econ_short_name}#{bias_sensor}_T = LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+      SET FLAG_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = -2, !- <none>
+      SET SOLN_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
       RETURN, ! Error for solution
       ENDIF, !- <none>
       SET CONT = 1, !- <none>
@@ -835,11 +847,11 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
       SET DY = 1.d-10, !- <none>
       ENDIF, !- <none>
       ENDIF, !- <none>
-      SET XTemp = Y0*UPLIMIT_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
-      SET XTemp = (XTemp-Y1*LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_T)/DY, !- <none>
-      SET OA_SIGN_GB#{econ_short_name}#{bias_sensor}_T = XTemp, !- <none>
-      RUN RES_OA_SIGN#{econ_short_name}#{bias_sensor}_T, !- <none>
-      SET YTemp = RESIDUAL_GB#{econ_short_name}#{bias_sensor}_T, !- <none>
+      SET XTemp = Y0*UPLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      SET XTemp = (XTemp-Y1*LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype})/DY, !- <none>
+      SET OA_SIGN_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = XTemp, !- <none>
+      RUN RES_OA_SIGN#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
+      SET YTemp = RESIDUAL_GB#{econ_short_name}#{bias_sensor}_#{$faulttype}, !- <none>
       SET NITE = NITE+1, !- <none>
       IF YTemp < 0.0001 && YTemp+0.0001 > 0, !- <none>
       SET CONT = 0, !- <none>
@@ -850,101 +862,101 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
       IF CONT > 0.0d0, !- <none>
       IF Y0 < 0.0d0, !- <none>
       IF YTemp < 0.0d0, !- <none>
-      SET LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_T = XTemp, !- <none>
+      SET LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = XTemp, !- <none>
       SET Y0 = YTemp, !- <none>
       ELSE, !- <none>
-      SET UPLIMIT_GB#{econ_short_name}#{bias_sensor}_T = XTemp, !- <none>
+      SET UPLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = XTemp, !- <none>
       SET Y1 = YTemp, !- <none>
       ENDIF, !- <none>
       ELSE, !- <none>
       IF YTemp < 0.0d0, !- <none>
-      SET UPLIMIT_GB#{econ_short_name}#{bias_sensor}_T = XTemp, !- <none>
+      SET UPLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = XTemp, !- <none>
       SET Y1 = YTemp, !- <none>
       ELSE, !- <none>
-      SET LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_T = XTemp, !- <none>
+      SET LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = XTemp, !- <none>
       SET Y0 = YTemp, !- <none>
       ENDIF, !- <none>
       ENDIF, !- <none>
       ENDIF, !- <none>
       ENDWHILE, !- <none>
       IF CONV == 1, !- <none>
-      SET FLAG_GB#{econ_short_name}#{bias_sensor}_T = NITE, !- <none>
+      SET FLAG_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = NITE, !- <none>
       ELSE,
-      SET FLAG_GB#{econ_short_name}#{bias_sensor}_T = -1, !- <none>
+      SET FLAG_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = -1, !- <none>
       ENDIF, !- <none>
-      SET SOLN_GB#{econ_short_name}#{bias_sensor}_T = XTemp; !- <none>
+      SET SOLN_GB#{econ_short_name}#{bias_sensor}_#{$faulttype} = XTemp; !- <none>
   "
   
   string_objects << "
     EnergyManagementSystem:ProgramCallingManager,
-      EMSCallt_bias"+name_cut(econ_choice)+"#{bias_sensor}_T, !- Name
+      EMSCallt_bias"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- Name
       InsideHVACSystemIterationLoop,       !- EnergyPlus Model Calling Point
-      t_bias"+name_cut(econ_choice)+"#{bias_sensor}_T, !- Name
+      t_bias"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype}, !- Name
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      RESIDUAL_GB#{econ_short_name}#{bias_sensor}_T;
+      RESIDUAL_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_T;
+      LOWLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      UPLIMIT_GB#{econ_short_name}#{bias_sensor}_T;
+      UPLIMIT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      FLAG_GB#{econ_short_name}#{bias_sensor}_T;
+      FLAG_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      SOLN_GB#{econ_short_name}#{bias_sensor}_T;
+      SOLN_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      OA_SIGN_GB#{econ_short_name}#{bias_sensor}_T;
+      OA_SIGN_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_T;
+      MIX_FLOW_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      RETENTH_GB#{econ_short_name}#{bias_sensor}_T;
+      RETENTH_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      RETHUMRAT_GB#{econ_short_name}#{bias_sensor}_T;
+      RETHUMRAT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      OAENTH_GB#{econ_short_name}#{bias_sensor}_T;
+      OAENTH_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      OAHUMRAT_GB#{econ_short_name}#{bias_sensor}_T;
+      OAHUMRAT_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "      
     EnergyManagementSystem:GlobalVariable,
-      MIXTEMPSET_GB#{econ_short_name}#{bias_sensor}_T;
+      MIXTEMPSET_GB#{econ_short_name}#{bias_sensor}_#{$faulttype};
   "
   
   string_objects << "   
     EnergyManagementSystem:Actuator,
-      "+name_cut(econ_choice)+"MDOT_OA#{bias_sensor}_T,        !- Name
+      "+name_cut(econ_choice)+"MDOT_OA#{bias_sensor}_#{$faulttype},        !- Name
       "+econ_choice+", !- Actuated Component Unique Name
       Outdoor Air Controller,                                  !- Actuated Component Type
       Air Mass Flow Rate;                           !- Actuated Component Control Type
@@ -981,35 +993,35 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      DesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_T,
+      DesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype},
       "+airsystem_name+",
       Intermediate Air System Main Supply Volume Flow Rate;
   "
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      CMDesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_T,
+      CMDesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype},
       "+airsystem_name+",
       Intermediate Air System "+sizing_option+" Peak Cooling Mass Flow Rate;
   "
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      HMDesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_T,
+      HMDesAirflow"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype},
       "+airsystem_name+",
       Intermediate Air System "+sizing_option+" Peak Heating Mass Flow Rate;
   "
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      MinOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_T,
+      MinOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype},
       "+econ_choice+",
       Outdoor Air Controller Minimum Mass Flow Rate;
   "
   
   string_objects << "
     EnergyManagementSystem:InternalVariable,
-      MaxOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_T,
+      MaxOAMdot"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype},
       "+econ_choice+",
       Outdoor Air Controller Maximum Mass Flow Rate;
   "
@@ -1020,6 +1032,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
     outdoorairspecs = workspace.getObjectsByType("DesignSpecification:OutdoorAir".to_IddObjectType)
 	#####################################################
 	peoples = workspace.getObjectsByType("People".to_IddObjectType)
+	zonelists = workspace.getObjectsByType("ZoneList".to_IddObjectType)
 	#####################################################
     controllermechventilations.each do |controllermechventilation|
       if controllermechventilation.getString(0).to_s.eql?(controlleroutdoorair.getString(19).to_s)
@@ -1027,9 +1040,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
         for i in 0..vent_num_zone-1  #for each zone
           outdoorairspecs.each do |outdoorairspec|
             
-          #####################################################
 	      oaschedule_name = outdoorairspec.getString(6).to_s
-	      #####################################################
             
             if controllermechventilation.getString(4+3*i+2).to_s.eql?(outdoorairspec.getString(0).to_s)
               zone_name = controllermechventilation.getString(4+3*i+1).to_s
@@ -1037,44 +1048,78 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
               zone_name_tag = name_cut(zone_name)
               string_objects << "
                 EnergyManagementSystem:InternalVariable,
-                  "+zone_name_tag+"_VOL#{bias_sensor}_T,
+                  "+zone_name_tag+"_VOL#{bias_sensor}_#{$faulttype},
                   "+zone_name+",
                   Zone Air Volume;
               "
               string_objects << "
                 EnergyManagementSystem:InternalVariable,
-                  "+zone_name_tag+"_MUL#{bias_sensor}_T,
+                  "+zone_name_tag+"_MUL#{bias_sensor}_#{$faulttype},
                   "+zone_name+",
                   Zone Multiplier;
               "
               string_objects << "
                 EnergyManagementSystem:InternalVariable,
-                  "+zone_name_tag+"_LIST_MUL#{bias_sensor}_T,
+                  "+zone_name_tag+"_LIST_MUL#{bias_sensor}_#{$faulttype},
                   "+zone_name+",
                   Zone List Multiplier;
               "
               string_objects << "
                 EnergyManagementSystem:InternalVariable,
-                  "+zone_name_tag+"_AREA#{bias_sensor}_T,
+                  "+zone_name_tag+"_AREA#{bias_sensor}_#{$faulttype},
                   "+zone_name+",
                   Zone Floor Area;
               "
+			  #####################################################
+			  #NOTE:
+			  #modifications were made to fix zone_ppl calculation issue when "ZoneList" object is used instead of "Zone" object in the internal gain "People" object. this resulted in difference in minimum outdoor air flow rate.
+			  #TODO:
+			  #there is still slight different in minimum outdoor air flow rate calculation between baseline (without fault model) model and faulted (fault model with FI = 0) model. 
               #####################################################
               peoples.each do |people|
+			    people_name = people.getString(0).to_s
+				numberpeopleschedule_name = people.getString(2).to_s
 			    if people.getString(1).to_s.eql?(zone_name)
-				  people_name = people.getString(0).to_s
+				  
 				  string_objects << "
                     EnergyManagementSystem:Sensor,
-                    "+zone_name_tag+"_PEOPLE#{bias_sensor}_T, !- Name
+                    "+zone_name_tag+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- Name
                     "+people_name+",                        !- Output:Variable or Output:Meter Index Key Name
                     Zone People Occupant Count;                !- Output:Variable or Output:Meter Name
                   "
+				else
+				  zonelists.each do |zonelist|
+				    if people.getString(1).to_s.eql?(zonelist.getString(0).to_s)
+					  for i in 1..zonelist.numFields-1  #for each zone
+					    zone_name_inlist = name_cut(zonelist.getString(i).to_s)
+						
+						if zone_name_inlist.eql?(zone_name_tag)
+						  #NOTE: "Zone People Occupant Count" and "People Occupant Count" are different.
+						  #NOTE: "Zone People Occupant Count" associated with "Zone" object instead of "People" object.
+						  #NOTE: "People Count Design Level" does not work if "ZoneList" is defined instead of "Zone"
+						  string_objects << "
+                            EnergyManagementSystem:Sensor,
+                            "+zone_name_tag+"_PEOPLE#{bias_sensor}_#{$faulttype}, !- Name
+                            "+zone_name+",                        !- Output:Variable or Output:Meter Index Key Name
+                            Zone People Occupant Count;                !- Output:Variable or Output:Meter Name
+                          "
+						  string_objects << "
+                            EnergyManagementSystem:Sensor,
+                            "+zone_name_tag+"_PEOPLE_SCH_#{bias_sensor}_#{$faulttype}, !- Name
+                            "+numberpeopleschedule_name+",                        !- Output:Variable or Output:Meter Index Key Name
+                            Schedule Value;                !- Output:Variable or Output:Meter Name
+                          "
+						end
+						
+					  end
+				    end
+				  end
 				end
 			  end
 			  #####################################################
               string_objects << "
                 EnergyManagementSystem:Sensor,
-                  "+zone_name_tag+"_OA_SCH#{bias_sensor}_T, !- Name
+                  "+zone_name_tag+"_OA_SCH#{bias_sensor}_#{$faulttype}, !- Name
                   "+oaschedule_name+",                        !- Output:Variable or Output:Meter Index Key Name
                   Schedule Value;                !- Output:Variable or Output:Meter Name
               "
@@ -1087,14 +1132,14 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(airsystem_name)+"_Htg#{bias_sensor}_T,
+      "+name_cut(airsystem_name)+"_Htg#{bias_sensor}_#{$faulttype},
       "+airsystem_name+",
       Air System Heating Coil Total Heating Energy;
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(airsystem_name)+"_Ctg#{bias_sensor}_T,
+      "+name_cut(airsystem_name)+"_Ctg#{bias_sensor}_#{$faulttype},
       "+airsystem_name+",
       Air System Cooling Coil Total Cooling Energy;
   "
@@ -1102,21 +1147,21 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   ret_node_name = controlleroutdoorair.getString(2).to_s
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_T,  !- Name
+      "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype},  !- Name
       "+ret_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Temperature;                !- Output:Variable or Output:Meter Name
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_T,  !- Name
+      "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_#{$faulttype},  !- Name
       "+ret_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Humidity Ratio;                !- Output:Variable or Output:Meter Name
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_T,  !- Name
+      "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_#{$faulttype},  !- Name
       "+ret_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Pressure;                !- Output:Variable or Output:Meter Name
   "
@@ -1124,7 +1169,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   mx_node_name = controlleroutdoorair.getString(3).to_s
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_T,  !- Name
+      "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype},  !- Name
       "+mx_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Setpoint Temperature;                !- Output:Variable or Output:Meter Name
   "
@@ -1132,21 +1177,21 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   oa_node_name = controlleroutdoorair.getString(4).to_s
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_T,  !- Name
+      "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_#{$faulttype},  !- Name
       "+oa_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Temperature;                !- Output:Variable or Output:Meter Name
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_T,  !- Name
+      "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_#{$faulttype},  !- Name
       "+oa_node_name+",                        !- Output:Variable or Output:Meter Index Key Name
       System Node Humidity Ratio;                !- Output:Variable or Output:Meter Name
   "
   
   string_objects << "
     EnergyManagementSystem:Sensor,
-      "+name_cut(econ_choice)+"MixAirFlow_CTRL#{bias_sensor}_T,  !- Name
+      "+name_cut(econ_choice)+"MixAirFlow_CTRL#{bias_sensor}_#{$faulttype},  !- Name
       "+airsystem_name+",                        !- Output:Variable or Output:Meter Index Key Name
       Air System Mixed Air Mass Flow Rate;                !- Output:Variable or Output:Meter Name
   "
@@ -1157,7 +1202,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
     # check high humidity control before adding
     string_objects << "
       EnergyManagementSystem:Sensor,
-        ZoneHumid"+name_cut(econ_choice)+"#{bias_sensor}_T,  !- Name
+        ZoneHumid"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype},  !- Name
         "+humidistat_zone+",                        !- Output:Variable or Output:Meter Index Key Name
         Zone Air Humidity Ratio;                !- Output:Variable or Output:Meter Name
     "
@@ -1165,7 +1210,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
     # check high humidity control before adding
     string_objects << "
       EnergyManagementSystem:Sensor,
-        ZoneHumidLOAD"+name_cut(econ_choice)+"#{bias_sensor}_T,  !- Name
+        ZoneHumidLOAD"+name_cut(econ_choice)+"#{bias_sensor}_#{$faulttype},  !- Name
         "+humidistat_zone+",                        !- Output:Variable or Output:Meter Index Key Name
         Zone Predicted Moisture Load to Humidifying Setpoint Moisture Transfer Rate;                !- Output:Variable or Output:Meter Name
     "
@@ -1175,7 +1220,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   if not controlleroutdoorair.getString(20).to_s.eql?("")
     string_objects << "
       EnergyManagementSystem:Sensor,
-        ECONCTRL"+name_cut(econ_choice)+"_SCH#{bias_sensor}_T, !- Name
+        ECONCTRL"+name_cut(econ_choice)+"_SCH#{bias_sensor}_#{$faulttype}, !- Name
         "+controlleroutdoorair.getString(20).to_s+", !- Schedule Name
         Schedule Value; !- Output:Variable
     "
@@ -1185,7 +1230,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   if false
     string_objects << "
       EnergyManagementSystem:Sensor,
-        NIGHTVENT_SCH#{bias_sensor}_T, !- Name
+        NIGHTVENT_SCH#{bias_sensor}_#{$faulttype}, !- Name
         [Schedule name from Ruby], !- Schedule Name
         Schedule Value; !- Output:Variable
     "
@@ -1195,7 +1240,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   if not controlleroutdoorair.getString(18).to_s.eql?("")
     string_objects << "
       EnergyManagementSystem:Sensor,
-        "+name_cut(econ_choice)+"_MAX_FRAC_SCH#{bias_sensor}_T, !- Name
+        "+name_cut(econ_choice)+"_MAX_FRAC_SCH#{bias_sensor}_#{$faulttype}, !- Name
         "+controlleroutdoorair.getString(18).to_s+", !- Schedule Name
         Schedule Value; !- Output:Variable
     "
@@ -1205,7 +1250,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   if not controlleroutdoorair.getString(16).to_s.eql?("")
     string_objects << "
       EnergyManagementSystem:Sensor,
-        "+name_cut(econ_choice)+"_MIN_SCH#{bias_sensor}_T, !- Name
+        "+name_cut(econ_choice)+"_MIN_SCH#{bias_sensor}_#{$faulttype}, !- Name
         "+controlleroutdoorair.getString(16).to_s+", !- Schedule Name
         Schedule Value; !- Output:Variable
     "
@@ -1215,7 +1260,7 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
   if not controlleroutdoorair.getString(17).to_s.eql?("")
     string_objects << "
       EnergyManagementSystem:Sensor,
-        "+name_cut(econ_choice)+"_MIN_FRAC_SCH#{bias_sensor}_T, !- Name
+        "+name_cut(econ_choice)+"_MIN_FRAC_SCH#{bias_sensor}_#{$faulttype}, !- Name
         "+controlleroutdoorair.getString(17).to_s+", !- Schedule Name
         Schedule Value; !- Output:Variable
     "
