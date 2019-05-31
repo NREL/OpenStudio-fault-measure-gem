@@ -181,7 +181,8 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     main_body = main_body+"
 	  SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}, !- <none>
       SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_#{$faulttype}, !- <none>
-      SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_#{$faulttype}"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
+	  SET OATmp_ORI = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_#{$faulttype}, !- <none>
+      SET OATmp = OATmp_ORI"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_#{$faulttype}, !- <none>
       SET PTmp = "+name_cut(econ_choice)+"RETPressure1#{bias_sensor}_#{$faulttype}, !- <none>
       IF PTmp < DELTASMALL, !- <none>
@@ -190,7 +191,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
       SET RETRH = @RhFnTdbWPb RETTmp RETHumRat PTmp, !- <none>
       SET ORI_RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
       SET ORI_RETHumRat = RETHumRat, !- <none>
-      SET ORI_OAENTH = @HFnTdbW OATmp OAHumRat, !- <none>
+      SET ORI_OAENTH = @HFnTdbW OATmp_ORI OAHumRat, !- <none>
       SET ORI_OAHumRat = OAHumRat, !- <none>
 	  SET RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
       SET RETRHO = @RhoAirFnPbTdbW PTmp RETTmp RETHumRat, !- Calculate density before offsetting because density is not used by the controller

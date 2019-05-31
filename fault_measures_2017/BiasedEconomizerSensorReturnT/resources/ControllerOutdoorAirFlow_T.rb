@@ -159,7 +159,8 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
   end
   if bias_sensor.eql?("RET")
     main_body = main_body+"
-      SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
+      SET RETTmp_ORI = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}, !- <none>
+	  SET RETTmp = RETTmp_ORI"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
       SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_#{$faulttype}, !- <none>
       SET OATmp = "+name_cut(econ_choice)+"OATTemp1#{bias_sensor}_#{$faulttype}, !- <none>
       SET OAHumRat = "+name_cut(econ_choice)+"OATOmega1#{bias_sensor}_#{$faulttype}, !- <none>
