@@ -178,6 +178,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
       SET OAENTH = @HFnTdbW OATmp OAHumRat, !- <none>
     "
   elsif bias_sensor.eql?("OA")
+    #########################################################################################################
     main_body = main_body+"
 	  SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}, !- <none>
       SET RETHumRat = "+name_cut(econ_choice)+"RETOmega1#{bias_sensor}_#{$faulttype}, !- <none>
@@ -199,6 +200,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
 	  SET OAENTH = @HFnTdbRhPb OATmp OARH PTmp, !- <none>
       SET OAHumRat = @WFnTdbH OATmp OAENTH, !- Recalculate humidity ratio after the offset
     "
+	#########################################################################################################
   else  #for bias in both sensors
     main_body = main_body+"
       SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
@@ -368,7 +370,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
       end
     end
   end
-  
+  #########################################################################################################
   main_body = main_body+"
     SET MIN_FRAC = @Max MIN_FRAC 0.0, !- <none>
     SET MIN_FRAC = @Min MIN_FRAC 1.0, !- <none>
@@ -376,15 +378,15 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     SET TDiff = RETTmp-OATmp, !- <none>
     SET TDiff = @Abs TDiff, !- <none>
     IF TDiff > DELTASMALL, !- <none>
-    SET OA_SIGN = (RETTmp-"+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype})/(RETTmp-OATmp), !- Initialize the signal
+    SET OA_SIGN = (RETTmp-"+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype})/(RETTmp-OATmp_ORI), !- Initialize the signal
     ELSE, !- <none>
-    IF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp >= OATmp, !- <none>
+    IF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp >= OATmp_ORI, !- <none>
     SET OA_SIGN = -1, !- <none>
-    ELSEIF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp < OATmp, !- <none>
+    ELSEIF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp < OATmp_ORI, !- <none>
     SET OA_SIGN = 1, !- <none>
-    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp >= OATmp,
+    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp >= OATmp_ORI,
     SET OA_SIGN = 1, !- <none>
-    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp < OATmp,
+    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp < OATmp_ORI,
     SET OA_SIGN = -1, !- <none>
     ENDIF, !- <none>
     ENDIF, !- <none>
@@ -392,6 +394,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     SET OA_SIGN = @Min OA_SIGN 1.0, !- <none>
     SET ECON_FLOW_SCH_VAL = 0.0, !- <none>
   "
+  #########################################################################################################
   
     
   if controlleroutdoorair.getString(7).to_s.eql?("NoEconomizer")
@@ -451,6 +454,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
         SET NO_LOCK_OUT = True, !- <none>
       "
     end
+	#########################################################################################################
     main_body = main_body+"
       IF NO_LOCK_OUT, !- No lockout mode
       IF MDOT_OA_MAX < SMALLMASSFLOW, !- <none>
@@ -459,10 +463,11 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
       SET HIGHHUMCTRL = False, !- <none>
       ELSE, !- Running the economizer
       SET ECON_OP = True, !- <none>
-      IF OATmp > "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype}, !- <none>
+      IF OATmp_ORI > "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype}, !- <none>
       SET OA_SIGN = 1, !- <none>
       ENDIF, !- <none>
     "
+	#########################################################################################################
     if controlleroutdoorair.getString(7).to_s.eql?("DifferentialDryBulb")
       main_body = main_body+"
         IF OATmp > RETTmp, !- DifferentialDryBulb

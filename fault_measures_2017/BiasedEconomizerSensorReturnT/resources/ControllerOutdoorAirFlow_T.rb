@@ -169,7 +169,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
       SET PTmp = 101325.0, !- Zero pressure during warmup may crash the code
       ENDIF, !- <none>
       SET RETRH = @RhFnTdbWPb RETTmp RETHumRat PTmp, !- <none>
-      SET ORI_RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
+      SET ORI_RETENTH = @HFnTdbRhPb RETTmp_ORI RETRH PTmp, !- <none>
       SET ORI_RETHumRat = RETHumRat, !- <none>
       SET ORI_OAENTH = @HFnTdbW OATmp OAHumRat, !- <none>
       SET ORI_OAHumRat = OAHumRat, !- <none>
