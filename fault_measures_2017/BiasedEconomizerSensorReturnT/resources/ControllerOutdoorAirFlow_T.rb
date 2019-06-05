@@ -158,6 +158,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     oa_str_num = "#{oa_t_bias}"
   end
   if bias_sensor.eql?("RET")
+    ##########################################################################################################
     main_body = main_body+"
       SET RETTmp_ORI = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}, !- <none>
 	  SET RETTmp = RETTmp_ORI"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
@@ -169,7 +170,8 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
       SET PTmp = 101325.0, !- Zero pressure during warmup may crash the code
       ENDIF, !- <none>
       SET RETRH = @RhFnTdbWPb RETTmp RETHumRat PTmp, !- <none>
-      SET ORI_RETENTH = @HFnTdbRhPb RETTmp_ORI RETRH PTmp, !- <none>
+	  SET RETRH_ORI = @RhFnTdbWPb RETTmp_ORI RETHumRat PTmp, !- <none>
+      SET ORI_RETENTH = @HFnTdbRhPb RETTmp_ORI RETRH_ORI PTmp, !- <none>
       SET ORI_RETHumRat = RETHumRat, !- <none>
       SET ORI_OAENTH = @HFnTdbW OATmp OAHumRat, !- <none>
       SET ORI_OAHumRat = OAHumRat, !- <none>
@@ -178,6 +180,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
       SET RETRHO = @RhoAirFnPbTdbW PTmp RETTmp RETHumRat, !- Calculate density before offsetting because density is not used by the controller
       SET OAENTH = @HFnTdbW OATmp OAHumRat, !- <none>
     "
+	############################################################################################################
   elsif bias_sensor.eql?("OA")
     main_body = main_body+"
 	  SET RETTmp = "+name_cut(econ_choice)+"RETTemp1#{bias_sensor}_#{$faulttype}, !- <none>
@@ -368,7 +371,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
       end
     end
   end
-  
+  ############################################################################################################
   main_body = main_body+"
     SET MIN_FRAC = @Max MIN_FRAC 0.0, !- <none>
     SET MIN_FRAC = @Min MIN_FRAC 1.0, !- <none>
@@ -376,15 +379,15 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     SET TDiff = RETTmp-OATmp, !- <none>
     SET TDiff = @Abs TDiff, !- <none>
     IF TDiff > DELTASMALL, !- <none>
-    SET OA_SIGN = (RETTmp-"+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype})/(RETTmp-OATmp), !- Initialize the signal
+    SET OA_SIGN = (RETTmp_ORI-"+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype})/(RETTmp_ORI-OATmp), !- Initialize the signal
     ELSE, !- <none>
-    IF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp >= OATmp, !- <none>
+    IF RETTmp_ORI < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp_ORI >= OATmp, !- <none>
     SET OA_SIGN = -1, !- <none>
-    ELSEIF RETTmp < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp < OATmp, !- <none>
+    ELSEIF RETTmp_ORI < "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp_ORI < OATmp, !- <none>
     SET OA_SIGN = 1, !- <none>
-    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp >= OATmp,
+    ELSEIF RETTmp_ORI >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp_ORI >= OATmp,
     SET OA_SIGN = 1, !- <none>
-    ELSEIF RETTmp >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp < OATmp,
+    ELSEIF RETTmp_ORI >= "+name_cut(econ_choice)+"MASetPoint1#{bias_sensor}_#{$faulttype} && RETTmp_ORI < OATmp,
     SET OA_SIGN = -1, !- <none>
     ENDIF, !- <none>
     ENDIF, !- <none>
@@ -392,7 +395,7 @@ def econ_t_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorai
     SET OA_SIGN = @Min OA_SIGN 1.0, !- <none>
     SET ECON_FLOW_SCH_VAL = 0.0, !- <none>
   "
-  
+  ############################################################################################################  
     
   if controlleroutdoorair.getString(7).to_s.eql?("NoEconomizer")
     main_body = main_body+"
