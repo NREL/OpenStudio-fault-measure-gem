@@ -10,6 +10,7 @@
 require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_T"
 
 $allchoices = '* ALL Controller:OutdoorAir *'
+$faulttype = 'RAT'				   
 
 # start the measure
 class BiasedEconomizerSensorReturnT < OpenStudio::Ruleset::WorkspaceUserScript

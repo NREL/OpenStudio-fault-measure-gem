@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>air_handling_unit_fan_motor_degradation</name>
   <uid>9814a5e9-37b7-472a-bae5-e9e2e794c024</uid>
-  <version_id>65672ee8-3281-498c-81cf-63c238394bb4</version_id>
-  <version_modified>20190306T224821Z</version_modified>
+  <version_id>eb1fb0ba-a74c-4ae0-82c1-ea75b319dfdd</version_id>
+  <version_modified>20190531T185507Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>AirHandlingUnitFanMotorDegradation</class_name>
   <display_name>Air Handling Unit Fan Motor Degradation</display_name>
