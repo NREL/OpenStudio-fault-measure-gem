@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>air_handling_unit_fan_motor_degradation</name>
   <uid>9814a5e9-37b7-472a-bae5-e9e2e794c024</uid>
-  <version_id>65672ee8-3281-498c-81cf-63c238394bb4</version_id>
-  <version_modified>20190306T224821Z</version_modified>
+  <version_id>60e34e13-47ff-4ddf-a43f-e9c2340a3b2c</version_id>
+  <version_modified>20190618T152703Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>AirHandlingUnitFanMotorDegradation</class_name>
   <display_name>Air Handling Unit Fan Motor Degradation</display_name>
@@ -46,7 +46,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>6</default_value>
+      <default_value>1</default_value>
     </argument>
     <argument>
       <name>start_date</name>
@@ -62,7 +62,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
+      <default_value>1</default_value>
     </argument>
     <argument>
       <name>end_month</name>
@@ -118,18 +118,6 @@
   </attributes>
   <files>
     <file>
-      <filename>ScheduleSearch.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>577A5309</checksum>
-    </file>
-    <file>
-      <filename>schedulesearch.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>577A5309</checksum>
-    </file>
-    <file>
       <filename>dynamicfaultimplementation.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -144,7 +132,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>89981CFD</checksum>
+      <checksum>C907F591</checksum>
     </file>
   </files>
 </measure>
