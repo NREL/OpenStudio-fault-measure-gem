@@ -7,7 +7,6 @@
 # see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
-require "#{File.dirname(__FILE__)}/resources/ScheduleSearch"
 require "#{File.dirname(__FILE__)}/resources/dynamicfaultimplementation"
 
 $faultnow = 'FD'
@@ -78,7 +77,7 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
 	#make a double argument for the start month
     start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
     start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
-    start_month.setDefaultValue(6)  #default is June
+    start_month.setDefaultValue(1)  #default is January
     args << start_month
 	
 	#make a double argument for the start date
@@ -90,7 +89,7 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
 	#make a double argument for the start time
     start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
     start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
-    start_time.setDefaultValue(9)  #default is 9am
+    start_time.setDefaultValue(1)  #default is 1am
     args << start_time
 	
 	#make a double argument for the end month
@@ -138,7 +137,7 @@ class AirHandlingUnitFanMotorDegradation < OpenStudio::Ruleset::WorkspaceUserScr
 	time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
 	dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
 	dts.each do |dt|
-	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
+	 runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f} hour(s)")
 	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
 	end
 	##################################################
