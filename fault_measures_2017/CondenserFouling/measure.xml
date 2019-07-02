@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fouling</name>
   <uid>7fac3cb7-ed23-454d-ac24-b037d2c8faa4</uid>
-  <version_id>83a27d6f-8582-49c5-9fdc-60a378fe5aef</version_id>
-  <version_modified>20190402T163023Z</version_modified>
+  <version_id>a367bfd0-7c21-47aa-8451-d320336f93c4</version_id>
+  <version_modified>20190702T193910Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFouling</class_name>
   <display_name>Condenser Fouling</display_name>
@@ -230,7 +230,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>6</default_value>
+      <default_value>1</default_value>
     </argument>
     <argument>
       <name>start_date</name>
@@ -246,7 +246,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
+      <default_value>0</default_value>
     </argument>
     <argument>
       <name>end_month</name>
@@ -376,7 +376,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>6FA8CCBE</checksum>
+      <checksum>88063236</checksum>
     </file>
   </files>
 </measure>

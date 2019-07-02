@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>non_standard_charging</name>
   <uid>6508b8fd-3c8e-43cd-a7a8-59b5cb038903</uid>
-  <version_id>ebb2156d-c2d7-45de-8eaa-0f510f28f32f</version_id>
-  <version_modified>20190402T163024Z</version_modified>
+  <version_id>4552cce1-f510-4c6c-b829-855bff5ee053</version_id>
+  <version_modified>20190702T193911Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>NonStandardCharging</class_name>
   <display_name>Nonstandard Charging</display_name>
@@ -326,7 +326,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>6</default_value>
+      <default_value>1</default_value>
     </argument>
     <argument>
       <name>start_date</name>
@@ -342,7 +342,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
+      <default_value>0</default_value>
     </argument>
     <argument>
       <name>end_month</name>
@@ -502,7 +502,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>0918AB64</checksum>
+      <checksum>96E929CE</checksum>
     </file>
   </files>
 </measure>
