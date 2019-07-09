@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>presence_of_non_condensable</name>
   <uid>2ff0e29b-c218-422e-b3af-a656eb6f95f7</uid>
-  <version_id>6faa4c6b-fd82-4fdb-ac31-9207e42c3326</version_id>
-  <version_modified>20190402T163024Z</version_modified>
+  <version_id>fad6c147-853d-4347-a8f8-72ae69ad566f</version_id>
+  <version_modified>20190702T193911Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>PresenceOfNonCondensable</class_name>
   <display_name>Presence Of Noncondensable</display_name>
@@ -230,7 +230,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>6</default_value>
+      <default_value>1</default_value>
     </argument>
     <argument>
       <name>start_date</name>
@@ -246,7 +246,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
+      <default_value>0</default_value>
     </argument>
     <argument>
       <name>end_month</name>
@@ -376,7 +376,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>B073F8CE</checksum>
+      <checksum>1188097F</checksum>
     </file>
   </files>
 </measure>

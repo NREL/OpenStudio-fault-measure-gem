@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>liquid_line_restriction</name>
   <uid>7b7c155e-f73d-4805-a285-7750c5c356ae</uid>
-  <version_id>e92fb158-c540-4fba-9b45-8e2363a83034</version_id>
-  <version_modified>20190402T163024Z</version_modified>
+  <version_id>cd023cbb-22df-420c-94ad-0e5b223b245d</version_id>
+  <version_modified>20190702T193911Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>LiquidLineRestriction</class_name>
   <display_name>Liquid-Line Restriction</display_name>
@@ -230,7 +230,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>6</default_value>
+      <default_value>1</default_value>
     </argument>
     <argument>
       <name>start_date</name>
@@ -246,7 +246,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>9</default_value>
+      <default_value>0</default_value>
     </argument>
     <argument>
       <name>end_month</name>
@@ -376,7 +376,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>9646DD3A</checksum>
+      <checksum>7EC0311C</checksum>
     </file>
   </files>
 </measure>
