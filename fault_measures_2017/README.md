@@ -12,3 +12,4 @@ Some, but not all, of the fault models were validated against experimental measu
 
 Below is a list of all fault models included in this repository.
 
+![alt text](FaultModelList.png)
