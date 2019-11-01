@@ -11,5 +11,3 @@ Models for all faults were implemented for the whole-building energy modeling so
 Some, but not all, of the fault models were validated against experimental measurements. Simulation results with and without modeled faults were compared to actual experimental measurements obtained from a test facility designed to resemble a small office building. Validation results are described in the companion study.
 
 Below is a list of all fault models included in this repository.
-
-![alt text](FaultModelList.png)
