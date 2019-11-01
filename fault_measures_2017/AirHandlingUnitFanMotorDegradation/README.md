@@ -1,26 +1,26 @@
 # Air Handling Unit Fan Motor Degradation
 
-##Description
+## Description
 
 def description
     return "Fan motor degradation occurs due to bearing and stator winding faults, leading to a decrease in motor efficiency and an increase in overall fan power consumption. This fault is categorized as a fault that occur in the ventilation system (fan) during the operation stage. This fault measure is based on a semi-empirical model and simulates the air handling unit fan motor degradation by modifying either the Fan:ConstantVolume, Fan:VariableVolume, or the Fan:OnOff objects in EnergyPlus assigned to the ventilation system. The fault intensity (F) for this fault is defined as the ratio of fan motor efficiency degradation with the application range of 0 to 0.3 (30% degradation)."
 end
 
-##Modeler Description
+## Modeler Description
 
 def modeler_description
     return "Nine user inputs are required and, based on these user inputs, the fan efficiency is recalculated to reflect the faulted operation. η_(fan,tot,F) = η_(fan,tot)∙(1-F), where η_(fan,tot,F) is the degraded total efficiency under faulted condition, η_(fan,tot) is the total efficiency under normal condition, and F is the fault intensity. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and the F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
   end
   
-##Measure Type
+## Measure Type
 
 EnergyPlus Measure
 
-##Taxonomy
+## Taxonomy
 
 HVAC.Ventilation
 
-##Arguments 
+## Arguments 
 
 def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
@@ -91,22 +91,22 @@ def arguments(workspace)
     return args
   end
   
-##Initial Condition
+## Initial Condition
 
 runner.registerInitialCondition("Imposing airflow restriction on #{fan_choice}.")
 Final Condition
 
 runner.registerFinalCondition("Imposed efficiency degradation level at #{eff_degrad_fac} on #{fan_choice}.")
 
-##Not Applicable
+## Not Applicable
 
 n/a
 
-##Warning
+## Warning
 
 n/a
 
-##Error
+## Error
 
   runner.registerError("User-defined schedule #{sch_choice} does not exist. Exiting......")
 
@@ -116,7 +116,7 @@ n/a
   
   runner.registerError("Measure FanMotorDegradation cannot find #{fan_choice}. Skipping......")
 
-##Information
+## Information
 
 •	Works with,
 •	Fan:ConstantVolume
@@ -137,7 +137,7 @@ Code Outline
 •	Append EMS code that calculates the adjustment factor (AF)
 •	Define EMS output object
 
-##Tests
+## Tests
 ●	Test model with Fan:ConstantVolume
 ●	Test model with Fan:OnOff
 ●	Test model with Fan:VariableVolume
