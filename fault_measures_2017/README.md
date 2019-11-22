@@ -8,7 +8,7 @@ Above figure shows the workflow of the entire study including the companion (Par
 
 Models for all faults were implemented for the whole-building energy modeling software engine EnergyPlus®, developed and maintained by the U.S. Department of Energy. Some of the fault models used were developed in a [previous study](https://www.nrel.gov/docs/fy16osti/65030.pdf); those faults applicable to small commercial buildings were adopted and updated for [this work](https://www.mdpi.com/2075-5309/9/11/233). The remaining faults in the list represent newly developed models. All fault models were refined to have extended capability, such as operation with a wider variety of modeling objects in EnergyPlus, compatibility with other fault models within the simulation, and additional features such as the fault evolution.
 
-Some, but not all, of the fault models were validated against experimental measurements. Simulation results with and without modeled faults were compared to actual experimental measurements obtained from a test facility designed to resemble a small office building. Validation results are described in the [companion study]().
+Some, but not all, of the fault models were validated against experimental measurements. Simulation results with and without modeled faults were compared to actual experimental measurements obtained from a test facility designed to resemble a small office building. Validation results are described in the [companion study](https://www.mdpi.com/2075-5309/9/12/239).
 
 Below is a list of all fault models included in this repository.
 
