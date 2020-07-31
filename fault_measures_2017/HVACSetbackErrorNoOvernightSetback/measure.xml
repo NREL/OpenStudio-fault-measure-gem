@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_no_overnight_setback</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>44107764-a8c7-471d-96c9-77b2145946c2</version_id>
-  <version_modified>20190131T225520Z</version_modified>
+  <version_id>4348a819-ab74-4831-a404-4ca64df4ac7e</version_id>
+  <version_modified>20200409T145323Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorNoOvernightSetback</class_name>
   <display_name>HVAC Setback Error: No Overnight Setback</display_name>
@@ -238,18 +238,6 @@
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <filename>temp_2004_lg_hotel_chicago.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>BA085459</checksum>
-    </file>
-    <file>
-      <filename>NoOvernightSetbackWeek_Test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>EE2D02C3</checksum>
-    </file>
-    <file>
       <filename>misc_arguments.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -277,6 +265,12 @@
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>14FC22EF</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>8638E27E</checksum>
     </file>
   </files>
 </measure>

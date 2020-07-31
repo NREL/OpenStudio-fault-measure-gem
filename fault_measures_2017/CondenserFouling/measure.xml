@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fouling</name>
   <uid>7fac3cb7-ed23-454d-ac24-b037d2c8faa4</uid>
-  <version_id>a367bfd0-7c21-47aa-8451-d320336f93c4</version_id>
-  <version_modified>20190702T193910Z</version_modified>
+  <version_id>44b048f2-499f-4a0e-bea4-39e89f873181</version_id>
+  <version_modified>20200409T145323Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFouling</class_name>
   <display_name>Condenser Fouling</display_name>
@@ -377,6 +377,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>88063236</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>AB51F683</checksum>
     </file>
   </files>
 </measure>

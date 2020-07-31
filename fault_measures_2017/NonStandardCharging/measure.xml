@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>non_standard_charging</name>
   <uid>6508b8fd-3c8e-43cd-a7a8-59b5cb038903</uid>
-  <version_id>4552cce1-f510-4c6c-b829-855bff5ee053</version_id>
-  <version_modified>20190702T193911Z</version_modified>
+  <version_id>2d7c0e9e-c9d6-451b-8d9e-5cf9525b908e</version_id>
+  <version_modified>20200409T145324Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>NonStandardCharging</class_name>
   <display_name>Nonstandard Charging</display_name>
@@ -440,36 +440,6 @@
       <checksum>D73C9CAE</checksum>
     </file>
     <file>
-      <filename>1204_b.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>4DF86781</checksum>
-    </file>
-    <file>
-      <filename>EnvelopeAndLoadTestModel_01.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>E4D5A1B8</checksum>
-    </file>
-    <file>
-      <filename>test.osw</filename>
-      <filetype>osw</filetype>
-      <usage_type>test</usage_type>
-      <checksum>06C6246E</checksum>
-    </file>
-    <file>
-      <filename>USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw</filename>
-      <filetype>epw</filetype>
-      <usage_type>test</usage_type>
-      <checksum>E49A6D8D</checksum>
-    </file>
-    <file>
-      <filename>measure_test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>9BFD2C98</checksum>
-    </file>
-    <file>
       <filename>psychrometric.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -503,6 +473,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>96E929CE</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>8A51E034</checksum>
     </file>
   </files>
 </measure>

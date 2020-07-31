@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>oversized_equipment_at_design</name>
   <uid>c97fd24d-b0f3-45e0-93a7-487e0b3759fb</uid>
-  <version_id>1b7f3a4e-4069-440c-95ed-c6853497ef85</version_id>
-  <version_modified>20190416T205824Z</version_modified>
+  <version_id>5765cae0-f662-43e7-b12d-8035901e2185</version_id>
+  <version_modified>20200409T145324Z</version_modified>
   <xml_checksum>4435983D</xml_checksum>
   <class_name>OversizedEquipmentAtDesign</class_name>
   <display_name>Oversized Equipment at Design</display_name>
@@ -61,6 +61,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>661C2ECE</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>F68B23ED</checksum>
     </file>
   </files>
 </measure>

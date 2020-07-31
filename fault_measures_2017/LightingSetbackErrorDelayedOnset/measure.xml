@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>lighting_setback_error_delayed_onset</name>
   <uid>e97755d6-9e77-418e-8292-7c177ab1653c</uid>
-  <version_id>96d7758c-9ee8-4a1d-9f5c-967032bd36d3</version_id>
-  <version_modified>20190131T231458Z</version_modified>
+  <version_id>2f84ccf5-8212-4385-805a-33e0b52da8c3</version_id>
+  <version_modified>20200409T145324Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>LightingSetbackErrorDelayedOnset</class_name>
   <display_name>Lighting Setback Error: Delayed Onset</display_name>
@@ -224,18 +224,6 @@
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <filename>temp_2004_lg_hotel_chicago.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>BA085459</checksum>
-    </file>
-    <file>
-      <filename>ExtendEveningThermostatSetpointWeek_Test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>9C1C9F33</checksum>
-    </file>
-    <file>
       <filename>misc_arguments.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -259,16 +247,16 @@
       <checksum>E121C8B4</checksum>
     </file>
     <file>
-      <filename>temp_2004_lg_hotel_chicago_b.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>700F7A09</checksum>
-    </file>
-    <file>
       <filename>fdd_thermostat_light.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>E4CBEA96</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>E1C56E7E</checksum>
     </file>
   </files>
 </measure>

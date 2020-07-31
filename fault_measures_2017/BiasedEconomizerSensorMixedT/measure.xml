@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_mixed_t</name>
   <uid>3a9ab8b0-6fe8-4395-9f3e-57726ae4edaa</uid>
-  <version_id>f767ec98-18a9-420f-8425-6ab59eb66169</version_id>
-  <version_modified>20190131T190640Z</version_modified>
+  <version_id>fbf27f32-9629-4fea-9f58-23e08f889e45</version_id>
+  <version_modified>20200409T145322Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorMixedT</class_name>
   <display_name>Biased Economizer Sensor: Mixed Temperature</display_name>
@@ -64,6 +64,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>729A5FA2</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>F98B3F49</checksum>
     </file>
   </files>
 </measure>

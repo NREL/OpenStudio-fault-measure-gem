@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_oat</name>
   <uid>75ad65c1-1f17-4fa3-be05-13a3bb415fbe</uid>
-  <version_id>c8fa3f10-7db9-4a15-afb9-cb8b2ac3f1ed</version_id>
-  <version_modified>20190605T142000Z</version_modified>
+  <version_id>c4d6fd48-c3a6-4ada-b408-4b0f4c307064</version_id>
+  <version_modified>20200409T145322Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorOAT</class_name>
   <display_name>Biased Economizer Sensor: Outdoor Temperature</display_name>
@@ -132,6 +132,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>F4420CED</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>389D85DA</checksum>
     </file>
   </files>
 </measure>

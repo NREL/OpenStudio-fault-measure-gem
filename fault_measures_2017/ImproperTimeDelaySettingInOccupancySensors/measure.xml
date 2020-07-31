@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>improper_time_delay_setting_in_occupancy_sensors</name>
   <uid>80bceaba-6cd1-43ba-b322-4ad17e72e22a</uid>
-  <version_id>3eb90c03-be77-4a4d-b5b0-72bd345d0099</version_id>
-  <version_modified>20190410T185724Z</version_modified>
+  <version_id>5ccd8d0d-8ed8-47fd-adea-f22e2130e157</version_id>
+  <version_modified>20200409T145324Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>ImproperTimeDelaySettingInOccupancySensors</class_name>
   <display_name>Improper Time Delay Setting in Occupancy Sensors</display_name>
@@ -224,18 +224,6 @@
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <filename>temp_2004_lg_hotel_chicago.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>BA085459</checksum>
-    </file>
-    <file>
-      <filename>ExtendEveningThermostatSetpointWeek_Test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>3B1BB387</checksum>
-    </file>
-    <file>
       <filename>misc_arguments.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -263,6 +251,12 @@
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>54F76A4D</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>160A585B</checksum>
     </file>
   </files>
 </measure>

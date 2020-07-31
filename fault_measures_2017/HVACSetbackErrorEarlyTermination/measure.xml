@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_early_termination</name>
   <uid>d6a0f476-5b23-4273-ae00-93e55fa5f917</uid>
-  <version_id>dc5ec5bf-0486-4ef9-8d10-f5baacc6ee77</version_id>
-  <version_modified>20190306T230534Z</version_modified>
+  <version_id>10e5da13-063c-4dbc-8edd-b1576cf0a305</version_id>
+  <version_modified>20200409T145323Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorEarlyTermination</class_name>
   <display_name>HVAC Setback Error: Early Termination</display_name>
@@ -242,18 +242,6 @@
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <filename>temp_2004_lg_hotel_chicago.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>BA085459</checksum>
-    </file>
-    <file>
-      <filename>ExtendMorningThermostatSetpointWeek_Test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>F9B02DA6</checksum>
-    </file>
-    <file>
       <filename>misc_arguments.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -281,6 +269,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>0917400D</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>F95B3738</checksum>
     </file>
   </files>
 </measure>

@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>presence_of_non_condensable</name>
   <uid>2ff0e29b-c218-422e-b3af-a656eb6f95f7</uid>
-  <version_id>fad6c147-853d-4347-a8f8-72ae69ad566f</version_id>
-  <version_modified>20190702T193911Z</version_modified>
+  <version_id>b5769661-0948-40b9-a0f3-10fb8a1d53b2</version_id>
+  <version_modified>20200409T145324Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>PresenceOfNonCondensable</class_name>
   <display_name>Presence Of Noncondensable</display_name>
@@ -377,6 +377,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>1188097F</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>DB8E0E8B</checksum>
     </file>
   </files>
 </measure>

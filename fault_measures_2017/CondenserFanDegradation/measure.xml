@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fan_degradation</name>
   <uid>78fd31ab-ff52-4260-b680-c2c75dfd31dc</uid>
-  <version_id>8a2e8f19-e789-4be3-8f0f-fec1d3e0d5ba</version_id>
-  <version_modified>20190702T193910Z</version_modified>
+  <version_id>4ee08575-e368-46d4-975c-6aef1fe4970d</version_id>
+  <version_modified>20200409T145323Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFanDegradation</class_name>
   <display_name>Condenser Fan Degradation</display_name>
@@ -171,6 +171,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>22ABB193</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>B4134511</checksum>
     </file>
   </files>
 </measure>

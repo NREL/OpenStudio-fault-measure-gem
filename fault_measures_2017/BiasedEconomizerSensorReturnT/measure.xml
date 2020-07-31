@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_t</name>
   <uid>f1ba09fb-2903-45b2-838c-604b63fc4662</uid>
-  <version_id>34eccddc-92ee-4872-9231-a9a9a6ad34d4</version_id>
-  <version_modified>20190701T224405Z</version_modified>
+  <version_id>c377f604-8fa4-4adc-90e2-0d3f7656c9f3</version_id>
+  <version_modified>20200409T145323Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnT</class_name>
   <display_name>Biased Economizer Sensor: Return Temperature</display_name>
@@ -132,6 +132,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>DD1B92C1</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>D0B0AB38</checksum>
     </file>
   </files>
 </measure>

@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>economizer_opening_stuck</name>
   <uid>2a4a6312-c5d6-40e6-a8a0-cbd552a5949b</uid>
-  <version_id>06c2266a-d74d-49fc-870a-38cb83584036</version_id>
-  <version_modified>20190325T005445Z</version_modified>
+  <version_id>e7ddc6fa-24ed-4ec9-b5d1-9bd85231ebf5</version_id>
+  <version_modified>20200409T145323Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>EconomizerOpeningStuck</class_name>
   <display_name>Economizer Opening Stuck</display_name>
@@ -99,6 +99,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>04E51E1A</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>E6EC782B</checksum>
     </file>
   </files>
 </measure>

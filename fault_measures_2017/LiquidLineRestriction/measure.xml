@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>liquid_line_restriction</name>
   <uid>7b7c155e-f73d-4805-a285-7750c5c356ae</uid>
-  <version_id>cd023cbb-22df-420c-94ad-0e5b223b245d</version_id>
-  <version_modified>20190702T193911Z</version_modified>
+  <version_id>fe352a63-946c-4ea2-86d7-6871fbe956be</version_id>
+  <version_modified>20200409T145324Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>LiquidLineRestriction</class_name>
   <display_name>Liquid-Line Restriction</display_name>
@@ -377,6 +377,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>7EC0311C</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>0742D76E</checksum>
     </file>
   </files>
 </measure>

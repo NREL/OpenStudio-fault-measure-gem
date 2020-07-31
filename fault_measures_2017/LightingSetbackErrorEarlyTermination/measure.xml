@@ -2,8 +2,8 @@
   <schema_version>3.0</schema_version>
   <name>lighting_setback_error_early_termination</name>
   <uid>4068e01b-f572-4805-9d49-a5067c5246ff</uid>
-  <version_id>3ed7f712-1ea7-466c-910a-3e9be79a9583</version_id>
-  <version_modified>20190415T171026Z</version_modified>
+  <version_id>5f761fe4-dfd6-4897-8a44-2035fedda07e</version_id>
+  <version_modified>20200409T145324Z</version_modified>
   <xml_checksum>9B7BB4D8</xml_checksum>
   <class_name>LightingSetbackErrorEarlyTermination</class_name>
   <display_name>Lighting Setback Error: Early Termination</display_name>
@@ -224,18 +224,6 @@
       <checksum>C16CED49</checksum>
     </file>
     <file>
-      <filename>temp_2004_lg_hotel_chicago.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>BA085459</checksum>
-    </file>
-    <file>
-      <filename>ExtendEveningThermostatSetpointWeek_Test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>3B1BB387</checksum>
-    </file>
-    <file>
       <filename>misc_arguments.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -263,6 +251,12 @@
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>9E4D416E</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>726C61D4</checksum>
     </file>
   </files>
 </measure>
