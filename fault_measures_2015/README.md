@@ -1,3 +1,7 @@
+## Contents included in this readme was developed in the past and has not been updated since then.
+
+___
+
 # Introduction
 
 This repository contains the measures that are used to run the fault models and example cases in the
