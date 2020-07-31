@@ -1,0 +1,84 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>free_oscillation_custom_zone_thermostats</name>
+  <uid>f3f9aebd-1fa5-4756-ae2c-e677ad1bda57</uid>
+  <version_id>597d437d-0d61-4660-afc3-8673212972e1</version_id>
+  <version_modified>20180310T173940Z</version_modified>
+  <xml_checksum>356BE47F</xml_checksum>
+  <class_name>FreeOscillationCustomZoneThermostats</class_name>
+  <display_name>Free Oscillation Custom Zone Thermostats</display_name>
+  <description>This is for use when you want to regulate zones to specific temperatures before cutting the HVAC system off for free oscillation analysis. A constat schedule is used for the entire run period. Zones that do not have a thermostat won't be altered</description>
+  <modeler_description>Argument will be made for each zone in the model and another argument for the deadband size between the heating and cooling setpoints that will center on the entered temperature.</modeler_description>
+  <arguments>
+    <argument>
+      <name>deadband</name>
+      <display_name>Deadband Size</display_name>
+      <type>Double</type>
+      <units>F</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.2</default_value>
+    </argument>
+    <argument>
+      <name>preset_shift</name>
+      <display_name>Preset Shift</display_name>
+      <type>Double</type>
+      <units>F</units>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-4</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.HVAC Controls</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>free_oscillation_custom_zone_thermostats_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E31E8BB7</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>53D14E69</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>2.4.0</identifier>
+        <min_compatible>2.4.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>9E32D617</checksum>
+    </file>
+  </files>
+</measure>

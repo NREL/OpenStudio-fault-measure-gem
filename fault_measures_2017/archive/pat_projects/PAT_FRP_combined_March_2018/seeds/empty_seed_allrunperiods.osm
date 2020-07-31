@@ -1,0 +1,157 @@
+
+OS:Version,
+  {3bcca92d-4974-427a-a9b6-af9c794616a2}, !- Handle
+  2.3.0;                                  !- Version Identifier
+
+OS:Site,
+  {5dfc04df-e861-47e5-8d01-83f51f9a6870}, !- Handle
+  Oak Ridge,                              !- Name
+  35.96,                                  !- Latitude {deg}
+  -84.29,                                 !- Longitude {deg}
+  -5,                                     !- Time Zone {hr}
+  334,                                    !- Elevation {m}
+  ;                                       !- Terrain
+
+OS:YearDescription,
+  {11befd71-34a6-413b-8d40-5fceb724eafd}, !- Handle
+  ,                                       !- Calendar Year
+  Thursday;                               !- Day of Week for Start Day
+
+OS:ClimateZones,
+  {ee336404-db7c-44b5-b884-d396847a905e}, !- Handle
+  ,                                       !- Active Institution
+  ,                                       !- Active Year
+  ,                                       !- Climate Zone Institution Name 1
+  ,                                       !- Climate Zone Document Name 1
+  ,                                       !- Climate Zone Document Year 1
+  ,                                       !- Climate Zone Value 1
+  CEC,                                    !- Climate Zone Institution Name 2
+  California Climate Zone Descriptions,   !- Climate Zone Document Name 2
+  1995,                                   !- Climate Zone Document Year 2
+  ;                                       !- Climate Zone Value 2
+
+OS:Building,
+  {377816c1-b5c8-491e-8eb8-2718bcecba2a}, !- Handle
+  Building 1,                             !- Name
+  ,                                       !- Building Sector Type
+  ,                                       !- North Axis {deg}
+  ,                                       !- Nominal Floor to Floor Height {m}
+  ,                                       !- Space Type Name
+  ,                                       !- Default Construction Set Name
+  ;                                       !- Default Schedule Set Name
+
+OS:Facility,
+  {29a7eb07-f9c6-4851-ab3b-faf87316d280}; !- Handle
+
+OS:SimulationControl,
+  {057f86cd-0bd8-464a-8e03-f08c8f70cd15}; !- Handle
+
+OS:Sizing:Parameters,
+  {03525c1c-16b0-4b59-a6eb-baf00782ca39}, !- Handle
+  1.25,                                   !- Heating Sizing Factor
+  1.15;                                   !- Cooling Sizing Factor
+
+OS:Timestep,
+  {a554315a-777d-439c-ac20-2247081b79a9}, !- Handle
+  6;                                      !- Number of Timesteps per Hour
+
+OS:ShadowCalculation,
+  {8dd06d15-29b4-4cdb-b32c-317d95eb305f}, !- Handle
+  20,                                     !- Calculation Frequency
+  15000;                                  !- Maximum Figures in Shadow Overlap Calculations
+
+OS:HeatBalanceAlgorithm,
+  {36ef1030-b2a9-4d92-8e9a-7968a02b0fe0}, !- Handle
+  ConductionTransferFunction,             !- Algorithm
+  200;                                    !- Surface Temperature Upper Limit {C}
+
+OS:RunPeriod,
+  {f0375747-f371-4bf8-a50c-a985855bd980}, !- Handle
+  Run Period 1,                           !- Name
+  1,                                      !- Begin Month
+  1,                                      !- Begin Day of Month
+  12,                                     !- End Month
+  31,                                     !- End Day of Month
+  ,                                       !- Use Weather File Holidays and Special Days
+  ,                                       !- Use Weather File Daylight Saving Period
+  ,                                       !- Apply Weekend Holiday Rule
+  ,                                       !- Use Weather File Rain Indicators
+  ,                                       !- Use Weather File Snow Indicators
+  ;                                       !- Number of Times Runperiod to be Repeated
+
+OS:LifeCycleCost:Parameters,
+  {83f49e5e-8657-4b66-b8d7-0976f6179297}, !- Handle
+  ,                                       !- Analysis Type
+  ,                                       !- Discounting Convention
+  ,                                       !- Inflation Approach
+  ,                                       !- Real Discount Rate
+  ,                                       !- Nominal Discount Rate
+  ,                                       !- Inflation
+  ,                                       !- Base Date Month
+  ,                                       !- Base Date Year
+  ,                                       !- Service Date Month
+  ,                                       !- Service Date Year
+  ;                                       !- Length of Study Period in Years
+
+OS:WeatherFile,
+  {5d23a402-d860-4666-8a50-d7e202e5fdcd}, !- Handle
+  Oak Ridge,                              !- City
+  TN,                                     !- State Province Region
+  USA,                                    !- Country
+  TMY3,                                   !- Data Source
+  723260,                                 !- WMO Number
+  35.96,                                  !- Latitude {deg}
+  -84.29,                                 !- Longitude {deg}
+  -5,                                     !- Time Zone {hr}
+  334,                                    !- Elevation {m}
+  file:Oak Ridge_AMY_EPW_010116 to 032916_thur.epw, !- Url
+  586D1E27;                               !- Checksum
+
+OS:RadianceParameters,
+  {fc18d4af-e79c-4938-b6f4-0e1147317e4e}, !- Handle
+  1,                                      !- Accumulated Rays per Record
+  0,                                      !- Direct Threshold
+  1,                                      !- Direct Certainty
+  1,                                      !- Direct Jitter
+  1,                                      !- Direct Pretest
+  6,                                      !- Ambient Bounces VMX
+  2,                                      !- Ambient Bounces DMX
+  4050,                                   !- Ambient Divisions VMX
+  512,                                    !- Ambient Divisions DMX
+  256,                                    !- Ambient Supersamples
+  0.001,                                  !- Limit Weight VMX
+  0.001,                                  !- Limit Weight DMX
+  500,                                    !- Klems Sampling Density
+  146;                                    !- Sky Discretization Resolution
+
+OS:ProgramControl,
+  {26916363-66da-4dd9-9e4f-ed53f3eae655}; !- Handle
+
+OS:OutputControl:ReportingTolerances,
+  {cd25b81b-75ce-4db2-bc3f-696e19469e47}; !- Handle
+
+OS:ConvergenceLimits,
+  {4b6815e2-9362-4c0a-845b-75bf3d513afa}, !- Handle
+  1;                                      !- Minimum System Timestep {minutes}
+
+OS:SurfaceConvectionAlgorithm:Inside,
+  {d1c63beb-00fd-40cd-b428-83711710a744}, !- Handle
+  TARP;                                   !- Algorithm
+
+OS:SurfaceConvectionAlgorithm:Outside,
+  {399cc8cb-87be-481d-85eb-6ead5298ca63}, !- Handle
+  DOE-2;                                  !- Algorithm
+
+OS:ZoneAirHeatBalanceAlgorithm,
+  {890de785-7c3e-4457-b62c-3cf6f054d9c8}, !- Handle
+  ThirdOrderBackwardDifference;           !- Algorithm
+
+OS:ZoneAirContaminantBalance,
+  {434566a3-1fcd-4fc5-909e-27712b7d23b2}; !- Handle
+
+OS:ZoneCapacitanceMultiplier:ResearchSpecial,
+  {9d30ec32-820d-48e8-9983-ed840ff60e77}, !- Handle
+  ,                                       !- Temperature Capacity Multiplier
+  ,                                       !- Humidity Capacity Multiplier
+  ;                                       !- Carbon Dioxide Capacity Multiplier
+
