@@ -1,6 +1,4 @@
-## Contents included in this readme was developed in the past and has not been updated since then.
-
-___
+### Contents included in this readme was developed in the past and has not been updated since then.
 
 # Introduction
 
