@@ -1,0 +1,82 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>supply_air_duct_leakages</name>
+  <uid>8d568a70-080d-4f27-97f5-5210ff639652</uid>
+  <version_id>251fc058-8591-49d9-81e8-6079990a320e</version_id>
+  <version_modified>20200409T145325Z</version_modified>
+  <xml_checksum>FAAEB4D1</xml_checksum>
+  <class_name>SupplyAirDuctLeakages</class_name>
+  <display_name>Supply Air Duct Leakages</display_name>
+  <description>Duct leakage can be caused by torn or missing external duct wrap, poor workmanship around duct takeoffs and fittings, disconnected ducts, improperly installed duct mastic, and temperature and pressure cycling. Conditioned air leaking to an unconditioned space in buildings increases the equipment heating or cooling demand and can increase fan power for variable air volume systems. This fault is categorized as a fault that occur in the ventilation system (duct) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates supply air leakage by modifying the ZoneHVAC:AirDistributionUnit object in EnergyPlus. The fault intensity (F) is defined as the ratio of the leakage flow relative to supply flow.</description>
+  <modeler_description>Two user inputs are required to simulate the fault. The ZoneHVAC:AirDistributionUnit object has two leakage options (upstream and downstream leakages) available. For supply duct leakage, the leakage ratio (leakage flow relative to supply flow) is applied to the downstream leakage parameter and the upstream leakage parameter is replaced with zero in the object. To use this Measure, choose the AirTerminal object to be faulted and a ratio of leakage flow rate to the airflow directed to the zone upstream to the leak. Equation, r_(leak,dnst,F) = 1 - ( 1 - r_(leak,dnst) ) * ( 1 - F ) provides an expression for the downstream leakage ratio (r_(leak,dnst,F)) under faulty conditions in terms of a normal leakage ratio (r_(leak,dnst)) and a fault intensity (F) defined as the ratio of the leakage flow relative to supply flow.</modeler_description>
+  <arguments>
+    <argument>
+      <name>airterminal_choice</name>
+      <display_name>Select the name of the faulted AirTerminal object</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL ADU objects *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL ADU objects *</value>
+          <display_name>* ALL ADU objects *</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>leak_ratio</name>
+      <display_name>Ratio of leak airflow between 0 and 0.3.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Ventilation</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>2659C336</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>14430263</checksum>
+    </file>
+  </files>
+</measure>
