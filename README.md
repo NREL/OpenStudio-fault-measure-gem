@@ -38,6 +38,8 @@ in-progress
 
 - [Assessing barriers and research challenges for automated fault detection and diagnosis technology for small commercial buildings in the United States](https://www.sciencedirect.com/science/article/pii/S1364032118306300)
 
+- [Metrics and Methods to Assess Building Fault Detection and Diagnosis Tools](https://www.osti.gov/biblio/1503166)
+
 - [A performance evaluation framework for building fault detection and diagnosis algorithms](https://www.sciencedirect.com/science/article/pii/S0378778818335680)
 
 - [Representing Small Commercial Building Faults in EnergyPlus, Part I: Model Development](https://www.mdpi.com/2075-5309/9/11/233)
