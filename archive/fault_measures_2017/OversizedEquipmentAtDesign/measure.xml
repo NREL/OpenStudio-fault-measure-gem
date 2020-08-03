@@ -1,0 +1,72 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>oversized_equipment_at_design</name>
+  <uid>c97fd24d-b0f3-45e0-93a7-487e0b3759fb</uid>
+  <version_id>5765cae0-f662-43e7-b12d-8035901e2185</version_id>
+  <version_modified>20200409T145324Z</version_modified>
+  <xml_checksum>4435983D</xml_checksum>
+  <class_name>OversizedEquipmentAtDesign</class_name>
+  <display_name>Oversized Equipment at Design</display_name>
+  <description>Oversizing of heating and cooling equipment is commonly accepted in real-world applications. In a previous study, more than 40% of the units surveyed were oversized by more than 25%, and 10% were oversized by more than 50%. System oversizing can ensure that the highest heating and cooling demands are met. But excessive oversizing of units can lead to increased equipment cycling with increased energy use due to efficiency losses. This fault is categorized as a fault that occur in the HVAC system during the design stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates oversized equipment by modifying Sizing:Parameters object in EnergyPlus. The fault intensity (F) is defined as the ratio of increased sizing compared to the correct sizing.</description>
+  <modeler_description>This measure simulates the effect of oversized equipment at design by modifying the Sizing:Parameters object and capacity fields in coil objects in EnergyPlus assigned to the heating and cooling system. One user input is required; percentage of increased sizing. Current measure applicable to following objects; coilcoolingdxsinglespeed, coilcoolingdxtwospeed,  coilcoolingdxtwostagewithhumiditycontrolmode, coilcoolingdxvariablerefrigerantflow, coilheatingdxvariablerefrigerantflow, coilheatinggas, coilheatingelectric.</modeler_description>
+  <arguments>
+    <argument>
+      <name>coil_choice</name>
+      <display_name>Enter the name of the oversized coil object. If you want to impose the fault on all equipment, select * ALL Coil Selected *</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL Coil Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Coil Selected *</value>
+          <display_name>* ALL Coil Selected *</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>sizing_increase_ratio</name>
+      <display_name>Sizing Increase Ratio (between 0-1).</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Whole System</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Uses SketchUp API</name>
+      <value>false</value>
+      <datatype>boolean</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.0.5</identifier>
+        <min_compatible>1.0.5</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>661C2ECE</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>F68B23ED</checksum>
+    </file>
+  </files>
+</measure>

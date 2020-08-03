@@ -1,0 +1,65 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>export_time_series_datato_cS_v</name>
+  <uid>556af0ff-b31e-4767-959a-5e213063e13b</uid>
+  <version_id>bad6a9f9-30d7-4a5e-b724-46b08d443b87</version_id>
+  <xml_checksum>2C8A3EEF</xml_checksum>
+  <class_name>ExportTimeSeriesDatatoCSV</class_name>
+  <display_name>ExportTimeSeriesDatatoCSV</display_name>
+  <description>This measure exports time series data to csv for output variables and meters.</description>
+  <modeler_description>This measure loops through all available variables, for all available reporting frequencies, in the Eplus sql output file. It drops the time series data into a csv file with human-readable, as well as epoch, timestamps.</modeler_description>
+  <arguments/>
+  <provenances/>
+  <tags>
+    <tag>Reporting.QAQC</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ReportingMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Uses SketchUp API</name>
+      <value>false</value>
+      <datatype>boolean</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>ExportTimeSeriesDatatoCSV_Test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>FBA884F0</checksum>
+    </file>
+    <file>
+      <filename>ExampleModel.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>4D4C61B5</checksum>
+    </file>
+    <file>
+      <filename>report.html.in</filename>
+      <filetype>in</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>3501204C</checksum>
+    </file>
+    <file>
+      <filename>zone_air_temps_hg_restaurant.csv</filename>
+      <filetype>csv</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>6067868C</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.4.0</identifier>
+        <min_compatible>1.4.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>D770AAC4</checksum>
+    </file>
+  </files>
+</measure>

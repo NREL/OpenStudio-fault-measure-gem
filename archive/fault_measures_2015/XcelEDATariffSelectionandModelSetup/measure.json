@@ -1,0 +1,56 @@
+{
+  "classname": "XcelEDATariffSelectionandModelSetup",
+  "name": "xcel_eda_tariff_selectionand_model_setup",
+  "display_name": "Xcel EDA Tariff Selectionand Model Setup",
+  "measure_type": "EnergyPlusMeasure",
+  "arguments": [
+    {
+      "local_variable": "elec_tar",
+      "variable_type": "Choice",
+      "name": "elec_tar",
+      "display_name": "Select an Electricity Tariff",
+      "units": null,
+      "description": null,
+      "default_value": "Secondary General",
+      "choices": [
+        "Residential General",
+        "Commercial",
+        "Primary General",
+        "Secondary General Low Load Factor",
+        "Secondary General",
+        "Secondary Photovoltaic Time-of-Use",
+        "Transmission General",
+        "Non-Xcel Commercial",
+        "Non-Xcel Primary General",
+        "Non-Xcel Secondary General Low Load Factor",
+        "Non-Xcel Secondary General",
+        "Non-Xcel Transmission General"
+      ]
+    },
+    {
+      "local_variable": "gas_tar",
+      "variable_type": "Choice",
+      "name": "gas_tar",
+      "display_name": "Select a Gas Tariff",
+      "units": null,
+      "description": null,
+      "default_value": "Large CG",
+      "choices": [
+        "Residential Gas",
+        "Small CG",
+        "Large CG",
+        "Interruptible Industrial G",
+        "Non-Xcel Gas Firm",
+        "Non-Xcel Gas Interruptible"
+      ]
+    }
+  ],
+  "name_xml": "xcel_eD_aTariff_selectionand_model_setup",
+  "uid": "c5ab60e9-b8e5-4653-a502-5ed030f1335d",
+  "version_id": "c6bab03c-1826-480d-ad94-e92a4b8c8862",
+  "modeler_description": "Adds the .idf text for the selected Xcel Energy tariffs, sets the timestep to 15min so that the demand window and the timestep align, and sets the lifecycle costing parameters to use NIST 2012 inflation and fuel escalation numbers.  These NIST numbers will not affect the Xcel EDA results.",
+  "description": "Add the selected Xcel utility rate, as well as set the timestep and lifecycle costing parameters as required by the Xcel EDA program.",
+  "tags": [
+    "Economics.Life Cycle Cost Analysis"
+  ]
+}

@@ -1,0 +1,78 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <error>cannot load such file -- rubyXL</error>
+  <name>auto_size_to_hard_size_e_plus_version</name>
+  <uid>c2d2ca51-8546-40cf-8393-b00f7f30bdee</uid>
+  <version_id>e86d7cd3-7802-4dfd-9bd2-c12e42f91157</version_id>
+  <version_modified>20180313T161252Z</version_modified>
+  <xml_checksum>C49A7DAB</xml_checksum>
+  <class_name>AutoSizeToHardSizeEPlusVersion</class_name>
+  <display_name>Auto Size To Hard Size</display_name>
+  <description>Pass all autosized values in the model to numerical values shown in the .osm file.</description>
+  <modeler_description></modeler_description>
+  <arguments/>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Whole System</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>0C18E42F</checksum>
+    </file>
+    <file>
+      <filename>1204_a.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>27514680</checksum>
+    </file>
+    <file>
+      <filename>test.osw</filename>
+      <filetype>osw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>3F58170F</checksum>
+    </file>
+    <file>
+      <filename>USA_TX_Houston-Bush.Intercontinental.AP.722430_TMY3.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>EE565FCC</checksum>
+    </file>
+    <file>
+      <filename>auto_sizeto_har_size_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>73C1A870</checksum>
+    </file>
+  </files>
+</measure>

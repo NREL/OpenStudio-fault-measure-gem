@@ -1,0 +1,234 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>chiller_condenser_fouling</name>
+  <uid>b8852a7c-0802-49b0-9a7b-eb02a58cc4c2</uid>
+  <version_id>55ce6d18-5fea-4933-b48d-20760ee5e86c</version_id>
+  <version_modified>20170602T144308Z</version_modified>
+  <xml_checksum>CBC45526</xml_checksum>
+  <class_name>ChillerCondenserFouling</class_name>
+  <display_name>Water-cooled chiller with fouled condenser</display_name>
+  <description>This Measure simulates the effect of condenser fouling of water-cooled chillers with shell-and-tube condensers and evaporators to the building performance.</description>
+  <modeler_description>To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of blocked tubes on the water-side of the condenser to the total number of tubes in the condenser. If the fault level is outside the range of zero and one, an error will occur.</modeler_description>
+  <arguments>
+    <argument>
+      <name>chiller_choice</name>
+      <display_name>Enter the name of the faulted Chiller:Electric:EIR object</display_name>
+      <type>String</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>sch_choice</name>
+      <display_name>Enter the name of the schedule of the fault level. If you do not have a schedule, leave this blank.</display_name>
+      <type>String</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value></default_value>
+    </argument>
+    <argument>
+      <name>fault_level</name>
+      <display_name>Charge level of the Chiller:Electric:EIR object. This model only simulates overcharged condition so the number should be higher than 1.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+    <argument>
+      <name>max_fl</name>
+      <display_name>Maximum value of fault level</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.45</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta1</name>
+      <display_name>Parameter a1 for the power_fault model for the condenser fouling model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-3.475812754</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta2</name>
+      <display_name>Parameter a2 for the power_fault model for the condenser fouling model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-0.014398372</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta3</name>
+      <display_name>Parameter a3 for the power_fault model for the condenser fouling model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.0250766</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta4</name>
+      <display_name>Parameter a4 for the power_fault model for the condenser fouling model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.738057225</default_value>
+    </argument>
+    <argument>
+      <name>power_faulta5</name>
+      <display_name>Parameter a5 for the power_fault model for the condenser fouling model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.115719097</default_value>
+    </argument>
+    <argument>
+      <name>min_evap_tmp_fault</name>
+      <display_name>Minimum value of evaporator water outlet temperature for the overcharging model (C)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>4.03</default_value>
+    </argument>
+    <argument>
+      <name>max_evap_tmp_fault</name>
+      <display_name>Maximum value of evaporator water outlet temperature for the overcharging model (C)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>10.4</default_value>
+    </argument>
+    <argument>
+      <name>min_cond_tmp_fault</name>
+      <display_name>Minimum value of condenser inlet temperature for the overcharging model (C)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>17.2</default_value>
+    </argument>
+    <argument>
+      <name>max_cond_tmp_fault</name>
+      <display_name>Maximum value of condenser inlet temperature for the overcharging model (C)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>29.9</default_value>
+    </argument>
+    <argument>
+      <name>min_cap_fault</name>
+      <display_name>Minimum ratio of evaporator heat transfer rate to the reference capacity for the overcharging model</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.27</default_value>
+    </argument>
+    <argument>
+      <name>max_cap_fault</name>
+      <display_name>Maximum ratio of evaporator heat transfer rate to the reference capacity for the overcharging model</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Cooling</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>TransferCurveParameters.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>627EF985</checksum>
+    </file>
+    <file>
+      <filename>ScheduleSearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>577A5309</checksum>
+    </file>
+    <file>
+      <filename>EnterCoefficients.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FD200DD7</checksum>
+    </file>
+    <file>
+      <filename>entercoefficients.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FD200DD7</checksum>
+    </file>
+    <file>
+      <filename>schedulesearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>577A5309</checksum>
+    </file>
+    <file>
+      <filename>transfercurveparameters.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>627EF985</checksum>
+    </file>
+    <file>
+      <filename>misc_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>571DC50F</checksum>
+    </file>
+    <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>8B8B9AEF</checksum>
+    </file>
+    <file>
+      <filename>faultdefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>8B8B9AEF</checksum>
+    </file>
+    <file>
+      <filename>nosqfaultcalculationchillerelectriceir.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>C298E804</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>C9F9933B</checksum>
+    </file>
+  </files>
+</measure>

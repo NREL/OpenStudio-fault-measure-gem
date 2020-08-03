@@ -1,0 +1,108 @@
+Priority,Equipment,Fault,Name of Measure Script,Applicable Component Type,Fault Models with Compatibility Issues,Variable Name for Fault Severity,Variable Type,Value of Variable for the Non-faulted Case,"Applicable Range of Variable, if any",Notes for inapplicability,Variable name for equipment or zone
+1,Control,Thermostat offset,ThermostatBias,,,setpoint_offset,Double,0,,,zone
+1,Control,Thermostat offset,ThermostatBiasReportingAnalysisSpreadSheet,,,,,,,Used to gether with ThermostatBias when running OpenStudio Analysis Spreadsheet to propagate bias level to zone air temperature result,
+2,Control,Inappropriate setpoints/ schedule in thermostats,NoReset,,,no_reset,Integer,0,"|1,2,3,4,5,6,7|",,zone
+2,Control,Inappropriate setpoints/ schedule in thermostats,NoOvernightSetbackWeek,,,dayofweek,String,Not faulted,"|Monday ,Tuesday ,Wednesday ,Thursday ,Friday ,Saturday ,Sunday|",Used to impose a fault scehdule for one day in a week that the evening schedule is the same as daytime schedule,zone
+2,Control,Inappropriate setpoints/ schedule in thermostats,ExtendEveningThermostatSetpointWeek,,,ext_hr,Double,0,,Used to impose a fault scehdule for one day in a week that the evening schedule is extended towards midnight. Only applicable if the extended hours ends before midnight.,zone
+2,Control,Inappropriate setpoints/ schedule in thermostats,ExtendMorningThermostatSetpointWeek,,,ext_hr,Double,0,,Used to impose a fault scehdule for one day in a week that the morning schedule is extended towards midnight. Only applicable if the extended hours ends after midnight.,zone
+7,RTU,Non-standard charging,RTUUCWithSHRChange,Coil:Cooling:DX:SingleSpeed,RTUUnderchargingWithBfOffset; RTUCAWithSHRChange; RTUCondenserFanMotorEfficiencyFault; RTUNCWithSHRChange; RTULLWithSHRChange; SplitUCWithSHRChange; SplitCAWithSHRChange; SplitCondenserFanMotorEfficiencyFault,chrg_level,Double,1,"|0.7, 1|","Inapplicable when ""Sensible Heat Ratio Function of Temperature Curve Name"" or ""Sensible Heat Ratio Function of Flow Fraction Curve Name"" is activated",coil_choice
+3,RTU,Economizer opening get stuck at certain position,EconomizerDamperStuckFaultScheduled,Controller:OutdoorAir,,damper_pos,Double,-1,"|0, 1|",,econ_choice
+5,RTU,Economizer sensor bias,EconomizerReturnTempSensorBiasFault,Controller:OutdoorAir,,ret_tmp_bias,Double,0,,,econ_choice
+5,RTU,Economizer sensor bias,EconomizerOutdoorTempSensorBiasFault,Controller:OutdoorAir,,oa_tmp_bias,Double,0,,,econ_choice
+5,RTU,Economizer sensor bias,EconomizerReturnRHSensorBiasFault,Controller:OutdoorAir,EconomizerOutdoorRHSensorBiasFault,ret_rh_bias,Double,0,"|-1, 1|","Inapplicable when ""MinimumFlowWithBypass"",  ""LockoutWithHeating"", ""LockoutWithCompressor"" or ""BypassWhenOAFlowGreaterThanMinimum"" is activated",econ_choice
+5,RTU,Economizer sensor bias,EconomizerOutdoorRHSensorBiasFault,Controller:OutdoorAir,EconomizerReturnRHSensorBiasFault,oa_rh_bias,Double,0,"|-1, 1|","Inapplicable when ""MinimumFlowWithBypass"",  ""LockoutWithHeating"", ""LockoutWithCompressor"" or ""BypassWhenOAFlowGreaterThanMinimum"" is activated",econ_choice
+5,RTU,Economizer sensor bias,EconomizerPotentialMixedTempSensorBiasFault,Controller:OutdoorAir,,mix_temp_bias,Double,0,,"Inapplicable when ""MinimumFlowWithBypass"",  ""LockoutWithHeating"", ""LockoutWithCompressor"" or ""BypassWhenOAFlowGreaterThanMinimum"" is activated",econ_choice
+6,RTU,Condenser fouling,RTUCAWithSHRChange,Coil:Cooling:DX:SingleSpeed,RTUUCWithSHRChange; RTUUnderchargingWithBfOffset; RTUNCWithSHRChange; RTULLWithSHRChange; SplitUCWithSHRChange; SplitCAWithSHRChange; SplitCondenserFanMotorEfficiencyFault,vol_ratio,Double,1,"|0.3, 1|",,coil_choice
+23,RTU,Condenser fan motor degradation,RTUCondenserFanMotorEfficiencyFault,Coil:Cooling:DX:SingleSpeed,RTUUCWithSHRChange; RTUUnderchargingWithBfOffset; RTUCAWithSHRChange; RTUNCWithSHRChange; RTULLWithSHRChange; SplitUCWithSHRChange; SplitCAWithSHRChange; SplitCondenserFanMotorEfficiencyFault,degrd_lvl,Double,0,"|0, 0.99|",,coil_choice
+26,RTU,Evaporator fouling,DuctFouling,AirLoopHVAC,,pressure_rise_lvl,Double,0,"|0, 100|",,equip_name
+4,RTU,Evaporator fan motor degradation,FanMotorEfficiencyFault,Fan:ConstantVolume; Fan:Off; Fan:VariableVolume,,eff_degrad_fac,Double,0,"|0, 0.99|",,fan_choice
+35,RTU,Presence of non-condensable,RTUNCWithSHRChange,Coil:Cooling:DX:SingleSpeed,RTUUCWithSHRChange; RTUUnderchargingWithBfOffset; RTUCAWithSHRChange; SplitUCWithSHRChange; RTUCondenserFanMotorEfficiencyFault; RTULLWithSHRChange; RTUNCWithSHRChange; RTULLWithSHRChange; SplitUCWithSHRChange; SplitCAWithSHRChange; SplitCondenserFanMotorEfficiencyFault,fault_lvl,Double,0,"|0, 0.4|","Inapplicable when ""Sensible Heat Ratio Function of Temperature Curve Name"" or ""Sensible Heat Ratio Function of Flow Fraction Curve Name"" is activated",coil_choice
+36,RTU,Liquid line restriction,RTULLWithSHRChange,Coil:Cooling:DX:SingleSpeed,RTUUCWithSHRChange; RTUUnderchargingWithBfOffset; RTUCAWithSHRChange; SplitUCWithSHRChange; RTUCondenserFanMotorEfficiencyFault; RTUNCWithSHRChange; RTUNCWithSHRChange; RTULLWithSHRChange; SplitUCWithSHRChange; SplitCAWithSHRChange; SplitCondenserFanMotorEfficiencyFault,fault_lvl,Double,0,"|0, 0.25|","Inapplicable when ""Sensible Heat Ratio Function of Temperature Curve Name"" or ""Sensible Heat Ratio Function of Flow Fraction Curve Name"" is activated",coil_choice
+30,RTU,Expansion device fault,,,,,,,,,
+31,RTU,Compressor flow fault,,,,,,,,,
+37,RTU,Inappropriate electric voltage at power supply,,,,,,,,,
+27,RTU,Incorrect on/off,,,,,,,,,
+38,Chiller,Non-standard charging,ChillerOvercharge,Chiller:Electric:EIR,ChillerExcessOil; ChillerNonCondensable; ChillerCondenserFouling,fault_level,Double,1,"|1, 1.4|",Only applicable to water-cooled chillers with shell-and-tube heat exchangers,chiller_choice
+91,Chiller,Excess oil,ChillerExcessOil,Chiller:Electric:EIR,ChillerOverCharge; ChillerNOnCondensable; ChillerCondenserFouling,fault_level,Double,0,"|0, 0.73|",Only applicable to water-cooled chillers with shell-and-tube heat exchangers,chiller_choice
+59,Chiller,Presence of non-condensable,ChillerNonCondensable,Chiller:Electric:EIR,ChillerOverCharge; ChillerExcessOil; ChillerCondenserFouling,fault_level,Double,0,"|0, 0.05|",Only applicable to water-cooled chillers with shell-and-tube heat exchangers,chiller_choice
+60,Chiller,Expansion device fault,,,,,,,,,
+61,Chiller,Condenser fouling on the air side,,,,,,,,,
+61,Chiller,Condenser fouling on the water side,ChillerCondenserFouling,Chiller:Electric:EIR,ChillerOverCharge; ChillerExcessOil; ChillerNonCondensable,fault_level,Double,,"|0, 0.45|",Only applicable to water-cooled chillers with shell-and-tube heat exchangers,chiller_choice
+75,Chiller,Compressor flow fault,,,,,,,,,
+34,Chiller,Oversized equipment at design,,,,,,,,,
+76,Chiller,Biased temperature sensor for valve control,,,,,,,,,
+77,Chiller,Inappropriate setpoint for temperature sensor for valve control,,,,,,,,,
+24,Chiller,Inappropriate temperature setpoints for pump speed control,,,,,,,,,
+39,Chiller,Water pump degradation,PumpMotorEfficiencyFault,Pump:ConstantSpeed; Pump:VariableSpeed,,eff_degrad_fac,Double,0,"|0, 0.99|",,pump_choice
+62,Chiller,Loss of water flow on the condenser side,,,,,,,,,
+78,Chiller,Loss of water flow on the evaporator side,,,,,,,,,
+40,Chiller,Temperature sensor offset,,,,,,,,,
+63,Chiller,Incorrect on/off,,,,,,,,,
+14,DX units,Non-standard charging,SplitUCWithSHRChange,Coil:Cooling:DX:SingleSpeed,RTUUCWithSHRChange; RTUUnderchargingWithBfOffset; RTUCAWithSHRChange; RTUCondenserFanMotorEfficiencyFault; RTUNCWithSHRChange; RTULLWithSHRChange; SplitCAWithSHRChange; SplitCondenserFanMotorEfficiencyFault,chrg_level,Double,1,"|0.7, 1|",,coil_choice
+41,DX units,Condenser fouling,SplitCAWithSHRChange,Coil:Cooling:DX:SingleSpeed,RTUUCWithSHRChange; RTUUnderchargingWithBfOffset; RTUCAWithSHRChange; RTUCondenserFanMotorEfficiencyFault; RTUNCWithSHRChange; RTULLWithSHRChange; SplitUCWithSHRChange; SplitCondenserFanMotorEfficiencyFault,fault_lvl,Double,1,"|0.5, 1|",,coil_choice
+42,DX units,Condenser fan motor degradation,SplitCondenserFanMotorEfficiencyFault,Coil:Cooling:DX:SingleSpeed,RTUUnderchargingScheduledWetBulbOnly; RTUUnderchargingWithBfOffset; RTUCondenserFoulingDegradationScheduledWetBulbOnly; RTUCondenserFanMotorEfficiencyFault; RTUNCWithBfOffset; RTULLWithBfOffset; SplitUnderchargingWithBfOffset; SplitCAWithBfOffset,degrd_lvl,Double,0,"|0, 0.99|","Inapplicable when ""Sensible Heat Ratio Function of Temperature Curve Name"" or ""Sensible Heat Ratio Function of Flow Fraction Curve Name"" is activated",coil_choice
+43,DX units,Evaporator fouling,DuctFouling,AirLoopHVAC,,pressure_rise_lvl,Double,0,"|0, 100|","Inapplicable when ""Sensible Heat Ratio Function of Temperature Curve Name"" or ""Sensible Heat Ratio Function of Flow Fraction Curve Name"" is activated",equip_name
+10,DX units,Evaporator fan motor degradation,FanMotorEfficiencyFault,Fan:ConstantVolume; Fan:Off; Fan:VariableVolume,,eff_degrad_fac,Double,0,"|0, 0.99|","Inapplicable when ""Sensible Heat Ratio Function of Temperature Curve Name"" or ""Sensible Heat Ratio Function of Flow Fraction Curve Name"" is activated",fan_choice
+67,DX units,Presence of non-condensable,,,,,,,,,
+68,DX units,Liquid line restriction,,,,,,,,,
+52,DX units,Expansion device fault,,,,,,,,,
+53,DX units,Compressor flow fault,,,,,,,,,
+28,DX units,Oversized equipment at design,,,,,,,,,
+44,DX units,Incorrect on/off,,,,,,,,,
+11,AHU,Fan motor degradation,FanMotorEfficiencyFault,"Fan:ConstantVolume, Fan:Off, Fan:VariableVolume",,eff_degrad_fac,Double,0,"|0, 0.99|",,fan_choice
+29,AHU,Air duct leakages,AirTerminalSupplyDownstreamLeakToReturn,AirTerminal:SingleDuct:Uncontrolled; AirTerminal:DualDuct:ConstantVolume; AirTerminal:DualDuct:VAV; AirTerminal:DualDuct:VAV:OutdoorAir; AirTerminal:SingleDuct:ConstantVolume:Reheat; AirTerminal:SingleDuct:VAV:Reheat;AirTerminal:SingleDuct:VAV:NoReheat; AirTerminal:SingleDuct:SeriesPIU:Reheat; AirTerminal:SingleDuct:ParallelPIU:Reheat; AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction; AirTerminal:SingleDuct:VAV:Reheat:VariableSpeedFan; AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat; AirTerminal:SingleDuct:VAV:HeatAndCool:NoReheat,,leak_ratio,Double,0,"|0, 0.3|",,airterminal_choice
+44,DX units,Incorrect on/off,ReheatSensorBiasOS,AirTerminalSingleDuctVAVReheat;AirTerminalSingleDuctConstantVolumeReheat;AirTerminalSingleDuctVAVHeatAndCoolReheat,,bias_lvl,Double,0,,,airterminal_choice
+16,AHU,Incorrect setpoint for reheat temperature sensor,,,,,,,,,
+17,AHU,Air temperature sensor offset,,,,,,,,,
+18,AHU,Water temperature sensor in water cooling coil offset,PlantLoopTempSensorBiasOS,SetpointManager:Scheduled,,setpoint_offset,Double,0,,,plantloop
+19,AHU,Water temperature sensor of heating coil offset,PlantLoopTempSensorBiasOS,SetpointManager:Scheduled,,setpoint_offset,Double,0,,Does not work if the water outlet temperature of the boiler is limited at a lower temperature than the user-defined schedule.,plantloop
+20,AHU,Inappropriate schedule for air temperature sensor in AHU,,,,,,,,,
+21,AHU,Inappropriate schedule for water temperature sensor in the cooling coil in AHU,,,,,,,,,
+22,AHU,Inappropriate schedule for water temperature sensor in heating coil in AHU,,,,,,,,,
+21,AHU,Inappropriate schedule for water temperature sensor in the cooling coil in AHU,EconomizerDamperStuckFaultScheduled,Controller:OutdoorAir,,damper_pos,Double,-1,"|0, 1|",,econ_choice
+22,AHU,Inappropriate schedule for water temperature sensor in heating coil in AHU,EconomizerReturnTempSensorBiasFault,Controller:OutdoorAir,,ret_tmp_bias,Double,0,,,econ_choice
+22,AHU,Inappropriate schedule for water temperature sensor in heating coil in AHU,EconomizerOutdoorTempSensorBiasFault,Controller:OutdoorAir,,oa_tmp_bias,Double,0,,,econ_choice
+22,AHU,Inappropriate schedule for water temperature sensor in heating coil in AHU,EconomizerReturnRHSensorBiasFault,Controller:OutdoorAir,EconomizerOutdoorRHSensorBiasFault,ret_rh_bias,Double,0,"|-1, 1|","Inapplicable when ""MinimumFlowWithBypass"",  ""LockoutWithHeating"", ""LockoutWithCompressor"" or ""BypassWhenOAFlowGreaterThanMinimum"" is activated",econ_choice
+22,AHU,Inappropriate schedule for water temperature sensor in heating coil in AHU,EconomizerOutdoorRHSensorBiasFault,Controller:OutdoorAir,EconomizerReturnRHSensorBiasFault,oa_rh_bias,Double,0,"|-1, 1|","Inapplicable when ""MinimumFlowWithBypass"",  ""LockoutWithHeating"", ""LockoutWithCompressor"" or ""BypassWhenOAFlowGreaterThanMinimum"" is activated",econ_choice
+22,AHU,Inappropriate schedule for water temperature sensor in heating coil in AHU,EconomizerPotentialMixedTempSensorBiasFault,Controller:OutdoorAir,,mix_temp_bias,Double,0,,"Inapplicable when ""MinimumFlowWithBypass"",  ""LockoutWithHeating"", ""LockoutWithCompressor"" or ""BypassWhenOAFlowGreaterThanMinimum"" is activated",econ_choice
+45,AHU,Cooling coil valve got stuck,,,,,,,,,
+46,AHU,Heating coil valve got stuck,,,,,,,,,
+54,AHU,Cooling coil valve got fouled,,,,,,,,,
+55,AHU,Heating coil valve got fouled,,,,,,,,,
+47,AHU,Incorrect on/off,,,,,,,,,
+56,VAV,Damper got stuck,,,,,,,,,
+57,VAV,Reheat control valve get stuck,,,,,,,,,
+69,VAV,Temperature control input error,,,,,,,,,
+70,VAV,Fan control input error,,,,,,,,,
+33,VAV,Fan motor degradation,FanMotorEfficiencyFault,Fan:ConstantVolume; Fan:Off; Fan:VariableVolume,,eff_degrad_fac,Double,0,"|0, 0.99|",,fan_choice
+71,VAV,Reheat coil fouling,,,,,,,,,
+48,VAV,Incorrect on/off,,,,,,,,,
+79,Cooling Tower,Fan motor degradation,,,,,,,,,
+80,Cooling Tower,Heat exchanger fouling,,,,,,,,,
+64,Cooling tower,Oversized equipment at design,,,,,,,,,
+25,Cooling tower,Inappropriate temperature setpoints for pump speed control,,,,,,,,,
+49,Cooling tower,Water pump degradation,,,,,,,,,
+81,Cooling tower,Loss of water flow,,,,,,,,,
+50,Cooling tower,Temperature sensor offset,,,,,,,,,
+65,Cooling Tower,Incorrect on/off,,,,,,,,,
+89,Direct evaporative cooler,Media fouling,,,,,,,,,
+82,Direct evaporative cooler,Water pump degradation,,,,,,,,,
+51,Direct evaporative cooler,Oversized equipment at design,,,,,,,,,
+83,Direct evaporative cooler,Incorrect on/off,,,,,,,,,
+90,Indirect evaporative cooler,Heat exchanger fouling on the primary side,,,,,,,,,
+84,Indirect evaporative cooler,Heat exchanger fouling on the seconadary side,,,,,,,,,
+85,Indirect evaporative cooler,Fan motor degradation,,,,,,,,,
+58,Indirect evaporative cooler,Water pump degradation,,,,,,,,,
+66,Indirect evaporative cooler,Oversized equipment at design,,,,,,,,,
+86,Indirect evaporative cooler,Incorrect on/off,,,,,,,,,
+87,Hydronic system,Oversized equipment at design,,,,,,,,,
+72,Hydronic system,Degradation of boiler and water heater,,,,,,,,,
+95,Hydronic system,Degradation of heat pump,,,,,,,,,
+96,Hydronic system,Fault in hydraulic separator,,,,,,,,,
+92,Hydronic system,Biased temperature sensor for valve control,,,,,,,,,
+93,Hydronic system,Inappropriate setpoint for temperature sensor for valve control,,,,,,,,,
+32,Hydronic system,Inappropriate temperature setpoints for pump speed control,,,,,,,,,
+73,Hydronic system,Water pump degradation,,,,,,,,,
+94,Hydronic system,Loss of water flow,,,,,,,,,
+88,Hydronic system,Incorrect on/off,,,,,,,,,
+74,Hydronic system,Temperature sensor offset,,,,,,,,,

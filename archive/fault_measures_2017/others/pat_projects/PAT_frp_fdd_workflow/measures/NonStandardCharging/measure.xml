@@ -1,0 +1,356 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>non_standard_charging</name>
+  <uid>af77eb6c-c4c6-4990-bc8b-af916215b967</uid>
+  <version_id>854f0705-6504-4f59-a5f7-37c84d946e80</version_id>
+  <version_modified>20180313T161800Z</version_modified>
+  <xml_checksum>CBC45526</xml_checksum>
+  <class_name>NonStandardCharging</class_name>
+  <display_name>Nonstandard Charging</display_name>
+  <description>Nonstandard charging occurs when the refrigerant is undercharged or overcharged within the refrigerant circuit of an air-conditioning, heat pump, or refrigeration system. Without sufficient refrigerant running in the system, the average refrigerant density, the evaporating temperature, and the refrigerant mass flow rate from the compressor decrease, leading to reduced capacity, increased operating time, and increased energy consumption. This fault can be due to leakage or improper charging during service. This measure simulates nonstandard charging by modifying the Coil:Cooling:DX:SingleSpeed object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) for this fault is defined as the ratio of deviation in refrigerant mass from the nominal value.</description>
+  <modeler_description>Twelve user inputs, - DX coil where the fault occurs - Percentage reduction of condenser airflow - rated cooling capacity - rated sensible heat ratio - rated volumetric flow rate - minimum/maximum evaporator air inlet wet-bulb temperature - minimum/maximum condenser air inlet temperature - minimum/maximum rated COP - percentage change of UA with increase of fault level can be defined or remained with default values. Based on user inputs, the cooling capacity (Q ̇_cool) and EIR in the DX cooling coil model is recalculated to reflect the faulted operation.</modeler_description>
+  <arguments>
+    <argument>
+      <name>coil_choice</name>
+      <display_name>Enter the name of the faulted Coil:Cooling:DX:SingleSpeed object. If you want to impose the fault on all coils, select * ALL Coil Selected *</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL Coil Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Coil Selected *</value>
+          <display_name>* ALL Coil Selected *</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>fault_lvl</name>
+      <display_name>Reduction ratio of charge level [-]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+    <argument>
+      <name>q_rat</name>
+      <display_name>Rated cooling capacity of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0. (W)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1</default_value>
+    </argument>
+    <argument>
+      <name>shr_rat</name>
+      <display_name>Rated sensible heat ratio of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0.</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1</default_value>
+    </argument>
+    <argument>
+      <name>vol_rat</name>
+      <display_name>Rated air flow rate of the cooling coil for bypass factor model adjustment. If your system is autosized or you do not know what this is, please run the OS Measure Auto Size to Hard Size before this Measure. If your system is hard sized, leave this value at -1.0. (m3/s)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1</default_value>
+    </argument>
+    <argument>
+      <name>min_fl</name>
+      <display_name>Maximum value of fault level [-]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.3</default_value>
+    </argument>
+    <argument>
+      <name>Q_CHa1</name>
+      <display_name>Parameter a1 for the Q_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>7.7179</default_value>
+    </argument>
+    <argument>
+      <name>Q_CHa2</name>
+      <display_name>Parameter a2 for the Q_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-10.765</default_value>
+    </argument>
+    <argument>
+      <name>Q_CHa3</name>
+      <display_name>Parameter a3 for the Q_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3.129</default_value>
+    </argument>
+    <argument>
+      <name>Q_CHa4</name>
+      <display_name>Parameter a4 for the Q_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-0.88403</default_value>
+    </argument>
+    <argument>
+      <name>Q_CHa5</name>
+      <display_name>Parameter a5 for the Q_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.30043</default_value>
+    </argument>
+    <argument>
+      <name>Q_CHa6</name>
+      <display_name>Parameter a6 for the Q_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-0.036993</default_value>
+    </argument>
+    <argument>
+      <name>EIR_CHa1</name>
+      <display_name>Parameter a1 for the EIR_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-5.7419</default_value>
+    </argument>
+    <argument>
+      <name>EIR_CHa2</name>
+      <display_name>Parameter a2 for the EIR_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>8.6709</default_value>
+    </argument>
+    <argument>
+      <name>EIR_CHa3</name>
+      <display_name>Parameter a3 for the EIR_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-4.4104</default_value>
+    </argument>
+    <argument>
+      <name>EIR_CHa4</name>
+      <display_name>Parameter a4 for the EIR_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1.2489</default_value>
+    </argument>
+    <argument>
+      <name>EIR_CHa5</name>
+      <display_name>Parameter a5 for the EIR_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1.2095</default_value>
+    </argument>
+    <argument>
+      <name>EIR_CHa6</name>
+      <display_name>Parameter a6 for the EIR_CH model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.36051</default_value>
+    </argument>
+    <argument>
+      <name>min_wb_tmp_uc</name>
+      <display_name>Minimum value of evaporator air inlet wet-bulb temperature [C]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12.8</default_value>
+    </argument>
+    <argument>
+      <name>max_wb_tmp_uc</name>
+      <display_name>Maximum value of evaporator air inlet wet-bulb temperature [C]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>23.9</default_value>
+    </argument>
+    <argument>
+      <name>min_cond_tmp_uc</name>
+      <display_name>Minimum value of condenser air inlet temperature [C]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>18.3</default_value>
+    </argument>
+    <argument>
+      <name>max_cond_tmp_uc</name>
+      <display_name>Maximum value of condenser air inlet temperature [C]</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>46.1</default_value>
+    </argument>
+    <argument>
+      <name>min_cop_uc</name>
+      <display_name>Minimum value of rated COP</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>3.74</default_value>
+    </argument>
+    <argument>
+      <name>max_cop_uc</name>
+      <display_name>Maximum value of rated COP</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>4.69</default_value>
+    </argument>
+    <argument>
+      <name>bf_para</name>
+      <display_name>Percentage change of UA with increase of fault level level (% of UA/% of fault level)</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>-1.39</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Cooling</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Analysis Spreadsheet</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>TransferCurveParameters.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>627EF985</checksum>
+    </file>
+    <file>
+      <filename>ScheduleSearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>577A5309</checksum>
+    </file>
+    <file>
+      <filename>EnterCoefficients.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FD200DD7</checksum>
+    </file>
+    <file>
+      <filename>entercoefficients.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FD200DD7</checksum>
+    </file>
+    <file>
+      <filename>schedulesearch.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>577A5309</checksum>
+    </file>
+    <file>
+      <filename>transfercurveparameters.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>627EF985</checksum>
+    </file>
+    <file>
+      <filename>misc_eplus_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>D73C9CAE</checksum>
+    </file>
+    <file>
+      <filename>1204_b.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>4DF86781</checksum>
+    </file>
+    <file>
+      <filename>EnvelopeAndLoadTestModel_01.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E4D5A1B8</checksum>
+    </file>
+    <file>
+      <filename>test.osw</filename>
+      <filetype>osw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>06C6246E</checksum>
+    </file>
+    <file>
+      <filename>USA_TN_Knoxville-McGhee.Tyson.AP.723260_TMY3.epw</filename>
+      <filetype>epw</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E49A6D8D</checksum>
+    </file>
+    <file>
+      <filename>measure_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>9BFD2C98</checksum>
+    </file>
+    <file>
+      <filename>FaultDefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>B966E865</checksum>
+    </file>
+    <file>
+      <filename>faultdefinitions.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>B966E865</checksum>
+    </file>
+    <file>
+      <filename>psychrometric.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>2E414023</checksum>
+    </file>
+    <file>
+      <filename>faultcalculationcoilcoolingdx.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>4FC60DC4</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>BE69B6FC</checksum>
+    </file>
+  </files>
+</measure>

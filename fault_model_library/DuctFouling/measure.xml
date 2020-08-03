@@ -1,0 +1,96 @@
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>duct_fouling</name>
+  <uid>20a9d083-d915-4653-8893-d94a6dbc72d8</uid>
+  <version_id>b9b3a513-41a5-4786-905f-8782e01b5fc2</version_id>
+  <version_modified>20200409T145323Z</version_modified>
+  <xml_checksum>266557E5</xml_checksum>
+  <class_name>DuctFouling</class_name>
+  <display_name>Duct Fouling</display_name>
+  <description>Ducts are fouled by dust that accumulates in the filter and/or fins of heat exchangers in the indoor air ducts. The accumulation increases the flow resistance of the air duct and changes the airflow and pressure drop across the duct in accordance with the controls of the fan rotational speed. This fault is categorized as a fault that occur in the ventilation system during the operation stage. This fault measure is based on an empirical model and simulates duct fouling by modifying either Fan:ConstantVolume, Fan:VariableVolume, Fan:OnOff, or Fan:VariableVolume objects in EnergyPlus assigned to the air system. F is the fault intensity defined as the reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate with the application range of 0 to 0.5 (50% reduction).</description>
+  <modeler_description>Two additional user inputs are required. Based on these user inputs, the maximum supply airflow rate parameter defined in fan objects is replaced based on equation, mdot_(a,max,F) = mdot_(a,max)∙(1-F), where mdot_(a,max,F) is the maximum airflow rate of the faulted condition, mdot_(a,max) is the maximum airflow rate under normal conditions, and F is the fault intensity defined as the reduction in evaporator coil airflow at full load condition as a ratio of the design airflow rate.  There is a pressure rise (r_pd) parameter that is also required in fan objects in order to properly reflect evaporator fouling. Equation, F = 1-√((1+r_pd-c_F)/(1-c_F ))  shows the relation between F and r_pd that is used to calculate the pressure rise based on the fault intensity level. cF is the coefficient that is determined based on the training data set.</modeler_description>
+  <arguments>
+    <argument>
+      <name>equip_name</name>
+      <display_name>Choice of AirLoopHVAC objects. If you want to impose it on all AHUs, choose * ALL AHUs *</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL AHUs *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL AHUs *</value>
+          <display_name>* ALL AHUs *</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>flow_decrease_ratio</name>
+      <display_name>Decrease of air mass flow rate ratio when the fans are running at their maximum speed (0-1). (-)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+    <argument>
+      <name>fanCurvea1</name>
+      <display_name>Parameter a1 for the fanCurve model</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1.4048</default_value>
+    </argument>
+  </arguments>
+  <outputs/>
+  <provenances/>
+  <tags>
+    <tag>HVAC.Ventilation</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>entercoefficients_DF.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>BB22B43D</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>58542651</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>25517DF7</checksum>
+    </file>
+  </files>
+</measure>
