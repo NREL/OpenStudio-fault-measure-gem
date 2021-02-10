@@ -1104,6 +1104,8 @@ def econ_t_sensor_bias_ems_other(string_objects, workspace, bias_sensor, control
               end
               #####################################################
               # TODO: CAUSING ERROR, TRACK oaschedule_name
+              # Considering options:
+              # if oaschedule_name is empty, add default schedule with always ON (or 1)
               #####################################################
               string_objects << "
                 EnergyManagementSystem:Sensor,
