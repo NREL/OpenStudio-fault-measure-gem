@@ -123,8 +123,6 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
             runner.registerInfo("Control type of NoEconomizer is not supported. Exiting...")
             return false
           else
-            # if minlimittype.eql?('FixedMinimum')
-            # elsif minlimittype.eql?('ProportionalMinimum')
 
             if minlimittype.eql?('FixedMinimum')
 
@@ -161,9 +159,7 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
             ems_oa_override = OpenStudio::Model::EnergyManagementSystemProgram.new(model)
             ems_oa_override.setName("PRGM_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
             ems_oa_override.addLine("Set min_oa_ref = min_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
-            # ems_oa_override.addLine("Set min_oa_ref2 = min2_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
             ems_oa_override.addLine("Set min_oa_sch = min_oa_sch_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
-            # ems_oa_override.addLine("Set min_oa_ref = min_oa_ref2")
             ems_oa_override.addLine("Set oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase} = min_oa_ref*min_oa_sch")
             if verbose_info_statements == true
               runner.registerInfo("EMS Program named #{ems_oa_override.name} was added")
