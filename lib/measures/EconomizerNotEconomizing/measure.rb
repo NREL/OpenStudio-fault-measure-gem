@@ -110,13 +110,16 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
           highhumcontrol = controlleroutdoorair.getHighHumidityControl
           minoaschedule = controlleroutdoorair.minimumOutdoorAirSchedule
 
-          runner.registerInfo("TESTING minoaschedule = #{minoaschedule.get.name}")
-
           runner.registerInfo("Economizer configuration: ControlType = #{controltype}")
           runner.registerInfo("Economizer configuration: ControlActionType = #{controlactiontype}")
           runner.registerInfo("Economizer configuration: LockoutType = #{lockouttype}")
           runner.registerInfo("Economizer configuration: MinimumLimitType = #{minlimittype}")
           runner.registerInfo("Economizer configuration: HighHumidityControl = #{highhumcontrol}")
+          # runner.registerInfo("TESTING = #{controlleroutdoorair.airLoopHVACOutdoorAirSystem}")
+          # runner.registerInfo("TESTING = #{controlleroutdoorair.airLoopHVACOutdoorAirSystem.get}")
+          # runner.registerInfo("TESTING = #{controlleroutdoorair.airLoopHVACOutdoorAirSystem.get.airLoopHVAC.get}")
+          name_airloophvac = controlleroutdoorair.airLoopHVACOutdoorAirSystem.get.airLoopHVAC.get.name.to_s
+          runner.registerInfo("Economizer configuration: AirLoopHVAC = #{name_airloophvac}")
 
           # TODO: add additional logics for different configuration settings
           if controltype.eql?('NoEconomizer')
@@ -140,7 +143,7 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
               # Create new EnergyManagementSystem:Sensor object  
               ems_oa_min_mfr = OpenStudio::Model::EnergyManagementSystemSensor.new(model, "Air System Outdoor Air Mechanical Ventilation Requested Mass Flow Rate")
               ems_oa_min_mfr.setName("min_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
-              ems_oa_min_mfr.setKeyName("9 ZONE PVAV") #TODO: find systematic way to find key
+              ems_oa_min_mfr.setKeyName(name_airloophvac) #TODO: find systematic way to find key
               if verbose_info_statements == true
                 runner.registerInfo("EMS Sensor named #{ems_oa_min_mfr.name} added")
               end
@@ -192,17 +195,6 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
               runner.registerInfo("EMS Output Variable object named #{ems_ov1.name} was added")
             end
 
-            # # create global EnergyManagementSystem:OutputVariable object
-            # ems_ov2 = OpenStudio::Model::EnergyManagementSystemOutputVariable.new(model, 'min_oa_ref2')
-            # ems_ov2.setName("min_oa_ref2") 
-            # ems_ov2.setEMSVariableName("min_oa_ref2")
-            # ems_ov2.setTypeOfDataInVariable("Averaged")
-            # ems_ov2.setUpdateFrequency("SystemTimestep")    
-            # ems_ov2.setEMSProgramOrSubroutineName(ems_oa_override)
-            # if verbose_info_statements == true
-            #   runner.registerInfo("EMS Output Variable object named #{ems_ov2.name} was added")
-            # end
-
             # create global EnergyManagementSystem:OutputVariable object
             ems_ov2 = OpenStudio::Model::EnergyManagementSystemOutputVariable.new(model, "oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
             ems_ov2.setName("oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}") 
@@ -223,15 +215,6 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
               runner.registerInfo("OutputVariable named #{output_variable1.name} was added")
             end
 
-            # # create new OutputVariable object
-            # output_variable2 = OpenStudio::Model::OutputVariable.new("min_oa_ref2",model)
-            # output_variable2.setKeyValue("*")
-            # output_variable2.setReportingFrequency("Timestep") 
-            # output_variable2.setVariableName("min_oa_ref2")
-            # if verbose_info_statements == true
-            #   runner.registerInfo("OutputVariable named #{output_variable2.name} was added")
-            # end
-
             # create new OutputVariable object
             output_variable2 = OpenStudio::Model::OutputVariable.new("oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}",model)
             output_variable2.setKeyValue("*")
@@ -239,14 +222,6 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
             output_variable2.setVariableName("oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
             if verbose_info_statements == true
               runner.registerInfo("OutputVariable named #{output_variable2.name} was added")
-            end
-
-
-            # how to get AirLoopHVAC name to use as a key?
-            testings = model.getAirLoopHVACs
-            testings.each do |testing|
-              keyname = testing.name
-              runner.registerInfo("TESTING = #{keyname}")
             end
 
           end
