@@ -109,6 +109,7 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
           minlimittype = controlleroutdoorair.getMinimumLimitType
           highhumcontrol = controlleroutdoorair.getHighHumidityControl
           minoaschedule = controlleroutdoorair.minimumOutdoorAirSchedule
+          str_indicator = controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase
 
           runner.registerInfo("Economizer configuration: ControlType = #{controltype}")
           runner.registerInfo("Economizer configuration: ControlActionType = #{controlactiontype}")
@@ -131,18 +132,18 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
 
               # Create new EnergyManagementSystem:InternalVariable object 
               ems_oa_min_mfr = OpenStudio::Model::EnergyManagementSystemInternalVariable.new(model, "Outdoor Air Controller Minimum Mass Flow Rate")
-              ems_oa_min_mfr.setName("min_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
+              ems_oa_min_mfr.setName("min_#{str_indicator}")
               ems_oa_min_mfr.setInternalDataIndexKeyName("#{controlleroutdoorair.name.to_s}")
               ems_oa_min_mfr.setInternalDataType("Outdoor Air Controller Minimum Mass Flow Rate")
               if verbose_info_statements == true
-                runner.registerInfo("EMS Internal Variable named #{ems_oa_min_mfr.name} added")
+                runner.registerInfo("EMS Internal Variable named #{ems_oa_min_mfr.name} was added")
               end
 
             elsif minlimittype.eql?('ProportionalMinimum') 
 
               # Create new EnergyManagementSystem:Sensor object  
               ems_oa_min_mfr = OpenStudio::Model::EnergyManagementSystemSensor.new(model, "Air System Outdoor Air Mechanical Ventilation Requested Mass Flow Rate")
-              ems_oa_min_mfr.setName("min_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
+              ems_oa_min_mfr.setName("min_#{str_indicator}")
               ems_oa_min_mfr.setKeyName(name_airloophvac) #TODO: find systematic way to find key
               if verbose_info_statements == true
                 runner.registerInfo("EMS Sensor named #{ems_oa_min_mfr.name} added")
@@ -152,7 +153,7 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
 
             # Create new EnergyManagementSystem:Sensor object
             ems_min_oa_sch = OpenStudio::Model::EnergyManagementSystemSensor.new(model, "Schedule Value")
-            ems_min_oa_sch.setName("min_oa_sch_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
+            ems_min_oa_sch.setName("min_oa_sch_#{str_indicator}")
             ems_min_oa_sch.setKeyName("#{minoaschedule.get.name}")
             if verbose_info_statements == true
               runner.registerInfo("EMS Sensor named #{ems_min_oa_sch.name} was added") 
@@ -160,17 +161,17 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
 
             # create new EnergyManagementSystem:Program object describing the zone temp averaging algorithm
             ems_oa_override = OpenStudio::Model::EnergyManagementSystemProgram.new(model)
-            ems_oa_override.setName("PRGM_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
-            ems_oa_override.addLine("Set min_oa_ref = min_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
-            ems_oa_override.addLine("Set min_oa_sch = min_oa_sch_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
-            ems_oa_override.addLine("Set oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase} = min_oa_ref*min_oa_sch")
+            ems_oa_override.setName("PRGM_#{str_indicator}")
+            ems_oa_override.addLine("Set min_oa_ref_#{str_indicator} = min_#{str_indicator}")
+            ems_oa_override.addLine("Set min_oa_sch_#{str_indicator} = min_oa_sch_#{str_indicator}")
+            ems_oa_override.addLine("Set oa_override_#{str_indicator} = min_oa_ref_#{str_indicator}*min_oa_sch_#{str_indicator}")
             if verbose_info_statements == true
               runner.registerInfo("EMS Program named #{ems_oa_override.name} was added")
             end
 
             # create EnergyManagementSystem:ProgramCallingManager object
             ems_program_calling_manager = OpenStudio::Model::EnergyManagementSystemProgramCallingManager.new(model)
-            ems_program_calling_manager.setName("PCM_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
+            ems_program_calling_manager.setName("PCM_#{str_indicator}")
             ems_program_calling_manager.setCallingPoint("InsideHVACSystemIterationLoop")
             ems_program_calling_manager.addProgram(ems_oa_override)
             if verbose_info_statements == true
@@ -179,15 +180,15 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
 
             # create EMS actuator object 
             ems_oa_actuator = OpenStudio::Model::EnergyManagementSystemActuator.new(controlleroutdoorair,"Outdoor Air Controller","Air Mass Flow Rate")
-            ems_oa_actuator.setName("oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
+            ems_oa_actuator.setName("oa_override_#{str_indicator}")
             if verbose_info_statements == true
               runner.registerInfo("EMS Actuator object named #{ems_oa_actuator.name} was added") 
             end
 
             # create global EnergyManagementSystem:OutputVariable object
-            ems_ov1 = OpenStudio::Model::EnergyManagementSystemOutputVariable.new(model, 'min_oa_ref')
-            ems_ov1.setName("min_oa_ref") 
-            ems_ov1.setEMSVariableName("min_oa_ref")
+            ems_ov1 = OpenStudio::Model::EnergyManagementSystemOutputVariable.new(model, "min_oa_ref_#{str_indicator}")
+            ems_ov1.setName("min_oa_ref_#{str_indicator}") 
+            ems_ov1.setEMSVariableName("min_oa_ref_#{str_indicator}")
             ems_ov1.setTypeOfDataInVariable("Averaged")
             ems_ov1.setUpdateFrequency("SystemTimestep")
             ems_ov1.setEMSProgramOrSubroutineName(ems_oa_override) 
@@ -196,9 +197,9 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
             end
 
             # create global EnergyManagementSystem:OutputVariable object
-            ems_ov2 = OpenStudio::Model::EnergyManagementSystemOutputVariable.new(model, "oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
-            ems_ov2.setName("oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}") 
-            ems_ov2.setEMSVariableName("oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
+            ems_ov2 = OpenStudio::Model::EnergyManagementSystemOutputVariable.new(model, "oa_override_#{str_indicator}")
+            ems_ov2.setName("oa_override_#{str_indicator}") 
+            ems_ov2.setEMSVariableName("oa_override_#{str_indicator}")
             ems_ov2.setTypeOfDataInVariable("Averaged")
             ems_ov2.setUpdateFrequency("SystemTimestep")    
             ems_ov2.setEMSProgramOrSubroutineName(ems_oa_override)
@@ -207,19 +208,19 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
             end
 
             # create new OutputVariable object
-            output_variable1 = OpenStudio::Model::OutputVariable.new("min_oa_ref",model)
+            output_variable1 = OpenStudio::Model::OutputVariable.new("min_oa_ref_#{str_indicator}",model)
             output_variable1.setKeyValue("*")
             output_variable1.setReportingFrequency("Timestep") 
-            output_variable1.setVariableName("min_oa_ref")
+            output_variable1.setVariableName("min_oa_ref_#{str_indicator}")
             if verbose_info_statements == true
               runner.registerInfo("OutputVariable named #{output_variable1.name} was added")
             end
 
             # create new OutputVariable object
-            output_variable2 = OpenStudio::Model::OutputVariable.new("oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}",model)
+            output_variable2 = OpenStudio::Model::OutputVariable.new("oa_override_#{str_indicator}",model)
             output_variable2.setKeyValue("*")
             output_variable2.setReportingFrequency("Timestep") 
-            output_variable2.setVariableName("oa_override_#{controlleroutdoorair.name.to_s.gsub(/\s+/, "").downcase}")
+            output_variable2.setVariableName("oa_override_#{str_indicator}")
             if verbose_info_statements == true
               runner.registerInfo("OutputVariable named #{output_variable2.name} was added")
             end

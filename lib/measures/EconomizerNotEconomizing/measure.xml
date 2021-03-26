@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>economizer_not_economizing</name>
   <uid>b14d6cef-2d71-4ca7-bba8-62b42e7a7a41</uid>
-  <version_id>255ede4a-9135-4b00-bec9-2ac95c6a1272</version_id>
-  <version_modified>20210326T215036Z</version_modified>
+  <version_id>3d8e69fa-abbf-4d18-9bda-15a55e4f99ac</version_id>
+  <version_modified>20210326T215939Z</version_modified>
   <xml_checksum>9E82E94F</xml_checksum>
   <class_name>EconomizerNotEconomizing</class_name>
   <display_name>Economizer Not Economizing</display_name>
@@ -204,7 +204,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>E359D3A5</checksum>
+      <checksum>A2989C4B</checksum>
     </file>
   </files>
 </measure>
