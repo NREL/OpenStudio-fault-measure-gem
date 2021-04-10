@@ -37,6 +37,7 @@
 # http://nrel.github.io/OpenStudio-user-documentation/reference/measure_writing_guide/
 
 $allchoices = 'All Economizers'
+$faultnow = 'ENE'
 
 # start the measure
 class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
@@ -48,12 +49,12 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
 
   # human readable description
   def description
-    return "tbd"
+    return "This fault model simulates a situation where economizer is not economizing when it is supposed to. Not leveraging favorable outdoor air when it is available will result in increased cooling end-use energy consumption."
   end
 
   # human readable description of modeling approach
   def modeler_description
-    return "tbd"
+    return "This fault model uses the EMS by overriding 'Air Mass Flow Rate' control type in 'Outdoor Air Controller' actuator with minimum outdoor air requirement. User can also specify when to initiate fault by defining starting month, date, and time. This version is currently not supporting fault ending timing even though input arguments are implemented in the measure."
   end
 
   # define the arguments that the user will input
@@ -71,6 +72,42 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
     econ_choice.setDisplayName("Choice of economizers. If you want to impose the fault on all economizers, choose #{$allchoices}")
     econ_choice.setDefaultValue($allchoices)
     args << econ_choice
+
+    #make a double argument for the start month
+    start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
+    start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
+    start_month.setDefaultValue(1)  #default is June
+    args << start_month
+	
+	  #make a double argument for the start date
+    start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_date', false)
+    start_date.setDisplayName('Enter the date (1-28/30/31) when the fault starts to occur')
+    start_date.setDefaultValue(1)  #default is 1st day of the month
+    args << start_date
+	
+	  #make a double argument for the start time
+    start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
+    start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
+    start_time.setDefaultValue(0)  #default is 9am
+    args << start_time
+	
+	  #make a double argument for the end month
+    end_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_month', false)
+    end_month.setDisplayName('Enter the month (1-12) when the fault ends')
+    end_month.setDefaultValue(12)  #default is Decebmer
+    args << end_month
+	
+	  #make a double argument for the end date
+    end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_date', false)
+    end_date.setDisplayName('Enter the date (1-28/30/31) when the fault ends')
+    end_date.setDefaultValue(31)  #default is last day of the month
+    args << end_date
+	
+	  #make a double argument for the end time
+    end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
+    end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
+    end_time.setDefaultValue(24)  #default is 11pm
+    args << end_time
     
     # Add a check box for specifying verbose info statements
     verbose_info_statements = OpenStudio::Ruleset::OSArgument::makeBoolArgument("verbose_info_statements", false)
@@ -93,6 +130,14 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
     # assign the user inputs to variables
     econ_choice = runner.getStringArgumentValue('econ_choice',user_arguments)
     verbose_info_statements = runner.getBoolArgumentValue("verbose_info_statements",user_arguments)
+    start_month = runner.getDoubleArgumentValue('start_month',user_arguments)
+    start_date = runner.getDoubleArgumentValue('start_date',user_arguments)
+    start_time = runner.getDoubleArgumentValue('start_time',user_arguments)
+    end_month = runner.getDoubleArgumentValue('end_month',user_arguments)
+    end_date = runner.getDoubleArgumentValue('end_date',user_arguments)
+    end_time = runner.getDoubleArgumentValue('end_time',user_arguments)	
+    time_interval = model.getTimestep.numberOfTimestepsPerHour
+    time_step = (1./(time_interval.to_f))
   
     runner.registerInitialCondition("Measure began with #{model.getEnergyManagementSystemSensors.count} EMS sensors, #{model.getEnergyManagementSystemActuators.count} EMS Actuators, #{model.getEnergyManagementSystemPrograms.count} EMS Programs, #{model.getEnergyManagementSystemSubroutines.count} EMS Subroutines, #{model.getEnergyManagementSystemProgramCallingManagers.count} EMS Program Calling Manager objects")
         
@@ -115,10 +160,7 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
           runner.registerInfo("Economizer configuration: ControlActionType = #{controlactiontype}")
           runner.registerInfo("Economizer configuration: LockoutType = #{lockouttype}")
           runner.registerInfo("Economizer configuration: MinimumLimitType = #{minlimittype}")
-          runner.registerInfo("Economizer configuration: HighHumidityControl = #{highhumcontrol}")
-          # runner.registerInfo("TESTING = #{controlleroutdoorair.airLoopHVACOutdoorAirSystem}")
-          # runner.registerInfo("TESTING = #{controlleroutdoorair.airLoopHVACOutdoorAirSystem.get}")
-          # runner.registerInfo("TESTING = #{controlleroutdoorair.airLoopHVACOutdoorAirSystem.get.airLoopHVAC.get}")
+          # runner.registerInfo("Economizer configuration: HighHumidityControl = #{highhumcontrol}")
           name_airloophvac = controlleroutdoorair.airLoopHVACOutdoorAirSystem.get.airLoopHVAC.get.name.to_s
           runner.registerInfo("Economizer configuration: AirLoopHVAC = #{name_airloophvac}")
 
@@ -144,7 +186,7 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
               # Create new EnergyManagementSystem:Sensor object  
               ems_oa_min_mfr = OpenStudio::Model::EnergyManagementSystemSensor.new(model, "Air System Outdoor Air Mechanical Ventilation Requested Mass Flow Rate")
               ems_oa_min_mfr.setName("min_#{str_indicator}")
-              ems_oa_min_mfr.setKeyName(name_airloophvac) #TODO: find systematic way to find key
+              ems_oa_min_mfr.setKeyName(name_airloophvac)
               if verbose_info_statements == true
                 runner.registerInfo("EMS Sensor named #{ems_oa_min_mfr.name} added")
               end
@@ -159,12 +201,35 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
               runner.registerInfo("EMS Sensor named #{ems_min_oa_sch.name} was added") 
             end
 
+            # # Create new EnergyManagementSystem:Sensor object
+            # ems_ori_oa = OpenStudio::Model::EnergyManagementSystemSensor.new(model, "Air System Outdoor Air Mass Flow Rate")
+            # ems_ori_oa.setName("ori_oa_#{str_indicator}")
+            # ems_ori_oa.setKeyName(name_airloophvac)
+            # if verbose_info_statements == true
+            #   runner.registerInfo("EMS Sensor named #{ems_ori_oa.name} was added") 
+            # end
+
             # create new EnergyManagementSystem:Program object describing the zone temp averaging algorithm
             ems_oa_override = OpenStudio::Model::EnergyManagementSystemProgram.new(model)
             ems_oa_override.setName("PRGM_#{str_indicator}")
-            ems_oa_override.addLine("Set min_oa_ref_#{str_indicator} = min_#{str_indicator}")
-            ems_oa_override.addLine("Set min_oa_sch_#{str_indicator} = min_oa_sch_#{str_indicator}")
-            ems_oa_override.addLine("Set oa_override_#{str_indicator} = min_oa_ref_#{str_indicator}*min_oa_sch_#{str_indicator}")
+            # ems_oa_override.addLine("SET ori_oa_#{str_indicator} = ori_oa_#{str_indicator}")
+            ems_oa_override.addLine("SET min_oa_ref_#{str_indicator} = min_#{str_indicator}")
+            ems_oa_override.addLine("SET min_oa_sch_#{str_indicator} = min_oa_sch_#{str_indicator}")
+            ems_oa_override.addLine("SET SM = #{start_month}")
+            ems_oa_override.addLine("SET SD = #{start_date}")
+            ems_oa_override.addLine("SET ST = #{start_time}")
+            ems_oa_override.addLine("SET EM = #{end_month}")
+            ems_oa_override.addLine("SET ED = #{end_date}")
+            ems_oa_override.addLine("SET ET = #{end_time}")
+            ems_oa_override.addLine("SET ut_start = SM*10000 + SD*100 + ST")
+            ems_oa_override.addLine("SET ut_end = EM*10000 + ED*100 + SD")
+            ems_oa_override.addLine("SET ut_actual = Month*10000 + DayOfMonth*100 + CurrentTime")
+            # ems_oa_override.addLine("IF (ut_start<=ut_actual) && (ut_end>=ut_actual)") #TODO: terminating (and make it back to normal) is not working currently
+            ems_oa_override.addLine("IF (ut_start<=ut_actual)")
+            ems_oa_override.addLine("SET oa_override_#{str_indicator} = min_oa_ref_#{str_indicator}*min_oa_sch_#{str_indicator}")
+            # ems_oa_override.addLine("ELSE")
+            # ems_oa_override.addLine("SET oa_override_#{str_indicator} = ori_oa_#{str_indicator}")
+            ems_oa_override.addLine("ENDIF")
             if verbose_info_statements == true
               runner.registerInfo("EMS Program named #{ems_oa_override.name} was added")
             end
