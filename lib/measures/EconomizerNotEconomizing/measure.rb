@@ -146,6 +146,7 @@ class EconomizerNotEconomizing < OpenStudio::Measure::ModelMeasure
       if controlleroutdoorair.name.to_s.eql?(econ_choice) || econ_choice.eql?($allchoices)
         if verbose_info_statements == true
           runner.registerInfo("Imposing fault in Controller:OutdoorAir object #{controlleroutdoorair.name}.")
+          runner.registerInfo("Imposing fault which occurs on #{start_month.to_i}/#{start_date.to_i} at #{start_time.to_i}:00 and which disappears on #{end_month.to_i}/#{end_date.to_i} at #{end_time.to_i}:00")
 
           # check if Controller:OutdoorAir object configurations
           controltype = controlleroutdoorair.getEconomizerControlType
