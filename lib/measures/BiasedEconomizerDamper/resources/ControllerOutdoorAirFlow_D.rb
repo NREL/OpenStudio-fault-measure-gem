@@ -127,53 +127,27 @@ def econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_
     SET RETRHO = @RhoAirFnPbTdbW PTmp RETTmp RETHumRat, !- Calculate density before offsetting because density is not used by the controller
     SET OAENTH = @HFnTdbW OATmp OAHumRat, !- <none>
   "
-  # elsif bias_str.eql?("OA")
-  #   #########################################################################################################
-  #   main_body = main_body+"
-  #     SET RETTmp = "+econ_short_name+"RETTemp1_#{$faulttype}, !- <none>
-  #     SET RETHumRat = "+econ_short_name+"RETOmega1_#{$faulttype}, !- <none>
-  #     SET OATmp_ORI = "+econ_short_name+"OATTemp1_#{$faulttype}, !- <none>
-  #     SET OATmp = OATmp_ORI"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
-  #     SET OAHumRat = "+econ_short_name+"OATOmega1_#{$faulttype}, !- <none>
-  #     SET PTmp = "+econ_short_name+"RETPressure1_#{$faulttype}, !- <none>
-  #     IF PTmp < DELTASMALL, !- <none>
-  #     SET PTmp = 101325.0, !- Zero pressure during warmup may crash the code
-  #     ENDIF, !- <none>
-  #     SET RETRH = @RhFnTdbWPb RETTmp RETHumRat PTmp, !- <none>
-  #     SET ORI_RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
-  #     SET ORI_RETHumRat = RETHumRat, !- <none>
-  #     SET ORI_OAENTH = @HFnTdbW OATmp_ORI OAHumRat, !- <none>
-  #     SET ORI_OAHumRat = OAHumRat, !- <none>
-  #     SET RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
-  #     SET RETRHO = @RhoAirFnPbTdbW PTmp RETTmp RETHumRat, !- Calculate density before offsetting because density is not used by the controller
-  #     SET OARH = @RhFnTdbWPb OATmp OAHumRat PTmp, !- <none>
-  #     SET OAENTH = @HFnTdbRhPb OATmp OARH PTmp, !- <none>
-  #     SET OAHumRat = @WFnTdbH OATmp OAENTH, !- Recalculate humidity ratio after the offset
-  #   "
-	# #########################################################################################################
-  # else  #for bias in both sensors
-  #   main_body = main_body+"
-  #     SET RETTmp = "+econ_short_name+"RETTemp1_#{$faulttype}"+ret_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
-  #     SET RETHumRat = "+econ_short_name+"RETOmega1_#{$faulttype}, !- <none>
-  #     SET OATmp = "+econ_short_name+"OATTemp1_#{$faulttype}"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
-  #     SET OAHumRat = "+econ_short_name+"OATOmega1_#{$faulttype}, !- <none>
-  #     SET PTmp = "+econ_short_name+"RETPressure1_#{$faulttype}, !- <none>
-  #     IF PTmp < DELTASMALL, !- <none>
-  #     SET PTmp = 101325.0, !- Zero pressure during warmup may crash the code
-  #     ENDIF, !- <none>
-  #     SET RETRH = @RhFnTdbWPb RETTmp RETHumRat PTmp, !- <none>
-  #     SET ORI_RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
-  #     SET ORI_RETHumRat = RETHumRat, !- <none>
-  #     SET ORI_OAENTH = @HFnTdbW OATmp OAHumRat, !- <none>
-  #     SET ORI_OAHumRat = OAHumRat, !- <none>
-  #     SET RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
-  #     SET RETHumRat = @WFnTdbH RETTmp RETENTH, !- Recalculate humidity ratio after the offset
-  #     SET RETRHO = @RhoAirFnPbTdbW PTmp RETTmp RETHumRat, !- Calculate density before offsetting because density is not used by the controller
-  #     SET OARH = @RhFnTdbWPb OATmp OAHumRat PTmp, !- <none>
-  #     SET OAENTH = @HFnTdbRhPb OATmp OARH PTmp, !- <none>
-  #     SET OAHumRat = @WFnTdbH OATmp OAENTH, !- Recalculate humidity ratio after the offset
-  #   "
-  # end
+  main_body = main_body+"
+    SET RETTmp = "+econ_short_name+"RETTemp1_#{$faulttype}, !- <none>
+    SET RETHumRat = "+econ_short_name+"RETOmega1_#{$faulttype}, !- <none>
+    SET OATmp_ORI = "+econ_short_name+"OATTemp1_#{$faulttype}, !- <none>
+    SET OATmp = OATmp_ORI"+oa_str_num+"*AF_current_#{$faulttype}_#{oacontrollername}, !- <none>
+    SET OAHumRat = "+econ_short_name+"OATOmega1_#{$faulttype}, !- <none>
+    SET PTmp = "+econ_short_name+"RETPressure1_#{$faulttype}, !- <none>
+    IF PTmp < DELTASMALL, !- <none>
+    SET PTmp = 101325.0, !- Zero pressure during warmup may crash the code
+    ENDIF, !- <none>
+    SET RETRH = @RhFnTdbWPb RETTmp RETHumRat PTmp, !- <none>
+    SET ORI_RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
+    SET ORI_RETHumRat = RETHumRat, !- <none>
+    SET ORI_OAENTH = @HFnTdbW OATmp_ORI OAHumRat, !- <none>
+    SET ORI_OAHumRat = OAHumRat, !- <none>
+    SET RETENTH = @HFnTdbRhPb RETTmp RETRH PTmp, !- <none>
+    SET RETRHO = @RhoAirFnPbTdbW PTmp RETTmp RETHumRat, !- Calculate density before offsetting because density is not used by the controller
+    SET OARH = @RhFnTdbWPb OATmp OAHumRat PTmp, !- <none>
+    SET OAENTH = @HFnTdbRhPb OATmp OARH PTmp, !- <none>
+    SET OAHumRat = @WFnTdbH OATmp OAENTH, !- Recalculate humidity ratio after the offset
+  "
   main_body = main_body+"
     SET VDOT_DES = DesAirflow"+econ_short_name+"_#{$faulttype}, !- <none>
     SET CMDOT_D = CMDesAirflow"+econ_short_name+"_#{$faulttype}, !- <none>
@@ -219,9 +193,7 @@ def econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_
           outdoorairspecs.each do |outdoorairspec|
             if controllermechventilation.getString(4+3*i+2).to_s.eql?(outdoorairspec.getString(0).to_s)
               zone_name = name_cut(controllermechventilation.getString(4+3*i+1).to_s)
-              ############################################################
               zone_name_new = name_cut(replace_common_strings(zone_name))
-              ############################################################
               if outdoorairspec.numFields == 7  #multiply the number with a schedule
                 main_body = main_body+"
                   SET MECH_SCH = "+zone_name_new+"_OA_SCH_#{$faulttype}, !- NEED A SENSOR FOR THE SCHEDULE
@@ -260,7 +232,11 @@ def econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_
                             zone_name_inlist = name_cut(zonelist.getString(i).to_s)
                             if zone_name_inlist.eql?(zone_name)
                               main_body = main_body+"
+                                IF "+zone_name_new+"_PEOPLE_SCH_#{$faulttype}<DELTASMALL, !-
+                                SET ZONE_PPL = 0, !-
+                                ELSE, !-
                                 SET ZONE_PPL = "+zone_name_new+"_PEOPLE_#{$faulttype}/"+zone_name_new+"_PEOPLE_SCH_#{$faulttype}, !- NEED SENSOR FOR ZONE People Occupant Count
+                                ENDIF, !-
                               "
                             end
                           end
@@ -322,10 +298,6 @@ def econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_
     end
   end
 
-  ############################################################
-  runner.registerInfo("CHECKING POINT 1")
-  ############################################################
-
   main_body = main_body+"
     SET MIN_FRAC = @Max MIN_FRAC 0.0, !- <none>
     SET MIN_FRAC = @Min MIN_FRAC 1.0, !- <none>
@@ -349,10 +321,6 @@ def econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_
     SET OA_SIGN = @Min OA_SIGN 1.0, !- <none>
     SET ECON_FLOW_SCH_VAL = 0.0, !- <none>
   "  
-
-  ############################################################
-  runner.registerInfo("CHECKING POINT 2")
-  ############################################################
     
   if controlleroutdoorair.getString(7).to_s.eql?("NoEconomizer")
     main_body = main_body+"
@@ -362,24 +330,13 @@ def econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_
     "
   else
 
-    ############################################################
-    runner.registerInfo("CHECKING POINT 2-1")
-    ############################################################
-
     if not controlleroutdoorair.getString(14).to_s.eql?("NoLockout") and not controlleroutdoorair.getString(14).to_s.eql?("")
-
-      ############################################################
-      runner.registerInfo("CHECKING POINT 2-2")
-      ############################################################
 
       #check lockout type and calculation to see if the economizer is locked out
       main_body = main_body+"
         SET NO_LOCK_OUT = True, !- <none>
       "
       if controlleroutdoorair.getString(14).to_s.eql?("LockoutWithHeating") or controlleroutdoorair.getString(14).to_s.eql?("LockoutWithCompressor")
-        ############################################################
-        runner.registerInfo("CHECKING POINT 2-3")
-        ############################################################
         #find the branch containing the economizer to see what objects are inside the airloop
         #need to find the air system for this and change to a unique variable name
         airsystem_name = ""
@@ -398,15 +355,11 @@ def econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_
                   if branch.getString(ii).to_s.eql?(oas_name)
                     airsystem_name = branch.getString(0).to_s.gsub(" Supply Branch","").gsub(" Main Branch","")
                   
-                    ########################################################
-                    # TESTING
-                    ########################################################
                     if is_number?(airsystem_name[0])
                       runner.registerInfo("variable 'airsystem_name' starts with number which is not compatible with EMS")
                       airsystem_name_new = "a"+airsystem_name
                       runner.registerInfo("variable 'airsystem_name' replaced to #{airsystem_name_new}")
                     end
-                    ########################################################
 
                     main_body = main_body+"
                       SET LOCKOUT_POS = "+name_cut(airsystem_name_new)+"_Htg_#{$faulttype}, !- <none>
@@ -526,10 +479,6 @@ def econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_
       ENDIF, !- End lockout if-statement
     "
   end
-
-  ############################################################
-  runner.registerInfo("CHECKING POINT 3")
-  ############################################################
   
   #check if any served zone is controlled under night ventilation
   #TO BE ADDED LATER
@@ -970,15 +919,11 @@ def econ_damper_bias_ems_other(runner, string_objects, workspace, controlleroutd
             if branch.getString(ii).to_s.eql?(oas_name)
               airsystem_name = branch.getString(0).to_s.gsub(" Supply Branch","").gsub(" Main Branch","")
 
-              ########################################################
-              # TESTING
-              ########################################################
               if is_number?(airsystem_name[0])
                 runner.registerInfo("variable 'airsystem_name' starts with number which is not compatible with EMS")
                 airsystem_name_new = "a"+airsystem_name
                 runner.registerInfo("variable 'airsystem_name' replaced to #{airsystem_name_new}")
               end
-              ########################################################
 
               #check the sizing option
               sizingsystems = workspace.getObjectsByType("Sizing:System".to_IddObjectType)
@@ -1041,17 +986,12 @@ def econ_damper_bias_ems_other(runner, string_objects, workspace, controlleroutd
         for i in 0..vent_num_zone-1  #for each zone
           outdoorairspecs.each do |outdoorairspec|
 	          oaschedule_name = outdoorairspec.getString(6).to_s
-            #####################################################
-            #TESTING: add 'always on' schedule if empty
             if oaschedule_name.empty?
-              runner.registerInfo("there is no OA schedule defined. creating 'always on' schedule")
+              runner.registerInfo("there is no OA schedule defined.")
             end
-            #####################################################
             if controllermechventilation.getString(4+3*i+2).to_s.eql?(outdoorairspec.getString(0).to_s)
               zone_name = controllermechventilation.getString(4+3*i+1).to_s
-              ############################################################
               zone_name_new = name_cut(replace_common_strings(zone_name))
-              ############################################################
               string_objects << "
                 EnergyManagementSystem:InternalVariable,
                   "+zone_name_new+"_VOL_#{$faulttype},
@@ -1086,6 +1026,7 @@ def econ_damper_bias_ems_other(runner, string_objects, workspace, controlleroutd
 			          people_name = people.getString(0).to_s
 				        numberpeopleschedule_name = people.getString(2).to_s
 			          if people.getString(1).to_s.eql?(zone_name)
+                  
                   string_objects << "
                     EnergyManagementSystem:Sensor,
                     "+zone_name_new+"_PEOPLE_#{$faulttype}, !- Name
@@ -1096,8 +1037,7 @@ def econ_damper_bias_ems_other(runner, string_objects, workspace, controlleroutd
                   zonelists.each do |zonelist|
                     if people.getString(1).to_s.eql?(zonelist.getString(0).to_s)
                       for i in 1..zonelist.numFields-1  #for each zone
-                        zone_name_inlist = name_cut(zonelist.getString(i).to_s)
-                    
+                        zone_name_inlist = zonelist.getString(i).to_s
                         if zone_name_inlist.eql?(zone_name)
                           #NOTE: "Zone People Occupant Count" and "People Occupant Count" are different.
                           #NOTE: "Zone People Occupant Count" associated with "Zone" object instead of "People" object.

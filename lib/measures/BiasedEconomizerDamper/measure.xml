@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_damper</name>
   <uid>19455599-f76e-444b-8a8b-991540cf8854</uid>
-  <version_id>bd7cb208-8e82-4e27-8611-da26a7d2760f</version_id>
-  <version_modified>20210416T232234Z</version_modified>
+  <version_id>459ebd69-b627-4121-a3e3-573a9e119e59</version_id>
+  <version_modified>20210420T220743Z</version_modified>
   <xml_checksum>BE0C1B55</xml_checksum>
   <class_name>BiasedEconomizerDamper</class_name>
   <display_name>Biased Economizer Damper</display_name>
@@ -173,7 +173,7 @@
       <filename>ControllerOutdoorAirFlow_D.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>9A167006</checksum>
+      <checksum>16BFBA7B</checksum>
     </file>
   </files>
 </measure>
