@@ -390,9 +390,9 @@ def econ_t_sensor_bias_ems_main_body(runner, workspace, bias_sensor, controllero
                     airsystem_name = branch.getString(0).to_s.gsub(" Supply Branch","").gsub(" Main Branch","")
                     
                     if is_number?(airsystem_name[0])
-                      runner.registerInfo("variable 'airsystem_name' starts with number which is not compatible with EMS")
+                      runner.registerInfo("variable '#{airsystem_name}' starts with number which is not compatible with EMS")
                       airsystem_name_new = "a"+airsystem_name
-                      runner.registerInfo("variable 'airsystem_name' replaced to #{airsystem_name_new}")
+                      runner.registerInfo("variable replaced to '#{airsystem_name_new}'")
                     end
 
                     main_body = main_body+"
@@ -961,9 +961,9 @@ def econ_t_sensor_bias_ems_other(runner, string_objects, workspace, bias_sensor,
               airsystem_name = branch.getString(0).to_s.gsub(" Supply Branch","").gsub(" Main Branch","")
               
               if is_number?(airsystem_name[0])
-                runner.registerInfo("variable 'airsystem_name' starts with number which is not compatible with EMS")
+                runner.registerInfo("variable '#{airsystem_name}' starts with number which is not compatible with EMS")
                 airsystem_name_new = "a"+airsystem_name
-                runner.registerInfo("variable 'airsystem_name' replaced to #{airsystem_name_new}")
+                runner.registerInfo("variable replaced to '#{airsystem_name_new}'")
               end
 
               #check the sizing option
@@ -1026,9 +1026,9 @@ def econ_t_sensor_bias_ems_other(runner, string_objects, workspace, bias_sensor,
         vent_num_zone = (controllermechventilation.numFields-5)/3
         for i in 0..vent_num_zone-1  #for each zone
           outdoorairspecs.each do |outdoorairspec|
-	          oaschedule_name = outdoorairspec.getString(6).to_s
-            if oaschedule_name.empty?
-              runner.registerInfo("there is no OA schedule defined.")
+	          oaschedule_name = ""
+            if not outdoorairspec.getString(6).to_s.empty?
+              oaschedule_name = outdoorairspec.getString(6).to_s
             end
             if controllermechventilation.getString(4+3*i+2).to_s.eql?(outdoorairspec.getString(0).to_s)
               zone_name = controllermechventilation.getString(4+3*i+1).to_s
@@ -1100,13 +1100,14 @@ def econ_t_sensor_bias_ems_other(runner, string_objects, workspace, bias_sensor,
 				          end
 				        end
 			        end
-			        #####################################################
-              # string_objects << "
-              #   EnergyManagementSystem:Sensor,
-              #     "+zone_name_new+"_OA_SCH#{bias_sensor}_#{$faulttype}, !- Name
-              #     "+oaschedule_name+",                        !- Output:Variable or Output:Meter Index Key Name
-              #     Schedule Value;                !- Output:Variable or Output:Meter Name
-              # "
+              if not oaschedule_name.empty?
+                string_objects << "
+                  EnergyManagementSystem:Sensor,
+                    "+zone_name_new+"_OA_SCH#{bias_sensor}_#{$faulttype}, !- Name
+                    "+oaschedule_name+",                        !- Output:Variable or Output:Meter Index Key Name
+                    Schedule Value;                !- Output:Variable or Output:Meter Name
+                "
+              end
             end
           end
         end

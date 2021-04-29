@@ -55,43 +55,43 @@ class BiasedEconomizerSensorOAT < OpenStudio::Ruleset::WorkspaceUserScript
 	  #make a double argument for the time required for fault to reach full level 
     time_constant = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_constant', false)
     time_constant.setDisplayName('Enter the time required for fault to reach full level [hr]')
-    time_constant.setDefaultValue(0)  #default is zero
+    time_constant.setDefaultValue(0)  
     args << time_constant
 	
 	  #make a double argument for the start month
     start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
     start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
-    start_month.setDefaultValue(1)  #default is June
+    start_month.setDefaultValue(1) 
     args << start_month
 	
 	  #make a double argument for the start date
     start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_date', false)
     start_date.setDisplayName('Enter the date (1-28/30/31) when the fault starts to occur')
-    start_date.setDefaultValue(1)  #default is 1st day of the month
+    start_date.setDefaultValue(1)  
     args << start_date
 	
 	  #make a double argument for the start time
     start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
     start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
-    start_time.setDefaultValue(0)  #default is 9am
+    start_time.setDefaultValue(0)  
     args << start_time
 	
 	  #make a double argument for the end month
     end_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_month', false)
     end_month.setDisplayName('Enter the month (1-12) when the fault ends')
-    end_month.setDefaultValue(12)  #default is Decebmer
+    end_month.setDefaultValue(12)  
     args << end_month
 	
 	  #make a double argument for the end date
     end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_date', false)
     end_date.setDisplayName('Enter the date (1-28/30/31) when the fault ends')
-    end_date.setDefaultValue(31)  #default is last day of the month
+    end_date.setDefaultValue(31)  
     args << end_date
 	
 	  #make a double argument for the end time
     end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
     end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
-    end_time.setDefaultValue(23)  #default is 11pm
+    end_time.setDefaultValue(24)  
     args << end_time
 
     return args
