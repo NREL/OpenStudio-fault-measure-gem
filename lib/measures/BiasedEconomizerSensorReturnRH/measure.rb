@@ -34,7 +34,6 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
     
-    ##################################################
     #make choice arguments for economizers
     controlleroutdoorairs = workspace.getObjectsByType("Controller:OutdoorAir".to_IddObjectType)
     chs = OpenStudio::StringVector.new
@@ -45,7 +44,6 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
     econ_choice.setDisplayName("Choice of economizers.")
     econ_choice.setDefaultValue(chs[0].to_s)
     args << econ_choice
-    ##################################################
 	
     #make a double argument for the relative humidity sensor bias
     ret_rh_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('ret_rh_bias', false)
@@ -53,51 +51,49 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
     ret_rh_bias.setDefaultValue(-10)  #default fouling level to be -10%
     args << ret_rh_bias
 	
-	##################################################
     #Parameters for transient fault modeling
 	
-	#make a double argument for the time required for fault to reach full level 
+	  #make a double argument for the time required for fault to reach full level 
     time_constant = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_constant', false)
     time_constant.setDisplayName('Enter the time required for fault to reach full level [hr]')
-    time_constant.setDefaultValue(0)  #default is zero
+    time_constant.setDefaultValue(0)  
     args << time_constant
 	
-	#make a double argument for the start month
+	  #make a double argument for the start month
     start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
     start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
-    start_month.setDefaultValue(1)  #default is June
+    start_month.setDefaultValue(1) 
     args << start_month
 	
-	#make a double argument for the start date
+	  #make a double argument for the start date
     start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_date', false)
     start_date.setDisplayName('Enter the date (1-28/30/31) when the fault starts to occur')
-    start_date.setDefaultValue(1)  #default is 1st day of the month
+    start_date.setDefaultValue(1)
     args << start_date
 	
-	#make a double argument for the start time
+	  #make a double argument for the start time
     start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
     start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
-    start_time.setDefaultValue(0)  #default is 9am
+    start_time.setDefaultValue(0)
     args << start_time
 	
-	#make a double argument for the end month
+	  #make a double argument for the end month
     end_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_month', false)
     end_month.setDisplayName('Enter the month (1-12) when the fault ends')
-    end_month.setDefaultValue(12)  #default is Decebmer
+    end_month.setDefaultValue(12) 
     args << end_month
 	
-	#make a double argument for the end date
+	  #make a double argument for the end date
     end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_date', false)
     end_date.setDisplayName('Enter the date (1-28/30/31) when the fault ends')
-    end_date.setDefaultValue(31)  #default is last day of the month
+    end_date.setDefaultValue(31)
     args << end_date
 	
-	#make a double argument for the end time
+	  #make a double argument for the end time
     end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
     end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
-    end_time.setDefaultValue(23)  #default is 11pm
+    end_time.setDefaultValue(24) 
     args << end_time
-    ##################################################
 
     return args
   end
@@ -114,21 +110,18 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
     #obtain values
     econ_choice = runner.getStringArgumentValue('econ_choice',user_arguments)
     ret_rh_bias = runner.getDoubleArgumentValue('ret_rh_bias',user_arguments)/100 #normalize from % to dimensionless
-	##################################################
-	time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
-	start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
-	start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
-	start_time = runner.getDoubleArgumentValue('start_time',user_arguments).to_s
-	end_month = runner.getDoubleArgumentValue('end_month',user_arguments).to_s
-	end_date = runner.getDoubleArgumentValue('end_date',user_arguments).to_s
-	end_time = runner.getDoubleArgumentValue('end_time',user_arguments).to_s
-	time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
-	dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
-	dts.each do |dt|
-	 #runner.registerInfo("Simulation Timestep = #{1./dt.getString(0).get.clone.to_f}")
-	 time_step = (1./dt.getString(0).get.clone.to_f).to_s
-	end
-	##################################################
+    time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
+    start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
+    start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
+    start_time = runner.getDoubleArgumentValue('start_time',user_arguments).to_s
+    end_month = runner.getDoubleArgumentValue('end_month',user_arguments).to_s
+    end_date = runner.getDoubleArgumentValue('end_date',user_arguments).to_s
+    end_time = runner.getDoubleArgumentValue('end_time',user_arguments).to_s
+    time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
+    dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
+    dts.each do |dt|
+    time_step = (1./dt.getString(0).get.clone.to_f).to_s
+    end
     bias_sensor = "RET"
     if ret_rh_bias == 0
       runner.registerAsNotApplicable("#{name} is not running with zero fault level. Skipping......")
@@ -136,8 +129,9 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
     end
     
     runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice}.")
+    runner.registerInfo("Imposing fault which occurs on #{start_month.to_i}/#{start_date.to_i} at #{start_time.to_i}:00 and which disappears on #{end_month.to_i}/#{end_date.to_i} at #{end_time.to_i}:00")
   
-    #find the RTU to change
+    #find the OA controller to change
     no_econ_found = true
     applicable = true
     controlleroutdoorairs = workspace.getObjectsByType('Controller:OutdoorAir'.to_IddObjectType)
@@ -156,6 +150,7 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
           runner.registerAsNotApplicable(controlleroutdoorair.getString(25).to_s+" in #{econ_choice} is not supported. Skipping......")
           applicable = false
         end
+        runner.registerInfo("Measure applicable with the eocnomizer configurations.")
         
         if applicable  #skip the modeling procedure if the model is not supported
           #create an empty string_objects to be appended into the .idf file
@@ -166,19 +161,13 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
           #main program differs as the options at controlleroutdoorair differs
           #create a new string for the main program to start appending the required
           #EMS routine to it
-          ##################################################
-		  oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-		  ##################################################   
-		  
-          main_body = econ_rh_sensor_bias_ems_main_body(workspace, bias_sensor, controlleroutdoorair, [ret_rh_bias, 0.0], oacontrollername)
-          
+          oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
+          main_body = econ_rh_sensor_bias_ems_main_body(runner, workspace, bias_sensor, controlleroutdoorair, [ret_rh_bias, 0.0], oacontrollername)
           string_objects << main_body
           
           #append other objects
-          strings_objects = econ_rh_sensor_bias_ems_other(string_objects, workspace, bias_sensor, controlleroutdoorair)
-		  ##################################################
-		  strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
-		  ##################################################
+          strings_objects = econ_rh_sensor_bias_ems_other(runner, string_objects, workspace, bias_sensor, controlleroutdoorair)
+          strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
           
           #add all of the strings to workspace to create IDF objects
           string_objects.each do |string_object|
