@@ -393,6 +393,8 @@ def econ_t_sensor_bias_ems_main_body(runner, workspace, bias_sensor, controllero
                       runner.registerInfo("variable '#{airsystem_name}' starts with number which is not compatible with EMS")
                       airsystem_name_new = "a"+airsystem_name
                       runner.registerInfo("variable replaced to '#{airsystem_name_new}'")
+                    else
+                      airsystem_name_new = airsystem_name
                     end
 
                     main_body = main_body+"
@@ -964,6 +966,8 @@ def econ_t_sensor_bias_ems_other(runner, string_objects, workspace, bias_sensor,
                 runner.registerInfo("variable '#{airsystem_name}' starts with number which is not compatible with EMS")
                 airsystem_name_new = "a"+airsystem_name
                 runner.registerInfo("variable replaced to '#{airsystem_name_new}'")
+              else
+                airsystem_name_new = airsystem_name
               end
 
               #check the sizing option
