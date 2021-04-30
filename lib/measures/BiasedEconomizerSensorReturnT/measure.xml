@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_t</name>
   <uid>f1ba09fb-2903-45b2-838c-604b63fc4662</uid>
-  <version_id>c377f604-8fa4-4adc-90e2-0d3f7656c9f3</version_id>
-  <version_modified>20200409T145323Z</version_modified>
+  <version_id>1453dd5f-c850-4062-9814-ae53e8ad9899</version_id>
+  <version_modified>20210430T182326Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnT</class_name>
   <display_name>Biased Economizer Sensor: Return Temperature</display_name>
@@ -79,11 +80,11 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>23</default_value>
+      <default_value>24</default_value>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.HVAC Controls</tag>
   </tags>
@@ -111,16 +112,22 @@
   </attributes>
   <files>
     <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>D0B0AB38</checksum>
+    </file>
+    <file>
       <filename>misc_eplus_func.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>435C6B82</checksum>
+      <checksum>8AC7DFDC</checksum>
     </file>
     <file>
       <filename>ControllerOutdoorAirFlow_T.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>C2A71A53</checksum>
+      <checksum>AD91780C</checksum>
     </file>
     <file>
       <version>
@@ -131,13 +138,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>DD1B92C1</checksum>
-    </file>
-    <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>D0B0AB38</checksum>
+      <checksum>23896F27</checksum>
     </file>
   </files>
 </measure>
