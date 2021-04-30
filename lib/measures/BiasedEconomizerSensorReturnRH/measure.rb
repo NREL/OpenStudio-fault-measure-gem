@@ -48,7 +48,7 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
     #make a double argument for the relative humidity sensor bias
     ret_rh_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('ret_rh_bias', false)
     ret_rh_bias.setDisplayName('Enter the bias level of the return air relative humidity sensor. A positive number means that the sensor is reading a relative humidity higher than the true relative humidity. [%]')
-    ret_rh_bias.setDefaultValue(-10)  #default fouling level to be -10%
+    ret_rh_bias.setDefaultValue(-10) 
     args << ret_rh_bias
 	
     #Parameters for transient fault modeling
@@ -128,7 +128,7 @@ class BiasedEconomizerSensorReturnRH < OpenStudio::Ruleset::WorkspaceUserScript
       return true
     end
     
-    runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice}.")
+    runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice} with a bias of #{ret_rh_bias*100}%.")
     runner.registerInfo("Imposing fault which occurs on #{start_month.to_i}/#{start_date.to_i} at #{start_time.to_i}:00 and which disappears on #{end_month.to_i}/#{end_date.to_i} at #{end_time.to_i}:00")
   
     #find the OA controller to change
