@@ -48,7 +48,7 @@ class BiasedEconomizerSensorOAT < OpenStudio::Ruleset::WorkspaceUserScript
     #make a double argument for the temperature sensor bias
     out_t_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('out_t_bias', false)
     out_t_bias.setDisplayName('Enter the bias level of the outdoor air temperature sensor. A positive number means that the sensor is reading a temperature higher than the true temperature. [K]')
-    out_t_bias.setDefaultValue(-2)  #default fault level to be -2K
+    out_t_bias.setDefaultValue(-2) 
     args << out_t_bias
 	
     #Parameters for transient fault modeling
@@ -127,8 +127,8 @@ class BiasedEconomizerSensorOAT < OpenStudio::Ruleset::WorkspaceUserScript
       return true
     end
     
-    runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice}.")
-    runner.registerInfo("Imposing fault which occurs on #{start_month.to_i}/#{start_date.to_i} at #{start_time.to_i}:00 and which disappears on #{end_month.to_i}/#{end_date.to_i} at #{end_time.to_i}:00")
+    runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice} with a bias of #{out_t_bias}.")
+    runner.registerInfo("Imposing fault which occurs on #{start_month.to_i}/#{start_date.to_i} at #{start_time.to_i}:00 and which disappears on #{end_month.to_i}/#{end_date.to_i} at #{end_time.to_i}:00.")
     
     #find the RTU to change
     no_econ_found = true
