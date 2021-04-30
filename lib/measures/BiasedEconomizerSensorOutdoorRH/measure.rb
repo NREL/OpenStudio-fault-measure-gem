@@ -127,7 +127,7 @@ class BiasedEconomizerSensorOutdoorRH < OpenStudio::Ruleset::WorkspaceUserScript
       return true
     end
     
-    runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice}.")
+    runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice} with a bias of #{oa_rh_bias*100}%.")
     runner.registerInfo("Imposing fault which occurs on #{start_month.to_i}/#{start_date.to_i} at #{start_time.to_i}:00 and which disappears on #{end_month.to_i}/#{end_date.to_i} at #{end_time.to_i}:00")
   
     #find the OA controller to change
