@@ -47,50 +47,59 @@ class BiasedEconomizerDamper < OpenStudio::Ruleset::WorkspaceUserScript
 	
     #make a double argument for the damper position bias
     pos_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('pos_bias', false)
-    pos_bias.setDisplayName('Enter the bias level of the outdoor air temperature sensor. A positive number means that the sensor is reading a temperature higher than the true temperature. [K]')
-    pos_bias.setDefaultValue(-2)  #default fault level to be -2K
+    pos_bias.setDisplayName('Enter the bias level (in ratio) of the outdoor air damper. A positive number means that the damper is opening wider than the actual damper position.')
+    pos_bias.setDefaultValue(0.1)
     args << pos_bias
+
+    #make a choice argument for damper bias type
+    bias_types = OpenStudio::StringVector.new
+    bias_types << "entire time"
+    bias_types << "only when modulating"
+    bias_type = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('bias_type', bias_types, true)
+    bias_type.setDisplayName("Choice of damper bias type.")
+    bias_type.setDefaultValue(bias_types[0].to_s)
+    args << bias_type
 	
 	  #make a double argument for the time required for fault to reach full level 
     time_constant = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_constant', false)
     time_constant.setDisplayName('Enter the time required for fault to reach full level [hr]')
-    time_constant.setDefaultValue(0)  #default is zero
+    time_constant.setDefaultValue(0)
     args << time_constant
 	
 	  #make a double argument for the start month
     start_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_month', false)
     start_month.setDisplayName('Enter the month (1-12) when the fault starts to occur')
-    start_month.setDefaultValue(1)  #default is June
+    start_month.setDefaultValue(1)
     args << start_month
 	
 	  #make a double argument for the start date
     start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_date', false)
-    start_date.setDisplayName('Enter the date (1-28/30/31) when the fault starts to occur')
-    start_date.setDefaultValue(1)  #default is 1st day of the month
+    start_date.setDisplayName('Enter the date (1-31) when the fault starts to occur')
+    start_date.setDefaultValue(1)
     args << start_date
 	
 	  #make a double argument for the start time
     start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
     start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
-    start_time.setDefaultValue(0)  #default is 9am
+    start_time.setDefaultValue(0)
     args << start_time
 	
 	  #make a double argument for the end month
     end_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_month', false)
     end_month.setDisplayName('Enter the month (1-12) when the fault ends')
-    end_month.setDefaultValue(12)  #default is Decebmer
+    end_month.setDefaultValue(12)
     args << end_month
 	
 	  #make a double argument for the end date
     end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_date', false)
-    end_date.setDisplayName('Enter the date (1-28/30/31) when the fault ends')
-    end_date.setDefaultValue(31)  #default is last day of the month
+    end_date.setDisplayName('Enter the date (1-31) when the fault ends')
+    end_date.setDefaultValue(31)
     args << end_date
 	
 	  #make a double argument for the end time
     end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
     end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
-    end_time.setDefaultValue(23)  #default is 11pm
+    end_time.setDefaultValue(24)
     args << end_time
 
     return args
@@ -107,6 +116,7 @@ class BiasedEconomizerDamper < OpenStudio::Ruleset::WorkspaceUserScript
     
     #obtain values
     econ_choice = runner.getStringArgumentValue('econ_choice',user_arguments)
+    bias_type = runner.getStringArgumentValue('bias_type',user_arguments)
     pos_bias = runner.getDoubleArgumentValue('pos_bias',user_arguments)
     time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
     start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
@@ -120,13 +130,12 @@ class BiasedEconomizerDamper < OpenStudio::Ruleset::WorkspaceUserScript
     dts.each do |dt|
       time_step = (1./dt.getString(0).get.clone.to_f).to_s
     end
-    bias_sensor = $faulttype
     if pos_bias == 0
       runner.registerAsNotApplicable("#{name} is not running with zero fault level. Skipping......")
       return true
     end
     
-    runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice}.")
+    runner.registerInitialCondition("Imposing Damper Position Bias on #{econ_choice} with a bias level of #{pos_bias*100}%.")
     runner.registerInfo("Imposing fault which occurs on #{start_month.to_i}/#{start_date.to_i} at #{start_time.to_i}:00 and which disappears on #{end_month.to_i}/#{end_date.to_i} at #{end_time.to_i}:00")
   
     #find the OA controller to change
@@ -160,7 +169,7 @@ class BiasedEconomizerDamper < OpenStudio::Ruleset::WorkspaceUserScript
           #create a new string for the main program to start appending the required
           #EMS routine to it
           oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')		  
-          main_body = econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_bias, oacontrollername)
+          main_body = econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_bias, oacontrollername, bias_type)
           string_objects << main_body
           
           #append other objects
@@ -183,7 +192,7 @@ class BiasedEconomizerDamper < OpenStudio::Ruleset::WorkspaceUserScript
       return false
     elsif applicable
       # report final condition of workspace
-      runner.registerFinalCondition("Imposed Sensor Bias on #{econ_choice}.")
+      runner.registerFinalCondition("Imposed Damper Position Bias on #{econ_choice}.")
     else
       runner.registerAsNotApplicable("#{name} is not running for #{econ_choice} because of inapplicability. Skipping......")
     end
