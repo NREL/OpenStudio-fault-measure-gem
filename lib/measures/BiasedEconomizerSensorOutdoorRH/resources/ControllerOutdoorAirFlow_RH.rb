@@ -23,7 +23,7 @@ def faultintensity_adjustmentfactor(string_objects, time_constant, time_step, st
       SET tau = 0.001,
       ENDIF,
       SET ut_start = SM*10000 + SD*100 + ST,
-      SET ut_end = EM*10000 + ED*100 + SD,
+      SET ut_end = EM*10000 + ED*100 + ET,
       SET ut_actual = Month*10000 + DayOfMonth*100 + CurrentTime,
       IF (ut_actual>=ut_start) && (ut_actual<=ut_end),  
       SET AF_previous = @TrendValue AF_trend_#{$faulttype}_#{oacontrollername} 1,  	
