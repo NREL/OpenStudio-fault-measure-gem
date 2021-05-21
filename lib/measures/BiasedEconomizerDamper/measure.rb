@@ -7,27 +7,27 @@
 #see the URL below for access to C++ documentation on model objects (click on "model" in the main window to view model objects)
 # https://s3.amazonaws.com/openstudio-sdk-documentation/index.html
 
-require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_RH"
+require "#{File.dirname(__FILE__)}/resources/ControllerOutdoorAirFlow_D"
 
 $allchoices = '* ALL Controller:OutdoorAir *'
-$faulttype = 'OARH'
+$faulttype = 'BED'				   
 
 # start the measure
-class BiasedEconomizerSensorOutdoorRH < OpenStudio::Ruleset::WorkspaceUserScript
+class BiasedEconomizerDamper < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable name
   def name
-    return 'Biased Economizer Sensor: Outdoor RH'
+    return "Biased Economizer Damper"
   end
 
   # human readable description
   def description
-    return "When sensors drift and are not regularly calibrated, it causes a bias. Sensor readings often drift from their calibration with age, causing equipment control algorithms to produce outputs that deviate from their intended function. A positive bias in the economizer outdoor relative humidity (RH) sensor leads to a higher estimate in the outdoor air enthalpy, which shifts the economizer switch-off point and could cause higher cooling or heating energy consumption. This fault is categorized as a fault that occur in the economizer system (sensor) during the operation stage. This fault measure is based on a physical model where certain parameter(s) is changed in EnergyPlus to mimic the faulted operation; thus simulates the biased economizer sensor (outdoor air RH) by modifying the Controller:OutdoorAir object in EnergyPlus assigned to the heating and cooling system. The fault intensity (F) is defined as the biased RH level (%). A positive number means that the sensor is reading a relative humidity higher than the true relative humidity."
+    return "tbd"
   end
 
   # human readable description of workspace approach
   def modeler_description
-    return "Nine user inputs are required, based on these user inputs, the outdoor air RH reading in the economizer will be replaced by the equation below, RHoaF = RHoa + F*AF, where RHoaF is the biased outdoor air RH reading, RHoa is the actual outdoor air RH, F is the fault intensity and AF is the adjustment factor. To use this measure, choose the Controller:OutdoorAir object to be faulted. Set the level of relative humidity sensor bias between -100 to 100 that you want at the outdoor air duct for the economizer during the simulation period. For example, setting F=3 means the sensor is reading 25% when the actual relative humidity is 22%. The time required for the fault to reach the full level is only required when the user wants to model fault evolution. If the fault evolution is not necessary for the user, it can be defined as zero and F will be imposed as a step function with the user defined value. However, by defining the time required for the fault to reach the full level, fault starting month/date/time and fault ending month/date/time, the adjustment factor AF is calculated at each time step starting from the starting month/date/time to gradually impose F based on the user specified time frame. AF is calculated as follows, AF_current = AF_previous + dt/tau where AF_current is the adjustment factor calculated based on the previously calculated adjustment factor (AF_previous), simulation timestep (dt) and the time required for the fault to reach the full level (tau)."
+    return "tbd"
   end
 
   # define the arguments that the user will input
@@ -45,16 +45,25 @@ class BiasedEconomizerSensorOutdoorRH < OpenStudio::Ruleset::WorkspaceUserScript
     econ_choice.setDefaultValue(chs[0].to_s)
     args << econ_choice
 	
-    #make a double argument for the relative humidity sensor bias
-    oa_rh_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument("oa_rh_bias", false)
-    oa_rh_bias.setDisplayName("Enter the bias level of the return air relative humidity sensor. A positive number means that the sensor is reading a relative humidity higher than the true relative humidity. [%]")
-    oa_rh_bias.setDefaultValue(-10)  #default fouling level to be -10%
-    args << oa_rh_bias
+    #make a double argument for the damper position bias
+    pos_bias = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('pos_bias', false)
+    pos_bias.setDisplayName('Enter the bias level (in ratio) of the outdoor air damper. A positive number means that the damper is opening wider than the actual damper position.')
+    pos_bias.setDefaultValue(0.1)
+    args << pos_bias
+
+    #make a choice argument for damper bias type
+    bias_types = OpenStudio::StringVector.new
+    bias_types << "entire time"
+    bias_types << "only when modulating"
+    bias_type = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('bias_type', bias_types, true)
+    bias_type.setDisplayName("Choice of damper bias type.")
+    bias_type.setDefaultValue(bias_types[0].to_s)
+    args << bias_type
 	
 	  #make a double argument for the time required for fault to reach full level 
     time_constant = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_constant', false)
     time_constant.setDisplayName('Enter the time required for fault to reach full level [hr]')
-    time_constant.setDefaultValue(0)  
+    time_constant.setDefaultValue(0)
     args << time_constant
 	
 	  #make a double argument for the start month
@@ -65,34 +74,33 @@ class BiasedEconomizerSensorOutdoorRH < OpenStudio::Ruleset::WorkspaceUserScript
 	
 	  #make a double argument for the start date
     start_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_date', false)
-    start_date.setDisplayName('Enter the date (1-28/30/31) when the fault starts to occur')
-    start_date.setDefaultValue(1) 
+    start_date.setDisplayName('Enter the date (1-31) when the fault starts to occur')
+    start_date.setDefaultValue(1)
     args << start_date
 	
 	  #make a double argument for the start time
     start_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('start_time', false)
     start_time.setDisplayName('Enter the time of day (0-24) when the fault starts to occur')
-    start_time.setDefaultValue(0) 
+    start_time.setDefaultValue(0)
     args << start_time
 	
 	  #make a double argument for the end month
     end_month = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_month', false)
     end_month.setDisplayName('Enter the month (1-12) when the fault ends')
-    end_month.setDefaultValue(12) 
+    end_month.setDefaultValue(12)
     args << end_month
 	
 	  #make a double argument for the end date
     end_date = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_date', false)
-    end_date.setDisplayName('Enter the date (1-28/30/31) when the fault ends')
-    end_date.setDefaultValue(31) 
+    end_date.setDisplayName('Enter the date (1-31) when the fault ends')
+    end_date.setDefaultValue(31)
     args << end_date
 	
 	  #make a double argument for the end time
     end_time = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('end_time', false)
     end_time.setDisplayName('Enter the time of day (0-24) when the fault ends')
-    end_time.setDefaultValue(24)  
+    end_time.setDefaultValue(24)
     args << end_time
-    ##################################################
 
     return args
   end
@@ -108,7 +116,8 @@ class BiasedEconomizerSensorOutdoorRH < OpenStudio::Ruleset::WorkspaceUserScript
     
     #obtain values
     econ_choice = runner.getStringArgumentValue('econ_choice',user_arguments)
-    oa_rh_bias = runner.getDoubleArgumentValue('oa_rh_bias',user_arguments)/100 #normalize from % to dimensionless
+    bias_type = runner.getStringArgumentValue('bias_type',user_arguments)
+    pos_bias = runner.getDoubleArgumentValue('pos_bias',user_arguments)
     time_constant = runner.getDoubleArgumentValue('time_constant',user_arguments).to_s
     start_month = runner.getDoubleArgumentValue('start_month',user_arguments).to_s
     start_date = runner.getDoubleArgumentValue('start_date',user_arguments).to_s
@@ -119,33 +128,33 @@ class BiasedEconomizerSensorOutdoorRH < OpenStudio::Ruleset::WorkspaceUserScript
     time_step = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('time_step', false)
     dts = workspace.getObjectsByType('Timestep'.to_IddObjectType)
     dts.each do |dt|
-    time_step = (1./dt.getString(0).get.clone.to_f).to_s
+      time_step = (1./dt.getString(0).get.clone.to_f).to_s
     end
-    bias_sensor = "OA"
-    if oa_rh_bias == 0
+    if pos_bias == 0
       runner.registerAsNotApplicable("#{name} is not running with zero fault level. Skipping......")
       return true
     end
     
-    runner.registerInitialCondition("Imposing Sensor Bias on #{econ_choice} with a bias of #{oa_rh_bias*100}%.")
+    runner.registerInitialCondition("Imposing Damper Position Bias on #{econ_choice} with a bias level of #{pos_bias*100}%.")
     runner.registerInfo("Imposing fault which occurs on #{start_month.to_i}/#{start_date.to_i} at #{start_time.to_i}:00 and which disappears on #{end_month.to_i}/#{end_date.to_i} at #{end_time.to_i}:00")
   
     #find the OA controller to change
     no_econ_found = true
     applicable = true
-    controlleroutdoorairs = workspace.getObjectsByType("Controller:OutdoorAir".to_IddObjectType)
+    controlleroutdoorairs = workspace.getObjectsByType('Controller:OutdoorAir'.to_IddObjectType)
     controlleroutdoorairs.each do |controlleroutdoorair|
       if controlleroutdoorair.getString(0).to_s.eql?(econ_choice) || econ_choice.eql?($allchoices)
         no_econ_found = false
         
-        #check applicability of the model        
-        if controlleroutdoorair.getString(8).to_s.eql?("MinimumFlowWithBypass")
+        #check applicability of the model   
+        runner.registerInfo("Checking measure applicability with eocnomizer configurations..")     
+        if controlleroutdoorair.getString(8).to_s.eql?('MinimumFlowWithBypass')
           runner.registerAsNotApplicable("MinimumFlowWithBypass in #{econ_choice} is not an economizer and is not supported. Skipping......")
           applicable = false
-        elsif controlleroutdoorair.getString(14).to_s.eql?("LockoutWithHeating") or controlleroutdoorair.getString(14).to_s.eql?("LockoutWithCompressor")
+        elsif controlleroutdoorair.getString(14).to_s.eql?('LockoutWithHeating') or controlleroutdoorair.getString(14).to_s.eql?("LockoutWithCompressor")
           runner.registerAsNotApplicable(controlleroutdoorair.getString(14).to_s+" in #{econ_choice} is not supported. Skipping......")
           applicable = false
-        elsif controlleroutdoorair.getString(25).to_s.eql?("BypassWhenOAFlowGreaterThanMinimum")
+        elsif controlleroutdoorair.getString(25).to_s.eql?('BypassWhenOAFlowGreaterThanMinimum')
           runner.registerAsNotApplicable(controlleroutdoorair.getString(25).to_s+" in #{econ_choice} is not supported. Skipping......")
           applicable = false
         end
@@ -156,16 +165,15 @@ class BiasedEconomizerSensorOutdoorRH < OpenStudio::Ruleset::WorkspaceUserScript
           string_objects = []
           
           #append the main EMS program objects to the idf file
-          
           #main program differs as the options at controlleroutdoorair differs
           #create a new string for the main program to start appending the required
           #EMS routine to it
-		      oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')
-          main_body = econ_rh_sensor_bias_ems_main_body(runner, workspace, bias_sensor, controlleroutdoorair, [0.0, oa_rh_bias], oacontrollername)
+          oacontrollername = econ_choice.clone.gsub!(/[^0-9A-Za-z]/, '')		  
+          main_body = econ_damper_bias_ems_main_body(runner, workspace, controlleroutdoorair, pos_bias, oacontrollername, bias_type)
           string_objects << main_body
           
           #append other objects
-          strings_objects = econ_rh_sensor_bias_ems_other(runner, string_objects, workspace, bias_sensor, controlleroutdoorair)
+          strings_objects = econ_damper_bias_ems_other(runner, string_objects, workspace, controlleroutdoorair)
 		      strings_objects = faultintensity_adjustmentfactor(string_objects, time_constant, time_step, start_month, start_date, start_time, end_month, end_date, end_time, oacontrollername)
           
           #add all of the strings to workspace to create IDF objects
@@ -184,7 +192,7 @@ class BiasedEconomizerSensorOutdoorRH < OpenStudio::Ruleset::WorkspaceUserScript
       return false
     elsif applicable
       # report final condition of workspace
-      runner.registerFinalCondition("Imposed Sensor Bias on #{econ_choice}.")
+      runner.registerFinalCondition("Imposed Damper Position Bias on #{econ_choice}.")
     else
       runner.registerAsNotApplicable("#{name} is not running for #{econ_choice} because of inapplicability. Skipping......")
     end
@@ -196,4 +204,4 @@ class BiasedEconomizerSensorOutdoorRH < OpenStudio::Ruleset::WorkspaceUserScript
 end
 
 # register the measure to be used by the application
-BiasedEconomizerSensorOutdoorRH.new.registerWithApplication
+BiasedEconomizerDamper.new.registerWithApplication

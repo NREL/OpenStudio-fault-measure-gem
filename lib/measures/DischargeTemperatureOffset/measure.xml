@@ -1,0 +1,188 @@
+<?xml version="1.0"?>
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>discharge_temperature_offset</name>
+  <uid>cde2946f-b41b-4e86-98d8-ff75da58bd9b</uid>
+  <version_id>b6dbc724-1641-4007-8097-c996ca3aeea9</version_id>
+  <version_modified>20210518T202211Z</version_modified>
+  <xml_checksum>84D9637F</xml_checksum>
+  <class_name>DischargeTemperatureOffset</class_name>
+  <display_name>Discharge Temperature Offset</display_name>
+  <description>This measure models the faulted condition of a discharge air temperature sensor/setpoint where is has a bias from what it should be.</description>
+  <modeler_description>This measure models this fault by first appending a duct to the faulted supply loop after the supply outlet node. The setpoint value from that node is then applied to the new node with an offset as determined by the loop. The mixed air setpoint managers are then pointed to the new outlet node.</modeler_description>
+  <arguments>
+    <argument>
+      <name>loop_choice</name>
+      <display_name>Enter the name of the loop to apply the discharge setpoint offset on</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL Air Loops Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Air Loops Selected *</value>
+          <display_name>* ALL Air Loops Selected *</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>offset</name>
+      <display_name>Offset Temp</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>time_constant</name>
+      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>start_month</name>
+      <display_name>Enter the month (1-12) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>start_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>start_time</name>
+      <display_name>Enter the time of day (0-24) when the fault starts to occur</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
+    </argument>
+    <argument>
+      <name>end_month</name>
+      <display_name>Enter the month (1-12) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>12</default_value>
+    </argument>
+    <argument>
+      <name>end_date</name>
+      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>31</default_value>
+    </argument>
+    <argument>
+      <name>end_time</name>
+      <display_name>Enter the time of day (0-24) when the fault ends</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>24</default_value>
+    </argument>
+  </arguments>
+  <outputs />
+  <provenances />
+  <tags>
+    <tag>HVAC.HVAC Controls</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>EnergyPlusMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>discharge_temperature_offset_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>7C07B077</checksum>
+    </file>
+    <file>
+      <filename>#evolution.rb#</filename>
+      <filetype>rb#</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>BC9772C0</checksum>
+    </file>
+    <file>
+      <filename>helpers.rb~</filename>
+      <filetype>rb~</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>EDB31A70</checksum>
+    </file>
+    <file>
+      <filename>helpers.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>3BD83C2D</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.1.0</identifier>
+        <min_compatible>3.1.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>DE3A85BE</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>EFB8AC03</checksum>
+    </file>
+    <file>
+      <filename>evolution.rb~</filename>
+      <filetype>rb~</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>6ED7B903</checksum>
+    </file>
+    <file>
+      <filename>evolution.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>1E19F454</checksum>
+    </file>
+  </files>
+</measure>

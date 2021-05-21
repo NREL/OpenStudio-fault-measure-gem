@@ -21,7 +21,7 @@ module OsLib_FDD
     zone_args = model.getThermalZones
     zone_args_hash = {}
     zone_args.each do |zone_arg|
-      zone_args_hash[zone_arg.name.to_s] = zone_arg
+      zone_args_hash[zone_arg.name.to_s] = zone_arg unless zone_arg.isPlenum || zone_arg.canBePlenum
     end
 
     # looping through sorted hash of model objects
@@ -38,13 +38,13 @@ module OsLib_FDD
   def obtainzone(strname, model, runner, user_arguments)
     # This function helps to obtain the zone information from user arguments.
     # It returns the ThermalZone OpenStudio object of the chosen zone
-
+    zones = model.getThermalZones.select { |zone| !zone.isPlenum && !zone.canBePlenum }
     thermalzone = runner.getStringArgumentValue(strname, user_arguments)
     if thermalzone.eql?($allzonechoices)
-      return model.getThermalZones
+      return zones
     else
       thermalzones = []
-      model.getThermalZones.each do |zone|
+      zones.each do |zone|
         next unless thermalzone.to_s == zone.name.to_s
         thermalzones << zone
         break

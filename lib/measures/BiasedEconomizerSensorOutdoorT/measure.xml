@@ -140,5 +140,11 @@
       <usage_type>resource</usage_type>
       <checksum>A359133D</checksum>
     </file>
+    <file>
+      <filename>ControllerOutdoorAirFlow_T.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FC095BFC</checksum>
+    </file>
   </files>
 </measure>
