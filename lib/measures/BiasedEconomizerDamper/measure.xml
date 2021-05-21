@@ -1,29 +1,56 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
-  <name>economizer_not_economizing</name>
-  <uid>b14d6cef-2d71-4ca7-bba8-62b42e7a7a41</uid>
-  <version_id>98faa7ef-a583-43c6-9baa-6f0cf3239d45</version_id>
-  <version_modified>20210416T203905Z</version_modified>
-  <xml_checksum>9E82E94F</xml_checksum>
-  <class_name>EconomizerNotEconomizing</class_name>
-  <display_name>Economizer Not Economizing</display_name>
-  <description>This fault model simulates a situation where economizer is not economizing when it is supposed to. Not leveraging favorable outdoor air when it is available will result in increased cooling end-use energy consumption.</description>
-  <modeler_description>This fault model uses the EMS by overriding 'Air Mass Flow Rate' control type in 'Outdoor Air Controller' actuator with minimum outdoor air requirement. User can also specify when to initiate fault by defining starting month, date, and time. This version is currently not supporting fault ending timing even though input arguments are implemented in the measure.</modeler_description>
+  <name>biased_economizer_damper</name>
+  <uid>19455599-f76e-444b-8a8b-991540cf8854</uid>
+  <version_id>376b6511-f48b-4a95-a06f-bef26b43f1a2</version_id>
+  <version_modified>20210503T201518Z</version_modified>
+  <xml_checksum>BE0C1B55</xml_checksum>
+  <class_name>BiasedEconomizerDamper</class_name>
+  <display_name>Biased Economizer Damper</display_name>
+  <description>tbd</description>
+  <modeler_description>tbd</modeler_description>
   <arguments>
     <argument>
       <name>econ_choice</name>
-      <display_name>Choice of economizers. If you want to impose the fault on all economizers, choose All Economizers</display_name>
+      <display_name>Choice of economizers.</display_name>
       <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value>All Economizers</default_value>
+    </argument>
+    <argument>
+      <name>pos_bias</name>
+      <display_name>Enter the bias level (in ratio) of the outdoor air damper. A positive number means that the damper is opening wider than the actual damper position.</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0.1</default_value>
+    </argument>
+    <argument>
+      <name>bias_type</name>
+      <display_name>Choice of damper bias type.</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>entire time</default_value>
       <choices>
         <choice>
-          <value>All Economizers</value>
-          <display_name>All Economizers</display_name>
+          <value>entire time</value>
+          <display_name>entire time</display_name>
+        </choice>
+        <choice>
+          <value>only when modulating</value>
+          <display_name>only when modulating</display_name>
         </choice>
       </choices>
+    </argument>
+    <argument>
+      <name>time_constant</name>
+      <display_name>Enter the time required for fault to reach full level [hr]</display_name>
+      <type>Double</type>
+      <required>false</required>
+      <model_dependent>false</model_dependent>
+      <default_value>0</default_value>
     </argument>
     <argument>
       <name>start_month</name>
@@ -35,7 +62,7 @@
     </argument>
     <argument>
       <name>start_date</name>
-      <display_name>Enter the date (1-28/30/31) when the fault starts to occur</display_name>
+      <display_name>Enter the date (1-31) when the fault starts to occur</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
@@ -59,7 +86,7 @@
     </argument>
     <argument>
       <name>end_date</name>
-      <display_name>Enter the date (1-28/30/31) when the fault ends</display_name>
+      <display_name>Enter the date (1-31) when the fault ends</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
@@ -73,24 +100,6 @@
       <model_dependent>false</model_dependent>
       <default_value>24</default_value>
     </argument>
-    <argument>
-      <name>verbose_info_statements</name>
-      <display_name>Check to allow measure to generate verbose runner.registerInfo statements.</display_name>
-      <type>Boolean</type>
-      <required>false</required>
-      <model_dependent>false</model_dependent>
-      <default_value>false</default_value>
-      <choices>
-        <choice>
-          <value>true</value>
-          <display_name>true</display_name>
-        </choice>
-        <choice>
-          <value>false</value>
-          <display_name>false</display_name>
-        </choice>
-      </choices>
-    </argument>
   </arguments>
   <outputs />
   <provenances />
@@ -100,11 +109,6 @@
   <attributes>
     <attribute>
       <name>Intended Software Tool</name>
-      <value>Apply Measure Now</value>
-      <datatype>string</datatype>
-    </attribute>
-    <attribute>
-      <name>Intended Software Tool</name>
       <value>OpenStudio Application</value>
       <datatype>string</datatype>
     </attribute>
@@ -116,36 +120,11 @@
     <attribute>
       <name>Intended Software Tool</name>
       <value>Analysis Spreadsheet</value>
-      <datatype>string</datatype>
-    </attribute>
-    <attribute>
-      <name>Intended Use Case</name>
-      <value>Model Articulation</value>
-      <datatype>string</datatype>
-    </attribute>
-    <attribute>
-      <name>Intended Use Case</name>
-      <value>Calibration</value>
-      <datatype>string</datatype>
-    </attribute>
-    <attribute>
-      <name>Intended Use Case</name>
-      <value>Sensitivity Analysis</value>
-      <datatype>string</datatype>
-    </attribute>
-    <attribute>
-      <name>Intended Use Case</name>
-      <value>New Construction EE</value>
-      <datatype>string</datatype>
-    </attribute>
-    <attribute>
-      <name>Intended Use Case</name>
-      <value>Retrofit EE</value>
       <datatype>string</datatype>
     </attribute>
     <attribute>
       <name>Measure Type</name>
-      <value>ModelMeasure</value>
+      <value>EnergyPlusMeasure</value>
       <datatype>string</datatype>
     </attribute>
     <attribute>
@@ -181,36 +160,38 @@
     <attribute>
       <name>Intended Use Case</name>
       <value>Sensitivity Analysis</value>
-      <datatype>string</datatype>
-    </attribute>
-    <attribute>
-      <name>Intended Use Case</name>
-      <value>New Construction EE</value>
-      <datatype>string</datatype>
-    </attribute>
-    <attribute>
-      <name>Intended Use Case</name>
-      <value>Retrofit EE</value>
       <datatype>string</datatype>
     </attribute>
   </attributes>
   <files>
     <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>389D85DA</checksum>
+    </file>
+    <file>
+      <filename>misc_eplus_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>8AC7DFDC</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
-        <identifier>2.4.0</identifier>
-        <min_compatible>2.4.0</min_compatible>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
       </version>
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>627D2177</checksum>
+      <checksum>E4000689</checksum>
     </file>
     <file>
-      <filename>OSM_FaultTesting_v11.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>70A63762</checksum>
+      <filename>ControllerOutdoorAirFlow_D.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>840E2048</checksum>
     </file>
   </files>
 </measure>

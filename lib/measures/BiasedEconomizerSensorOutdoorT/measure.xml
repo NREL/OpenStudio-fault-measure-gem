@@ -127,7 +127,7 @@
       <filename>ControllerOutdoorAirFlow_T.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>FC095BFC</checksum>
+      <checksum>435C6B82</checksum>
     </file>
     <file>
       <version>
@@ -139,6 +139,12 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>697394C7</checksum>
+    </file>
+    <file>
+      <filename>ControllerOutdoorAirFlow_T.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>FC095BFC</checksum>
     </file>
   </files>
 </measure>
