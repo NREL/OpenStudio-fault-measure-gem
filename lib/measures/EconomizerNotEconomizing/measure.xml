@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>economizer_not_economizing</name>
   <uid>b14d6cef-2d71-4ca7-bba8-62b42e7a7a41</uid>
-  <version_id>98faa7ef-a583-43c6-9baa-6f0cf3239d45</version_id>
-  <version_modified>20210416T203905Z</version_modified>
+  <version_id>c9dacb68-9179-4191-92ef-647527a50238</version_id>
+  <version_modified>20210429T220527Z</version_modified>
   <xml_checksum>9E82E94F</xml_checksum>
   <class_name>EconomizerNotEconomizing</class_name>
   <display_name>Economizer Not Economizing</display_name>

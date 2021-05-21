@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_outdoor_rh</name>
   <uid>cb5d34a2-7980-44bb-8a41-1f2cb262fd81</uid>
-  <version_id>9333329d-1b2e-4032-83a1-775782314cc5</version_id>
-  <version_modified>20210430T182326Z</version_modified>
+  <version_id>eb1c550b-7e07-4b75-95db-158f40a5fdf4</version_id>
+  <version_modified>20210430T173016Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorOutdoorRH</class_name>
   <display_name>Biased Economizer Sensor: Outdoor RH</display_name>
@@ -80,7 +80,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>23</default_value>
+      <default_value>24</default_value>
     </argument>
   </arguments>
   <outputs />
@@ -121,7 +121,7 @@
       <filename>misc_eplus_func.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>435C6B82</checksum>
+      <checksum>8AC7DFDC</checksum>
     </file>
     <file>
       <version>
@@ -132,13 +132,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>A2E63E6E</checksum>
+      <checksum>CB49EF9E</checksum>
     </file>
     <file>
       <filename>ControllerOutdoorAirFlow_RH.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>E613A825</checksum>
+      <checksum>167744ED</checksum>
     </file>
   </files>
 </measure>
