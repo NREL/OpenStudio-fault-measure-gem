@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_oat</name>
   <uid>75ad65c1-1f17-4fa3-be05-13a3bb415fbe</uid>
-  <version_id>5f185fe7-231e-46f2-992b-958baf4a059a</version_id>
-  <version_modified>20210429T224336Z</version_modified>
+  <version_id>34a45ef3-0eab-40e3-8495-d4240c8e476a</version_id>
+  <version_modified>20210430T171629Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorOAT</class_name>
   <display_name>Biased Economizer Sensor: Outdoor Temperature</display_name>
@@ -80,7 +80,7 @@
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
-      <default_value>23</default_value>
+      <default_value>24</default_value>
     </argument>
   </arguments>
   <outputs />
@@ -121,13 +121,7 @@
       <filename>misc_eplus_func.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>435C6B82</checksum>
-    </file>
-    <file>
-      <filename>ControllerOutdoorAirFlow_T.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>435C6B82</checksum>
+      <checksum>8AC7DFDC</checksum>
     </file>
     <file>
       <version>
@@ -138,7 +132,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>697394C7</checksum>
+      <checksum>8D9F386E</checksum>
+    </file>
+    <file>
+      <filename>ControllerOutdoorAirFlow_T.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>A359133D</checksum>
     </file>
     <file>
       <filename>ControllerOutdoorAirFlow_T.rb</filename>
