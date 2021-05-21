@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<measure>
+  <schema_version>3.0</schema_version>
+  <name>improperly_sized_equipment</name>
+  <uid>04e28582-d0aa-4bc6-bcb5-ffa3ce6cf3b1</uid>
+  <version_id>4820d73c-135e-419e-8d7c-f8a9c225a863</version_id>
+  <version_modified>20210519T144758Z</version_modified>
+  <xml_checksum>C49A7DAB</xml_checksum>
+  <class_name>ImproperlySizedEquipment</class_name>
+  <display_name>Improperly Sized Equipment</display_name>
+  <description>A possible fault for HVAC equipment is improper sizing at the design stage. This fault is based on a physical model where certain perameter(s) are changed in EnergyPlus to mimic the faulted operation; this sumulated over and undersized equipment by modifying Sizing:Parameters object in EnergyPlus. The fault intensity (F) is defined as the ratio of the improper sizing relative to the corrent sizing.</description>
+  <modeler_description>This measure simuated the effect of improperly sized equipment at design by modifying the Sizing:Parameters object and capacity fields in objects in Energy Plus. One user input is required; ratio of the desired improper size to the original sizing. </modeler_description>
+  <arguments>
+    <argument>
+      <name>equip_choice</name>
+      <display_name>Enter the name of the oversized coil object. If you want to impose the fault on all equipment, select 'Apply to all equipment'</display_name>
+      <type>Choice</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>* ALL Equipment Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Equipment Selected *</value>
+          <display_name>* ALL Equipment Selected *</display_name>
+        </choice>
+      </choices>
+    </argument>
+    <argument>
+      <name>sizing_ratio</name>
+      <display_name>Sizing Multiplier (greater than 0)</display_name>
+      <type>Double</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>1</default_value>
+    </argument>
+    <argument>
+      <name>hard_size</name>
+      <display_name>Hard size model</display_name>
+      <type>Boolean</type>
+      <required>true</required>
+      <model_dependent>false</model_dependent>
+      <default_value>true</default_value>
+      <choices>
+        <choice>
+          <value>true</value>
+          <display_name>true</display_name>
+        </choice>
+        <choice>
+          <value>false</value>
+          <display_name>false</display_name>
+        </choice>
+      </choices>
+    </argument>
+  </arguments>
+  <outputs />
+  <provenances />
+  <tags>
+    <tag>HVAC.Whole System</tag>
+  </tags>
+  <attributes>
+    <attribute>
+      <name>Measure Type</name>
+      <value>ModelMeasure</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Apply Measure Now</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>OpenStudio Application</value>
+      <datatype>string</datatype>
+    </attribute>
+    <attribute>
+      <name>Intended Software Tool</name>
+      <value>Parametric Analysis Tool</value>
+      <datatype>string</datatype>
+    </attribute>
+  </attributes>
+  <files>
+    <file>
+      <filename>LICENSE.md</filename>
+      <filetype>md</filetype>
+      <usage_type>license</usage_type>
+      <checksum>CD7F5672</checksum>
+    </file>
+    <file>
+      <filename>README.md.erb</filename>
+      <filetype>erb</filetype>
+      <usage_type>readmeerb</usage_type>
+      <checksum>703C9964</checksum>
+    </file>
+    <file>
+      <filename>.gitkeep</filename>
+      <filetype>gitkeep</filetype>
+      <usage_type>doc</usage_type>
+      <checksum>00000000</checksum>
+    </file>
+    <file>
+      <filename>example_model.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>E216EAE3</checksum>
+    </file>
+    <file>
+      <filename>improperly_sized_equipment_test.rb~</filename>
+      <filetype>rb~</filetype>
+      <usage_type>test</usage_type>
+      <checksum>38E12197</checksum>
+    </file>
+    <file>
+      <filename>improperly_sized_equipment_test.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>test</usage_type>
+      <checksum>3A71AFE5</checksum>
+    </file>
+    <file>
+      <filename>example_prototype.osm</filename>
+      <filetype>osm</filetype>
+      <usage_type>test</usage_type>
+      <checksum>DF1C6538</checksum>
+    </file>
+    <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>92432792</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>3.0.1</identifier>
+        <min_compatible>3.0.1</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>CF33C6DA</checksum>
+    </file>
+    <file>
+      <filename>helpers.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>C44972AC</checksum>
+    </file>
+    <file>
+      <filename>helpers.rb~</filename>
+      <filetype>rb~</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>B75E6579</checksum>
+    </file>
+  </files>
+</measure>
