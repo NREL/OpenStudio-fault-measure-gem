@@ -544,6 +544,9 @@ module OsLib_FDD_hvac
     # hours of building daytime operation, it extends the operation schedule
     # by extended hour
 
+    # If there is only a single value there is no need to apply a setback offset
+    return if times.size == 1
+
     scheduleday.clearValues
     # force the first setpoint of the day and any setpoint in the evening
     # to be the same as the daytime setpoint
