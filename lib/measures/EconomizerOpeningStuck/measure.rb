@@ -25,7 +25,7 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
   end
   
   def modeler_description
-    return "To use this fault measure, user should choose the economizer getting faulted, the schedule of fault prevalence when to impose fault during the simulation and the damper stuck position. If a schedule of fault prevalence is not given, the model will apply the fault to the entire simulation."
+    return "To use this fault measure, user should choose the economizer getting faulted, the schedule of fault incidence when to impose fault during the simulation and the damper stuck position. If a schedule of fault incidence is not given, the model will apply the fault to the entire simulation."
   end
   
   #define the arguments that the user will input
@@ -54,22 +54,22 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
     args << schedule_exist
     
     #choice of schedules for the presence of fault. 0 for no fault and other numbers means fault 
-	schedulerulesets = model.getScheduleRulesets
+    schedulerulesets = model.getScheduleRulesets
     sch = OpenStudio::StringVector.new
-	sch << 'Always On Discrete'
+    sch << 'Always On Discrete'
     schedulerulesets.each do |scheduleruleset|
       sch << scheduleruleset.name.to_s
     end
     sch_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument('sch_choice', sch, true)
     sch_choice.setDisplayName("Choice of fault presence schedule:") 
     sch_choice.setDefaultValue('Always On Discrete')
-	args << sch_choice
+    args << sch_choice
 	
     #make a double argument for the damper position
     #it should range between 0 and 1. 0 means completely closed damper
     #and 1 means fully opened damper
     damper_pos = OpenStudio::Ruleset::OSArgument::makeDoubleArgument('damper_pos', false)
-    damper_pos.setDisplayName('The position of damper indicated between 0 and 1. If it is -1 and a schedule of fault prevalence is not given, the fault model will not be imposed to the building simulation without warning.')
+    damper_pos.setDisplayName('The position of damper indicated between 0 and 1. If it is -1 and a schedule of fault incidence is not given, the fault model will not be imposed to the building simulation without warning.')
     damper_pos.setDefaultValue(0.5)  #default position 50% open
     args << damper_pos
 	
@@ -101,7 +101,7 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
     
     if schedule_exist || (damper_pos >= 0 && damper_pos <= 1) # only continue if the user is running the module
     
-      runner.registerInitialCondition("Fixing #{econ_choice} damper position to #{damper_pos}")
+      runner.registerInitialCondition("Fixing #{econ_choice} damper position to #{(damper_pos*100).round()}% open")
       
       # need a set of code to check schedule names in the future
       
@@ -109,6 +109,8 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
       controlleroutdoorairs = model.getControllerOutdoorAirs
       controlleroutdoorairs.each do |controlleroutdoorair|
         if controlleroutdoorair.name.to_s.eql?(econ_choice) || econ_choice.eql?($allchoices)
+
+          runner.registerInfo("Modifying the economizer called #{controlleroutdoorair.name.to_s}")
         
           #check control algorithm. If the algorithm is NoEconomizer, exit without change
           controltype = controlleroutdoorair.getEconomizerControlType
@@ -144,7 +146,8 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
             schedulerulesets = model.getScheduleRulesets
             schedulerulesets.each do |scheduleruleset|
               if scheduleruleset.name.to_s.eql?(sch_choice)
-                
+                runner.registerInfo("Fault incidence schedule applied with a schedule name called #{scheduleruleset.name.to_s}")
+
                 #create regular day schedule
                 faultscheduledayschedule = faultschedule.defaultDaySchedule
                 faultscheduledayschedule.clearValues
@@ -259,6 +262,7 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
               end
             end
           else
+            runner.registerInfo("No fault incidence scheduel is defined. Applying fault across the entire simulation period.")
             #create a schedule that the economizer is fixed at the damper_pos for the entire simulation
             #period
             faultschedule = OpenStudio::Model::ScheduleRuleset.new(model)
@@ -276,7 +280,7 @@ class EconomizerOpeningStuck < OpenStudio::Ruleset::ModelUserScript
         end
 
         #ending
-        runner.registerFinalCondition("Damper position at #{econ_choice} is fixed at #{damper_pos}")
+        runner.registerFinalCondition("Damper position at #{econ_choice} is fixed at #{(damper_pos*100).round()}% open")
       end
     else
       runner.registerAsNotApplicable("#{name} is not running for #{econ_choice}. Skipping......")
