@@ -1,14 +1,7 @@
 # This ruby script creates EnergyPlus Objects to simulate refrigerant-side faults
 # faults in Chiller:Electric:EIR object
 
-# require_relative 'misc_func'
-
-def pass_string(object, index = 0)
-  # This function passes the string marked by index in the object
-  # If no index is given, default returning the first string
-
-  return object.getString(index).to_s
-end
+require_relative 'misc_func'
 
 def no_fault_schedules(workspace, scheduletypelimitname, string_objects)
   # This function creates constant schedules at zero and one throughout the year
@@ -55,7 +48,7 @@ def val_check(name)
   return '0'
 end
 
-def main_program_entry(workspace, string_objects, chiller_choice, curve_name, para, model_name, fault_type)
+def main_program_entry(runner, workspace, string_objects, sh_chiller_choice, curve_name, para, model_name, fault_type)
   # define function to write EMS main program to alter the temperature curve
   #
   # This function writes an E+ object that embed the temperature modulation
@@ -67,7 +60,7 @@ def main_program_entry(workspace, string_objects, chiller_choice, curve_name, pa
   # will be added to the E+ model at the end of the run function in the Measure script calling
   # this function
   #
-  # chiller_choice is a string that is the name of the Chiller:Electric:EIR object
+  # sh_chiller_choice is shortened string that is the name of the Chiller:Electric:EIR object
   # to be faulted
   #
   # curve_name is a string that contains the name of an Curve:Biquadratic object
@@ -79,12 +72,11 @@ def main_program_entry(workspace, string_objects, chiller_choice, curve_name, pa
   # EIR for energy-input-ratio, etc.
   #
   # only write EMS program of the new curve if the program does not exist
-  sh_chiller_choice = name_cut(chiller_choice)
 
   if need_emswriteprogramcurve(workspace, sh_chiller_choice, model_name)
     string_objects << "
       EnergyManagementSystem:Program,
-        ChillerElectricEIRATEDegrade#{sh_chiller_choice}#{model_name}, !- Name
+        Chiller_#{sh_chiller_choice}#{model_name}, !- Name
         SET CoTmp = CondInlet#{sh_chiller_choice}_#{fault_type}, !- Program Line 1
         SET EvTmp = EvapOutlet#{sh_chiller_choice}_#{fault_type},   !- Program Line 2
         SET IVOne = EvTmp,       !- <none>
@@ -131,14 +123,13 @@ def need_emswriteprogramcurve(workspace, sh_chiller_choice, model_name)
   # check if the main emsprogram for curves is needed
   emsprograms = workspace.getObjectsByType('EnergyManagementSystem:Program'.to_IddObjectType)
   emsprograms.each do |emsprogram|
-    return false if pass_string(emsprogram, 0).eql?("ChillerElectricEIRATEDegrade#{sh_chiller_choice}#{model_name}")
+    return false if pass_string(emsprogram, 0).eql?("Chiller_#{sh_chiller_choice}#{model_name}")
   end
   return true
 end
 
-def dummy_fault_prog_add(workspace, string_objects, fault_type = 'CA', chiller_choice, model_name)
+def dummy_fault_prog_add(runner, workspace, string_objects, fault_type = 'CA', sh_chiller_choice, model_name)
   # This function adds any dummy subroutine that does nothing. It's used when the fault is not modeled
-  sh_chiller_choice = name_cut(chiller_choice)
 
   unless check_emswriteprogram_exist(workspace, sh_chiller_choice, model_name, fault_type)
     string_objects << "
@@ -170,10 +161,12 @@ def check_emswriteprogram_exist(workspace, sh_chiller_choice, model_name, fault_
   return false
 end
 
-def fault_level_sensor_sch_insert(workspace, string_objects, fault_type = 'CA', chiller_choice, sch_choice)
+def fault_level_sensor_sch_insert(runner, workspace, string_objects, fault_type = 'CA', sh_chiller_choice, sch_choice)
   # This function appends an EMS sensor to direct the fault level schedule to the EMS program.
   # If an arbitrary schedule exists before insertion, remove the old one and apply the new one.
-  sch_obj_name = "#{fault_type}FaultDegrade#{name_cut(chiller_choice)}"
+
+  sch_obj_name = "#{fault_type}FaultDegrade#{sh_chiller_choice}"
+  runner.registerInfo("in fault_level_sensor_sch_insert method: sch_obj_name = '#{sch_obj_name}'")
 
   ems_sensors = workspace.getObjectsByType('EnergyManagementSystem:Sensor'.to_IddObjectType)
   ems_sensors.each do |ems_sensor|
@@ -192,7 +185,7 @@ def fault_level_sensor_sch_insert(workspace, string_objects, fault_type = 'CA', 
   return string_objects
 end
 
-def fault_adjust_function(workspace, string_objects, fault_type, chillerelectriceir, model_name, para)
+def fault_adjust_function(runner, workspace, string_objects, fault_type, chillerelectriceir, model_name, para)
   # This function creates an Energy Management System Subroutine that calculates the adjustment factor
   # for power consumption of Chiller:Electric:EIR system that has refrigerant level different
   # from manufacturer recommendation
@@ -207,7 +200,12 @@ def fault_adjust_function(workspace, string_objects, fault_type, chillerelectric
   # to be fautled
   #
   # para is an array containing the coefficients for the fault model
-  sh_chiller_choice = name_cut(pass_string(chillerelectriceir, 0))
+  sh_chiller_choice = name_cut(replace_common_strings(pass_string(chillerelectriceir, 0)))
+  if is_number?(sh_chiller_choice[0])
+    runner.registerInfo("variable '#{sh_chiller_choice}' starts with number which is not compatible with EMS")
+    sh_chiller_choice = "a"+sh_chiller_choice
+    runner.registerInfo("variable replaced to '#{sh_chiller_choice}'")
+  end
 
   string_objects << "
     EnergyManagementSystem:Program,
