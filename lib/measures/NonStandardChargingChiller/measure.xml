@@ -3,13 +3,13 @@
   <schema_version>3.0</schema_version>
   <name>nonstandard_charging_chiller</name>
   <uid>292efd1d-9f8a-4f72-aaa1-888baecda61d</uid>
-  <version_id>fad84adb-bbcb-4e6e-add8-e6b64354c270</version_id>
-  <version_modified>20210610T161358Z</version_modified>
+  <version_id>e5527e39-7bc7-4ef5-962a-02716cfdbeed</version_id>
+  <version_modified>20210610T175243Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>NonstandardChargingChiller</class_name>
   <display_name>Nonstandard Refrigerant Charging in Chiller</display_name>
   <description>Following Cheung and Braun (2016), this Measure simulates the effect of overcharging of water-cooled chillers with shell-and-tube condensers and evaporators to the building performance.</description>
-  <modeler_description>To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur.</modeler_description>
+  <modeler_description>To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur. If the HVAC system is autosized, please run/apply the hardsizing OS measure before this Measure.</modeler_description>
   <arguments>
     <argument>
       <name>chiller_choice</name>
@@ -249,7 +249,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>70A2BF49</checksum>
+      <checksum>4A8A206F</checksum>
     </file>
   </files>
 </measure>

@@ -3,13 +3,13 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fouling_chiller</name>
   <uid>55fb73d6-80a9-4f37-8128-6c63c135e768</uid>
-  <version_id>3382ebd3-49c6-445d-9a34-882efc13c288</version_id>
-  <version_modified>20210610T161358Z</version_modified>
+  <version_id>37a66d65-964a-442f-a3cf-2a64b562d70b</version_id>
+  <version_modified>20210610T175023Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFoulingChiller</class_name>
   <display_name>Condenser Fouling in Chiller</display_name>
   <description>Following Cheung and Braun (2016), this Measure simulates the effect of condenser fouling fault of water-cooled chillers with shell-and-tube condensers and evaporators to the building performance.</description>
-  <modeler_description>To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur.</modeler_description>
+  <modeler_description>To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur. If the HVAC system is autosized, please run/apply the hardsizing OS measure before this Measure.</modeler_description>
   <arguments>
     <argument>
       <name>chiller_choice</name>
@@ -249,7 +249,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>B2E6023E</checksum>
+      <checksum>55E39AEF</checksum>
     </file>
   </files>
 </measure>

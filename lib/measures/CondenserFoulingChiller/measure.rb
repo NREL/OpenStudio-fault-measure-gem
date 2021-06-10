@@ -66,7 +66,7 @@ class CondenserFoulingChiller < OpenStudio::Ruleset::WorkspaceUserScript
     # make a double argument for the fault level
     fault_level = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_level', false)
     fault_level.setDisplayName('Condenser fouling level of the Chiller:Electric:EIR object')
-    fault_level.setDefaultValue(0.2)  # default fault level to be overcharged by 10%
+    fault_level.setDefaultValue(0.2)
     args << fault_level
 
     # fault level limits
@@ -213,7 +213,7 @@ class CondenserFoulingChiller < OpenStudio::Ruleset::WorkspaceUserScript
       # check schedule type limit of the schedule, if it is not bounded higher than 1, reject it
       scheduletypelimits.each do |scheduletypelimit|
         next unless pass_string(scheduletypelimit, 0).eql?(schedule_type_limit)
-        if pass_string(scheduletypelimit, 1).to_f < 1
+        if pass_string(scheduletypelimit, 2).to_f < 1
           runner.registerError("User-defined schedule #{sch_choice} has a ScheduleTypeLimits with lower limit smaller than 1. Exiting......")
           return scheduletypelimits, true
         end
