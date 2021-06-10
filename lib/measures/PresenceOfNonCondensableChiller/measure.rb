@@ -33,7 +33,7 @@ class PresenceOfNoncondensableChiller < OpenStudio::Ruleset::WorkspaceUserScript
 
   # human readable description of workspace approach
   def modeler_description
-    return 'To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur.'
+    return 'To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur. If the HVAC system is autosized, please run/apply the hardsizing OS measure before this Measure.'
   end
 
   # define the arguments that the user will input
