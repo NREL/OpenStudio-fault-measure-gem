@@ -166,7 +166,6 @@ def fault_level_sensor_sch_insert(runner, workspace, string_objects, fault_type 
   # If an arbitrary schedule exists before insertion, remove the old one and apply the new one.
 
   sch_obj_name = "#{fault_type}FaultDegrade#{sh_chiller_choice}"
-  runner.registerInfo("in fault_level_sensor_sch_insert method: sch_obj_name = '#{sch_obj_name}'")
 
   ems_sensors = workspace.getObjectsByType('EnergyManagementSystem:Sensor'.to_IddObjectType)
   ems_sensors.each do |ems_sensor|
@@ -185,7 +184,7 @@ def fault_level_sensor_sch_insert(runner, workspace, string_objects, fault_type 
   return string_objects
 end
 
-def fault_adjust_function(runner, workspace, string_objects, fault_type, chillerelectriceir, model_name, para)
+def fault_adjust_function(runner, workspace, string_objects, fault_type, chillerelectriceir, sh_chiller_choice, model_name, para)
   # This function creates an Energy Management System Subroutine that calculates the adjustment factor
   # for power consumption of Chiller:Electric:EIR system that has refrigerant level different
   # from manufacturer recommendation
@@ -200,12 +199,6 @@ def fault_adjust_function(runner, workspace, string_objects, fault_type, chiller
   # to be fautled
   #
   # para is an array containing the coefficients for the fault model
-  sh_chiller_choice = name_cut(replace_common_strings(pass_string(chillerelectriceir, 0)))
-  if is_number?(sh_chiller_choice[0])
-    runner.registerInfo("variable '#{sh_chiller_choice}' starts with number which is not compatible with EMS")
-    sh_chiller_choice = "a"+sh_chiller_choice
-    runner.registerInfo("variable replaced to '#{sh_chiller_choice}'")
-  end
 
   string_objects << "
     EnergyManagementSystem:Program,
