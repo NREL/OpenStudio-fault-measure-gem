@@ -1,21 +1,29 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
-  <name>ate_cheung_chiller_condenser_fouling</name>
+  <name>condenser_fouling_chiller</name>
   <uid>55fb73d6-80a9-4f37-8128-6c63c135e768</uid>
-  <version_id>43c4e65e-d1cb-4d9c-989d-eba3bc3c691f</version_id>
+  <version_id>5e2170eb-0250-40df-a162-e822d5d61489</version_id>
+  <version_modified>20210610T150544Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
-  <class_name>AteCheungChillerCondenserFouling</class_name>
-  <display_name>Water-cooled chiller with condenser fouling (Cheung and Braun 2016)</display_name>
+  <class_name>CondenserFoulingChiller</class_name>
+  <display_name>Condenser Fouling in Chiller</display_name>
   <description>Following Cheung and Braun (2016), this Measure simulates the effect of condenser fouling fault of water-cooled chillers with shell-and-tube condensers and evaporators to the building performance.</description>
   <modeler_description>To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur.</modeler_description>
   <arguments>
     <argument>
       <name>chiller_choice</name>
-      <display_name>Enter the name of the faulted Chiller:Electric:EIR object</display_name>
-      <type>String</type>
+      <display_name>Select the name of the faulted chiller. If you want to impose the fault on all chillers, select * ALL Chillers Selected *</display_name>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
+      <default_value>* ALL Chillers Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Chillers Selected *</value>
+          <display_name>* ALL Chillers Selected *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>sch_choice</name>
@@ -138,7 +146,8 @@
       <default_value>1</default_value>
     </argument>
   </arguments>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.Cooling</tag>
   </tags>
@@ -217,19 +226,19 @@
       <filename>misc_func.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>571DC50F</checksum>
+      <checksum>F02EE5EA</checksum>
     </file>
     <file>
       <filename>FaultCalculationChillerElectricEIR.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>505FB56A</checksum>
+      <checksum>20958C4F</checksum>
     </file>
     <file>
       <filename>faultcalculationchillerelectriceir.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>505FB56A</checksum>
+      <checksum>20958C4F</checksum>
     </file>
     <file>
       <version>
@@ -240,7 +249,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>85FA266A</checksum>
+      <checksum>8B00EFB4</checksum>
     </file>
   </files>
 </measure>

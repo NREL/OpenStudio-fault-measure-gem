@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>discharge_temperature_offset</name>
   <uid>cde2946f-b41b-4e86-98d8-ff75da58bd9b</uid>
-  <version_id>b6dbc724-1641-4007-8097-c996ca3aeea9</version_id>
-  <version_modified>20210518T202211Z</version_modified>
+  <version_id>5c3090db-744c-4e39-be4f-27b98ac5d474</version_id>
+  <version_modified>20210607T190111Z</version_modified>
   <xml_checksum>84D9637F</xml_checksum>
   <class_name>DischargeTemperatureOffset</class_name>
   <display_name>Discharge Temperature Offset</display_name>
@@ -126,28 +126,10 @@
       <checksum>703C9964</checksum>
     </file>
     <file>
-      <filename>.gitkeep</filename>
-      <filetype>gitkeep</filetype>
-      <usage_type>doc</usage_type>
-      <checksum>00000000</checksum>
-    </file>
-    <file>
       <filename>discharge_temperature_offset_test.rb</filename>
       <filetype>rb</filetype>
       <usage_type>test</usage_type>
       <checksum>7C07B077</checksum>
-    </file>
-    <file>
-      <filename>#evolution.rb#</filename>
-      <filetype>rb#</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>BC9772C0</checksum>
-    </file>
-    <file>
-      <filename>helpers.rb~</filename>
-      <filetype>rb~</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>EDB31A70</checksum>
     </file>
     <file>
       <filename>helpers.rb</filename>
@@ -171,12 +153,6 @@
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
       <checksum>EFB8AC03</checksum>
-    </file>
-    <file>
-      <filename>evolution.rb~</filename>
-      <filetype>rb~</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>6ED7B903</checksum>
     </file>
     <file>
       <filename>evolution.rb</filename>
