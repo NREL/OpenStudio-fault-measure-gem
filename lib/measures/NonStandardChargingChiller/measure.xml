@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>ate_cheung_chiller_overcharge</name>
   <uid>292efd1d-9f8a-4f72-aaa1-888baecda61d</uid>
-  <version_id>00048589-bdc3-4bc8-8125-dc53ae600c7e</version_id>
-  <version_modified>20180313T155919Z</version_modified>
+  <version_id>b2c08ed2-de4b-43b4-9f01-4cd35d9dcb88</version_id>
+  <version_modified>20210610T152146Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>AteCheungChillerOvercharge</class_name>
   <display_name>Water-cooled chiller overcharged (Cheung and Braun 2016)</display_name>
@@ -139,8 +140,8 @@
       <default_value>1</default_value>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.Cooling</tag>
   </tags>
@@ -216,24 +217,6 @@
       <checksum>B4E4E40E</checksum>
     </file>
     <file>
-      <filename>misc_func.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>571DC50F</checksum>
-    </file>
-    <file>
-      <filename>FaultCalculationChillerElectricEIR.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>505FB56A</checksum>
-    </file>
-    <file>
-      <filename>faultcalculationchillerelectriceir.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>505FB56A</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -243,6 +226,24 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>EBD84408</checksum>
+    </file>
+    <file>
+      <filename>misc_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>F02EE5EA</checksum>
+    </file>
+    <file>
+      <filename>FaultCalculationChillerElectricEIR.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>20958C4F</checksum>
+    </file>
+    <file>
+      <filename>faultcalculationchillerelectriceir.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>20958C4F</checksum>
     </file>
   </files>
 </measure>

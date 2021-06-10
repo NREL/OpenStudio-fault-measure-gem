@@ -182,11 +182,19 @@ class CondenserFoulingChiller < OpenStudio::Ruleset::WorkspaceUserScript
     chillerelectriceirs.each do |chillerelectriceir|
       current_coil = pass_string(chillerelectriceir, 0)
       existing_coils << current_coil
-      next unless current_coil.eql?(chiller_choice)
-      no_chiller_changed  = false
-      # create an empty string_objects to be appended into the .idf file
-      add_ems(workspace, runner, user_arguments, chiller_choice, sch_choice, fault_level, scheduletypelimits, chillerelectriceir)
-      break
+
+      if chiller_choice.eql?($all_chiller_selection)
+        runner.registerInfo("all available chillers in the model selected for fault imposing")
+        no_chiller_changed  = false
+        chiller_choice_actual = current_coil
+        add_ems(workspace, runner, user_arguments, chiller_choice_actual, sch_choice, fault_level, scheduletypelimits, chillerelectriceir)
+      elsif current_coil.eql?(chiller_choice)
+        runner.registerInfo("chiller named #{chiller_choice} in the model selected for fault imposing")
+        no_chiller_changed  = false
+        add_ems(workspace, runner, user_arguments, chiller_choice, sch_choice, fault_level, scheduletypelimits, chillerelectriceir)
+        break
+      end
+      
     end
     return no_chiller_changed, existing_coils
   end
@@ -226,11 +234,12 @@ class CondenserFoulingChiller < OpenStudio::Ruleset::WorkspaceUserScript
   def add_ems(workspace, runner, user_arguments, chiller_choice, sch_choice, fault_level, scheduletypelimits, chillerelectriceir)
     # function to add ems code
     sh_chiller_choice = name_cut(replace_common_strings(chiller_choice))
+    runner.registerInfo("in add_ems method: variable '#{chiller_choice}' is shortend to #{sh_chiller_choice} to avoid max character limit in EMS")
     if is_number?(sh_chiller_choice[0])
       runner.registerInfo("in add_ems method: variable '#{sh_chiller_choice}' starts with number which is not compatible with EMS")
       sh_chiller_choice = "a"+sh_chiller_choice
       runner.registerInfo("in add_ems method: variable replaced to '#{sh_chiller_choice}'")
-    end
+    end 
     
     schedule_exist = check_schedule_exist(sch_choice) # to avoid long function input. Regenerate here
 
@@ -306,7 +315,7 @@ class CondenserFoulingChiller < OpenStudio::Ruleset::WorkspaceUserScript
     # function to insert the main body of the ems calculation procedure
 
     # write the EMS programs with the minimum and maximum values of model inputs to ca_q_para and ca_eir_para tio insert them to the programs
-    string_objects = fault_adjust_function(runner, workspace, string_objects, $fault_type, chillerelectriceir, 'power', para_list_return(runner, user_arguments))
+    string_objects = fault_adjust_function(runner, workspace, string_objects, $fault_type, chillerelectriceir, sh_chiller_choice, 'power', para_list_return(runner, user_arguments))
 
     # write dummy programs for other faults, and make sure that it is not current fault
     $other_faults.each do |other_fault|

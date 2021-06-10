@@ -1,8 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>ate_cheung_chiller_non_condensable</name>
   <uid>a802ff90-ede0-47e5-be0a-93b6bf41d6e2</uid>
-  <version_id>f649ca05-f42b-47a3-9cda-119cebf82369</version_id>
+  <version_id>3cde19d9-d91b-49fc-878e-f3c3e26980fd</version_id>
+  <version_modified>20210610T152146Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>AteCheungChillerNonCondensable</class_name>
   <display_name>Water-cooled chiller with noncondensable fault (Cheung and Braun 2016)</display_name>
@@ -138,7 +140,8 @@
       <default_value>1</default_value>
     </argument>
   </arguments>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.Cooling</tag>
   </tags>
@@ -214,24 +217,6 @@
       <checksum>B4E4E40E</checksum>
     </file>
     <file>
-      <filename>misc_func.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>571DC50F</checksum>
-    </file>
-    <file>
-      <filename>FaultCalculationChillerElectricEIR.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>505FB56A</checksum>
-    </file>
-    <file>
-      <filename>faultcalculationchillerelectriceir.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>505FB56A</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -241,6 +226,24 @@
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
       <checksum>860399F0</checksum>
+    </file>
+    <file>
+      <filename>misc_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>F02EE5EA</checksum>
+    </file>
+    <file>
+      <filename>FaultCalculationChillerElectricEIR.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>20958C4F</checksum>
+    </file>
+    <file>
+      <filename>faultcalculationchillerelectriceir.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>20958C4F</checksum>
     </file>
   </files>
 </measure>
