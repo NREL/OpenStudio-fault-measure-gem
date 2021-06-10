@@ -1,23 +1,29 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
-  <name>ate_cheung_chiller_overcharge</name>
+  <name>nonstandard_charging_chiller</name>
   <uid>292efd1d-9f8a-4f72-aaa1-888baecda61d</uid>
-  <version_id>b2c08ed2-de4b-43b4-9f01-4cd35d9dcb88</version_id>
-  <version_modified>20210610T152146Z</version_modified>
+  <version_id>fad84adb-bbcb-4e6e-add8-e6b64354c270</version_id>
+  <version_modified>20210610T161358Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
-  <class_name>AteCheungChillerOvercharge</class_name>
-  <display_name>Water-cooled chiller overcharged (Cheung and Braun 2016)</display_name>
+  <class_name>NonstandardChargingChiller</class_name>
+  <display_name>Nonstandard Refrigerant Charging in Chiller</display_name>
   <description>Following Cheung and Braun (2016), this Measure simulates the effect of overcharging of water-cooled chillers with shell-and-tube condensers and evaporators to the building performance.</description>
   <modeler_description>To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur.</modeler_description>
   <arguments>
     <argument>
       <name>chiller_choice</name>
-      <display_name>Enter the name of the faulted Chiller:Electric:EIR object</display_name>
-      <type>String</type>
+      <display_name>Select the name of the faulted chiller. If you want to impose the fault on all chillers, select * ALL Chillers Selected *</display_name>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
+      <default_value>* ALL Chillers Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Chillers Selected *</value>
+          <display_name>* ALL Chillers Selected *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>sch_choice</name>
@@ -217,17 +223,6 @@
       <checksum>B4E4E40E</checksum>
     </file>
     <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>1.5.0</identifier>
-        <min_compatible>1.5.0</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>EBD84408</checksum>
-    </file>
-    <file>
       <filename>misc_func.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -237,13 +232,24 @@
       <filename>FaultCalculationChillerElectricEIR.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>20958C4F</checksum>
+      <checksum>54A5C2CF</checksum>
     </file>
     <file>
       <filename>faultcalculationchillerelectriceir.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>20958C4F</checksum>
+      <checksum>54A5C2CF</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>70A2BF49</checksum>
     </file>
   </files>
 </measure>

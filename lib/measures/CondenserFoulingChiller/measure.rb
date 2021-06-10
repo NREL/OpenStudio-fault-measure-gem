@@ -234,7 +234,7 @@ class CondenserFoulingChiller < OpenStudio::Ruleset::WorkspaceUserScript
   def add_ems(workspace, runner, user_arguments, chiller_choice, sch_choice, fault_level, scheduletypelimits, chillerelectriceir)
     # function to add ems code
     sh_chiller_choice = name_cut(replace_common_strings(chiller_choice))
-    runner.registerInfo("in add_ems method: variable '#{chiller_choice}' is shortend to #{sh_chiller_choice} to avoid max character limit in EMS")
+    runner.registerInfo("in add_ems method: variable '#{chiller_choice}' is shortend to '#{sh_chiller_choice}' to avoid max character limit in EMS")
     if is_number?(sh_chiller_choice[0])
       runner.registerInfo("in add_ems method: variable '#{sh_chiller_choice}' starts with number which is not compatible with EMS")
       sh_chiller_choice = "a"+sh_chiller_choice

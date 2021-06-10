@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fouling_chiller</name>
   <uid>55fb73d6-80a9-4f37-8128-6c63c135e768</uid>
-  <version_id>a449483e-6641-4dbf-a948-b40df9aefa05</version_id>
-  <version_modified>20210610T153225Z</version_modified>
+  <version_id>3382ebd3-49c6-445d-9a34-882efc13c288</version_id>
+  <version_modified>20210610T161358Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFoulingChiller</class_name>
   <display_name>Condenser Fouling in Chiller</display_name>
@@ -232,13 +232,13 @@
       <filename>FaultCalculationChillerElectricEIR.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>8FA826E4</checksum>
+      <checksum>54A5C2CF</checksum>
     </file>
     <file>
       <filename>faultcalculationchillerelectriceir.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>8FA826E4</checksum>
+      <checksum>54A5C2CF</checksum>
     </file>
     <file>
       <version>
@@ -249,7 +249,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>0BBA8FF7</checksum>
+      <checksum>B2E6023E</checksum>
     </file>
   </files>
 </measure>

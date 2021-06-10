@@ -26,7 +26,7 @@ $all_coil_selection = '* ALL Coil Selected *'
 class NonStandardCharging < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
-    return 'Nonstandard Charging'
+    return 'Nonstandard Refrigerant Charging'
   end
 
   # human readable description

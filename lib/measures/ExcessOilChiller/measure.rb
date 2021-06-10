@@ -17,12 +17,13 @@ require "#{File.dirname(__FILE__)}/resources/misc_func"
 # define number of parameters in the model
 $power_para_num = 6
 $fault_type = 'EO'
+$all_chiller_selection = '* ALL Chillers Selected *'
 
 # start the measure
-class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
+class ExcessOilChiller < OpenStudio::Ruleset::WorkspaceUserScript
   # human readable name
   def name
-    return 'Water-cooled chiller with excess oil (Cheung and Braun 2016)'
+    return 'Excess Oil in Chiller'
   end
 
   # human readable description
@@ -39,10 +40,20 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
   def arguments(workspace)
     args = OpenStudio::Ruleset::OSArgumentVector.new
 
-    # make choice arguments for Coil:Cooling:DX:SingleSpeed
-    chiller_choice = OpenStudio::Ruleset::OSArgument.makeStringArgument('chiller_choice', true)
-    chiller_choice.setDisplayName('Enter the name of the faulted Chiller:Electric:EIR object')
-    chiller_choice.setDefaultValue('')
+    list = OpenStudio::StringVector.new
+    list << $all_chiller_selection
+	  
+    chillerelecs = workspace.getObjectsByType("Chiller:Electric:EIR".to_IddObjectType)
+    chillerelecs.each do |chillerelec|
+      list << chillerelec.name.to_s
+    end
+
+    #TODO: adding more chiller objects
+
+    # make choice arguments for Chiller:Electric:EIR
+    chiller_choice = OpenStudio::Ruleset::OSArgument::makeChoiceArgument("chiller_choice", list, true)
+    chiller_choice.setDisplayName("Select the name of the faulted chiller. If you want to impose the fault on all chillers, select #{$all_chiller_selection}")
+    chiller_choice.setDefaultValue($all_chiller_selection)
     args << chiller_choice
 
     # choice of schedules for the presence of fault. 0 for no fault and other numbers means fault level
@@ -120,7 +131,7 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
       return impose_fault(workspace, runner, user_arguments, chiller_choice, sch_choice, fault_level, schedule_exist)
     end
 
-    runner.registerAsNotApplicable("AteCheungChillerExcessOil is not running for #{chiller_choice}. Skipping......")
+    runner.registerAsNotApplicable("ExcessOilChiller is not running for #{chiller_choice}. Skipping......")
     return true
   end
 
@@ -171,11 +182,19 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
     chillerelectriceirs.each do |chillerelectriceir|
       current_coil = pass_string(chillerelectriceir, 0)
       existing_coils << current_coil
-      next unless current_coil.eql?(chiller_choice)
-      no_chiller_changed  = false
-      # create an empty string_objects to be appended into the .idf file
-      add_ems(workspace, runner, user_arguments, chiller_choice, sch_choice, fault_level, scheduletypelimits, chillerelectriceir)
-      break
+
+      if chiller_choice.eql?($all_chiller_selection)
+        runner.registerInfo("all available chillers in the model selected for fault imposing")
+        no_chiller_changed  = false
+        chiller_choice_actual = current_coil
+        add_ems(workspace, runner, user_arguments, chiller_choice_actual, sch_choice, fault_level, scheduletypelimits, chillerelectriceir)
+      elsif current_coil.eql?(chiller_choice)
+        runner.registerInfo("chiller named #{chiller_choice} in the model selected for fault imposing")
+        no_chiller_changed  = false
+        add_ems(workspace, runner, user_arguments, chiller_choice, sch_choice, fault_level, scheduletypelimits, chillerelectriceir)
+        break
+      end
+      
     end
     return no_chiller_changed, existing_coils
   end
@@ -214,7 +233,14 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
 
   def add_ems(workspace, runner, user_arguments, chiller_choice, sch_choice, fault_level, scheduletypelimits, chillerelectriceir)
     # function to add ems code
-    sh_chiller_choice = name_cut(chiller_choice)
+    sh_chiller_choice = name_cut(replace_common_strings(chiller_choice))
+    runner.registerInfo("in add_ems method: variable '#{chiller_choice}' is shortend to '#{sh_chiller_choice}' to avoid max character limit in EMS")
+    if is_number?(sh_chiller_choice[0])
+      runner.registerInfo("in add_ems method: variable '#{sh_chiller_choice}' starts with number which is not compatible with EMS")
+      sh_chiller_choice = "a"+sh_chiller_choice
+      runner.registerInfo("in add_ems method: variable replaced to '#{sh_chiller_choice}'")
+    end 
+    
     schedule_exist = check_schedule_exist(sch_choice) # to avoid long function input. Regenerate here
 
     # create an empty string_objects to be appended into the .idf file
@@ -223,16 +249,16 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
     # check if the Fractional Schedule Type Limit exists and create it if
     # it doesn't. It's going to be used by the schedule in this script.
     # The schedule name is also updated from here on.
-    string_objects, sch_choice = insert_schedules(workspace, string_objects, schedule_exist, fault_level, scheduletypelimits, sh_chiller_choice, sch_choice)
+    string_objects, sch_choice = insert_schedules(runner, workspace, string_objects, schedule_exist, fault_level, scheduletypelimits, sh_chiller_choice, sch_choice)
 
     # create energyplus management system code to alter the cooling capacity and EIR of the coil object
-    string_objects = insert_curves_and_equations(workspace, runner, user_arguments, string_objects, chiller_choice, chillerelectriceir, sch_choice)
+    string_objects = insert_curves_and_equations(workspace, runner, user_arguments, string_objects, sh_chiller_choice, chillerelectriceir, sch_choice)
 
     # write EMS sensors for schedules of fault levels
-    string_objects = fault_level_sensor_sch_insert(workspace, string_objects, $fault_type, chiller_choice, sch_choice)
+    string_objects = fault_level_sensor_sch_insert(runner, workspace, string_objects, $fault_type, sh_chiller_choice, sch_choice)
 
     # write an EMS program to multiply all multipliers from all faults and the program caller
-    string_objects = insert_multiplier_and_caller(workspace, string_objects, chillerelectriceir, sh_chiller_choice)
+    string_objects = insert_multiplier_and_caller(runner, workspace, string_objects, chillerelectriceir, sh_chiller_choice)
 
     # write variable definition for EMS programs
     # EMS Sensors to the workspace
@@ -247,14 +273,14 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
     clear_redundant_program(workspace, string_objects, sh_chiller_choice)
   end
 
-  def insert_schedules(workspace, string_objects, schedule_exist, fault_level, scheduletypelimits, sh_chiller_choice, sch_choice)
+  def insert_schedules(runner, workspace, string_objects, schedule_exist, fault_level, scheduletypelimits, sh_chiller_choice, sch_choice)
     # check if the Fractional Schedule Type Limit exists and create it if
     # it doesn't. It's going to be used by the schedule in this script.
     scheduletypelimitname, string_objects = check_schedule_print(string_objects, scheduletypelimits, sh_chiller_choice)
 
     # if a schedule does not exist, create a new schedule according to fault_level
     unless schedule_exist
-      sch_choice, string_objects = schedule_creation(string_objects, sh_chiller_choice, fault_level, scheduletypelimitname)
+      sch_choice, string_objects = schedule_creation(runner, string_objects, sh_chiller_choice, fault_level, scheduletypelimitname)
     end
 
     # create schedules with zero and one all the time for zero fault scenarios
@@ -264,48 +290,48 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
     return insert_objects(workspace, string_objects), sch_choice
   end
 
-  def insert_curves_and_equations(workspace, runner, user_arguments, string_objects, chiller_choice, chillerelectriceir, sch_choice)
+  def insert_curves_and_equations(workspace, runner, user_arguments, string_objects, sh_chiller_choice, chillerelectriceir, sch_choice)
     # write the EMS programs for curves
-    string_objects = insert_multi_curves(workspace, string_objects, chillerelectriceir, chiller_choice)
+    string_objects = insert_multi_curves(runner, workspace, string_objects, chillerelectriceir, sh_chiller_choice)
 
     # write the EMS programs with the minimum and maximum values of model inputs to ca_q_para and ca_eir_para tio insert them to the programs
-    string_objects = insert_main_body(workspace, runner, user_arguments, string_objects, chiller_choice, chillerelectriceir)
+    string_objects = insert_main_body(workspace, runner, user_arguments, string_objects, sh_chiller_choice, chillerelectriceir)
 
     return string_objects
   end
 
-  def insert_multi_curves(workspace, string_objects, chillerelectriceir, chiller_choice)
+  def insert_multi_curves(runner, workspace, string_objects, chillerelectriceir, sh_chiller_choice)
     # obtaining the coefficients in the original Q curve
-    string_objects = insert_curves(workspace, string_objects, chillerelectriceir, chiller_choice, 'q', 7)
+    string_objects = insert_curves(runner, workspace, string_objects, chillerelectriceir, sh_chiller_choice, 'q', 7)
 
     # obtaining the coefficients in the original EIR curve
-    string_objects = insert_curves(workspace, string_objects, chillerelectriceir, chiller_choice, 'eir', 8)
+    string_objects = insert_curves(runner, workspace, string_objects, chillerelectriceir, sh_chiller_choice, 'eir', 8)
 
     # original curves rewritten. Insert all of them.
     return insert_objects(workspace, string_objects)
   end
 
-  def insert_main_body(workspace, runner, user_arguments, string_objects, chiller_choice, chillerelectriceir)
+  def insert_main_body(workspace, runner, user_arguments, string_objects, sh_chiller_choice, chillerelectriceir)
     # function to insert the main body of the ems calculation procedure
 
     # write the EMS programs with the minimum and maximum values of model inputs to ca_q_para and ca_eir_para tio insert them to the programs
-    string_objects = fault_adjust_function(workspace, string_objects, $fault_type, chillerelectriceir, 'power', para_list_return(runner, user_arguments))
+    string_objects = fault_adjust_function(runner, workspace, string_objects, $fault_type, chillerelectriceir, sh_chiller_choice, 'power', para_list_return(runner, user_arguments))
 
     # write dummy programs for other faults, and make sure that it is not current fault
     $other_faults.each do |other_fault|
       unless other_fault.eql?($fault_type)
-        string_objects = dummy_fault_prog_add(workspace, string_objects, other_fault, chiller_choice, 'power')
+        string_objects = dummy_fault_prog_add(runner, workspace, string_objects, other_fault, sh_chiller_choice, 'power')
       end
     end
     return string_objects
   end
 
-  def insert_multiplier_and_caller(workspace, string_objects, chillerelectriceir, sh_chiller_choice)
+  def insert_multiplier_and_caller(runner, workspace, string_objects, chillerelectriceir, sh_chiller_choice)
     # write an EMS program to multiply all multipliers from all faults
     string_objects = write_ems_all_multipliers(workspace, string_objects, chillerelectriceir, sh_chiller_choice)
 
     # write the main program caller
-    string_objects = write_ems_program_caller(workspace, string_objects, sh_chiller_choice)
+    string_objects = write_ems_program_caller(runner, workspace, string_objects, sh_chiller_choice)
 
     return string_objects
   end
@@ -347,16 +373,16 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
     return scheduletypelimitname, string_objects
   end
 
-  def insert_curves(workspace, string_objects, chillerelectriceir, chiller_choice, model_name, curve_index)
+  def insert_curves(runner, workspace, string_objects, chillerelectriceir, sh_chiller_choice, model_name, curve_index)
     # insert curve objects written in Erl into string_objects
     curve_name = pass_string(chillerelectriceir, curve_index)
     curvebiquadratics = workspace.getObjectsByType('Curve:Biquadratic'.to_IddObjectType)
     curve_name, para, no_curve = para_biquadratic_limit(curvebiquadratics, curve_name)
-    string_objects = main_program_entry(workspace, string_objects, chiller_choice, curve_name, para, model_name, $fault_type)
+    string_objects = main_program_entry(runner, workspace, string_objects, sh_chiller_choice, curve_name, para, model_name, $fault_type)
     return string_objects
   end
 
-  def schedule_creation(string_objects, sh_chiller_choice, fault_level, scheduletypelimitname)
+  def schedule_creation(runner, string_objects, sh_chiller_choice, fault_level, scheduletypelimitname)
     # set a unique name for the schedule according to the component and the fault
     sch_choice = "#{$fault_type}DegradactionFactor#{sh_chiller_choice}_SCH"
 
@@ -441,14 +467,14 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
     return false
   end
 
-  def write_ems_program_caller(workspace, string_objects, sh_chiller_choice)
+  def write_ems_program_caller(runner, workspace, string_objects, sh_chiller_choice)
     # This function writes an ems program caller to call the programs
     final_line = "
       EnergyManagementSystem:ProgramCallingManager,
-        EMSCallChillerElectricEIRATEDegrade#{sh_chiller_choice}power, !- Name
+        PCM_#{sh_chiller_choice}power, !- Name
         AfterPredictorBeforeHVACManagers, !- EnergyPlus Model Calling Point
-        ChillerElectricEIRATEDegrade#{sh_chiller_choice}q, !- Program Name 1
-        ChillerElectricEIRATEDegrade#{sh_chiller_choice}eir, !- Program Name 2
+        Chiller_#{sh_chiller_choice}q, !-<none>
+        Chiller_#{sh_chiller_choice}eir, !-<none>
     "
     $other_faults.each do |other_fault|
       final_line += "#{other_fault}_ADJUST_#{sh_chiller_choice}_power,"
@@ -462,7 +488,7 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
     # This function checks if an ems program caller is needed
     ems_callers = workspace.getObjectsByType('EnergyManagementSystem:ProgramCallingManager'.to_IddObjectType)
     ems_callers.each do |ems_caller|
-      return true if pass_string(ems_caller, 0).to_s.eql?("EMSCallChillerElectricEIRATEDegrade#{sh_chiller_choice}power")
+      return true if pass_string(ems_caller, 0).to_s.eql?("PCM_#{sh_chiller_choice}power")
     end
     return false
   end
@@ -507,7 +533,7 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
 
   def add_evap_db_in_sensor(workspace, string_objects, chillerelectriceir, sh_chiller_choice)
     # add a sensor of condenser inlet dry-bulb temperature to ems program
-    sensor_name = "EvapInlet#{sh_chiller_choice}Tmp_#{$fault_type}"
+    sensor_name = "EvapInlet#{sh_chiller_choice}_#{$fault_type}"
     ems_sensors = workspace.getObjectsByType('EnergyManagementSystem:GlobalVariable'.to_IddObjectType)
     unless check_name_in_list(sensor_name, ems_sensors)
       string_objects << "
@@ -608,7 +634,7 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
       # remove the associated caller as well
       program_callers = workspace.getObjectsByType('EnergyManagementSystem:ProgramCallingManager'.to_IddObjectType)
       program_callers.each do |program_caller|
-        if pass_string(program_caller, 0).eql?("EMSCallChillerElectricEIRATEDegrade#{sh_chiller_choice}power")
+        if pass_string(program_caller, 0).eql?("PCM_#{sh_chiller_choice}power")
           program_call_remove = program_caller
           program_call_remove.remove
           break
@@ -621,7 +647,7 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
 
   def error_msg_for_not_rtu(runner, chiller_choice, existing_coils)
     # This function returns an error message when the coil in user inputs cannot be found
-    runner.registerError("Measure AteCheungChillerExcessOil cannot find #{chiller_choice}. Exiting......")
+    runner.registerError("Measure ExcessOilChiller cannot find #{chiller_choice}. Exiting......")
     coils_msg = 'Only coils '
     existing_coils.each do |existing_coil|
       coils_msg += ("#{existing_coil}, ")
@@ -633,4 +659,4 @@ class AteCheungChillerExcessOil < OpenStudio::Ruleset::WorkspaceUserScript
 end
 
 # register the measure to be used by the application
-AteCheungChillerExcessOil.new.registerWithApplication
+ExcessOilChiller.new.registerWithApplication

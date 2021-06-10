@@ -1,23 +1,29 @@
 <?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
-  <name>ate_cheung_chiller_excess_oil</name>
+  <name>excess_oil_chiller</name>
   <uid>4847bc7a-3809-49fe-9f41-c304b2215b0d</uid>
-  <version_id>2828c4b5-493b-4b7a-8ff3-a96918e1827f</version_id>
-  <version_modified>20210610T152146Z</version_modified>
+  <version_id>497a8c96-fdfa-4031-9876-abd6c2fdca0b</version_id>
+  <version_modified>20210610T161358Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
-  <class_name>AteCheungChillerExcessOil</class_name>
-  <display_name>Water-cooled chiller with excess oil (Cheung and Braun 2016)</display_name>
+  <class_name>ExcessOilChiller</class_name>
+  <display_name>Excess Oil in Chiller</display_name>
   <description>Following Cheung and Braun (2016), this Measure simulates the effect of excess oil fault of water-cooled chillers with shell-and-tube condensers and evaporators to the building performance.</description>
   <modeler_description>To use this Measure, choose the Chiller:Electric:EIR object to be faulted and a schedule of fault level. Define the fault level as the ratio of the amount of refrigerant inside the object to the charge level recommended by the manufacturer. If the fault level is outside the range of zero and one, an error will occur.</modeler_description>
   <arguments>
     <argument>
       <name>chiller_choice</name>
-      <display_name>Enter the name of the faulted Chiller:Electric:EIR object</display_name>
-      <type>String</type>
+      <display_name>Select the name of the faulted chiller. If you want to impose the fault on all chillers, select * ALL Chillers Selected *</display_name>
+      <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
-      <default_value></default_value>
+      <default_value>* ALL Chillers Selected *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Chillers Selected *</value>
+          <display_name>* ALL Chillers Selected *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>sch_choice</name>
@@ -217,17 +223,6 @@
       <checksum>B4E4E40E</checksum>
     </file>
     <file>
-      <version>
-        <software_program>OpenStudio</software_program>
-        <identifier>1.5.0</identifier>
-        <min_compatible>1.5.0</min_compatible>
-      </version>
-      <filename>measure.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>script</usage_type>
-      <checksum>C1D5BC2A</checksum>
-    </file>
-    <file>
       <filename>misc_func.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
@@ -237,13 +232,24 @@
       <filename>FaultCalculationChillerElectricEIR.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>20958C4F</checksum>
+      <checksum>54A5C2CF</checksum>
     </file>
     <file>
       <filename>faultcalculationchillerelectriceir.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>20958C4F</checksum>
+      <checksum>54A5C2CF</checksum>
+    </file>
+    <file>
+      <version>
+        <software_program>OpenStudio</software_program>
+        <identifier>1.5.0</identifier>
+        <min_compatible>1.5.0</min_compatible>
+      </version>
+      <filename>measure.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>script</usage_type>
+      <checksum>555B1235</checksum>
     </file>
   </files>
 </measure>
