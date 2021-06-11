@@ -20,6 +20,8 @@ Creating a comprehensive library of **OpenStudio fault models**
 
 - [Development of Fault Models for Hybrid Fault Detection and Diagnostics Algorithm](https://www.nrel.gov/docs/fy16osti/65030.pdf)
 
+- [Empirical modeling of the impacts of faults on water-cooled chiller power consumption for use in building simulation programs](https://www.sciencedirect.com/science/article/pii/S1359431116300692)
+
 - [Common Faults and Their Prioritization in Small Commercial Buildings](https://www.nrel.gov/docs/fy18osti/70136.pdf)
 
 - [Commercial Fault Detection and Diagnostics Tools: What They Offer, How They Differ, and What’s Still Needed](https://escholarship.org/uc/item/4j72k57p)
