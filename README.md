@@ -1,32 +1,20 @@
-# Overview of the Repository
+# Overview of the Openstudio Fault Models Gem
 
-Creating a comprehensive library of **OpenStudio fault models** and **automated fault detection and diagnostics (AFDD) algorithms**
+Creating a comprehensive library of **OpenStudio fault models** 
 
-# Fault Model Library
-
-### Features
+## Features
 
 - Physics-based fault impact simulation within the capability of EnergyPlus/OpenStudio
 
 - Fault intensity implementation simulating how severe faults are (e.g., how much portion is fouled in the condenser heat exchanger) and estimating the impact of a fault in different fault intensities.
 
-- Fault evolution implementation simulating evolving/increasing fault intensity (in linear scale) through certain period of time.
+- Fault evolution implementation simulating evolving/increasing fault intensity through certain period of time.
 
-### Future goals
+## Future goals
 
 - what are common/typical faults in different sample spaces (e.g., HVAC system type, building operation type, building location etc.) ?
 
 - how often (e.g., incidence and prevalence) faults occur in different sample spaces (e.g., HVAC system type, building operation type, building location etc.) ?
-
-# Automated Fault Detection and Diagnostics (AFDD) Algorithm Library
-
-### Rule-based algorithms
-
-in-progress
-
-### Model-based algorithms
-
-in-progress
 
 # Past Publications Related to this Work
 
@@ -46,11 +34,9 @@ in-progress
 
 - [Representing Small Commercial Building Faults in EnergyPlus, Part II: Model Validation](https://www.mdpi.com/2075-5309/9/12/239)
 
-# Openstudio Fault Models Gem
+- [Research Challenges and Directions in HVAC Fault Prevalence](https://www.tandfonline.com/doi/full/10.1080/23744731.2021.1898243)
 
-TODO: Add a description of this gem
-
-## Installation
+# Installation
 
 Add this line to your application's Gemfile:
 
@@ -66,7 +52,7 @@ Or install it yourself as:
 
     $ gem install 'openstudio-fault-models'
 
-## Usage
+# Usage
 
 To be filled out later. 
 
