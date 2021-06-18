@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>biased_economizer_sensor_return_rh</name>
   <uid>581a85db-9cee-480f-9e5f-bbf62b217268</uid>
-  <version_id>3de0c27c-55c8-44e9-b776-69ad3b99af0a</version_id>
-  <version_modified>20210429T224337Z</version_modified>
+  <version_id>7c2599cf-5260-4553-a4a7-f189ea096395</version_id>
+  <version_modified>20210607T190111Z</version_modified>
   <xml_checksum>B7427881</xml_checksum>
   <class_name>BiasedEconomizerSensorReturnRH</class_name>
   <display_name>Biased Economizer Sensor: Return RH</display_name>
@@ -132,13 +132,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>3CCECFA4</checksum>
+      <checksum>2EF8444E</checksum>
     </file>
     <file>
       <filename>ControllerOutdoorAirFlow_RH.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>94090194</checksum>
+      <checksum>A6E1108D</checksum>
     </file>
   </files>
 </measure>

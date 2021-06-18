@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_early_termination</name>
   <uid>d6a0f476-5b23-4273-ae00-93e55fa5f917</uid>
-  <version_id>10e5da13-063c-4dbc-8edd-b1576cf0a305</version_id>
-  <version_modified>20200409T145323Z</version_modified>
+  <version_id>16f8f4ef-89b3-4bdc-ab07-341c5ed5737c</version_id>
+  <version_modified>20210607T190113Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorEarlyTermination</class_name>
   <display_name>HVAC Setback Error: Early Termination</display_name>
@@ -217,8 +218,8 @@
       </choices>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.HVAC Controls</tag>
   </tags>
@@ -254,12 +255,6 @@
       <checksum>652BFEE8</checksum>
     </file>
     <file>
-      <filename>fdd_thermostat_hvac.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>14FC22EF</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
@@ -275,6 +270,12 @@
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
       <checksum>F95B3738</checksum>
+    </file>
+    <file>
+      <filename>fdd_thermostat_hvac.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>A62A6460</checksum>
     </file>
   </files>
 </measure>

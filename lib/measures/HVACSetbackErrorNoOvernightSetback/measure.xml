@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>hvac_setback_error_no_overnight_setback</name>
   <uid>c160018f-11b0-44e6-9ac4-65c16d043dfa</uid>
-  <version_id>4348a819-ab74-4831-a404-4ca64df4ac7e</version_id>
-  <version_modified>20200409T145323Z</version_modified>
+  <version_id>6ee152c5-0968-4379-85a6-268ee5a9f485</version_id>
+  <version_modified>20210607T190114Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>HVACSetbackErrorNoOvernightSetback</class_name>
   <display_name>HVAC Setback Error: No Overnight Setback</display_name>
@@ -213,8 +214,8 @@
       </choices>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.HVAC Controls</tag>
   </tags>
@@ -261,16 +262,16 @@
       <checksum>AFC057E7</checksum>
     </file>
     <file>
-      <filename>fdd_thermostat_hvac.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>14FC22EF</checksum>
-    </file>
-    <file>
       <filename>README.md</filename>
       <filetype>md</filetype>
       <usage_type>readme</usage_type>
       <checksum>8638E27E</checksum>
+    </file>
+    <file>
+      <filename>fdd_thermostat_hvac.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>A4CD7928</checksum>
     </file>
   </files>
 </measure>

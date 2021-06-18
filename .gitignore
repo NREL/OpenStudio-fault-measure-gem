@@ -15,6 +15,7 @@
 /lib/measures/.rubocop*
 /lib/measures/staged
 /lib/measures/staged/*
+/lib/measures/HardSizeHvac
 
 # rspec failure tracking
 .rspec_status

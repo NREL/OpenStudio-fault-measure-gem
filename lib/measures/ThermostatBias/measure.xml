@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>thermostat_bias</name>
   <uid>e359373a-ea8b-459d-a4c0-e2e8ae78b840</uid>
-  <version_id>795ce65d-12db-47f0-8c8b-b028ad211fd7</version_id>
-  <version_modified>20201211T211508Z</version_modified>
+  <version_id>a1a02cf2-aa56-42d9-a5ec-9d13db517ed8</version_id>
+  <version_modified>20210607T190114Z</version_modified>
   <xml_checksum>2C877DEB</xml_checksum>
   <class_name>ThermostatBias</class_name>
   <display_name>Thermostat Measurement Bias</display_name>
@@ -211,24 +211,6 @@
       <checksum>B2044F49</checksum>
     </file>
     <file>
-      <filename>ThermostatBias_Test.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>test</usage_type>
-      <checksum>A75599FB</checksum>
-    </file>
-    <file>
-      <filename>temp_2004_lg_hotel_chicago.osm</filename>
-      <filetype>osm</filetype>
-      <usage_type>test</usage_type>
-      <checksum>11A3C4BB</checksum>
-    </file>
-    <file>
-      <filename>faultimplementation_TB.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>4DAE1B03</checksum>
-    </file>
-    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.4.0</identifier>
@@ -244,6 +226,12 @@
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
       <checksum>0F94DD4D</checksum>
+    </file>
+    <file>
+      <filename>faultimplementation_TB.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>1F550A11</checksum>
     </file>
   </files>
 </measure>
