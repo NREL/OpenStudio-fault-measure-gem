@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>presence_of_noncondensable_chiller</name>
   <uid>a802ff90-ede0-47e5-be0a-93b6bf41d6e2</uid>
-  <version_id>bb670619-dc63-43a9-8d41-f72c83fcc81f</version_id>
-  <version_modified>20210610T175243Z</version_modified>
+  <version_id>8d876061-00ea-4389-8d40-88aceff940e2</version_id>
+  <version_modified>20210729T193454Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>PresenceOfNoncondensableChiller</class_name>
   <display_name>Presence Of Noncondensable in Chiller</display_name>
@@ -35,7 +35,7 @@
     </argument>
     <argument>
       <name>fault_level</name>
-      <display_name>Non-condensable fault level level of the Chiller:Electric:EIR object</display_name>
+      <display_name>Ratio of the mass of noncondensable in the refrigerant circuit to the mass of noncondensable that the refrigerant circuit can hold at standard atmospheric pressure.</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
@@ -249,7 +249,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>67212C9D</checksum>
+      <checksum>A65206BD</checksum>
     </file>
   </files>
 </measure>

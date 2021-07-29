@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>nonstandard_charging_chiller</name>
   <uid>292efd1d-9f8a-4f72-aaa1-888baecda61d</uid>
-  <version_id>e5527e39-7bc7-4ef5-962a-02716cfdbeed</version_id>
-  <version_modified>20210610T175243Z</version_modified>
+  <version_id>063a4148-ec0d-4b0e-aecd-a3f845a94c88</version_id>
+  <version_modified>20210729T193454Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>NonstandardChargingChiller</class_name>
   <display_name>Nonstandard Refrigerant Charging in Chiller</display_name>
@@ -35,7 +35,7 @@
     </argument>
     <argument>
       <name>fault_level</name>
-      <display_name>Charge level of the Chiller:Electric:EIR object. This model only simulates overcharged condition so the number should be higher than 1.</display_name>
+      <display_name>Ratio of refrigerant above the manufacturer recommendation. This model only simulates overcharged condition so the number should be higher than 1.</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
@@ -249,7 +249,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>4A8A206F</checksum>
+      <checksum>A2EEBC73</checksum>
     </file>
   </files>
 </measure>

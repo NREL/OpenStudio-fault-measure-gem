@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>condenser_fouling_chiller</name>
   <uid>55fb73d6-80a9-4f37-8128-6c63c135e768</uid>
-  <version_id>37a66d65-964a-442f-a3cf-2a64b562d70b</version_id>
-  <version_modified>20210610T175023Z</version_modified>
+  <version_id>158e81d3-e14e-4620-b7dd-55d388236c95</version_id>
+  <version_modified>20210729T193453Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>CondenserFoulingChiller</class_name>
   <display_name>Condenser Fouling in Chiller</display_name>
@@ -35,7 +35,7 @@
     </argument>
     <argument>
       <name>fault_level</name>
-      <display_name>Condenser fouling level of the Chiller:Electric:EIR object</display_name>
+      <display_name>Ratio of water tubes blocked in the condenser at full load.</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
@@ -249,7 +249,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>55E39AEF</checksum>
+      <checksum>384C8CEF</checksum>
     </file>
   </files>
 </measure>
