@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>supply_air_duct_leakages</name>
   <uid>8d568a70-080d-4f27-97f5-5210ff639652</uid>
-  <version_id>251fc058-8591-49d9-81e8-6079990a320e</version_id>
-  <version_modified>20200409T145325Z</version_modified>
+  <version_id>ac24cc14-1787-4eff-b635-4e19ff83e93f</version_id>
+  <version_modified>20210803T175126Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>SupplyAirDuctLeakages</class_name>
   <display_name>Supply Air Duct Leakages</display_name>
@@ -33,8 +34,8 @@
       <default_value>0.1</default_value>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.Ventilation</tag>
   </tags>
@@ -62,6 +63,12 @@
   </attributes>
   <files>
     <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>14430263</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -70,13 +77,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>2659C336</checksum>
-    </file>
-    <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>14430263</checksum>
+      <checksum>2D5FB409</checksum>
     </file>
   </files>
 </measure>
