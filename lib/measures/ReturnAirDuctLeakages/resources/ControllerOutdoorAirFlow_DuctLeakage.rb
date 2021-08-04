@@ -963,9 +963,6 @@ def econ_ductleakage_ems_other(runner, string_objects, workspace, controlleroutd
     zonelists = workspace.getObjectsByType("ZoneList".to_IddObjectType)
     controllermechventilations.each do |controllermechventilation|
       if controllermechventilation.getString(0).to_s.eql?(controlleroutdoorair.getString(19).to_s)
-
-        runner.registerInfo("DEBUGGING: controllermechventilation.getString(0) = #{controllermechventilation.getString(0).to_s}")
-
         vent_num_zone = (controllermechventilation.numFields-5)/3
         for i in 0..vent_num_zone-1  #for each zone
           outdoorairspecs.each do |outdoorairspec|
@@ -1011,13 +1008,6 @@ def econ_ductleakage_ems_other(runner, string_objects, workspace, controlleroutd
 				        numberpeopleschedule_name = people.getString(2).to_s
 
 			          if people.getString(1).to_s.eql?(zone_name)
-
-                  runner.registerInfo("###############################################################")
-                  runner.registerInfo("DEBUGGING: people.getString(1).to_s.eql?(zone_name) = YES")
-                  runner.registerInfo("DEBUGGING: people.getString(1) = #{people.getString(1).to_s}")
-                  runner.registerInfo("DEBUGGING: zone_name_new = #{zone_name_new}")
-                  runner.registerInfo("DEBUGGING: sensor name = #{zone_name_new}_PEOPLE_#{$faulttype}_#{name_cut(people_name)}")
-
 				          string_objects << "
                     EnergyManagementSystem:Sensor,
                     #{zone_name_new}_PEOPLE_#{$faulttype}_#{name_cut(people_name)}, !- Name
@@ -1033,15 +1023,6 @@ def econ_ductleakage_ems_other(runner, string_objects, workspace, controlleroutd
                           #NOTE: "Zone People Occupant Count" and "People Occupant Count" are different.
                           #NOTE: "Zone People Occupant Count" associated with "Zone" object instead of "People" object.
                           #NOTE: "People Count Design Level" does not work if "ZoneList" is defined instead of "Zone"
-
-                          runner.registerInfo("###############################################################")
-                          runner.registerInfo("DEBUGGING: people.getString(1).to_s.eql?(zone_name) = NO")
-                          runner.registerInfo("DEBUGGING: people.getString(1) = #{people.getString(1).to_s}")
-                          runner.registerInfo("DEBUGGING: zone_name = #{zone_name}")
-                          runner.registerInfo("DEBUGGING: zone_name_new = #{zone_name_new}")
-                          runner.registerInfo("DEBUGGING: sensor name = #{zone_name_new}_PEOPLE_#{$faulttype}_#{name_cut(people_name)}")
-                          runner.registerInfo("DEBUGGING: sensor name = #{zone_name_new}_PEOPLE_SCH_#{$faulttype}_#{name_cut(people_name)}")
-
                           string_objects << "
                             EnergyManagementSystem:Sensor,
                             #{zone_name_new}_PEOPLE_#{$faulttype}_#{name_cut(people_name)}, !- Name

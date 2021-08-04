@@ -160,8 +160,6 @@ class ReturnAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
           #create a new string for the main program to start appending the required
           #EMS routine to it
           oacontrollername = controlleroutdoorair.getString(0).to_s.gsub!(/[^0-9A-Za-z]/, '')
-
-          runner.registerInfo("DEBUGGING: oacontrollername = #{oacontrollername}")
           
           ######################################################################################
           
