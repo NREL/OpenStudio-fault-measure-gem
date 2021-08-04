@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>supply_air_duct_leakages</name>
   <uid>8d568a70-080d-4f27-97f5-5210ff639652</uid>
-  <version_id>251fc058-8591-49d9-81e8-6079990a320e</version_id>
-  <version_modified>20200409T145325Z</version_modified>
+  <version_id>6e1c9d35-6404-4e58-92f0-59d2192603f6</version_id>
+  <version_modified>20210803T190528Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>SupplyAirDuctLeakages</class_name>
   <display_name>Supply Air Duct Leakages</display_name>
@@ -13,7 +14,9 @@
     <argument>
       <name>airterminal_choice</name>
       <display_name>Select the name of the faulted AirTerminal object</display_name>
+      <description></description>
       <type>Choice</type>
+      <units></units>
       <required>true</required>
       <model_dependent>false</model_dependent>
       <default_value>* ALL ADU objects *</default_value>
@@ -23,18 +26,24 @@
           <display_name>* ALL ADU objects *</display_name>
         </choice>
       </choices>
+      <min_value></min_value>
+      <max_value></max_value>
     </argument>
     <argument>
       <name>leak_ratio</name>
       <display_name>Ratio of leak airflow between 0 and 0.3.</display_name>
+      <description></description>
       <type>Double</type>
+      <units></units>
       <required>false</required>
       <model_dependent>false</model_dependent>
       <default_value>0.1</default_value>
+      <min_value></min_value>
+      <max_value></max_value>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.Ventilation</tag>
   </tags>
@@ -62,6 +71,12 @@
   </attributes>
   <files>
     <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>14430263</checksum>
+    </file>
+    <file>
       <version>
         <software_program>OpenStudio</software_program>
         <identifier>1.5.0</identifier>
@@ -72,11 +87,6 @@
       <usage_type>script</usage_type>
       <checksum>2659C336</checksum>
     </file>
-    <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>14430263</checksum>
-    </file>
   </files>
 </measure>
+<error>Unknown OpenStudio Enum Value 'AIRTERMINAL:SINGLEDUCT:UNCONTROLLED' for Enum IddObjectType</error>

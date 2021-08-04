@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>return_air_duct_leakages</name>
   <uid>e28746df-aa8c-4f6e-a2be-6e2ff3c5e7dd</uid>
-  <version_id>4c658e08-a722-4242-8902-95bac87c8205</version_id>
-  <version_modified>20200409T145324Z</version_modified>
+  <version_id>899443d2-7847-4698-b9bc-d04fefaa6af4</version_id>
+  <version_modified>20210804T215537Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>ReturnAirDuctLeakages</class_name>
   <display_name>Return Air Duct Leakages</display_name>
@@ -16,6 +17,13 @@
       <type>Choice</type>
       <required>true</required>
       <model_dependent>false</model_dependent>
+      <default_value>* ALL Controller:OutdoorAir *</default_value>
+      <choices>
+        <choice>
+          <value>* ALL Controller:OutdoorAir *</value>
+          <display_name>* ALL Controller:OutdoorAir *</display_name>
+        </choice>
+      </choices>
     </argument>
     <argument>
       <name>leak_ratio</name>
@@ -82,8 +90,8 @@
       <default_value>23</default_value>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.Ventilation</tag>
   </tags>
@@ -111,16 +119,16 @@
   </attributes>
   <files>
     <file>
+      <filename>README.md</filename>
+      <filetype>md</filetype>
+      <usage_type>readme</usage_type>
+      <checksum>CE3E5A5B</checksum>
+    </file>
+    <file>
       <filename>misc_eplus_func.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>435C6B82</checksum>
-    </file>
-    <file>
-      <filename>ControllerOutdoorAirFlow_DuctLeakage.rb</filename>
-      <filetype>rb</filetype>
-      <usage_type>resource</usage_type>
-      <checksum>540D615D</checksum>
+      <checksum>8348F4A7</checksum>
     </file>
     <file>
       <version>
@@ -131,13 +139,13 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>C26FB0BF</checksum>
+      <checksum>F42A23A0</checksum>
     </file>
     <file>
-      <filename>README.md</filename>
-      <filetype>md</filetype>
-      <usage_type>readme</usage_type>
-      <checksum>CE3E5A5B</checksum>
+      <filename>ControllerOutdoorAirFlow_DuctLeakage.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>65E038B9</checksum>
     </file>
   </files>
 </measure>
