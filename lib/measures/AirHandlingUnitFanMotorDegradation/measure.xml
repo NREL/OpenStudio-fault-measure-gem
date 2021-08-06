@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <measure>
   <schema_version>3.0</schema_version>
   <name>air_handling_unit_fan_motor_degradation</name>
   <uid>9814a5e9-37b7-472a-bae5-e9e2e794c024</uid>
-  <version_id>c4461fbb-fa40-4f6f-b165-0b6dad2249ae</version_id>
-  <version_modified>20190701T224405Z</version_modified>
+  <version_id>92c9207e-648a-430c-a3d7-e8658ce11dd3</version_id>
+  <version_modified>20210806T184302Z</version_modified>
   <xml_checksum>FAAEB4D1</xml_checksum>
   <class_name>AirHandlingUnitFanMotorDegradation</class_name>
   <display_name>Air Handling Unit Fan Motor Degradation</display_name>
@@ -89,8 +90,8 @@
       <default_value>23</default_value>
     </argument>
   </arguments>
-  <outputs/>
-  <provenances/>
+  <outputs />
+  <provenances />
   <tags>
     <tag>HVAC.Ventilation</tag>
   </tags>
@@ -121,7 +122,13 @@
       <filename>dynamicfaultimplementation.rb</filename>
       <filetype>rb</filetype>
       <usage_type>resource</usage_type>
-      <checksum>932A95D8</checksum>
+      <checksum>CCCFC40C</checksum>
+    </file>
+    <file>
+      <filename>misc_eplus_func.rb</filename>
+      <filetype>rb</filetype>
+      <usage_type>resource</usage_type>
+      <checksum>AE0827EC</checksum>
     </file>
     <file>
       <version>
@@ -132,7 +139,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>C907F591</checksum>
+      <checksum>5DACABF8</checksum>
     </file>
   </files>
 </measure>
