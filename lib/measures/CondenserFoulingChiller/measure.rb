@@ -65,7 +65,7 @@ class CondenserFoulingChiller < OpenStudio::Ruleset::WorkspaceUserScript
 
     # make a double argument for the fault level
     fault_level = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_level', false)
-    fault_level.setDisplayName('Condenser fouling level of the Chiller:Electric:EIR object')
+    fault_level.setDisplayName('Ratio of water tubes blocked in the condenser at full load.')
     fault_level.setDefaultValue(0.2)
     args << fault_level
 

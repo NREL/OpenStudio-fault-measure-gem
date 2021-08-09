@@ -65,7 +65,7 @@ class NonstandardChargingChiller < OpenStudio::Ruleset::WorkspaceUserScript
 
     # make a double argument for the fault level
     fault_level = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_level', false)
-    fault_level.setDisplayName('Charge level of the Chiller:Electric:EIR object. This model only simulates overcharged condition so the number should be higher than 1.')
+    fault_level.setDisplayName('Ratio of refrigerant above the manufacturer recommendation. This model only simulates overcharged condition so the number should be higher than 1.')
     fault_level.setDefaultValue(1.1)  # default fault level to be overcharged by 10%
     args << fault_level
 

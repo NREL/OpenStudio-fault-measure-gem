@@ -65,7 +65,7 @@ class PresenceOfNoncondensableChiller < OpenStudio::Ruleset::WorkspaceUserScript
 
     # make a double argument for the fault level
     fault_level = OpenStudio::Ruleset::OSArgument.makeDoubleArgument('fault_level', false)
-    fault_level.setDisplayName('Non-condensable fault level level of the Chiller:Electric:EIR object')
+    fault_level.setDisplayName('Ratio of the mass of noncondensable in the refrigerant circuit to the mass of noncondensable that the refrigerant circuit can hold at standard atmospheric pressure.')
     fault_level.setDefaultValue(0.03)
     args << fault_level
 

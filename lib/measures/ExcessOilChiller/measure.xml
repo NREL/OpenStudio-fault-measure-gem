@@ -3,8 +3,8 @@
   <schema_version>3.0</schema_version>
   <name>excess_oil_chiller</name>
   <uid>4847bc7a-3809-49fe-9f41-c304b2215b0d</uid>
-  <version_id>cf663cdd-4b27-48eb-bac0-9330ccd27c1c</version_id>
-  <version_modified>20210610T175243Z</version_modified>
+  <version_id>e03a3ca0-f5b7-4274-8f7d-d3cdd05f8618</version_id>
+  <version_modified>20210729T193453Z</version_modified>
   <xml_checksum>CBC45526</xml_checksum>
   <class_name>ExcessOilChiller</class_name>
   <display_name>Excess Oil in Chiller</display_name>
@@ -35,7 +35,7 @@
     </argument>
     <argument>
       <name>fault_level</name>
-      <display_name>Excess oil level of the Chiller:Electric:EIR object</display_name>
+      <display_name>Ratio of the mass of oil in the chiller above the manufacturer recommendation.</display_name>
       <type>Double</type>
       <required>false</required>
       <model_dependent>false</model_dependent>
@@ -249,7 +249,7 @@
       <filename>measure.rb</filename>
       <filetype>rb</filetype>
       <usage_type>script</usage_type>
-      <checksum>4CB2B795</checksum>
+      <checksum>C2AD98FF</checksum>
     </file>
   </files>
 </measure>
