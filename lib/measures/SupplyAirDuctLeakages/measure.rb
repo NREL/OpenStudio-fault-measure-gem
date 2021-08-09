@@ -31,11 +31,7 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     args = OpenStudio::Ruleset::OSArgumentVector.new
 
     list = OpenStudio::StringVector.new
-	list << $allchoices
-    atsdus = workspace.getObjectsByType("AirTerminal:SingleDuct:Uncontrolled".to_IddObjectType)
-    atsdus.each do |atsdu|
-      list << atsdu.name.to_s
-    end
+	  list << $allchoices
     atddcvs = workspace.getObjectsByType("AirTerminal:DualDuct:ConstantVolume".to_IddObjectType)
     atddcvs.each do |atddcv|
       list << atddcv.name.to_s
@@ -44,45 +40,49 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
     atddvavs.each do |atddvav|
       list << atddvav.name.to_s
     end
-	atddvavoas = workspace.getObjectsByType("AirTerminal:DualDuct:VAV:OutdoorAir".to_IddObjectType)
+	  atddvavoas = workspace.getObjectsByType("AirTerminal:DualDuct:VAV:OutdoorAir".to_IddObjectType)
     atddvavoas.each do |atddvavoa|
       list << atddvavoa.name.to_s
     end
-	atsdcvrs = workspace.getObjectsByType("AirTerminal:SingleDuct:ConstantVolume:Reheat".to_IddObjectType)
+	  atsdcvrs = workspace.getObjectsByType("AirTerminal:SingleDuct:ConstantVolume:Reheat".to_IddObjectType)
     atsdcvrs.each do |atsdcvr|
       list << atsdcvr.name.to_s
     end
-	atsdvavrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:Reheat".to_IddObjectType)
+	  atsdvavrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:Reheat".to_IddObjectType)
     atsdvavrs.each do |atsdvavr|
       list << atsdvavr.name.to_s
     end
-	atsdvavnrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:NoReheat".to_IddObjectType)
+	  atsdvavnrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:NoReheat".to_IddObjectType)
     atsdvavnrs.each do |atsdvavnr|
       list << atsdvavnr.name.to_s
     end
-	atsdspiurs = workspace.getObjectsByType("AirTerminal:SingleDuct:SeriesPIU:Reheat".to_IddObjectType)
+	  atsdspiurs = workspace.getObjectsByType("AirTerminal:SingleDuct:SeriesPIU:Reheat".to_IddObjectType)
     atsdspiurs.each do |atsdspiur|
       list << atsdspiur.name.to_s
     end
-	atsdppiurs = workspace.getObjectsByType("AirTerminal:SingleDuct:ParallelPIU:Reheat".to_IddObjectType)
+	  atsdppiurs = workspace.getObjectsByType("AirTerminal:SingleDuct:ParallelPIU:Reheat".to_IddObjectType)
     atsdppiurs.each do |atsdppiur|
       list << atsdppiur.name.to_s
     end
-	atsdcvfpis = workspace.getObjectsByType("AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction".to_IddObjectType)
+	  atsdcvfpis = workspace.getObjectsByType("AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction".to_IddObjectType)
     atsdcvfpis.each do |atsdcvfpi|
       list << atsdcvfpi.name.to_s
     end
-	atsdvavrvsfs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:Reheat:VariableSpeedFan".to_IddObjectType)
+	  atsdvavrvsfs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:Reheat:VariableSpeedFan".to_IddObjectType)
     atsdvavrvsfs.each do |atsdvavrvsf|
       list << atsdvavrvsf.name.to_s
     end
-	atsdvavhacrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat".to_IddObjectType)
+	  atsdvavhacrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat".to_IddObjectType)
     atsdvavhacrs.each do |atsdvavhacr|
       list << atsdvavhacr.name.to_s
     end
-	atsdvavhacnrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:HeatAndCool:NoReheat".to_IddObjectType)
+	  atsdvavhacnrs = workspace.getObjectsByType("AirTerminal:SingleDuct:VAV:HeatAndCool:NoReheat".to_IddObjectType)
     atsdvavhacnrs.each do |atsdvavhacnr|
       list << atsdvavhacnr.name.to_s
+    end
+    atsdcvnrs = workspace.getObjectsByType("AirTerminal:SingleDuct:ConstantVolume:NoReheat".to_IddObjectType)
+    atsdcvnrs.each do |atsdcvnr|
+      list << atsdcvnr.name.to_s
     end
 		
     # make choice arguments for fan
@@ -128,117 +128,6 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       # prepare objects to add
       string_objects = []
 
-      # if the AirTerminal object type is AirTerminal:SingleDuct:Uncontrolled, replace it with AirTerminal:SingleDuct:ConstantVolume:Reheat to add the ZoneHVAC:AirDistributionUnit object that is required to impose the leak model. Append the new objects to the model before process it with the fault
-      airterminals = workspace.getObjectsByType('AirTerminal:SingleDuct:Uncontrolled'.to_IddObjectType)
-      airterminals.each do |airterminal|
-        if airterminal.getString(0).to_s.eql?(airterminal_choice)
-          # start replacement
-          # get the parameters from the original AirTerminal object
-          schedule_name = airterminal.getString(1).to_s
-          supply_node = airterminal.getString(2).to_s
-          defaultflow = airterminal.getString(3).to_s  # can be "Autosize" so leave it as string
-          # change the equipment list object type and names under AirTerminal:SingleDuct:Uncontrolled
-          newaduname = "ADU #{sh_airterminal_choice}"
-          
-          # change the AirLoopHVAC:ZoneSplitter object with new node name
-          newnodename = "NodeIn#{sh_airterminal_choice}"  # name of node between the new terminal and the ZoneSplitter object
-          zonesplitterchange = false
-          zonesplitters = workspace.getObjectsByType('AirLoopHVAC:ZoneSplitter'.to_IddObjectType)
-          zonesplitters.each do |zonesplitter|
-            zonesplitterfields = zonesplitter.numFields
-            (1..(zonesplitterfields - 1)).each do |ind|
-              if zonesplitter.getString(ind).to_s.eql?(supply_node)
-                zonesplitter.setString(ind, newnodename)
-                zonesplitterchange = true
-                break
-              end
-            end
-            if zonesplitterchange
-              break
-            end
-          end
-          unless zonesplitterchange
-            runner.registerError("Measure SupplyAirDuctLeakages cannot find the AirLoopHVAC:ZoneSplitter that contains #{airterminal_choice}. Exiting......")
-            return false
-          end
-          # create new AirTerminal:SingleDuct:ConstantVolume:Reheat, Coil:Heating:Electric and ZoneHVAC:AirDistributionUnit objects
-          newcoilname = "ElecHeatCoil#{sh_airterminal_choice}"
-          string_objects << "
-            Coil:Heating:Electric,
-              #{newcoilname},                         !- Name
-              #{schedule_name},                       !- Availability Schedule Name
-              1,                                      !- Efficiency
-              0,                                      !- Nominal Capacity {W}
-              #{newnodename},                          !- Air Inlet Node Name
-              #{supply_node};                        !- Air Outlet Node Name
-          "  # zero capacity to avoid adding reheat
-          string_objects << "
-            AirTerminal:SingleDuct:ConstantVolume:Reheat,
-              #{airterminal_choice},                  !- Name
-              #{schedule_name},                       !- Availability Schedule Name
-              #{supply_node},                         !- Air Outlet Node Name
-              #{newnodename},                         !- Air Inlet Node Name
-              #{defaultflow},                         !- Maximum Air Flow Rate {m3/s}
-              Coil:Heating:Electric,                  !- Reheat Coil Object Type
-              #{newcoilname},                         !- Reheat Coil Name
-              Autosize,                               !- Maximum Hot Water or Steam Flow Rate {m3/s}
-              0,                                      !- Minimum Hot Water or Steam Flow Rate {m3/s}
-              0.001,                                  !- Convergence Tolerance
-              35;                                     !- Maximum Reheat Air Temperature {C}
-          "  # same configuration as AirTerminal:SingleDuct:Uncontrolled object to replace the object without changing performance
-          string_objects << "
-            ZoneHVAC:AirDistributionUnit,
-              #{newaduname},                          !- Name
-              #{supply_node},                         !- Air Distribution Unit Outlet Node Name
-              AirTerminal:SingleDuct:ConstantVolume:Reheat, !- Air Terminal Object Type
-              #{airterminal_choice};                  !- Air Terminal Name
-          "
-          # add new objects
-          string_objects.each do |string_object|
-            idfobject = OpenStudio::IdfObject::load(string_object)
-            object = idfobject.get
-            wsobject = workspace.addObject(object)
-            unless wsobject
-              runner.registerError("#{string_object} inserted unsuccessfully. Exiting......")
-              return false
-            end
-          end          
-        end
-      end
-      
-      airterminals.each do |airterminal|
-        if airterminal.getString(0).to_s.eql?(airterminal_choice)
-      
-          # change the equipment list object type and names under AirTerminal:SingleDuct:Uncontrolled
-          newaduname = "ADU #{sh_airterminal_choice}"
-                   
-          equiplistchange = false
-          equiplists = workspace.getObjectsByType('ZoneHVAC:EquipmentList'.to_IddObjectType)
-          equiplists.each do |equiplist|
-            equiplistfields = equiplist.numFields
-            (1..(equiplistfields - 1)).each do |ind|
-              if equiplist.getString(ind).to_s.eql?(airterminal_choice)
-                equiplist.setString(ind, newaduname)
-                equiplist.setString(ind - 1, 'ZoneHVAC:AirDistributionUnit')
-                equiplistchange = true
-                break
-              end
-            end
-            if equiplistchange
-              break
-            end
-          end
-          unless equiplistchange
-            runner.registerError("Measure SupplyAirDuctLeakages cannot find the ZoneHVAC:EquipmentList that contains #{airterminal_choice}. Exiting......")
-            return false
-          end
-          string_objects = []
-          # remove the AirTerminal:SingleDuct:Uncontrolled object
-          airterminal.remove
-          break
-        end
-      end
-
       # find the AirTerminal object to change
       airterminal_changed = false
       adu_changed = false
@@ -247,12 +136,12 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
       field_num = 0
       existing_airterminals = []
       airterminaltypes = [
-        'AirTerminal:DualDuct:ConstantVolume', 'AirTerminal:DualDuct:VAV', 'AirTerminal:DualDuct:VAV:OutdoorAir', 'AirTerminal:SingleDuct:ConstantVolume:Reheat', 'AirTerminal:SingleDuct:VAV:Reheat', 'AirTerminal:SingleDuct:VAV:NoReheat', 'AirTerminal:SingleDuct:SeriesPIU:Reheat', 'AirTerminal:SingleDuct:ParallelPIU:Reheat', 'AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction',  'AirTerminal:SingleDuct:VAV:Reheat:VariableSpeedFan', 'AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat', 'AirTerminal:SingleDuct:VAV:HeatAndCool:NoReheat'
-      ] # AirTerminal:SingleDuct:Uncontrolled requires insertion of of ZoneHVAC:AirDistributionUnit. Do it later.
+        'AirTerminal:DualDuct:ConstantVolume', 'AirTerminal:DualDuct:VAV', 'AirTerminal:DualDuct:VAV:OutdoorAir', 'AirTerminal:SingleDuct:ConstantVolume:Reheat', 'AirTerminal:SingleDuct:VAV:Reheat', 'AirTerminal:SingleDuct:VAV:NoReheat', 'AirTerminal:SingleDuct:SeriesPIU:Reheat', 'AirTerminal:SingleDuct:ParallelPIU:Reheat', 'AirTerminal:SingleDuct:ConstantVolume:FourPipeInduction',  'AirTerminal:SingleDuct:VAV:Reheat:VariableSpeedFan', 'AirTerminal:SingleDuct:VAV:HeatAndCool:Reheat', 'AirTerminal:SingleDuct:VAV:HeatAndCool:NoReheat', 'AirTerminal:SingleDuct:ConstantVolume:NoReheat'
+      ] 
 	  
-	  if airterminal_choice.eql?($allchoices)
+	    if airterminal_choice.eql?($allchoices)
 	  	
-	    # get all thermal zones in the starting model
+	      # get all thermal zones in the starting model
         adus = workspace.getObjectsByType("ZoneHVAC:AirDistributionUnit".to_IddObjectType)
 
         # reporting initial condition of model
@@ -261,12 +150,12 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
         # set upstream and downstream
         adus.each do |adu|
           runner.registerInfo("Setting duct leakge for #{adu.getString(0)}")
-		  ori_leak_ratio = adu.getDouble(5)
+		      ori_leak_ratio = adu.getDouble(5)
           field_num = adu.numFields
           if ori_leak_ratio
-			leak_ratio = ori_leak_ratio.to_f + (1-ori_leak_ratio.to_f)*leak_ratio  # if the AirTerminal is leakage in the original model, recalculate the appropriate leak ratio.
+			      leak_ratio = ori_leak_ratio.to_f + (1-ori_leak_ratio.to_f)*leak_ratio  # if the AirTerminal is leakage in the original model, recalculate the appropriate leak ratio.
           end
-		  ratio_set = adu.setDouble(5, leak_ratio)
+		      ratio_set = adu.setDouble(5, leak_ratio)
           upstreamleakratio = adu.getDouble(4)
           if !upstreamleakratio  # give a small value to make sure that the algorithm runs
             adu.setDouble(4, 0.00001)
@@ -274,10 +163,10 @@ class SupplyAirDuctLeakages < OpenStudio::Ruleset::WorkspaceUserScript
             adu.setDouble(4, 0.00001)
           end
         end
-		airterminal_changed = true
-		adu_changed = true
-	  else
-	    airterminaltypes.each do |airterminaltype|
+		    airterminal_changed = true
+		    adu_changed = true
+	    else
+	      airterminaltypes.each do |airterminaltype|
           airterminals = workspace.getObjectsByType(airterminaltype.to_IddObjectType)
           airterminals.each do |airterminal|
             # check if the names are equal
