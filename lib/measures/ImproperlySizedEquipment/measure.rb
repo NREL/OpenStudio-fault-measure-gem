@@ -7,7 +7,7 @@
 require_relative 'resources/helpers'
 require 'openstudio-standards'
 
-ALL_EQUIPMENT_SELECTION = '* ALL Equipment Selected *'.freeze
+ALL_EQUIPMENT_SELECTION = '* ALL Equipment Selected *'
 
 class ImproperlySizedEquipment < OpenStudio::Measure::ModelMeasure
 
@@ -35,6 +35,11 @@ class ImproperlySizedEquipment < OpenStudio::Measure::ModelMeasure
     names << ALL_EQUIPMENT_SELECTION
     handles = OpenStudio::StringVector.new
     handles << ALL_EQUIPMENT_SELECTION
+
+    Helper.get_all_equipment_types().each do |cls|
+      names << "* ALL #{cls} Selected *"
+      handles << cls
+    end
 
     Helper.get_all_equipment_objects(model).each do |object|
       names << object.name.to_s
@@ -65,11 +70,11 @@ class ImproperlySizedEquipment < OpenStudio::Measure::ModelMeasure
     # use the built-in error checking
     if !runner.validateUserArguments(arguments(model), user_arguments)
       return false
-    end
+    end  
 
     equip_choice = runner.getStringArgumentValue('equip_choice', user_arguments)
     sizing_ratio = runner.getDoubleArgumentValue('sizing_ratio', user_arguments)
-    hard_size = runner.getBoolArgumentValue('hard_size', user_arguments)
+    hard_size = false#runner.getBoolArgumentValue('hard_size', user_arguments)
     if hard_size
       runner.registerInfo("Hard sizing model")
       standard = Standard.build('90.1-2004')
@@ -84,9 +89,18 @@ class ImproperlySizedEquipment < OpenStudio::Measure::ModelMeasure
       runner.registerError("sizing_ratio: #{sizing_ratio} is less than 0, please make it a value greater than 0 and try again")
     end
     
+    if sizing_ratio == 1
+      runner.registerInfo("No Sizing change, skipping")
+      return true
+    end
+    
     if equip_choice == ALL_EQUIPMENT_SELECTION
       runner.registerInfo("all equipment selected")
       Helper.get_all_equipment_objects(model).each do |object|
+        Helper.change_rated_capacity(object, sizing_ratio, runner)
+      end
+    elsif Helper.get_all_equipment_types.include? equip_choice
+      Helper.get_equips_of_type(model, equip_choice).each do |object|
         Helper.change_rated_capacity(object, sizing_ratio, runner)
       end
     else

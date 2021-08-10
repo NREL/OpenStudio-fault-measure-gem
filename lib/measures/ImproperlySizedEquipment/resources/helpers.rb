@@ -140,15 +140,75 @@ class Helper
     end
   end
 
+  def self.change_rated_capacity_boiler(object, sizing_ratio, runner)
+    if object.isNominalCapacityAutosized
+      runner.registerInfo("Capacity of boiler (#{object.name}) is autosized, skipping..")
+    else
+      value_before_cap = object.nominalCapacity.to_f
+      value_after_cap = value_before_cap * sizing_ratio
+
+      object.setNominalCapacity(value_after_cap)
+
+      runner.registerInfo("Capacity of boiler (#{object.name}) changed from #{value_before_cap.round(2)} btu/h to #{value_after_cap.round(2)} btu/h (#{sizing_ratio*100.round(0)}% of previous).")
+    end
+  end
+
+  def self.change_rated_capacity_chiller(object, sizing_ratio, runner)
+    if object.isReferenceCapacityAutosized
+      runner.registerInfo("Capacity of chiller (#{object.name}) is autosized, skipping..")
+    else
+      value_before_cap = object.referenceCapacity.to_f
+      value_after_cap = value_before_cap * sizing_ratio
+
+      object.setReferenceCapacity(value_after_cap)
+
+      runner.registerInfo("Capacity of chiller (#{object.name}) changed from #{value_before_cap.round(2)} btu/h to #{value_after_cap.round(2)} btu/h (#{sizing_ratio*100.round(0)}% of previous).")
+    end
+  end
+
+  def self.change_rated_capacity_WSHP(object, sizing_ratio, runner)
+    heatingCoil = object.heatingCoil.to_CoilHeatingWaterToAirHeatPumpEquationFit.get
+    coolingCoil = object.coolingCoil.to_CoilCoolingWaterToAirHeatPumpEquationFit.get
+    if heatingCoil.isRatedHeatingCapacityAutosized || coolingCoil.isRatedTotalCoolingCapacityAutosized
+      runner.registerInfo("Capacity of WSHP (#{object.name}) is autosized, skipping..")
+    else
+      value_before_cap = heatingCoil.ratedHeatingCapacity.to_f
+      value_after_cap = value_before_cap * sizing_ratio
+
+      heatingCoil.setRatedHeatingCapacity(value_after_cap)
+
+      runner.registerInfo("Capacity of heating coil (#{heatingCoil.name}) changed from #{value_before_cap.round(2)} btu/h to #{value_after_cap.round(2)} btu/h (#{sizing_ratio*100.round(0)}% of previous).")
+
+      value_before_cap = coolingCoil.ratedTotalCoolingCapacity.to_f
+      value_after_cap = value_before_cap * sizing_ratio
+
+      coolingCoil.setRatedTotalCoolingCapacity(value_after_cap)
+
+      runner.registerInfo("Capacity of cooling coil (#{heatingCoil.name}) changed from #{value_before_cap.round(2)} btu/h to #{value_after_cap.round(2)} btu/h (#{sizing_ratio*100.round(0)}% of previous).")
+    end
+  end
+
   def self.get_all_equipment_objects(model)
     equip_objs = []
     CLASS_METHODS.keys.each do |cls|
       class_name = cls.iddObjectType.valueDescription
-      get_meth = 'get' << class_name.gsub(/^OS/, '').gsub(':', '').gsub('_', '') << 's'
-      objects = model.send(get_meth)
-      equip_objs += objects
+      equip_objs += self.get_equips_of_type(model, class_name)
     end
     return equip_objs
+  end
+
+  def self.get_equips_of_type(model, type)
+    get_meth = 'get' << type.gsub(/^OS/, '').gsub(':', '').gsub('_', '') << 's'
+    objects = model.send(get_meth)
+    return objects
+  end
+
+  def self.get_all_equipment_types
+    types = []
+    CLASS_METHODS.keys.each do |cls|
+      types.append(cls.iddObjectType.valueDescription)
+    end
+    return types
   end
   CLASS_METHODS = { #OpenStudio::Model::CoilHeatingWater => '',
                     OpenStudio::Model::CoilHeatingGas => method(:changeratedcapacity5),
@@ -162,5 +222,8 @@ class Helper
                     OpenStudio::Model::CoilCoolingDXVariableRefrigerantFlow => method(:changeratedcapacity1),
                     OpenStudio::Model::FanOnOff => method(:change_rated_capacity_fans),
                     OpenStudio::Model::FanConstantVolume => method(:change_rated_capacity_fans),
-                    OpenStudio::Model::FanVariableVolume => method(:change_rated_capacity_fans) }.freeze
+                    OpenStudio::Model::FanVariableVolume => method(:change_rated_capacity_fans),
+                    OpenStudio::Model::BoilerHotWater => method(:change_rated_capacity_boiler),
+                    OpenStudio::Model::ChillerElectricEIR => method(:change_rated_capacity_chiller),
+                    OpenStudio::Model::ZoneHVACWaterToAirHeatPump => method(:change_rated_capacity_WSHP) }.freeze
 end
