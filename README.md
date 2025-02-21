@@ -1,6 +1,7 @@
 # Overview of the Openstudio Fault Models Gem
 
-Creating a comprehensive library of **OpenStudio fault models** 
+- Creating a comprehensive library of **OpenStudio fault models**
+- Created/tested/validated with OpenStudio 2.8. Might not be compatible with later versions.
 
 ## Features
 
